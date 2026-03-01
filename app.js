@@ -1,6 +1,6 @@
 'use strict';
 /* ============================================================
-   PORTFOLIO app.js v4  —  Muhammad Asad Khan
+   PORTFOLIO app.js v5  —  Muhammad Asad Khan
    ============================================================ */
 
 /* ── A. Particle Canvas ─────────────────────────────────── */
@@ -81,11 +81,6 @@
 
 
 /* ── C. Stat Counters ───────────────────────────────────── */
-/*
-  IMPORTANT: the stat elements use plain IDs (cnt-projects, cnt-certs, cnt-tech).
-  We target them directly by ID so there is zero ambiguity about which element
-  gets its textContent updated.
-*/
 (function () {
   var counters = [
     { id: 'cnt-projects', target: 4 },
@@ -113,10 +108,8 @@
     });
   }
 
-  /* Run once 300ms after page load (handles case where about section is already in view) */
   setTimeout(runAll, 300);
 
-  /* Also run when about section scrolls into view */
   var about = document.getElementById('about');
   if (about && window.IntersectionObserver) {
     var obs = new IntersectionObserver(function (entries) {
@@ -242,7 +235,7 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
   if (!container) return;
 
   var USER    = 'Asad991';
-  var API_KEY = 'eccfb681fcf620a63fcb300d526544ba'; /* public read-only Last.fm demo key */
+  var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
   var LIMIT   = 8;
   var URL     = 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks'
               + '&user=' + USER
@@ -260,7 +253,6 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
   }
 
   function getArt(images) {
-    /* Last.fm returns images array; prefer medium (index 1) */
     if (!images || !images.length) return '';
     var med = images[1] && images[1]['#text'] ? images[1]['#text'] : '';
     var lg  = images[2] && images[2]['#text'] ? images[2]['#text'] : '';
@@ -278,45 +270,25 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
       var ts         = t.date && t.date.uts ? t.date.uts : null;
 
       var a = document.createElement('a');
-      a.href        = url;
-      a.target      = '_blank';
-      a.rel         = 'noopener';
-      a.className   = 'lastfm-track';
+      a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.className = 'lastfm-track';
 
-      /* Album art */
       var img = document.createElement('img');
-      img.className = 'lastfm-track-art';
-      img.alt       = name;
+      img.className = 'lastfm-track-art'; img.alt = name;
       if (art) {
         img.src = art;
-        img.onerror = function () {
-          this.style.background = 'rgba(213,16,7,0.1)';
-          this.src = '';
-        };
+        img.onerror = function () { this.style.background = 'rgba(213,16,7,0.1)'; this.src = ''; };
       } else {
         img.style.background = 'rgba(213,16,7,0.08)';
       }
       a.appendChild(img);
 
-      /* Track info */
-      var info = document.createElement('div');
-      info.className = 'lastfm-track-info';
-
-      var nameEl = document.createElement('div');
-      nameEl.className   = 'lastfm-track-name';
-      nameEl.textContent = name;
-
-      var artistEl = document.createElement('div');
-      artistEl.className   = 'lastfm-track-artist';
-      artistEl.textContent = artist;
-
-      info.appendChild(nameEl);
-      info.appendChild(artistEl);
+      var info = document.createElement('div'); info.className = 'lastfm-track-info';
+      var nameEl = document.createElement('div'); nameEl.className = 'lastfm-track-name'; nameEl.textContent = name;
+      var artistEl = document.createElement('div'); artistEl.className = 'lastfm-track-artist'; artistEl.textContent = artist;
+      info.appendChild(nameEl); info.appendChild(artistEl);
       a.appendChild(info);
 
-      /* Timestamp or now-playing indicator */
-      var timeEl = document.createElement('div');
-      timeEl.className = 'lastfm-track-time';
+      var timeEl = document.createElement('div'); timeEl.className = 'lastfm-track-time';
       if (nowPlaying) {
         timeEl.innerHTML = '<span class="lastfm-now-playing">'
           + '<span class="lastfm-eq"><span></span><span></span><span></span><span></span></span>'
@@ -325,7 +297,6 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
         timeEl.textContent = timeAgo(ts);
       }
       a.appendChild(timeEl);
-
       container.appendChild(a);
     });
   }
@@ -335,19 +306,10 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
   }
 
   fetch(URL)
-    .then(function (r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function (data) {
-      var tracks = data
-        && data.recenttracks
-        && data.recenttracks.track;
-      if (!tracks || !tracks.length) {
-        showError('No recent tracks found.');
-        return;
-      }
-      /* API returns array or single object */
+      var tracks = data && data.recenttracks && data.recenttracks.track;
+      if (!tracks || !tracks.length) { showError('No recent tracks found.'); return; }
       if (!Array.isArray(tracks)) tracks = [tracks];
       render(tracks);
     })
@@ -355,4 +317,42 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
       showError('Could not load scrobbles — check back later.');
       console.warn('Last.fm fetch failed:', err);
     });
+})();
+
+
+/* ── J. Gamification — XP Visitor Counter ───────────────── */
+/*
+  Simple no-backend XP system using localStorage.
+  Tracks visit count locally. The count is per-browser, not global
+  (a global counter needs a backend). Still very engaging for each visitor.
+  XP levels: every 3 visits = 1 level, bar fills based on progress.
+*/
+(function () {
+  var bar      = document.getElementById('xp-bar');
+  var badge    = document.getElementById('xp-level-badge');
+  var countEl  = document.getElementById('xp-count');
+  var nextEl   = document.getElementById('xp-next');
+  if (!bar || !badge) return;
+
+  var XP_PER_VISIT = 35;
+  var XP_PER_LEVEL = 100;
+
+  /* Read / increment local visit count */
+  var visits = parseInt(localStorage.getItem('asad_portfolio_visits') || '0', 10) + 1;
+  localStorage.setItem('asad_portfolio_visits', String(visits));
+
+  var totalXP = visits * XP_PER_VISIT;
+  var level   = Math.floor(totalXP / XP_PER_LEVEL) + 1;
+  var xpInLvl = totalXP % XP_PER_LEVEL;
+  var pct     = Math.min((xpInLvl / XP_PER_LEVEL) * 100, 100);
+  var xpToNext = XP_PER_LEVEL - xpInLvl;
+
+  if (countEl) countEl.innerHTML = 'Visit <strong>#' + visits + '</strong> on this device';
+  if (badge)   badge.textContent  = 'Lv.' + level;
+  if (nextEl)  nextEl.textContent = xpToNext + ' XP to Lv.' + (level + 1);
+
+  /* Animate bar after brief delay */
+  setTimeout(function () {
+    bar.style.width = pct + '%';
+  }, 400);
 })();
