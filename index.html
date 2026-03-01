@@ -3,65 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammad Asad Khan | Student</title>
-  <meta name="description" content="UBIT '28 | Networking & Cloud Enthusiast | Python | AWS" />
+  <title>Muhammad Asad - Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <meta name="description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title"       content="Muhammad Asad Khan | Student" />
-  <meta property="og:description" content="UBIT '28 | Networking & Cloud Enthusiast | Python | AWS" />
-  <meta property="og:type"        content="website" />
-  <meta name="twitter:card"        content="summary" />
-  <meta name="twitter:title"       content="Muhammad Asad Khan | Student" />
-  <meta name="twitter:description" content="UBIT '28 | Networking & Cloud Enthusiast | Python | AWS" />
+  <meta property="og:title" content="Asad Khan | CS @ UBIT '28" />
+  <meta property="og:description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Asad Khan | CS @ UBIT '28" />
+  <meta name="twitter:description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
 
-  <!-- Tailwind CDN (utility classes only — custom styles are in style.css) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { primary: '#00d4ff', accent: '#a855f7' }
-        }
-      }
-    };
-  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Our styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="bg-neutral-950 text-neutral-100 font-sans antialiased">
+<body>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
+     ANIMATED BACKGROUND CANVAS
+     ═══════════════════════════════════════════════ -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ═══════════════════════════════════════════════
      CERTIFICATIONS DRAWER
-     Hidden by default. Opens when any nav "Certifications" link
-     is clicked. Controlled entirely by app.js + style.css.
-     ═══════════════════════════════════════════════════════════ -->
+     ═══════════════════════════════════════════════ -->
 <div id="certs-drawer" aria-modal="true" role="dialog" aria-label="Certifications">
   <div id="certs-backdrop"></div>
   <div id="certs-panel">
-
     <button id="certs-close" aria-label="Close certifications">✕ Close</button>
-
-    <p class="text-xs uppercase tracking-widest text-zinc-500 mb-1">Credentials</p>
-    <h2 class="text-2xl font-bold text-white mb-1">Certifications</h2>
-    <p class="text-xs text-zinc-600 mb-4">
-      Drop cert images into <code class="text-zinc-500">public/certs/</code> — file names listed on each card.
-    </p>
-
-    <!-- ── HOW TO ADD A CERT ──────────────────────────────────
-         Copy one <div class="cert-card"> block below and fill in:
-           - cert-thumb img src  →  public/certs/YOUR-FILE.png
-           - cert-title text     →  Certificate Name
-           - cert-issuer text    →  Issuing Organization
-           - cert-meta text      →  Issued Month YYYY · ID XXXXXXX
-           - cert-skills         →  optional skill tags
-           - cert-badge class    →  "completed" or "inprogress"
-           - cert-badge text     →  Completed / In Progress
-         ──────────────────────────────────────────────────────── -->
-
+    <p class="label-xs">Credentials</p>
+    <h2 class="drawer-title">Certifications</h2>
     <div class="certs-grid">
 
-      <!-- Google Agile Essentials -->
       <div class="cert-card">
         <div class="cert-thumb">
           <img src="public/certs/google-agile.png" alt="Google Agile Essentials"
@@ -73,7 +52,6 @@
         <span class="cert-badge completed">Completed</span>
       </div>
 
-      <!-- Google AI Essentials -->
       <div class="cert-card">
         <div class="cert-thumb">
           <img src="public/certs/google-ai.png" alt="Google AI Essentials"
@@ -83,16 +61,14 @@
         <p class="cert-issuer">Google</p>
         <p class="cert-meta">Issued Dec 2025 · ID HY8VX0Q5HT0U</p>
         <div class="cert-skills">
-          <span class="cert-skill">Operational Efficiency</span>
           <span class="cert-skill">AI / ML</span>
-          <span class="cert-skill">Google Workspace</span>
           <span class="cert-skill">NLP</span>
-          <span class="cert-skill">Human Factors</span>
+          <span class="cert-skill">Google Workspace</span>
+          <span class="cert-skill">Operational Efficiency</span>
         </div>
         <span class="cert-badge completed">Completed</span>
       </div>
 
-      <!-- Google Prompting Essentials -->
       <div class="cert-card">
         <div class="cert-thumb">
           <img src="public/certs/google-prompt.png" alt="Google Prompting Essentials"
@@ -104,7 +80,6 @@
         <span class="cert-badge completed">Completed</span>
       </div>
 
-      <!-- NED Certified Data Scientist -->
       <div class="cert-card">
         <div class="cert-thumb">
           <img src="public/certs/ned-ds.png" alt="Certified Data Scientist"
@@ -125,205 +100,158 @@
         <span class="cert-badge completed">Completed</span>
       </div>
 
-      <!-- ADD MORE CERTS HERE — copy a cert-card block above -->
-
-    </div><!-- /certs-grid -->
-  </div><!-- /certs-panel -->
-</div><!-- /certs-drawer -->
-
-
-<!-- ═══════════════════════════════════════════════════════════
-     AMBIENT BACKGROUND GLOW
-     ═══════════════════════════════════════════════════════════ -->
-<div class="fixed inset-0 pointer-events-none -z-10">
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[520px] sm:w-[700px] lg:w-[800px] h-[380px] sm:h-[520px] rounded-full blur-[120px] opacity-20"
-       style="background:radial-gradient(circle, #00d4ff, transparent)"></div>
+    </div>
+  </div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      NAVIGATION
-     ═══════════════════════════════════════════════════════════ -->
-<nav class="sticky top-3 z-50 px-3 sm:px-6">
-  <div class="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-zinc-800/90 bg-zinc-950/90 px-3 py-2 backdrop-blur-xl">
+     ═══════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Asad's Portfolio</span>
 
-    <span class="text-sm font-semibold text-white">Portfolio</span>
-
-    <!-- Desktop nav links -->
-    <div class="hidden items-center gap-1 lg:flex text-zinc-300 rounded-xl border border-zinc-800/90 px-2 py-1">
-      <a href="#hero"         class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">Home</a>
-      <a href="#about"        class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">About</a>
-      <a href="#projects"     class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">Projects</a>
-      <a href="#certifications" class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">Certifications</a>
-      <a href="public/resume/resume.pdf" target="_blank" rel="noopener"
-         class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">Resume</a>
-      <a href="#contact"      class="rounded-lg px-3 py-2 text-sm transition-colors hover:text-white">Contact</a>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
     </div>
 
-    <!-- GitHub CTA button -->
-    <a href="https://github.com/Asad101001" target="_blank" rel="noopener"
-       class="hidden rounded-xl px-4 py-2 text-sm font-semibold lg:inline-flex"
-       style="color:#0b1020;background:linear-gradient(135deg,#00d4ff,#a855f7)">GitHub</a>
+    <!-- Resume CTA — glowing button -->
+    <a href="public/resume/resume.pdf" target="_blank" rel="noopener" class="nav-cta">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+      </svg>
+      Resume
+    </a>
 
     <!-- Mobile hamburger -->
-    <details class="relative z-[70] lg:hidden mobile-nav">
-      <summary class="list-none rounded-lg border border-zinc-800/90 bg-zinc-950 p-2 text-zinc-300 cursor-pointer">
-        <span class="flex items-center gap-2 text-xs font-medium">
-          <!-- hamburger icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
-            <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/>
-            <line x1="4" x2="20" y1="18" y2="18"/>
-          </svg>Menu
-        </span>
+    <details class="mobile-nav">
+      <summary>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" x2="20" y1="12" y2="12"/>
+          <line x1="4" x2="20" y1="6" y2="6"/>
+          <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
       </summary>
-      <div class="absolute right-0 top-full mt-2 w-56 rounded-xl border border-zinc-800/90 bg-zinc-950 p-2 shadow-xl">
-        <a href="#hero"           class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">Home</a>
-        <a href="#about"          class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">About</a>
-        <a href="#projects"       class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">Projects</a>
-        <a href="#certifications" class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">Certifications</a>
-        <a href="public/resume/resume.pdf" target="_blank" rel="noopener"
-           class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">Resume</a>
-        <a href="#contact"        class="block rounded-lg px-3 py-2.5 text-zinc-300 hover:text-white text-sm transition-colors">Contact</a>
+      <div class="mobile-dropdown">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#certifications">Certifications</a>
+        <a href="public/resume/resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="#contact">Contact</a>
       </div>
     </details>
-
   </div>
 </nav>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      HERO
-     ═══════════════════════════════════════════════════════════ -->
-<section id="hero" class="min-h-screen px-6 pt-24 pb-16">
-  <div class="relative grid min-h-[calc(100vh-10rem)] w-full grid-cols-12 gap-4">
+     ═══════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid">
 
-    <!-- decorative glows -->
-    <div class="pointer-events-none absolute -top-8 -left-8 h-40 w-40 rounded-full blur-3xl opacity-30 animate-pulse"
-         style="background-color:#00d4ff"></div>
-    <div class="pointer-events-none absolute -right-8 bottom-8 h-44 w-44 rounded-full blur-3xl opacity-25 animate-pulse"
-         style="background-color:#a855f7;animation-delay:1200ms"></div>
+    <!-- Main name + tagline card -->
+    <div class="card hero-main glass-card" style="--delay:0ms">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        Building & exploring
+      </div>
 
-    <!-- Name / tagline card -->
-    <div class="col-span-12 rounded-2xl p-6 sm:p-8 lg:col-span-7 border border-zinc-800 bg-zinc-900/60 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.85)]">
-      <span class="mb-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs border border-zinc-700 bg-zinc-900/80">
-        <!-- sparkles icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
-          <path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>
-        </svg>
-        In progress...
-      </span>
+      <h1 class="hero-name">Muhammad<br/>Asad Khan</h1>
 
-      <h1 class="mb-2 text-3xl font-bold sm:text-4xl lg:text-5xl">Muhammad Asad Khan</h1>
+      <div class="typewriter-wrap">
+        <span id="typewriter" class="typewriter-text"></span><span class="caret">|</span>
+      </div>
 
-      <p class="mb-4 font-mono text-xs sm:text-sm">
-        <span class="inline-block max-w-0 overflow-hidden whitespace-nowrap border-r-2 pr-1 align-bottom animate-typewriter-48 animate-caret"
-              style="border-color:#00d4ff;color:#00d4ff">
-          Cloud &amp; Networking • Generative AI / LLMs • Data Science
-        </span>
-      </p>
+      <p class="hero-sub">CS Student @ UBIT '28</p>
+      <p class="hero-desc">Python · AWS · Data Science · AI/ML · Networking</p>
 
-      <p class="mb-4 text-lg font-medium" style="color:#00d4ff">Student</p>
-      <p class="mb-6 max-w-3xl text-zinc-400">UBIT '28 | Networking &amp; Cloud Enthusiast | Python | AWS</p>
-
-      <div class="flex flex-wrap gap-3">
-        <a href="#projects"
-           class="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-opacity hover:opacity-90 text-zinc-950"
-           style="background:linear-gradient(135deg,#00d4ff,#a855f7)">
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">
           View Projects
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
           </svg>
         </a>
-        <a href="#contact"
-           class="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors">
-          Contact
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2">
-            <rect width="20" height="16" x="2" y="4" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-          </svg>
-        </a>
+        <a href="#contact" class="btn-secondary">Contact</a>
       </div>
     </div>
 
-    <!-- Skills snippet card -->
-    <div class="col-span-12 rounded-2xl p-6 lg:col-span-5 border border-zinc-800 bg-zinc-900/60 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.85)]">
-      <p class="mb-2 text-sm font-semibold">About</p>
-      <p class="text-zinc-400">UBIT '28 | Networking &amp; Cloud Enthusiast | Python | AWS</p>
-      <div class="mt-4 flex flex-wrap gap-2">
-        <span class="rounded-full px-2.5 py-1 text-xs border border-zinc-700 bg-zinc-900/80 hover:-translate-y-0.5 transition-transform duration-200">Version Control</span>
-        <span class="rounded-full px-2.5 py-1 text-xs border border-zinc-700 bg-zinc-900/80 hover:-translate-y-0.5 transition-transform duration-200">Cloud</span>
-        <span class="rounded-full px-2.5 py-1 text-xs border border-zinc-700 bg-zinc-900/80 hover:-translate-y-0.5 transition-transform duration-200">Python</span>
-        <span class="rounded-full px-2.5 py-1 text-xs border border-zinc-700 bg-zinc-900/80 hover:-translate-y-0.5 transition-transform duration-200">Generative AI</span>
-        <span class="rounded-full px-2.5 py-1 text-xs border border-zinc-700 bg-zinc-900/80 hover:-translate-y-0.5 transition-transform duration-200">Data Science</span>
+    <!-- Terminal / live info card -->
+    <div class="card hero-side glass-card" style="--delay:100ms">
+      <div class="terminal-bar">
+        <span class="t-dot t-red"></span>
+        <span class="t-dot t-yellow"></span>
+        <span class="t-dot t-green"></span>
+        <span class="t-title">asad@ubit ~ </span>
+      </div>
+      <div class="terminal-body">
+        <p><span class="t-prompt">$</span> <span class="t-cmd">whoami</span></p>
+        <p class="t-out">Muhammad Asad Khan</p>
+        <p><span class="t-prompt">$</span> <span class="t-cmd">cat focus.txt</span></p>
+        <p class="t-out">Python · OOP · Data Science</p>
+        <p class="t-out">Cloud (AWS) · AI/ML · RAG</p>
+        <p class="t-out">Networking · Linux · Web Dev</p>
+        <p><span class="t-prompt">$</span> <span class="t-cmd">echo $LOCATION</span></p>
+        <p class="t-out">Karachi, Pakistan 🇵🇰</p>
+        <p><span class="t-prompt">$</span> <span class="t-cmd">cat status.txt</span></p>
+        <p class="t-out" style="color:var(--cyan)">🟢 Open to collabs &amp; internships</p>
+        <p><span class="t-prompt">$</span> <span class="t-cursor">▌</span></p>
       </div>
     </div>
 
-    <!-- Highlights card -->
-    <div class="col-span-12 rounded-2xl p-5 sm:col-span-6 lg:col-span-4 border border-zinc-800 bg-zinc-900/60 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]">
-      <p class="mb-3 text-sm font-semibold">Highlights</p>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="rounded-xl p-3 border border-zinc-700 bg-zinc-900/80"><p class="text-xl font-bold">2+</p><p class="text-xs text-zinc-400">Projects</p></div>
-        <div class="rounded-xl p-3 border border-zinc-700 bg-zinc-900/80"><p class="text-xl font-bold">14+</p><p class="text-xs text-zinc-400">Skills</p></div>
-        <div class="rounded-xl p-3 border border-zinc-700 bg-zinc-900/80"><p class="text-xl font-bold">4+</p><p class="text-xs text-zinc-400">Certifications</p></div>
-        <div class="rounded-xl p-3 border border-zinc-700 bg-zinc-900/80"><p class="text-xl font-bold">3+</p><p class="text-xs text-zinc-400">Education</p></div>
+    <!-- Highlights -->
+    <div class="card glass-card" style="--delay:200ms">
+      <p class="card-label">Highlights</p>
+      <div class="stats-grid">
+        <div class="stat-box" data-export-counter="4"><span class="stat-num">4+</span><span class="stat-label">Projects</span></div>
+        <div class="stat-box" data-export-counter="20"><span class="stat-num">20+</span><span class="stat-label">Skills</span></div>
+        <div class="stat-box" data-export-counter="4"><span class="stat-num">4+</span><span class="stat-label">Certs</span></div>
+        <div class="stat-box" data-export-counter="3"><span class="stat-num">3+</span><span class="stat-label">Education</span></div>
       </div>
     </div>
 
-    <!-- Build Focus card -->
-    <div class="col-span-12 rounded-2xl p-5 sm:col-span-6 lg:col-span-4 border border-zinc-800 bg-zinc-900/60 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]">
-      <p class="mb-3 text-sm font-semibold">Build Focus</p>
-      <div class="space-y-2.5 text-sm">
-        <div class="flex items-center gap-2 rounded-lg px-3 py-2 border border-zinc-700 bg-zinc-900/80">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <ellipse cx="12" cy="5" rx="9" ry="3"/>
-            <path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>
-          </svg>
+    <!-- Build focus -->
+    <div class="card glass-card" style="--delay:300ms">
+      <p class="card-label">Build Focus</p>
+      <div class="focus-list">
+        <div class="focus-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
           Solution-oriented Projects
         </div>
-        <div class="flex items-center gap-2 rounded-lg px-3 py-2 border border-zinc-700 bg-zinc-900/80">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>
-          </svg>
-          AI Integration
+        <div class="focus-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+          AI Integration &amp; RAG Systems
         </div>
-        <div class="flex items-center gap-2 rounded-lg px-3 py-2 border border-zinc-700 bg-zinc-900/80">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
-          </svg>
-          Always keep exploring
+        <div class="focus-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+          Cloud Architecture (AWS)
         </div>
       </div>
     </div>
 
-    <!-- Availability card -->
-    <div class="col-span-12 rounded-2xl p-5 lg:col-span-4 border border-zinc-800 bg-zinc-900/60 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02]">
-      <p class="mb-2 text-sm font-semibold">Availability</p>
-      <p class="mb-3 text-sm text-zinc-400">Open for full-time roles, consulting, and remote collaborations.</p>
-      <p class="flex items-center gap-2 text-sm text-zinc-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
+    <!-- Availability -->
+    <div class="card glass-card" style="--delay:400ms">
+      <p class="card-label">Availability</p>
+      <p class="avail-text">Open for internships, part-time roles, and remote collaborations.</p>
+      <p class="avail-loc">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
         Karachi, Pakistan
       </p>
-      <p class="mt-1 flex items-center gap-2 text-sm text-zinc-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2">
-          <rect width="20" height="16" x="2" y="4" rx="2"/>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
-        <a href="mailto:muhammadasadk42@gmail.com" class="hover:text-white transition-colors">
-          muhammadasadk42@gmail.com
-        </a>
+      <p class="avail-loc">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <a href="mailto:muhammadasadk42@gmail.com">muhammadasadk42@gmail.com</a>
       </p>
     </div>
 
@@ -331,67 +259,59 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      ABOUT
-     ═══════════════════════════════════════════════════════════ -->
-<section id="about" class="py-20 sm:py-24 px-4 sm:px-6">
-  <div class="max-w-6xl mx-auto relative overflow-hidden">
-    <!-- dot grid bg -->
-    <div class="pointer-events-none absolute inset-0 opacity-35"
-         style="background-image:radial-gradient(rgba(255,255,255,0.11) 1px, transparent 1px);background-size:22px 22px"></div>
+     ═══════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <p class="label-xs">Who I Am</p>
+        <h2 class="section-title">About Me</h2>
+      </div>
+    </div>
 
-    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/55 relative p-6 sm:p-8">
-      <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p class="text-xs uppercase tracking-[0.16em] text-zinc-400">About</p>
-          <h2 class="mt-2 text-3xl sm:text-4xl font-black text-zinc-100">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text glass-card">
+        <p>
+          I'm a Computer Science student at UBIT, University of Karachi (Class of 2028/2029),
+          with the drive to explore every corner of CS before committing to a specialty.
+          So far I've ticked off Cloud Computing, Networking, Web Development, Data Science,
+          Version Control, Project Management, Prompt Engineering, and AI — with lots more ahead.
+        </p>
+        <p style="margin-top:1rem">
+          I believe in learning by building. Every project I take on is an attempt to apply real
+          concepts in real environments — from AWS VPC architecture to RAG-powered LLM pipelines.
+          My philosophy: break things intentionally, understand why they broke, then build them better.
+        </p>
+        <div class="about-actions" style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="btn-github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+              <path d="M9 18c-4.51 2-5-2-7-2"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="#projects" class="btn-secondary">View Projects</a>
         </div>
-        <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs"
-              style="background:#00d4ff20;color:#00d4ff">
-          <!-- sparkles icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
-          </svg>
-          Animated Stats
-        </span>
       </div>
 
-      <p class="leading-relaxed text-zinc-400">
-        I am a CS student with the fever to explore all possible sub-domains of Computer Science.
-        My aim isn't (for now) to deprive myself by limiting to one or two specific fields but keep
-        on venturing until I am confident/mature enough to settle down. So far I have successfully
-        ticked off Cloud Computing, Networking, Web Development, Version Control, Project Management,
-        Prompt Engineering, AI — with lots more to come.
-      </p>
-
-      <div class="mt-7 grid gap-3 sm:grid-cols-3">
-        <div class="bg-zinc-950/70 border-zinc-800 rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
-            <polyline points="16 7 22 7 22 13"/>
-          </svg>
-          <p class="mt-2 text-2xl font-bold text-zinc-100" data-export-counter="2">0+</p>
-          <p class="text-xs text-zinc-400">Projects</p>
+      <div class="about-stats-col">
+        <div class="about-stat-card glass-card" data-stat>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <p class="stat-big" data-export-counter="4">0+</p>
+          <p class="stat-lbl">Projects</p>
         </div>
-        <div class="bg-zinc-950/70 border-zinc-800 rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
-          <p class="mt-2 text-2xl font-bold text-zinc-100" data-export-counter="4">0+</p>
-          <p class="text-xs text-zinc-400">Certifications</p>
+        <div class="about-stat-card glass-card" data-stat>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <p class="stat-big" data-export-counter="4">0+</p>
+          <p class="stat-lbl">Certifications</p>
         </div>
-        <div class="bg-zinc-950/70 border-zinc-800 rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
-          <p class="mt-2 text-2xl font-bold text-zinc-100" data-export-counter="14">0+</p>
-          <p class="text-xs text-zinc-400">Skills</p>
+        <div class="about-stat-card glass-card" data-stat>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+          <p class="stat-big" data-export-counter="20">0+</p>
+          <p class="stat-lbl">Technologies</p>
         </div>
       </div>
     </div>
@@ -399,60 +319,53 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      GITHUB CONTRIBUTION GRAPH
-     ═══════════════════════════════════════════════════════════ -->
-<section class="py-12 sm:py-16 px-4 sm:px-6 border-y border-neutral-800">
-  <div class="max-w-6xl mx-auto">
-    <h3 class="text-sm text-neutral-500 mb-4 flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-      </svg>
-      Contribution Activity
-      <span id="gh-contrib-count" style="color:#00d4ff"></span>
-    </h3>
-    <div class="overflow-x-auto pb-2">
-      <div id="gh-contrib-grid" class="flex gap-1 min-w-[760px] sm:min-w-0">
-        <div class="text-xs text-zinc-700 italic">Loading contributions…</div>
+     ═══════════════════════════════════════════════ -->
+<section id="gh-section">
+  <div class="section-inner">
+    <div class="gh-graph-wrap glass-card">
+      <div class="gh-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="var(--cyan)" stroke-width="2">
+          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+          <path d="M9 18c-4.51 2-5-2-7-2"/>
+        </svg>
+        <span>GitHub Contributions</span>
+        <span id="gh-contrib-count" class="gh-count"></span>
+      </div>
+      <div class="gh-graph-scroll">
+        <div id="gh-contrib-grid" class="gh-grid">
+          <p class="gh-loading">Loading contributions…</p>
+        </div>
+      </div>
+      <div class="gh-legend">
+        <span>Less</span>
+        <span class="gh-leg-cell" style="opacity:0.08"></span>
+        <span class="gh-leg-cell" style="opacity:0.25"></span>
+        <span class="gh-leg-cell" style="opacity:0.5"></span>
+        <span class="gh-leg-cell" style="opacity:0.75"></span>
+        <span class="gh-leg-cell" style="opacity:1"></span>
+        <span>More</span>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      PROJECTS
-     ═══════════════════════════════════════════════════════════
-
-     HOW TO ADD / EDIT PROJECT IMAGES
-     ─────────────────────────────────
-     1. Save your screenshot as:  public/images/legalease.png
-        (any format works: .png .jpg .webp)
-     2. In the <img> tag below, set:
-           src="public/images/legalease.png"
-     3. The alt attribute is shown if the image fails to load.
-
-     HOW TO ADD A NEW PROJECT
-     ─────────────────────────
-     Copy one entire <div class="group overflow-hidden ..."> block
-     and paste it inside the grid div below. Update:
-       - img src, alt
-       - title letter (the single-letter badge)
-       - h3 title text
-       - description paragraph
-       - tag spans
-       - GitHub href and Live Demo href (remove Live Demo if no demo)
-     ═══════════════════════════════════════════════════════════ -->
-<section id="projects" class="py-20 sm:py-24 px-4 sm:px-6">
-  <div class="max-w-6xl mx-auto">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold">Popular Repositories</h2>
-      <a href="https://github.com/Asad101001" target="_blank" rel="noopener"
-         class="text-sm flex items-center gap-2 hover:underline w-fit"
-         style="color:#00d4ff">
-        View all repositories
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+     ═══════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <p class="label-xs">Work</p>
+        <h2 class="section-title">Projects</h2>
+      </div>
+      <a href="https://github.com/Asad101001?tab=repositories" target="_blank" rel="noopener" class="view-all-link">
+        All Repositories
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2">
           <path d="M15 3h6v6"/><path d="M10 14 21 3"/>
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -460,175 +373,218 @@
       </a>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="projects-grid">
 
-      <!-- ── PROJECT CARD: LegalEaseAI ────────────────────────
-           Image file: public/images/legalease.png
-           ─────────────────────────────────────────────────── -->
-      <div class="group overflow-hidden rounded-3xl bg-white/5 border border-white/10
-                  hover:bg-white/10 hover:border-white/20 transition-all duration-500
-                  hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-30px_rgba(2,6,23,0.62)]"
-           style="box-shadow:0 8px 32px #00d4ff10">
-
-        <!-- Project image — set src to your local file -->
-        <div class="relative overflow-hidden border-b border-zinc-800/80 h-40">
-          <img src="public/images/legalease.png"
-               alt="LegalEaseAI screenshot"
-               class="project-img-zoom h-full w-full object-cover"
-               onerror="this.parentElement.style.background='linear-gradient(135deg,#00d4ff22,#18181b)';this.style.display='none'"/>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/65 via-transparent to-transparent"></div>
+      <!-- LegalEaseAI -->
+      <div class="project-card glass-card">
+        <div class="proj-img-wrap">
+          <img src="public/images/legalease.png" alt="LegalEaseAI screenshot" class="proj-img"
+               onerror="this.parentElement.style.background='linear-gradient(135deg,#00d4ff18,#18181b)';this.style.display='none'"/>
+          <div class="proj-img-overlay"></div>
+          <span class="proj-badge">Featured</span>
         </div>
-
-        <div class="p-5">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-base font-bold"
-                 style="background:linear-gradient(135deg,#00d4ff40,#00d4ff20);color:#00d4ff">L</div>
+        <div class="proj-body">
+          <div class="proj-head">
+            <div class="proj-icon" style="background:linear-gradient(135deg,#00d4ff30,#00d4ff10);color:var(--cyan)">L</div>
             <div>
-              <h3 class="text-lg font-semibold leading-snug text-zinc-100">LegalEaseAI</h3>
-              <span class="text-xs" style="color:#00d4ff">Featured</span>
+              <h3 class="proj-title">LegalEaseAI</h3>
+              <p class="proj-live"><a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener">Live Demo ↗</a></p>
             </div>
           </div>
-          <p class="text-sm leading-relaxed text-zinc-400 line-clamp-3 mb-4">
+          <p class="proj-desc">
             Upload any contract (PDF, DOCX, or TXT) and get every clause risk-rated Red/Yellow/Green,
             a plain Urdu explanation, a RAG chatbot grounded in your document, and a downloadable PDF
             risk report — all in under a minute.
           </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">ES6+ Vanilla JS</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">LangChain</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">FAISS</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">RAG</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">FastAPI</span>
+          <div class="proj-tags">
+            <span class="tag">ES6+ Vanilla JS</span>
+            <span class="tag">LangChain</span>
+            <span class="tag">FAISS</span>
+            <span class="tag">RAG</span>
+            <span class="tag">FastAPI</span>
           </div>
-          <div class="flex gap-3 pt-3 border-t border-white/10">
-            <a href="https://github.com/Asad101001/LegalEaseAI" target="_blank" rel="noopener"
-               class="text-zinc-500 hover:text-white transition-colors text-sm flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                   fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-                <path d="M9 18c-4.51 2-5-2-7-2"/>
-              </svg> Code
+          <div class="proj-links">
+            <a href="https://github.com/Asad101001/LegalEaseAI" target="_blank" rel="noopener" class="proj-link-code">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              Code
             </a>
-            <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener"
-               class="text-sm flex items-center gap-1 transition-colors hover:opacity-80"
-               style="color:#00d4ff">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                   fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 3h6v6"/><path d="M10 14 21 3"/>
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              </svg> Live Demo
+            <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener" class="proj-link-demo">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              Live Demo
             </a>
           </div>
         </div>
       </div>
 
-      <!-- ── PROJECT CARD: PollPulse ───────────────────────────
-           Image file: public/images/pollpulse.png
-           ─────────────────────────────────────────────────── -->
-      <div class="group overflow-hidden rounded-3xl bg-white/5 border border-white/10
-                  hover:bg-white/10 hover:border-white/20 transition-all duration-500
-                  hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-30px_rgba(2,6,23,0.62)]"
-           style="box-shadow:0 8px 32px #00d4ff10">
-
-        <!-- Project image — set src to your local file -->
-        <div class="relative overflow-hidden border-b border-zinc-800/80 h-40">
-          <img src="public/images/pollpulse.png"
-               alt="PollPulse screenshot"
-               class="project-img-zoom h-full w-full object-cover"
-               onerror="this.parentElement.style.background='linear-gradient(135deg,#a855f722,#18181b)';this.style.display='none'"/>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/65 via-transparent to-transparent"></div>
+      <!-- PollPulse -->
+      <div class="project-card glass-card">
+        <div class="proj-img-wrap">
+          <img src="public/images/pollpulse.png" alt="PollPulse screenshot" class="proj-img"
+               onerror="this.parentElement.style.background='linear-gradient(135deg,#a855f720,#18181b)';this.style.display='none'"/>
+          <div class="proj-img-overlay"></div>
+          <span class="proj-badge">Featured</span>
         </div>
-
-        <div class="p-5">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-base font-bold"
-                 style="background:linear-gradient(135deg,#a855f740,#a855f720);color:#a855f7">P</div>
+        <div class="proj-body">
+          <div class="proj-head">
+            <div class="proj-icon" style="background:linear-gradient(135deg,#a855f730,#a855f710);color:#a855f7">P</div>
             <div>
-              <h3 class="text-lg font-semibold leading-snug text-zinc-100">PollPulse</h3>
-              <span class="text-xs" style="color:#00d4ff">Featured</span>
+              <h3 class="proj-title">PollPulse</h3>
+              <p class="proj-live" style="color:#71717a">Cloud Capstone</p>
             </div>
           </div>
-          <p class="text-sm leading-relaxed text-zinc-400 line-clamp-3 mb-4">
-            A real-time voting platform on AWS — my Cloud Computing capstone. Custom VPC with the EC2
-            web server in a public subnet and RDS MySQL tucked in a private subnet for maximum security.
+          <p class="proj-desc">
+            Node.js real-time polling platform deployed on AWS. Custom VPC with EC2 in a public subnet
+            and RDS MySQL in a private subnet for maximum security, S3 for static assets, and Chart.js
+            for live analytics dashboards.
           </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">AWS RDS</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">MySQL</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">Amazon EC2</span>
-            <span class="px-2 py-1 text-xs rounded-lg" style="background:#00d4ff15;color:#00d4ff">Chart.js</span>
+          <div class="proj-tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">AWS EC2</span>
+            <span class="tag">AWS RDS</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Chart.js</span>
+            <span class="tag">AWS S3</span>
           </div>
-          <div class="flex gap-3 pt-3 border-t border-white/10">
-            <a href="https://github.com/Asad101001/pollpulse" target="_blank" rel="noopener"
-               class="text-zinc-500 hover:text-white transition-colors text-sm flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                   fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-                <path d="M9 18c-4.51 2-5-2-7-2"/>
-              </svg> Code
+          <div class="proj-links">
+            <a href="https://github.com/Asad101001/pollpulse" target="_blank" rel="noopener" class="proj-link-code">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              Code
             </a>
-            <!-- No live demo for PollPulse — remove comment below if you add one
-            <a href="YOUR_DEMO_URL" ...> Live Demo </a>
-            -->
           </div>
         </div>
       </div>
 
-      <!-- ── PASTE ADDITIONAL PROJECT CARDS BELOW THIS LINE ──── -->
+      <!-- Data Science Fundamentals -->
+      <div class="project-card glass-card">
+        <div class="proj-img-wrap" style="background:linear-gradient(135deg,#f7931a18,#18181b)">
+          <div class="proj-img-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f7931a" stroke-width="1.5" opacity="0.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <div class="proj-img-overlay"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-head">
+            <div class="proj-icon" style="background:linear-gradient(135deg,#f7931a30,#f7931a10);color:#f7931a">D</div>
+            <div>
+              <h3 class="proj-title">Data Science Fundamentals</h3>
+              <p class="proj-live" style="color:#71717a">Learning Collection</p>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Collection of Jupyter notebooks covering core Data Science concepts: data wrangling, EDA,
+            statistical analysis, visualization with Seaborn/Matplotlib, and ML models including
+            Random Forest and regression. Based on real datasets.
+          </p>
+          <div class="proj-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Jupyter</span>
+            <span class="tag">pandas</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">Seaborn</span>
+            <span class="tag">Scikit-Learn</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/Asad101001/Data-Science_Fundamentals" target="_blank" rel="noopener" class="proj-link-code">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              Code
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini-LMS -->
+      <div class="project-card glass-card">
+        <div class="proj-img-wrap" style="background:linear-gradient(135deg,#22c55e18,#18181b)">
+          <div class="proj-img-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.5"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+          </div>
+          <div class="proj-img-overlay"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-head">
+            <div class="proj-icon" style="background:linear-gradient(135deg,#22c55e30,#22c55e10);color:#22c55e">M</div>
+            <div>
+              <h3 class="proj-title">Mini-LMS</h3>
+              <p class="proj-live" style="color:#71717a">OOP Practice</p>
+            </div>
+          </div>
+          <p class="proj-desc">
+            Lightweight Learning Management System prototype built for OOP practice. Features
+            student enrollment, course management, and assignment tracking — all implemented
+            using Python classes and clean modular architecture.
+          </p>
+          <div class="proj-tags">
+            <span class="tag">Python</span>
+            <span class="tag">OOP</span>
+            <span class="tag">Data Structures</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/Asad101001/Mini-LMS" target="_blank" rel="noopener" class="proj-link-code">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              Code
+            </a>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      TECH STACK MARQUEE
-     ═══════════════════════════════════════════════════════════ -->
-<section class="py-20 sm:py-24 px-4 sm:px-6 bg-neutral-900/50">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold mb-3 text-zinc-100">Tech Stack</h2>
-      <p class="max-w-2xl mx-auto text-zinc-400">Technologies and tools I use to build production-ready products</p>
+     ═══════════════════════════════════════════════ -->
+<section id="tech">
+  <div class="section-inner">
+    <div class="section-header centered">
+      <p class="label-xs" style="text-align:center">Arsenal</p>
+      <h2 class="section-title" style="text-align:center">Tech Stack</h2>
+      <p class="section-sub">Technologies and tools I use to build things</p>
     </div>
-    <div class="relative overflow-hidden rounded-2xl border p-4 bg-zinc-900/50 border-zinc-800">
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-zinc-950/80 to-transparent z-10"></div>
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-zinc-950/80 to-transparent z-10"></div>
-      <div class="space-y-3 overflow-hidden">
+    <div class="marquee-wrap glass-card">
+      <div class="marquee-fade-l"></div>
+      <div class="marquee-fade-r"></div>
+      <div class="marquee-rows">
 
-        <!-- Lane 1 — forwards (cyan) -->
         <div class="export-tech-marquee-lane">
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Version Control</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Cloud</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Python</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Generative AI</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Data Science</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">ML</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Prompt Engineering</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Scrum</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">C++</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Java</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Web Development</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">RAG</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">AWS</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Virtualization</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#3776AB"></span>Python</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#00d4ff"></span>AWS</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F7931A"></span>Data Science</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#a855f7"></span>Generative AI</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#EE4C2C"></span>Machine Learning</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#00d4ff"></span>RAG</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#3776AB"></span>LangChain</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#22c55e"></span>Cloud Computing</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#f97316"></span>Networking</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#00d4ff"></span>Linux</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F05032"></span>C++</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#007396"></span>Java</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#E34F26"></span>HTML/CSS</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F7DF1E"></span>JavaScript</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#a855f7"></span>Prompt Engineering</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#276DC3"></span>R</span>
         </div>
 
-        <!-- Lane 2 — reverse (purple) -->
         <div class="export-tech-marquee-lane export-tech-marquee-lane--reverse">
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">FastAPI</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">LangChain</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">FAISS</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">NumPy</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">pandas</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Scikit-Learn</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Matplotlib</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">MySQL</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Amazon EC2</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">AWS RDS</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Chart.js</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Git</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">Linux</span>
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm bg-zinc-900 border-zinc-700 text-zinc-300">R</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#FF6B6B"></span>FastAPI</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#013243"></span>NumPy</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#150458"></span>pandas</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F7931A"></span>Scikit-Learn</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#11557C"></span>Matplotlib</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#4EABE6"></span>Seaborn</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#4DB33D"></span>MySQL</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#FF9900"></span>Amazon EC2</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#FF9900"></span>AWS RDS</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#FF9900"></span>AWS S3</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#FF6384"></span>Chart.js</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F05032"></span>Git</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#68A063"></span>Node.js</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#007ACC"></span>VS Code</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#000000"></span>PyCharm</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#F37626"></span>Jupyter</span>
+          <span class="skill-chip"><span class="chip-dot" style="background:#a855f7"></span>Scrum / Agile</span>
         </div>
 
       </div>
@@ -637,61 +593,43 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      EDUCATION
-     ═══════════════════════════════════════════════════════════ -->
-<section class="py-20 sm:py-24 px-4 sm:px-6">
-  <div class="max-w-6xl mx-auto">
-    <div class="mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold">Education</h2>
+     ═══════════════════════════════════════════════ -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <p class="label-xs">Background</p>
+        <h2 class="section-title">Education</h2>
+      </div>
     </div>
-    <div class="space-y-6">
+    <div class="timeline">
 
-      <div class="relative pl-8 border-l-2 border-zinc-800">
-        <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full border-2 flex items-center justify-center bg-zinc-950"
-             style="border-color:#00d4ff">
-          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
-            <path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
-          </svg>
-        </div>
-        <div class="rounded-2xl border p-4 sm:p-5 backdrop-blur-sm border-zinc-800/80 bg-zinc-900/55 hover:border-zinc-700 hover:bg-zinc-900/75 transition-all duration-300">
-          <div class="text-sm mb-1 text-zinc-500">2025 – Present</div>
-          <h3 class="text-xl font-bold text-white">B.S Computer Science</h3>
-          <p class="text-zinc-400">Department of Computer Science UBIT, University of Karachi</p>
+      <div class="timeline-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card glass-card">
+          <span class="tl-year">2025 – Present</span>
+          <h3 class="tl-degree">B.S Computer Science</h3>
+          <p class="tl-inst">Department of Computer Science UBIT, University of Karachi</p>
         </div>
       </div>
 
-      <div class="relative pl-8 border-l-2 border-zinc-800">
-        <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full border-2 flex items-center justify-center bg-zinc-950"
-             style="border-color:#00d4ff">
-          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
-            <path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
-          </svg>
-        </div>
-        <div class="rounded-2xl border p-4 sm:p-5 backdrop-blur-sm border-zinc-800/80 bg-zinc-900/55 hover:border-zinc-700 hover:bg-zinc-900/75 transition-all duration-300">
-          <div class="text-sm mb-1 text-zinc-500">2023 – 2024</div>
-          <h3 class="text-xl font-bold text-white">Intermediate</h3>
-          <p class="text-zinc-400">Govt. Degree Science/Commerce College, Gulshan Block 7</p>
+      <div class="timeline-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card glass-card">
+          <span class="tl-year">2023 – 2024</span>
+          <h3 class="tl-degree">Intermediate (Pre-Engineering)</h3>
+          <p class="tl-inst">Govt. Degree Science/Commerce College, Gulshan Block 7</p>
         </div>
       </div>
 
-      <div class="relative pl-8 border-l-2 border-zinc-800">
-        <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full border-2 flex items-center justify-center bg-zinc-950"
-             style="border-color:#00d4ff">
-          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24"
-               fill="none" stroke="#00d4ff" stroke-width="2">
-            <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
-            <path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
-          </svg>
-        </div>
-        <div class="rounded-2xl border p-4 sm:p-5 backdrop-blur-sm border-zinc-800/80 bg-zinc-900/55 hover:border-zinc-700 hover:bg-zinc-900/75 transition-all duration-300">
-          <div class="text-sm mb-1 text-zinc-500">2009 – 2022</div>
-          <h3 class="text-xl font-bold text-white">Matric</h3>
-          <p class="text-zinc-400">Karachi Public School</p>
+      <div class="timeline-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card glass-card">
+          <span class="tl-year">2009 – 2022</span>
+          <h3 class="tl-degree">Matric (SSC)</h3>
+          <p class="tl-inst">Karachi Public School</p>
         </div>
       </div>
 
@@ -700,88 +638,97 @@
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      CONTACT
-     ═══════════════════════════════════════════════════════════ -->
-<section id="contact" class="py-20 sm:py-24 px-4 sm:px-6 border-t border-neutral-800">
-  <div class="max-w-4xl mx-auto text-center">
+     ═══════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-wrap glass-card">
+      <div class="contact-top">
+        <p class="label-xs">Say Hello</p>
+        <h2 class="section-title">Let's Collaborate</h2>
+        <p class="contact-sub">Always open to interesting projects, open source contributions, and learning opportunities.</p>
 
-    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
-         fill="none" stroke="#00d4ff" stroke-width="2" class="mx-auto mb-6">
-      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-    </svg>
-
-    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Let's Collaborate</h2>
-    <p class="text-neutral-400 mb-8 max-w-xl mx-auto text-sm sm:text-base">
-      Always looking to collaborate on interesting open source projects. Let's build something amazing together!
-    </p>
-
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-
-      <!-- Email button -->
-      <a href="mailto:muhammadasadk42@gmail.com"
-         class="flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-white"
-         style="background-color:#00d4ff;color:#0b1020">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2">
-          <rect width="20" height="16" x="2" y="4" rx="2"/>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
-        Get in Touch
-      </a>
-
-      <!-- Social icons + Spotify -->
-      <div class="flex flex-wrap items-center gap-3 justify-center">
-
-        <!-- GitHub -->
-        <a href="https://github.com/Asad101001" target="_blank" rel="noopener"
-           class="p-3 rounded-lg border border-neutral-700 hover:bg-neutral-800 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+        <a href="mailto:muhammadasadk42@gmail.com" class="btn-primary contact-email-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-            <path d="M9 18c-4.51 2-5-2-7-2"/>
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
           </svg>
+          Get in Touch
         </a>
+      </div>
 
-        <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/muhammadasadk/" target="_blank" rel="noopener"
-           class="p-3 rounded-lg border border-neutral-700 hover:bg-neutral-800 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-            <rect width="4" height="12" x="2" y="9"/>
-            <circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
+      <div class="contact-bottom">
+        <!-- Social icons row -->
+        <div class="socials-row">
 
-        <!-- Spotify widget — replace the playlist ID to change what plays -->
-        <!-- To find your playlist ID: Spotify → right-click playlist → Share → Copy link
-             The ID is the part after "playlist/" in the URL                              -->
-        <iframe        
-          src="https://open.spotify.com/embed/playlist/7AiShuc4G6kqRLGLf8GQSD?si=VHXsL5YxSEW5ej3rVvrCmw?utm_source=generator&theme=0"
-          width="260" height="80" frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          style="border-radius:12px;border:1px solid rgba(255,255,255,0.08)">
-        </iframe>
+          <!-- GitHub -->
+          <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="social-icon github" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/muhammadasadk/" target="_blank" rel="noopener" class="social-icon linkedin" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+
+          <!-- Gmail -->
+          <a href="mailto:muhammadasadk42@gmail.com" class="social-icon gmail" title="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </a>
+
+          <!-- Discord -->
+          <a href="https://discord.com/users/1390327957062418654" target="_blank" rel="noopener" class="social-icon discord" title="Discord">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          </a>
+
+          <!-- Medium -->
+          <a href="https://medium.com/@muhammadasadk42" target="_blank" rel="noopener" class="social-icon medium" title="Medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/muhammadasad.k_/" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+
+          <!-- Spotify -->
+          <a href="https://open.spotify.com/user/31nzox4rnz5dywmealmdmufewe3u" target="_blank" rel="noopener" class="social-icon spotify" title="Spotify">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </a>
+
+        </div>
+
+        <!-- Spotify Now Playing Widget -->
+        <div class="spotify-widget">
+          <div class="spotify-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            My Spotify
+          </div>
+          <iframe
+            src="https://open.spotify.com/embed/user/31nzox4rnz5dywmealmdmufewe3u/playlists?utm_source=generator&theme=0"
+            width="100%" height="152" frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            style="border-radius:12px;border:1px solid rgba(255,255,255,0.08)">
+          </iframe>
+        </div>
 
       </div>
     </div>
-
   </div>
 </section>
 
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
      FOOTER
-     ═══════════════════════════════════════════════════════════ -->
-<footer class="border-t border-zinc-800 px-4 py-8 sm:px-6 bg-zinc-950">
-  <p class="mx-auto max-w-7xl text-center text-sm text-zinc-400">© 2026 Muhammad Asad Khan</p>
+     ═══════════════════════════════════════════════ -->
+<footer>
+  <p>© 2026 Muhammad Asad Khan · Built with ☕ and late nights</p>
 </footer>
 
 
-<!-- App logic (counters, drawer, GitHub graph, marquee) -->
 <script src="app.js"></script>
-
 </body>
 </html>
