@@ -14,12 +14,51 @@
 </head>
 <body>
 
+<!-- CURSOR GLOW -->
+<div id="cursor-glow"></div>
+
 <canvas id="bg-canvas"></canvas>
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-progress"></div>
 
 <!-- BACK TO TOP -->
 <button id="back-to-top" aria-label="Back to top" title="Back to top">
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
 </button>
+
+<!-- FEEDBACK BUTTON -->
+<button id="feedback-btn" aria-label="Send feedback" title="Send feedback">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<!-- FEEDBACK MODAL -->
+<div id="feedback-overlay" role="dialog" aria-modal="true" aria-label="Send Feedback">
+  <div id="feedback-modal">
+    <button id="feedback-close" aria-label="Close feedback">&#x2715;</button>
+    <div class="feedback-header">
+      <div class="feedback-icon">&#x1F4AC;</div>
+      <h3>Leave Feedback</h3>
+      <p>How's the portfolio? Be honest — I can take it.</p>
+    </div>
+    <div class="feedback-rating" id="feedback-rating">
+      <button class="rating-btn" data-val="1" title="Terrible">&#x1F621;</button>
+      <button class="rating-btn" data-val="2" title="Meh">&#x1F615;</button>
+      <button class="rating-btn" data-val="3" title="Okay">&#x1F610;</button>
+      <button class="rating-btn" data-val="4" title="Good">&#x1F60A;</button>
+      <button class="rating-btn" data-val="5" title="Amazing!">&#x1F929;</button>
+    </div>
+    <textarea id="feedback-text" placeholder="Say something… good or bad, I read every one." rows="4"></textarea>
+    <button id="feedback-submit" class="btn-primary feedback-submit-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Send Feedback
+    </button>
+    <div id="feedback-success" class="feedback-success" style="display:none">
+      <div class="feedback-success-icon">&#x2728;</div>
+      <p>Thanks! I'll check it out.</p>
+    </div>
+  </div>
+</div>
 
 <!-- CERTIFICATIONS DRAWER -->
 <div id="certs-drawer" aria-modal="true" role="dialog" aria-label="Certifications">
@@ -173,9 +212,14 @@
 
 <!-- HERO -->
 <section id="hero">
+  <!-- Floating BG Orbs -->
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
   <div class="hero-grid">
 
-    <div class="card hero-main glass-card" style="--delay:0ms">
+    <div class="card hero-main glass-card reveal" style="--delay:0ms">
       <div class="status-pill">
         <span class="status-dot"></span>
         Building &amp; exploring
@@ -187,18 +231,18 @@
       <p class="hero-sub">CS Student @ UBIT '28</p>
       <p class="hero-desc">Python &middot; AWS &middot; Data Science &middot; AI/ML &middot; Networking</p>
       <div class="hero-actions">
-        <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="btn-primary">
+        <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="btn-primary magnetic">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
           GitHub
         </a>
-        <a href="#contact" class="btn-secondary">
+        <a href="#contact" class="btn-secondary magnetic">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           Contact Me
         </a>
       </div>
     </div>
 
-    <div class="card hero-side glass-card" style="--delay:100ms">
+    <div class="card hero-side glass-card reveal" style="--delay:100ms">
       <div class="terminal-bar">
         <span class="t-dot t-red"></span>
         <span class="t-dot t-yellow"></span>
@@ -220,7 +264,7 @@
       </div>
     </div>
 
-    <div class="card glass-card" style="--delay:200ms">
+    <div class="card glass-card reveal" style="--delay:200ms">
       <p class="card-label">Fun Facts</p>
       <div class="fun-facts">
         <div class="fun-fact-item">&#x1F41B; Bugs feared? 0. Bugs fixed? debatable.</div>
@@ -229,7 +273,7 @@
       </div>
     </div>
 
-    <div class="card glass-card" style="--delay:300ms">
+    <div class="card glass-card reveal" style="--delay:300ms">
       <p class="card-label">Build Focus</p>
       <div class="focus-list">
         <div class="focus-item">
@@ -247,7 +291,7 @@
       </div>
     </div>
 
-    <div class="card glass-card" style="--delay:400ms">
+    <div class="card glass-card reveal" style="--delay:400ms">
       <p class="card-label">Availability</p>
       <p class="avail-text">Open for internships, part-time roles, and remote collaborations.</p>
       <p class="avail-loc">
@@ -275,7 +319,7 @@
     </div>
     <div class="about-grid">
 
-      <div class="about-text glass-card">
+      <div class="about-text glass-card reveal">
         <p>
           I'm a Computer Science student at UBIT, University of Karachi '28, driven to explore
           every corner of CS before settling on a specialty. So far I've covered Cloud Computing,
@@ -290,17 +334,17 @@
       </div>
 
       <div class="about-stats-col">
-        <div class="about-stat-card glass-card">
+        <div class="about-stat-card glass-card reveal">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
           <p class="stat-big" id="cnt-projects">4+</p>
           <p class="stat-lbl">Projects</p>
         </div>
-        <div class="about-stat-card glass-card">
+        <div class="about-stat-card glass-card reveal">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
           <p class="stat-big" id="cnt-certs">6+</p>
           <p class="stat-lbl">Certifications</p>
         </div>
-        <div class="about-stat-card glass-card">
+        <div class="about-stat-card glass-card reveal">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
           <p class="stat-big" id="cnt-tech">20+</p>
           <p class="stat-lbl">Technologies</p>
@@ -309,26 +353,38 @@
 
     </div>
 
-    <!-- GitHub Contribution Graph -->
-    <div class="gh-graph-wrap glass-card" style="margin-top:20px">
-      <div class="gh-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-        <span>Commit Activity</span>
-        <span class="gh-count" id="gh-contrib-count"></span>
+    <!-- Currently Working On (replaces GitHub Contributions) -->
+    <div class="working-on-wrap glass-card reveal" style="margin-top:20px">
+      <div class="working-on-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>Currently Building</span>
+        <span class="working-on-pulse"><span></span>active</span>
       </div>
-      <div class="gh-graph-scroll">
-        <div class="gh-grid" id="gh-contrib-grid">
-          <div class="gh-loading">Loading contributions…</div>
+      <div class="working-on-grid">
+        <div class="wip-card">
+          <div class="wip-icon" style="background:rgba(0,212,255,0.1);color:var(--cyan)">&#x1F9E0;</div>
+          <div class="wip-info">
+            <p class="wip-title">LLM Pipeline v2</p>
+            <p class="wip-desc">Improving RAG chunking strategy with hybrid retrieval</p>
+          </div>
+          <div class="wip-bar-wrap"><div class="wip-bar" style="--pct:65%;--clr:var(--cyan)"></div></div>
         </div>
-      </div>
-      <div class="gh-legend">
-        Less
-        <span class="gh-leg-cell" style="opacity:0.07"></span>
-        <span class="gh-leg-cell" style="opacity:0.22"></span>
-        <span class="gh-leg-cell" style="opacity:0.45"></span>
-        <span class="gh-leg-cell" style="opacity:0.7"></span>
-        <span class="gh-leg-cell" style="opacity:1"></span>
-        More
+        <div class="wip-card">
+          <div class="wip-icon" style="background:rgba(255,153,0,0.1);color:#FF9900">&#x2601;&#xFE0F;</div>
+          <div class="wip-info">
+            <p class="wip-title">AWS Cloud Course</p>
+            <p class="wip-desc">NED University — VPC, EC2, RDS deep dives</p>
+          </div>
+          <div class="wip-bar-wrap"><div class="wip-bar" style="--pct:80%;--clr:#FF9900"></div></div>
+        </div>
+        <div class="wip-card">
+          <div class="wip-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">&#x1F916;</div>
+          <div class="wip-info">
+            <p class="wip-title">HEC GenAI Cohort 2</p>
+            <p class="wip-desc">Working through RAG systems and AI ethics modules</p>
+          </div>
+          <div class="wip-bar-wrap"><div class="wip-bar" style="--pct:55%;--clr:#a855f7"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -352,7 +408,7 @@
     <div class="projects-grid">
 
       <!-- LegalEaseAI -->
-      <div class="project-card glass-card">
+      <div class="project-card glass-card reveal">
         <div class="proj-img-wrap" style="background:linear-gradient(135deg,#00d4ff18,#18181b)">
           <img src="public/images/legalease.png" alt="LegalEaseAI screenshot" class="proj-img" onerror="this.style.display='none'" />
           <div class="proj-img-placeholder" style="display:flex">
@@ -396,7 +452,7 @@
       </div>
 
       <!-- PollPulse -->
-      <div class="project-card glass-card">
+      <div class="project-card glass-card reveal">
         <div class="proj-img-wrap" style="background:linear-gradient(135deg,#a855f720,#18181b)">
           <img src="public/images/pollpulse.png" alt="PollPulse screenshot" class="proj-img" onerror="this.style.display='none'" />
           <div class="proj-img-placeholder" style="display:flex">
@@ -436,7 +492,7 @@
       </div>
 
       <!-- Data Science Fundamentals -->
-      <div class="project-card glass-card">
+      <div class="project-card glass-card reveal">
         <div class="proj-img-wrap" style="background:linear-gradient(135deg,#f7931a18,#18181b)">
           <img src="public/images/data-science.jpg" alt="Data Science Fundamentals" class="proj-img" onerror="this.style.display='none'" />
           <div class="proj-img-placeholder">
@@ -476,7 +532,7 @@
       </div>
 
       <!-- AWS Static Website -->
-      <div class="project-card glass-card">
+      <div class="project-card glass-card reveal">
         <div class="proj-img-wrap" style="background:linear-gradient(135deg,#FF990018,#18181b)">
           <img src="public/images/aws.png" alt="AWS Static Website screenshot" class="proj-img" onerror="this.style.display='none'" />
           <div class="proj-img-placeholder">
@@ -575,45 +631,42 @@
     </div>
     <div class="timeline">
 
-      <div class="timeline-item">
+      <div class="timeline-item reveal">
         <div class="tl-dot"></div>
         <div class="tl-card glass-card">
           <span class="tl-year">2025 &#x2013; Present</span>
           <h3 class="tl-degree">B.S Computer Science</h3>
           <div class="tl-inst-row">
-            <!-- UBIT logo: stylised "U" in cyan -->
             <span class="tl-logo" style="background:rgba(0,212,255,0.1);color:var(--cyan)" title="University of Karachi / UBIT">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 3v10a8 8 0 0 0 16 0V3"/><line x1="4" y1="3" x2="4" y2="3"/><line x1="20" y1="3" x2="20" y2="3"/></svg>
+              <img src="public/images/institutions/ubit.jpg" alt="UBIT" style="width:20px;height:20px;object-fit:contain;border-radius:4px" onerror="this.style.display='none'" />
             </span>
             <p class="tl-inst">Department of Computer Science UBIT, University of Karachi</p>
           </div>
         </div>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item reveal">
         <div class="tl-dot"></div>
         <div class="tl-card glass-card">
           <span class="tl-year">2023 &#x2013; 2024</span>
           <h3 class="tl-degree">Intermediate (Pre-Engineering)</h3>
           <div class="tl-inst-row">
-            <!-- College icon -->
-            <span class="tl-logo" style="background:rgba(168,85,247,0.1);color:#a855f7" title="Govt. Degree Science/Commerce College">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/></svg>
+            <span class="tl-logo" style="background:rgba(168,85,247,0.1);color:#a855f7" title="Govt. Degree College">
+              <img src="public/images/institutions/college.jpg" alt="College" style="width:20px;height:20px;object-fit:contain;border-radius:4px" onerror="this.style.display='none'" />
             </span>
             <p class="tl-inst">Govt. Degree Science/Commerce College, Gulshan Block 7</p>
           </div>
         </div>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item reveal">
         <div class="tl-dot"></div>
         <div class="tl-card glass-card">
           <span class="tl-year">2009 &#x2013; 2022</span>
           <h3 class="tl-degree">Matric (SSC)</h3>
           <div class="tl-inst-row">
-            <!-- School icon -->
             <span class="tl-logo" style="background:rgba(249,115,22,0.1);color:#f97316" title="Karachi Public School">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <img src="public/images/institutions/kps.jpg" alt="KPS" style="width:20px;height:20px;object-fit:contain;border-radius:4px" onerror="this.style.display='none'" />
             </span>
             <p class="tl-inst">Karachi Public School</p>
           </div>
@@ -634,13 +687,14 @@
         <p class="label-xs">Let's Connect</p>
         <h2 class="section-title">Find Me Online</h2>
         <p class="contact-sub">Always down to chat about tech, collabs, open source, or just vibe online &#x1F44B;</p>
-        <a href="mailto:muhammadasadk42@gmail.com" class="btn-primary contact-email-btn">
+        <a href="mailto:muhammadasadk42@gmail.com" class="btn-primary contact-email-btn magnetic">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           Drop me an Email
         </a>
       </div>
 
       <div class="contact-bottom">
+        <!-- 7 social cards in a 4-3 grid via CSS -->
         <div class="social-cards-grid">
 
           <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="social-card github">
@@ -679,13 +733,14 @@
             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
           </a>
 
-          <a href="https://www.last.fm/user/Asad991" target="_blank" rel="noopener" class="social-card lastfm">
-            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#D51007"><path d="M10.584 17.21l-.88-2.392s-1.43 1.595-3.573 1.595c-1.9 0-3.247-1.652-3.247-4.29 0-3.38 1.704-4.592 3.39-4.592 2.427 0 3.2 1.572 3.862 3.593l.88 2.75c.88 2.663 2.54 4.802 7.32 4.802 3.426 0 5.748-1.052 5.748-3.822 0-2.24-1.28-3.4-3.67-3.955l-1.773-.393c-1.228-.27-1.59-.753-1.59-1.556 0-.903.71-1.436 1.878-1.436 1.272 0 1.952.476 2.058 1.596l2.635-.316C23.21 6.8 21.733 5.79 19.4 5.79c-2.15 0-4.62.908-4.62 3.82 0 1.813.88 2.965 3.09 3.514l1.878.448c1.414.33 1.99.91 1.99 1.9 0 1.134-.99 1.596-3.01 1.596-2.918 0-4.136-1.534-4.83-3.574l-.898-2.77C12.15 7.29 10.583 5.79 7.31 5.79 3.595 5.79 1 8.274 1 12.177c0 3.77 1.94 6.033 5.83 6.033 3.017 0 3.754-1z"/></svg></div>
-            <div class="social-card-text"><span class="social-card-name">Last.fm</span><span class="social-card-handle">Asad991</span></div>
+          <!-- SPOTIFY (replaces stats.fm) -->
+          <a href="https://open.spotify.com/user/31ldw4ockaqhvr4syjpxp6hv4dge" target="_blank" rel="noopener" class="social-card spotify">
+            <div class="social-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            </div>
+            <div class="social-card-text"><span class="social-card-name">Spotify</span><span class="social-card-handle">muhammadasadk</span></div>
             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
           </a>
-
-          <!-- StatsFM REMOVED — widget below is enough -->
 
         </div>
 
@@ -704,7 +759,7 @@
           </div>
         </div>
 
-        <!-- GAMIFICATION: Visitor Counter / XP Bar -->
+        <!-- GAMIFICATION: Visitor XP — unique visits only -->
         <div class="xp-widget glass-card">
           <div class="xp-header">
             <span class="xp-label">&#x1F3AE; Visitor XP</span>
@@ -714,7 +769,7 @@
             <div class="xp-bar-fill" id="xp-bar"></div>
           </div>
           <div class="xp-meta">
-            <span id="xp-visit-count">You are visitor #<strong id="xp-count">—</strong></span>
+            <span id="xp-count-label">&#x2014;</span>
             <span id="xp-next">— XP to next level</span>
           </div>
         </div>
