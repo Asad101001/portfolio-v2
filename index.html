@@ -14,6 +14,10 @@
 </head>
 <body>
 
+<div id="scroll-progress"></div>
+<div id="cursor-glow"></div>
+<div id="toast"></div>
+
 <canvas id="bg-canvas"></canvas>
 
 <!-- BACK TO TOP -->
@@ -190,7 +194,6 @@
       <a href="#contact">Socials</a>
     </div>
     <a href="https://drive.google.com/uc?export=download&id=1gvB1-w130_q4dpVpGDjcB8WKm5Kd4qkq" download="Muhammad_Asad_Khan_Resume.pdf" class="nav-cta">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Resume
     </a>
     <details class="mobile-nav">
@@ -250,17 +253,17 @@
         <span class="t-title">asad@2006 ~</span>
       </div>
       <div class="terminal-body">
-        <p><span class="t-prompt">$</span> <span class="t-cmd">whoami</span></p>
-        <p class="t-out">Muhammad Asad Khan</p>
-        <p><span class="t-prompt">$</span> <span class="t-cmd">cat focus.txt</span></p>
-        <p class="t-out">Python &middot; OOP &middot; Data Science</p>
-        <p class="t-out">Cloud (AWS) &middot; AI/ML &middot; RAG</p>
-        <p class="t-out">Networking &middot; Linux &middot; Web Dev</p>
-        <p><span class="t-prompt">$</span> <span class="t-cmd">echo $LOCATION</span></p>
-        <p class="t-out">Karachi, Pakistan &#x1F1F5;&#x1F1F0;</p>
-        <p><span class="t-prompt">$</span> <span class="t-cmd">cat status.txt</span></p>
-        <p class="t-out" style="color:var(--cyan)">&#x1F7E2; Open to collabs &amp; internships</p>
-        <p><span class="t-prompt">$</span> <span class="t-cursor">&#x25AE;</span></p>
+        <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">whoami</span></p>
+        <p class="t-line t-out">Muhammad Asad Khan</p>
+        <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">cat focus.txt</span></p>
+        <p class="t-line t-out">Python &middot; OOP &middot; Data Science</p>
+        <p class="t-line t-out">Cloud (AWS) &middot; AI/ML &middot; RAG</p>
+        <p class="t-line t-out">Networking &middot; Linux &middot; Web Dev</p>
+        <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">echo $LOCATION</span></p>
+        <p class="t-line t-out">Karachi, Pakistan &#x1F1F5;&#x1F1F0;</p>
+        <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">cat status.txt</span></p>
+        <p class="t-line t-out" style="color:var(--cyan)">&#x1F7E2; Open to collabs &amp; internships</p>
+        <p class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">&#x25AE;</span></p>
       </div>
     </div>
 
@@ -302,7 +305,7 @@
         </div>
         <div class="avail-loc">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <a href="mailto:muhammadasadk42@gmail.com"><span>muhammadasadk42@gmail.com</span></a>
+          <a href="/cdn-cgi/l/email-protection#f09d8598919d9d9194918391949bc4c2b0979d91999cde939f9d"><span><span class="__cf_email__" data-cfemail="f79a829f969a9a9693968496939cc3c5b7909a969e9bd994989a">[email&#160;protected]</span></span></a>
         </div>
       </div>
     </div>
@@ -580,6 +583,87 @@
 </section>
 
 
+<!-- DEMO EXPERIENCE (the whimsical roast section) -->
+<section id="demo">
+  <div class="section-inner">
+    <div class="section-header centered">
+      <p class="label-xs" style="text-align:center">Totally Real</p>
+      <h2 class="section-title" style="text-align:center">Live Demos ✨</h2>
+      <p class="section-sub">100% production-ready. Definitely not "works on my machine".</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <!-- 404 Hero Card -->
+      <div class="glass-card demo-404 reveal">
+        <div class="demo-big">404</div>
+        <h3>Experience Not Found</h3>
+        <p>Asad's portfolio is still loading its portfolio. The irony has been noted. The PR is open. The deadline is "soon".</p>
+      </div>
+
+      <!-- Fake skill bars -->
+      <div class="glass-card demo-card reveal">
+        <span class="demo-emoji">📊</span>
+        <h3>Actual Skill Distribution</h3>
+        <p style="margin-bottom:14px">Based on hours spent vs. hours productive</p>
+        <div class="demo-progress-fake">
+          <div class="demo-progress-row">
+            <span class="demo-progress-label">Googling stuff</span>
+            <div class="demo-progress-bar-wrap"><div class="demo-progress-fill" data-w="92%" style="--clr:#f97316"></div></div>
+          </div>
+          <div class="demo-progress-row">
+            <span class="demo-progress-label">Reading docs</span>
+            <div class="demo-progress-bar-wrap"><div class="demo-progress-fill" data-w="23%" style="--clr:#a855f7"></div></div>
+          </div>
+          <div class="demo-progress-row">
+            <span class="demo-progress-label">Actual coding</span>
+            <div class="demo-progress-bar-wrap"><div class="demo-progress-fill" data-w="61%" style="--clr:#00d4ff"></div></div>
+          </div>
+          <div class="demo-progress-row">
+            <span class="demo-progress-label">Debugging</span>
+            <div class="demo-progress-bar-wrap"><div class="demo-progress-fill" data-w="78%" style="--clr:#f87171"></div></div>
+          </div>
+          <div class="demo-progress-row">
+            <span class="demo-progress-label">It works locally</span>
+            <div class="demo-progress-bar-wrap"><div class="demo-progress-fill" data-w="100%" style="--clr:#22c55e"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fake testimonials -->
+      <div class="glass-card demo-card reveal">
+        <span class="demo-emoji">⭐</span>
+        <h3>Testimonials</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
+          <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"He once spent 3 hours debugging a missing semicolon. Growth."</p>
+            <span style="font-size:0.68rem;color:var(--text-dim)">— His Rubber Duck 🦆</span>
+            <div class="demo-stars">★★★★☆</div>
+          </div>
+          <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"Works perfectly. On my machine. Every time."</p>
+            <span style="font-size:0.68rem;color:var(--text-dim)">— localhost:5000</span>
+            <div class="demo-stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Game -->
+      <div class="glass-card quiz-game reveal">
+        <h3>🎮 How Well Do You Know Asad?</h3>
+        <p class="quiz-sub">A completely unbiased quiz. Results may vary.</p>
+        <p class="quiz-question" id="quiz-question">Loading quiz...</p>
+        <div class="quiz-options" id="quiz-options"></div>
+        <p class="quiz-feedback" id="quiz-feedback"></p>
+        <p class="quiz-score" id="quiz-score">Score: 0/0</p>
+        <button class="quiz-next" id="quiz-next" style="display:none">Next →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- TECH STACK MARQUEE -->
 <section id="tech">
   <div class="section-inner">
@@ -777,7 +861,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>&#169; 2026 Muhammad Asad Khan &middot; Built with &#x2615; and late nights</p>
+  <p>Built with &#x2665; by Muhammad Asad Khan &mdash; 2025</p>
 </footer>
 
 <script src="app.js"></script>
