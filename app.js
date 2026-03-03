@@ -283,11 +283,10 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
 })();
 
 
-/* ── L. Back to Top + Scroll Progress Ring + Scroll Progress Bar ── */
+/* ── L. Back to Top + Scroll Progress Ring ── */
 (function () {
   var btn  = document.getElementById('back-to-top');
   var ring = document.getElementById('scroll-ring');
-  var bar  = document.getElementById('scroll-progress');
   if (!btn) return;
   var CIRC = 119.4;
   function onScroll() {
@@ -296,7 +295,6 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
     var pct = total > 0 ? scrolled / total : 0;
     btn.classList.toggle('visible', scrolled > 400);
     if (ring) ring.style.strokeDashoffset = CIRC * (1 - pct);
-    if (bar)  bar.style.width = (pct * 100) + '%';
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   btn.addEventListener('click', function () {
@@ -408,7 +406,7 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
 })();
 
 
-/* ── O. Scroll-reveal (re-triggers when re-entering view) ────── */
+/* ── O. Scroll-reveal (one-shot, no re-trigger on scroll up) ────── */
 (function () {
   if (!window.IntersectionObserver) return;
   var els = document.querySelectorAll('.reveal');
@@ -416,8 +414,7 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-      } else {
-        entry.target.classList.remove('visible');
+        obs.unobserve(entry.target);
       }
     });
   }, { threshold: 0.08 });
@@ -571,80 +568,7 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
 })();
 
 
-/* ── T. Quiz Game (Asad edition) ────────────────────────────── */
-(function () {
-  var qEl      = document.getElementById('quiz-question');
-  var optsEl   = document.getElementById('quiz-options');
-  var fbEl     = document.getElementById('quiz-feedback');
-  var scoreEl  = document.getElementById('quiz-score');
-  var nextBtn  = document.getElementById('quiz-next');
-  if (!qEl || !optsEl) return;
-
-  var questions = [
-    { q: "What time does Asad usually start being productive?", opts: ["9 AM sharp", "After lunch", "11 PM–3 AM 🦉", "He's always productive"], ans: 2, roast: "Night owl mode: engaged. Sleep: optional." },
-    { q: "How does Asad handle bugs?", opts: ["Googles immediately", "Reads docs first (lol)", "Stares until it fixes itself", "Blames the framework"], ans: 0, roast: "Stack Overflow's biggest fan since 2024." },
-    { q: "Asad's portfolio has zero demos. Why?", opts: ["'It's in production'", "'It works locally'", "All of the above", "Portfolio IS the demo"], ans: 2, roast: "Classic move. At least the README is great." },
-    { q: "What is Asad's spirit animal?", opts: ["Eagle (ambition)", "Owl (night grind)", "Rubber duck (debugging)", "Loading spinner"], ans: 2, roast: "The rubber duck has heard more code than any human." },
-    { q: "Asad reads documentation:", opts: ["Before coding", "While coding", "When nothing works", "Occasionally. Roughly. Eventually."], ans: 3, roast: "'I'll read it later' — famous last words." },
-  ];
-
-  var current = 0, score = 0, answered = false;
-
-  function shuffle(arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    }
-    return arr;
-  }
-  shuffle(questions);
-
-  function load(i) {
-    if (i >= questions.length) {
-      qEl.textContent = '🎉 Quiz complete! You scored ' + score + '/' + questions.length;
-      optsEl.innerHTML = '';
-      fbEl.innerHTML = score >= 4 ? '💫 You really know this guy!' : score >= 2 ? '😄 Not bad, not great.' : '🥲 Were you even paying attention?';
-      if (nextBtn) nextBtn.style.display = 'none';
-      return;
-    }
-    answered = false;
-    var q = questions[i];
-    qEl.textContent = (i + 1) + '. ' + q.q;
-    optsEl.innerHTML = '';
-    if (fbEl) fbEl.innerHTML = '';
-    if (nextBtn) nextBtn.style.display = 'none';
-    q.opts.forEach(function (opt, idx) {
-      var btn = document.createElement('button');
-      btn.className = 'quiz-option';
-      btn.textContent = opt;
-      btn.addEventListener('click', function () {
-        if (answered) return;
-        answered = true;
-        var allBtns = optsEl.querySelectorAll('.quiz-option');
-        allBtns.forEach(function (b) { b.disabled = true; });
-        if (idx === q.ans) {
-          btn.classList.add('correct');
-          score++;
-          if (fbEl) fbEl.innerHTML = '✅ Correct! ' + q.roast;
-          if (fbEl) fbEl.style.color = '#4ade80';
-        } else {
-          btn.classList.add('wrong');
-          allBtns[q.ans].classList.add('correct');
-          if (fbEl) fbEl.innerHTML = '❌ ' + q.roast;
-          if (fbEl) fbEl.style.color = '#f87171';
-        }
-        if (scoreEl) scoreEl.textContent = 'Score: ' + score + '/' + (i + 1);
-        if (nextBtn) nextBtn.style.display = '';
-      });
-      optsEl.appendChild(btn);
-    });
-  }
-
-  load(0);
-  if (nextBtn) {
-    nextBtn.addEventListener('click', function () { current++; load(current); });
-  }
-})();
+/* Quiz game removed */
 
 
 /* ── U. Toast helper ────────────────────────────────────────── */

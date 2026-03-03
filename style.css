@@ -25,7 +25,10 @@
   --star-color: rgba(255,255,255,0.7);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
 
 body {
   font-family: 'Space Grotesk', sans-serif;
@@ -59,16 +62,7 @@ a { text-decoration: none; color: inherit; }
   mix-blend-mode: screen;
 }
 
-/* ── SCROLL PROGRESS ─────────────────────────────────────── */
-#scroll-progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px; width: 0%;
-  background: linear-gradient(90deg, var(--cyan), var(--purple), var(--orange));
-  z-index: 999;
-  transition: width 0.1s linear;
-  box-shadow: 0 0 10px rgba(0,212,255,0.8);
-}
+/* scroll progress bar removed */
 
 /* ── HERO BG ORBS ─────────────────────────────────────────── */
 .hero-orb {
@@ -734,17 +728,11 @@ section { padding: 80px 16px; position: relative; }
 .contact-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; flex-direction: column; gap: 24px; }
 .social-cards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-.social-cards-grid .social-card:nth-child(5) { grid-column: 1; }
-.social-cards-grid .social-card:nth-child(6) { grid-column: 2; }
-.social-cards-grid .social-card:nth-child(7) { grid-column: 3; }
 @media (max-width: 900px) {
   .social-cards-grid { grid-template-columns: repeat(2, 1fr); }
-  .social-cards-grid .social-card:nth-child(5),
-  .social-cards-grid .social-card:nth-child(6),
-  .social-cards-grid .social-card:nth-child(7) { grid-column: auto; }
 }
 @media (max-width: 480px) { .social-cards-grid { grid-template-columns: 1fr; } }
 .social-card {
