@@ -18,12 +18,45 @@ var _scrollDir = 0; // 1 down, -1 up
 var _isMobile  = window.matchMedia('(hover: none), (max-width: 768px)').matches;
 var _raf       = null;
 var _scrollTasks = []; // functions run inside the single rAF loop
+var _docH = 0; // cached document scroll height
+var _heroVisible = true; // canvas only draws when hero is in viewport
+
+function _recalcDocH() {
+  _docH = document.documentElement.scrollHeight - window.innerHeight;
+}
+_recalcDocH();
 
 window.addEventListener('scroll', function () {
   var newY = window.scrollY;
   _scrollDir = newY > _scrollY ? 1 : -1;
   _scrollY   = newY;
 }, { passive: true });
+
+window.addEventListener('resize', function () {
+  clearTimeout(_recalcDocH._t);
+  _recalcDocH._t = setTimeout(_recalcDocH, 200);
+}, { passive: true });
+
+
+/* ══════════════════════════════════════════════════════════
+   A0. LOADING SCREEN — dismiss after content ready
+   ══════════════════════════════════════════════════════════ */
+(function () {
+  var loader = document.getElementById('loading-screen');
+  if (!loader) return;
+  function dismiss() {
+    loader.classList.add('hidden');
+    setTimeout(function () { loader.remove(); }, 700);
+  }
+  // Dismiss after fonts + images above fold
+  if (document.readyState === 'complete') {
+    setTimeout(dismiss, 400);
+  } else {
+    window.addEventListener('load', function () { setTimeout(dismiss, 300); });
+  }
+  // Safety: dismiss after 3s no matter what
+  setTimeout(dismiss, 3000);
+})();
 
 
 /* ══════════════════════════════════════════════════════════
@@ -85,8 +118,9 @@ window.addEventListener('scroll', function () {
     initStars();
   }
 
-  // Draw runs inside the global rAF loop
+  // Draw runs inside the global rAF loop — only when hero visible
   function draw() {
+    if (!_heroVisible) return; // Skip when scrolled past hero
     tick += 0.007;
     ctx.fillStyle = '#04060d';
     ctx.fillRect(0, 0, W, H);
@@ -109,9 +143,85 @@ window.addEventListener('scroll', function () {
     resize._t = setTimeout(resize, 200);
   }, { passive: true });
 
+  // Track hero visibility for canvas pause
+  var heroEl = document.getElementById('hero');
+  if (heroEl && window.IntersectionObserver) {
+    new IntersectionObserver(function (entries) {
+      _heroVisible = entries[0].isIntersecting;
+    }, { threshold: 0, rootMargin: '100px 0px 100px 0px' }).observe(heroEl);
+  }
+
   // Register with global rAF
   _scrollTasks.push(draw);
 })();
+
+
+/* ══════════════════════════════════════════════════════════
+   A1. HERO BACKDROP SHRINK — fixed image scales down, content covers it
+   ══════════════════════════════════════════════════════════ */
+(function () {
+  var backdrop = document.getElementById('hero-backdrop');
+  var indicator = document.getElementById('scroll-indicator');
+  if (!backdrop) return;
+  var heroH = window.innerHeight;
+
+  window.addEventListener('resize', function () { heroH = window.innerHeight; }, { passive: true });
+
+  _scrollTasks.push(function () {
+    // shrink goes 0→1 over the first 80% of viewport height
+    var shrink = Math.min(_scrollY / (heroH * 0.8), 1);
+    backdrop.style.setProperty('--shrink', shrink.toFixed(3));
+
+    // Fully hide once shrunk to avoid unnecessary rendering
+    backdrop.style.opacity = shrink >= 0.99 ? '0' : '1';
+
+    // Hide scroll indicator after a bit of scrolling
+    if (indicator) {
+      indicator.classList.toggle('hidden', _scrollY > 150);
+    }
+  });
+})();
+
+
+/* ══════════════════════════════════════════════════════════
+   A2. ROTATING WIDGET — auto-cycle "Currently Into" items
+   ══════════════════════════════════════════════════════════ */
+(function () {
+  var widget = document.getElementById('rotating-widget');
+  var dotsWrap = document.getElementById('rotating-dots');
+  if (!widget || !dotsWrap) return;
+
+  var items = widget.querySelectorAll('.rotating-item');
+  var dots = dotsWrap.querySelectorAll('.r-dot');
+  var current = 0;
+  var total = items.length;
+  var timer;
+
+  function show(index) {
+    items.forEach(function (item) { item.classList.remove('active'); });
+    dots.forEach(function (dot) { dot.classList.remove('active'); });
+    items[index].classList.add('active');
+    dots[index].classList.add('active');
+    current = index;
+  }
+
+  function next() {
+    show((current + 1) % total);
+  }
+
+  // Auto-cycle every 4 seconds
+  timer = setInterval(next, 4000);
+
+  // Manual dot click
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      clearInterval(timer);
+      show(parseInt(dot.getAttribute('data-i'), 10));
+      timer = setInterval(next, 4000);
+    });
+  });
+})();
+
 
 
 /* ══════════════════════════════════════════════════════════
@@ -147,10 +257,10 @@ window.addEventListener('scroll', function () {
   }, { passive: true });
   function update() {
     if (!moved) return;
-    cx += (tx - cx) * 0.07;
-    cy += (ty - cy) * 0.07;
+    cx += (tx - cx) * 0.1; // Slightly faster lerp for responsiveness
+    cy += (ty - cy) * 0.1;
     /* 500px wide element, centre it on cursor */
-    el.style.transform = 'translate(' + (cx - 250).toFixed(1) + 'px,' + (cy - 250).toFixed(1) + 'px)';
+    el.style.transform = 'translate3d(' + (cx - 250).toFixed(0) + 'px,' + (cy - 250).toFixed(0) + 'px,0)';
   }
   _scrollTasks.push(update);
 })();
@@ -351,15 +461,11 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
   var ring = document.getElementById('scroll-ring');
   if (!btn) return;
   var CIRC = 119.4;
-  var docH = 0;
-  function calcDocH() { docH = document.documentElement.scrollHeight - window.innerHeight; }
-  calcDocH();
-  window.addEventListener('resize', calcDocH, { passive: true });
 
   _scrollTasks.push(function () {
     btn.classList.toggle('visible', _scrollY > 400);
-    if (ring && docH > 0) {
-      ring.style.strokeDashoffset = (CIRC * (1 - _scrollY / docH)).toFixed(1);
+    if (ring && _docH > 0) {
+      ring.style.strokeDashoffset = (CIRC * (1 - _scrollY / _docH)).toFixed(1);
     }
   });
 
@@ -518,11 +624,32 @@ document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
   document.querySelectorAll('.project-card').forEach(function (card) {
     card.addEventListener('mousemove', function (e) {
       var rect = card.getBoundingClientRect();
-      var rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -5;
-      var ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  5;
+      var rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -4;
+      var ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  4;
       card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
     });
-    card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
+  });
+})();
+
+
+/* ══════════════════════════════════════════════════════════
+   Q2. MAGNETIC BUTTON HOVER — smooth elastic follow
+   ══════════════════════════════════════════════════════════ */
+(function () {
+  if (_isMobile) return;
+  document.querySelectorAll('.magnetic').forEach(function (btn) {
+    btn.addEventListener('mousemove', function (e) {
+      var rect = btn.getBoundingClientRect();
+      var dx = (e.clientX - rect.left - rect.width / 2) * 0.15;
+      var dy = (e.clientY - rect.top  - rect.height / 2) * 0.15;
+      btn.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
+    });
+    btn.addEventListener('mouseleave', function () {
+      btn.style.transform = '';
+    });
   });
 })();
 
@@ -771,14 +898,13 @@ document.addEventListener('keydown', function (e) {
 })();
 
 /* ══════════════════════════════════════════════════════════
-   AA. SCROLL PROGRESS BAR
+   AA. SCROLL PROGRESS BAR — uses cached _docH
    ══════════════════════════════════════════════════════════ */
 (function () {
   var el = document.getElementById('scroll-progress');
   if (!el) return;
   _scrollTasks.push(function () {
-    var docH = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = docH > 0 ? (_scrollY / docH * 100).toFixed(1) : '0';
+    var pct = _docH > 0 ? (_scrollY / _docH * 100).toFixed(1) : '0';
     el.style.setProperty('--pct', pct + '%');
   });
 })();
@@ -799,6 +925,7 @@ document.addEventListener('keydown', function (e) {
 
 /* ══════════════════════════════════════════════════════════
    AC. SKILL CHIP EFFECTS — random pulse + floating particles
+   Also: pause marquee animation when off-screen
    ══════════════════════════════════════════════════════════ */
 (function () {
   if (_isMobile) return;
@@ -810,6 +937,18 @@ document.addEventListener('keydown', function (e) {
       chip.style.animationDelay = (Math.random() * 3) + 's';
     }
   });
+
+  // Pause marquee when off-screen
+  var techSection = document.getElementById('tech');
+  if (techSection && window.IntersectionObserver) {
+    var lanes = techSection.querySelectorAll('.export-tech-marquee-lane');
+    new IntersectionObserver(function (entries) {
+      var visible = entries[0].isIntersecting;
+      lanes.forEach(function (lane) {
+        lane.style.animationPlayState = visible ? 'running' : 'paused';
+      });
+    }, { threshold: 0, rootMargin: '100px 0px 100px 0px' }).observe(techSection);
+  }
 
   // Floating particles inside the marquee wrap
   var wrap = document.querySelector('.marquee-wrap');
