@@ -74,7 +74,7 @@ window.addEventListener('resize', function () {
   var nebulaA, nebulaB;
   function buildGradients() {
     nebulaA = ctx.createRadialGradient(W * 0.15, H * 0.3, 0, W * 0.15, H * 0.3, W * 0.45);
-    nebulaA.addColorStop(0, 'rgba(0,212,255,0.025)');
+    nebulaA.addColorStop(0, 'rgba(0,255,65,0.025)');
     nebulaA.addColorStop(1, 'rgba(4,6,13,0)');
     nebulaB = ctx.createRadialGradient(W * 0.8, H * 0.6, 0, W * 0.8, H * 0.6, W * 0.38);
     nebulaB.addColorStop(0, 'rgba(168,85,247,0.02)');
@@ -860,7 +860,7 @@ document.addEventListener('keydown', function (e) {
 
   // Secret: type "asad" → confetti burst from centre
   var buf = '';
-  var colors = ['#00d4ff','#a855f7','#f97316','#22c55e','#fbbf24','#e879f9'];
+  var colors = ['#00ff41','#a855f7','#f97316','#22c55e','#fbbf24','#e879f9'];
   document.addEventListener('keydown', function (e) {
     if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
     buf = (buf + e.key).slice(-4).toLowerCase();
@@ -1086,9 +1086,9 @@ document.addEventListener('keydown', function (e) {
   var zones = [
     { start: 0,  end: 6,  label: '🌙 Asleep (probably)', color: '#a855f7' },
     { start: 6,  end: 9,  label: '☕ Morning grind',      color: '#f97316' },
-    { start: 9,  end: 13, label: '💻 Peak coding hours',  color: '#00d4ff' },
+    { start: 9,  end: 13, label: '💻 Peak coding hours',  color: '#00ff41' },
     { start: 13, end: 15, label: '🍜 Lunch / break',      color: '#22c55e' },
-    { start: 15, end: 19, label: '⚡ Deep work mode',     color: '#00d4ff' },
+    { start: 15, end: 19, label: '⚡ Deep work mode',     color: '#00ff41' },
     { start: 19, end: 22, label: '🎧 Side projects / music', color: '#a855f7' },
     { start: 22, end: 24, label: '🌙 Late night hacking',  color: '#f97316' }
   ];
