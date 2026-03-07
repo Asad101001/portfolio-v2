@@ -39,23 +39,22 @@ window.addEventListener('resize', function () {
 
 
 /* ══════════════════════════════════════════════════════════
-   A0. LOADING SCREEN — dismiss after content ready
+   A0. LOADING SCREEN — dismiss fast, 600ms max
    ══════════════════════════════════════════════════════════ */
 (function () {
   var loader = document.getElementById('loading-screen');
   if (!loader) return;
   function dismiss() {
     loader.classList.add('hidden');
-    setTimeout(function () { loader.remove(); }, 700);
+    setTimeout(function () { loader.remove(); }, 250);
   }
-  // Dismiss after fonts + images above fold
   if (document.readyState === 'complete') {
-    setTimeout(dismiss, 400);
+    setTimeout(dismiss, 150);
   } else {
-    window.addEventListener('load', function () { setTimeout(dismiss, 300); });
+    window.addEventListener('load', function () { setTimeout(dismiss, 150); });
   }
-  // Safety: dismiss after 3s no matter what
-  setTimeout(dismiss, 3000);
+  // Hard cap: 600ms no matter what
+  setTimeout(dismiss, 600);
 })();
 
 
@@ -157,18 +156,39 @@ window.addEventListener('resize', function () {
 
 
 /* ══════════════════════════════════════════════════════════
-   A1. HERO BACKDROP — disabled (image removed, pure canvas bg)
+   A1. HERO BACKDROP — scroll-shrink + parallax, GPU-only
+   Uses CSS custom property --shrink (0→1) for scale/fade.
+   Uses translateY on the <img> for parallax depth.
+   Zero layout thrashing — all work in the rAF loop.
    ══════════════════════════════════════════════════════════ */
 (function () {
-  var backdrop = document.getElementById('hero-backdrop');
+  var backdrop  = document.getElementById('hero-backdrop');
   var indicator = document.getElementById('scroll-indicator');
-  if (backdrop) backdrop.style.display = 'none';
+  if (!backdrop) return;
 
-  if (indicator) {
-    window.addEventListener('scroll', function () {
-      indicator.classList.toggle('hidden', window.scrollY > 150);
-    }, { passive: true });
-  }
+  var img      = backdrop.querySelector('.hero-backdrop-img');
+  var heroH    = window.innerHeight;
+
+  window.addEventListener('resize', function () { heroH = window.innerHeight; }, { passive: true });
+
+  _scrollTasks.push(function () {
+    // shrink 0→1 over first 90% of viewport height
+    var shrink = Math.min(_scrollY / (heroH * 0.9), 1);
+    backdrop.style.setProperty('--shrink', shrink.toFixed(3));
+
+    // Parallax: image scrolls at 40% of page scroll speed (slower = depth)
+    if (img) {
+      img.style.transform = 'translateY(' + (_scrollY * 0.4).toFixed(1) + 'px) translateZ(0)';
+    }
+
+    // Hide once fully shrunk
+    backdrop.style.visibility = shrink >= 1 ? 'hidden' : '';
+
+    // Scroll indicator
+    if (indicator) {
+      indicator.classList.toggle('hidden', _scrollY > 120);
+    }
+  });
 })();
 
 
@@ -822,8 +842,7 @@ document.addEventListener('keydown', function (e) {
 
 
 /* ══════════════════════════════════════════════════════════
-   X. WHIMSY — Easter egg: type "asad" → confetti burst
-      Also: tiny spark winks near hero name every few seconds
+   X. WHIMSY — spark wink near hero name + 404 error popup
    ══════════════════════════════════════════════════════════ */
 (function () {
   // Micro star wink near hero name (desktop only)
@@ -835,8 +854,7 @@ document.addEventListener('keydown', function (e) {
         if (rect.width === 0) return;
         var spark = document.createElement('span');
         spark.className = 'hero-spark';
-        spark.textContent = ['✦','★','·','✶','◆'][Math.floor(Math.random()*5)];
-        // position: fixed so it stays on screen independent of scroll
+        spark.textContent = ['✦','★','·','✶','◆'][Math.floor(Math.random() * 5)];
         spark.style.cssText =
           'position:fixed;' +
           'left:' + (rect.left + Math.random() * rect.width) + 'px;' +
@@ -847,33 +865,39 @@ document.addEventListener('keydown', function (e) {
     }
   }
 
-  // Secret: type "asad" → confetti burst from centre
-  var buf = '';
-  var colors = ['#00ff41','#a855f7','#f97316','#22c55e','#fbbf24','#e879f9'];
-  document.addEventListener('keydown', function (e) {
-    if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-    buf = (buf + e.key).slice(-4).toLowerCase();
-    if (buf === 'asad') {
-      buf = '';
-      for (var i = 0; i < 28; i++) {
-        (function (j) {
-          setTimeout(function () {
-            var p = document.createElement('span');
-            p.className = 'confetti-piece';
-            var angle = (j / 28) * 360;
-            var dist  = 20 + Math.random() * 30; // vw
-            p.style.cssText =
-              'left:' + (50 + Math.cos(angle * Math.PI/180) * dist) + 'vw;' +
-              'top:'  + (50 + Math.sin(angle * Math.PI/180) * 15) + 'vh;' +
-              'background:' + colors[j % colors.length] + ';' +
-              'animation-duration:' + (0.8 + Math.random() * 0.6) + 's;';
-            document.body.appendChild(p);
-            p.addEventListener('animationend', function () { p.remove(); });
-          }, j * 25);
-        })(i);
-      }
-      window.showToast('👋 hey asad!', 2000);
-    }
+  // ── DEMO-404 ERROR POPUP ──────────────────────────────
+  var card404  = document.getElementById('demo-404-card');
+  var popup    = document.getElementById('error-popup');
+  var timerBar = document.getElementById('error-timer-fill');
+  if (!card404 || !popup) return;
+
+  var popupTimer = null;
+
+  card404.addEventListener('click', function () {
+    // Reset any existing timer
+    clearTimeout(popupTimer);
+    popup.classList.remove('visible');
+    if (timerBar) timerBar.style.transition = 'none';
+
+    // Show on next frame so transition triggers cleanly
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        popup.classList.add('visible');
+        // Animate timer bar draining over 3 seconds
+        if (timerBar) {
+          timerBar.style.transition = 'none';
+          timerBar.style.transform  = 'scaleX(1)';
+          requestAnimationFrame(function () {
+            timerBar.style.transition = 'transform 3s linear';
+            timerBar.style.transform  = 'scaleX(0)';
+          });
+        }
+        // Auto-dismiss after 3s
+        popupTimer = setTimeout(function () {
+          popup.classList.remove('visible');
+        }, 3000);
+      });
+    });
   });
 })();
 
