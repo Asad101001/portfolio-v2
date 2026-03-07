@@ -74,11 +74,11 @@ window.addEventListener('resize', function () {
   var nebulaA, nebulaB;
   function buildGradients() {
     nebulaA = ctx.createRadialGradient(W * 0.15, H * 0.3, 0, W * 0.15, H * 0.3, W * 0.45);
-    nebulaA.addColorStop(0, 'rgba(0,255,65,0.025)');
-    nebulaA.addColorStop(1, 'rgba(4,6,13,0)');
+    nebulaA.addColorStop(0, 'rgba(16,185,129,0.03)');
+    nebulaA.addColorStop(1, 'rgba(13,13,13,0)');
     nebulaB = ctx.createRadialGradient(W * 0.8, H * 0.6, 0, W * 0.8, H * 0.6, W * 0.38);
     nebulaB.addColorStop(0, 'rgba(168,85,247,0.02)');
-    nebulaB.addColorStop(1, 'rgba(4,6,13,0)');
+    nebulaB.addColorStop(1, 'rgba(13,13,13,0)');
   }
 
   // Dot grid drawn once to offscreen canvas
@@ -122,7 +122,7 @@ window.addEventListener('resize', function () {
   function draw() {
     if (!_heroVisible) return; // Skip when scrolled past hero
     tick += 0.007;
-    ctx.fillStyle = '#04060d';
+    ctx.fillStyle = '#0D0D0D';
     ctx.fillRect(0, 0, W, H);
     ctx.drawImage(dotCanvas, 0, 0);
     ctx.fillStyle = nebulaA; ctx.fillRect(0, 0, W, H);
@@ -157,29 +157,18 @@ window.addEventListener('resize', function () {
 
 
 /* ══════════════════════════════════════════════════════════
-   A1. HERO BACKDROP SHRINK — fixed image scales down, content covers it
+   A1. HERO BACKDROP — disabled (image removed, pure canvas bg)
    ══════════════════════════════════════════════════════════ */
 (function () {
   var backdrop = document.getElementById('hero-backdrop');
   var indicator = document.getElementById('scroll-indicator');
-  if (!backdrop) return;
-  var heroH = window.innerHeight;
+  if (backdrop) backdrop.style.display = 'none';
 
-  window.addEventListener('resize', function () { heroH = window.innerHeight; }, { passive: true });
-
-  _scrollTasks.push(function () {
-    // shrink goes 0→1 over the first 80% of viewport height
-    var shrink = Math.min(_scrollY / (heroH * 0.8), 1);
-    backdrop.style.setProperty('--shrink', shrink.toFixed(3));
-
-    // Fully hide once shrunk to avoid unnecessary rendering
-    backdrop.style.opacity = shrink >= 0.99 ? '0' : '1';
-
-    // Hide scroll indicator after a bit of scrolling
-    if (indicator) {
-      indicator.classList.toggle('hidden', _scrollY > 150);
-    }
-  });
+  if (indicator) {
+    window.addEventListener('scroll', function () {
+      indicator.classList.toggle('hidden', window.scrollY > 150);
+    }, { passive: true });
+  }
 })();
 
 
