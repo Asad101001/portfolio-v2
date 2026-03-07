@@ -1,0 +1,76 @@
+/* ============================================================
+   css/animations.css
+   All keyframes, section reveal, stagger, whimsy, responsive
+   ============================================================ */
+
+/* ── Section Reveal System ───────────────────────────────── */
+.section-in { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.section-in.in-view { opacity: 1; transform: translateY(0); }
+.section-in .s-child { opacity: 0; transform: translateY(18px); transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.section-in.in-view .s-child:nth-child(1)  { opacity:1; transform:none; transition-delay:0.08s; }
+.section-in.in-view .s-child:nth-child(2)  { opacity:1; transform:none; transition-delay:0.16s; }
+.section-in.in-view .s-child:nth-child(3)  { opacity:1; transform:none; transition-delay:0.24s; }
+.section-in.in-view .s-child:nth-child(4)  { opacity:1; transform:none; transition-delay:0.32s; }
+.section-in.in-view .s-child:nth-child(5)  { opacity:1; transform:none; transition-delay:0.40s; }
+.section-in.in-view .s-child:nth-child(n+6){ opacity:1; transform:none; transition-delay:0.48s; }
+
+/* ── Whimsy Elements ─────────────────────────────────────── */
+.faller { position: fixed; top: -2rem; pointer-events: none; z-index: 9999; font-family: 'JetBrains Mono', monospace; font-weight: 600; opacity: 0; animation: fall-down linear forwards; user-select: none; }
+@keyframes fall-down { 0% { opacity: 0; transform: translateY(0) rotate(0deg); } 8% { opacity: 0.9; } 85% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(105vh) rotate(360deg); } }
+.hero-spark { position: absolute; pointer-events: none; z-index: 9998; font-size: 0.7rem; color: var(--cyan); animation: spark-float 1.6s ease-out forwards; user-select: none; }
+@keyframes spark-float { 0% { opacity: 0.9; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-28px) scale(0.5); } }
+.shooting-star { position: fixed; top: 0; left: 0; width: 2px; height: 2px; border-radius: 50%; background: white; pointer-events: none; z-index: 0; animation: shoot 1.8s ease-out forwards; }
+.shooting-star::after { content: ''; position: absolute; top: 50%; left: 0; width: 100px; height: 1px; background: linear-gradient(to left, rgba(255,255,255,0.45), transparent); transform: translateY(-50%); }
+@keyframes shoot { 0% { opacity: 1; transform: translate(0,0) rotate(-35deg); } 100% { opacity: 0; transform: translate(-500px, 350px) rotate(-35deg); } }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  section { padding: 60px 14px; }
+  .section-inner { padding: 0; }
+  nav { top: 8px; padding: 0 10px; }
+  .nav-inner { padding: 8px 14px; border-radius: 16px; }
+  .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 12px; }
+  .hero-main, .hero-side,
+  .hero-grid .glass-card:nth-child(n) { grid-column: 1 !important; grid-row: auto !important; }
+  .hero-main  { padding: 28px 22px; }
+  .hero-name  { font-size: clamp(2rem, 8vw, 3rem); }
+  .about-grid { grid-template-columns: 1fr; gap: 14px; }
+  .about-stats-col { flex-direction: row; gap: 10px; }
+  .about-stat-card { flex: 1; padding: 14px 10px; }
+  .about-text { padding: 22px 20px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 14px; }
+  .demo-grid { grid-template-columns: 1fr; gap: 14px; }
+  .demo-404 { grid-column: 1; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
+  .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+  .contact-wrap { padding: 24px 20px; }
+  .social-cards-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  #section-dots { display: none; }
+  #back-to-top  { right: 16px; bottom: 72px; }
+  #feedback-btn { right: 16px; bottom: 20px; }
+  .hero-orb { display: none; }
+  .faller, .hero-spark { display: none; }
+}
+@media (max-width: 420px) {
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-linkedin, .btn-secondary { width: 100%; justify-content: center; }
+  .social-cards-grid { grid-template-columns: 1fr; }
+  .about-stats-col { flex-direction: column; }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .social-cards-grid { grid-template-columns: repeat(3,1fr); }
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+}
+@supports (padding: env(safe-area-inset-left)) {
+  nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  #feedback-btn { bottom: max(20px, env(safe-area-inset-bottom)); }
+  #back-to-top  { bottom: max(72px, calc(env(safe-area-inset-bottom) + 52px)); }
+}
+@media (hover: none) {
+  .glass-card:hover { transform: none; }
+  .social-card:hover { transform: none; }
+  .project-card:hover .proj-img { transform: none; }
+}
+
+/* ── Image transitions ───────────────────────────────────── */
+img { transition: opacity 0.3s ease; }

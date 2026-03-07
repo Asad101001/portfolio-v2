@@ -19,14 +19,28 @@
 
 <body>
 
-  <!-- LOADING SCREEN -->
+  <!-- LOADING SCREEN — 3D Intro -->
   <div id="loading-screen">
     <div class="loading-inner">
-      <svg class="loading-gear" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-      <div class="loading-name">Asad<span class="loading-dot"></span></div>
+      <!-- 3D Cube -->
+      <div class="intro-cube-wrap">
+        <div class="intro-cube-face front">{ }</div>
+        <div class="intro-cube-face back">&lt;/&gt;</div>
+        <div class="intro-cube-face left">λ</div>
+        <div class="intro-cube-face right">⚡</div>
+        <div class="intro-cube-face top">#</div>
+        <div class="intro-cube-face bottom">∞</div>
+        <!-- Orbiting rings -->
+        <div class="intro-ring"></div>
+        <div class="intro-ring-2"></div>
+      </div>
+      <!-- Name & tag -->
+      <div class="loading-name">Muhammad Asad Khan</div>
+      <div class="loading-tagline">Cloud · AI · Dev</div>
+      <!-- Progress bar -->
+      <div class="loading-bar-wrap">
+        <div class="loading-bar-fill"></div>
+      </div>
     </div>
   </div>
 
@@ -1298,6 +1312,12 @@
     <strong>&lt;/Asad&gt;</strong> &mdash; Built with curiosity &amp; caffeine &middot; Karachi, Pakistan &middot; 2025
   </footer>
 
+  <!-- Core: globals + rAF loop (must be first) -->
   <script src="app.js"></script>
+  <!-- Modules -->
+  <script src="js/modules/loader.js"></script>
+  <script src="js/modules/canvas.js"></script>
+  <script src="js/modules/ui.js"></script>
+  <script src="js/modules/widgets.js"></script>
 </body>
 </html>

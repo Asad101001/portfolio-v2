@@ -1,0 +1,229 @@
+/* ============================================================
+   PORTFOLIO — css/base.css
+   Reset, variables, fonts, loading screen, selection, links
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Reset & Box Sizing ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── CSS Custom Properties ──────────────────────────────── */
+:root {
+  --cyan:      #10B981;
+  --lime:      #ADFF2F;
+  --purple:    #a855f7;
+  --orange:    #f97316;
+  --bg:        #0D0D0D;
+  --bg2:       #050505;
+  --surface:   rgba(13,13,13,0.75);
+  --border:    rgba(16,185,129,0.1);
+  --border-h:  rgba(16,185,129,0.35);
+  --text:      #e2e8f0;
+  --text-muted:#71717a;
+  --text-dim:  #3f3f46;
+  --radius:    4px;
+  --radius-lg: 4px;
+  --star-color: rgba(255,255,255,0.7);
+}
+
+/* ── Scroll Behaviour ───────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: #0D0D0D;
+  background-image:
+    radial-gradient(circle at 50% 0%,   rgba(16,185,129,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(173,255,47,0.015) 0%, transparent 40%);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Selection ──────────────────────────────────────────── */
+::selection { background: rgba(16,185,129,0.3); color: #ADFF2F; }
+
+/* ── Links ──────────────────────────────────────────────── */
+a { text-decoration: none; color: inherit; }
+
+/* ── Loading Screen ─────────────────────────────────────── */
+#loading-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #050505;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+#loading-screen.hidden {
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* ── 3D Intro / Loading Inner ─────────────────────────────
+   The .loading-inner holds the 3D "in-touch" scene.
+   JS drives the animation phases with classes.
+   ─────────────────────────────────────────────────────── */
+.loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  perspective: 900px;
+  perspective-origin: 50% 45%;
+  position: relative;
+  width: 320px;
+}
+
+/* 3-D Cube / Sphere hybrid */
+.intro-cube-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  transform-style: preserve-3d;
+  animation: cube-rotate 4s linear infinite;
+  margin-bottom: 32px;
+}
+@keyframes cube-rotate {
+  0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg); }
+  33%  { transform: rotateX(120deg) rotateY(60deg)  rotateZ(10deg); }
+  66%  { transform: rotateX(240deg) rotateY(120deg) rotateZ(-10deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(0deg); }
+}
+.intro-cube-face {
+  position: absolute;
+  width: 100px; height: 100px;
+  border: 1.5px solid rgba(16,185,129,0.35);
+  background: rgba(16,185,129,0.04);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  color: rgba(16,185,129,0.8);
+  box-shadow: inset 0 0 20px rgba(16,185,129,0.08), 0 0 20px rgba(16,185,129,0.06);
+}
+.intro-cube-face.front  { transform: translateZ(50px); }
+.intro-cube-face.back   { transform: rotateY(180deg) translateZ(50px); }
+.intro-cube-face.left   { transform: rotateY(-90deg) translateZ(50px); }
+.intro-cube-face.right  { transform: rotateY(90deg) translateZ(50px); }
+.intro-cube-face.top    { transform: rotateX(90deg) translateZ(50px); }
+.intro-cube-face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+/* Orbiting ring around the cube */
+.intro-ring {
+  position: absolute;
+  width: 160px; height: 160px;
+  top: 50%; left: 50%;
+  margin: -80px 0 0 -80px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,0.18);
+  animation: ring-spin 3s linear infinite;
+  transform-style: preserve-3d;
+}
+@keyframes ring-spin {
+  from { transform: rotateX(70deg) rotateZ(0deg); }
+  to   { transform: rotateX(70deg) rotateZ(360deg); }
+}
+.intro-ring::before {
+  content: '';
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--cyan);
+  border-radius: 50%;
+  top: -4px; left: 50%; margin-left: -4px;
+  box-shadow: 0 0 12px var(--cyan);
+}
+.intro-ring-2 {
+  position: absolute;
+  width: 200px; height: 200px;
+  top: 50%; left: 50%;
+  margin: -100px 0 0 -100px;
+  border-radius: 50%;
+  border: 0.8px solid rgba(168,85,247,0.12);
+  animation: ring-spin 5s linear infinite reverse;
+  transform-style: preserve-3d;
+}
+@keyframes ring-spin-slow {
+  from { transform: rotateX(50deg) rotateZ(0deg); }
+  to   { transform: rotateX(50deg) rotateZ(360deg); }
+}
+.intro-ring-2::before {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+  background: #a855f7;
+  border-radius: 50%;
+  bottom: -3px; left: 50%; margin-left: -3px;
+  box-shadow: 0 0 10px #a855f7;
+}
+
+/* Name & tagline */
+.loading-name {
+  font-size: 1.5rem; font-weight: 800; color: rgba(255,255,255,0.9);
+  letter-spacing: -0.01em; font-family: 'Space Grotesk', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #fff 0%, #e2e8f0 40%, #10B981 80%, #ADFF2F 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: name-gradient-pulse 2s ease-in-out infinite;
+}
+@keyframes name-gradient-pulse {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.loading-tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--cyan);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0;
+  animation: fade-in-up 0.6s ease 0.5s forwards;
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Progress bar at bottom of loader */
+.loading-bar-wrap {
+  width: 160px;
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px;
+  margin-top: 28px;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--lime));
+  border-radius: 99px;
+  animation: bar-fill 0.8s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+}
+@keyframes bar-fill {
+  to { width: 100%; }
+}
+
+/* Floating particles around loader */
+.loading-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-particle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+@keyframes float-particle {
+  from { transform: translate(0, 0) scale(1); opacity: var(--a1, 0.4); }
+  to   { transform: translate(var(--tx, 20px), var(--ty, -20px)) scale(1.4); opacity: var(--a2, 0.1); }
+}
