@@ -166,27 +166,43 @@
    MARQUEE — Full-width, edge-to-edge, centered
    ──────────────────────────────────────────────────────── */
 
-/* Tech section: center children */
+/* Tech section: stretch inner container edge-to-edge */
 #tech .section-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Remove any max-width cap so marquee can go full-bleed */
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
 }
 
-/* The glass-card wrapper takes full width, no side padding */
+/* Header text can stay centred with its own padding */
+#tech .section-header {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* The glass-card wrapper: full viewport width, no internal side padding */
 .marquee-wrap {
-  width: 100%;
+  width: 100vw;
+  max-width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
-  padding: 24px 0 !important; /* strip side padding — lanes go wall-to-wall */
+  padding: 24px 0 !important;
   position: relative;
+  border-radius: 0 !important;   /* no rounded corners when full-bleed */
+  /* keep the glass border only top/bottom */
+  border-left: none !important;
+  border-right: none !important;
 }
 
-/* Fade overlays still work */
+/* Fade overlays */
 .marquee-fade-l { left: 0;  background: linear-gradient(to right, rgba(4,6,13,0.95), transparent); }
 .marquee-fade-r { right: 0; background: linear-gradient(to left,  rgba(4,6,13,0.95), transparent); }
 
-/* Row container: full width, no clip */
+/* Row container: full width */
 .marquee-rows {
   width: 100%;
   overflow: visible;
@@ -208,6 +224,10 @@
 .export-tech-marquee-lane--reverse {
   animation: marquee-rev 26s linear infinite;
 }
+
+/* Chip hover isolation — only hovered chip expands */
+.skill-chip { isolation: isolate; z-index: 0; overflow: hidden; }
+.skill-chip:hover { z-index: 2; overflow: visible; }
 
 /* Chip hover isolation — only hovered chip expands */
 .skill-chip { isolation: isolate; z-index: 0; overflow: hidden; }

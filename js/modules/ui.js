@@ -388,27 +388,65 @@ document.addEventListener('keydown', function (e) {
   fills.forEach(function (f) { f.style.width = '0%'; f.style.transition = 'none'; });
 })();
 
-/* ── Experience Accordion ───────────────────────────────── */
+/* ── Experience Accordion + Error Popup ─────────────────── */
 (function () {
-  var toggleBtn = document.getElementById('experience-toggle');
-  var content   = document.getElementById('demo-content');
+  var toggleBtn  = document.getElementById('experience-toggle');
+  var content    = document.getElementById('demo-content');
+  var popup      = document.getElementById('error-popup');
+  var timerFill  = document.getElementById('error-timer-fill');
   if (!toggleBtn || !content) return;
-  var arrow = toggleBtn.querySelector('.exp-toggle-arrow');
-  var isOpen = false;
 
+  var arrow  = toggleBtn.querySelector('.exp-toggle-arrow');
+  var isOpen = false;
+  var popupTimer = null;
+
+  /* ── shared helper: show the error popup ── */
+  function showErrorPopup() {
+    if (!popup) return;
+    // Reset timer bar
+    if (timerFill) {
+      timerFill.style.transition = 'none';
+      timerFill.style.transform  = 'scaleX(1)';
+    }
+    popup.setAttribute('aria-hidden', 'false');
+    popup.classList.add('visible');
+
+    // Animate timer bar draining over 4 s
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        if (timerFill) {
+          timerFill.style.transition = 'transform 4s linear';
+          timerFill.style.transform  = 'scaleX(0)';
+        }
+      });
+    });
+
+    // Auto-dismiss
+    clearTimeout(popupTimer);
+    popupTimer = setTimeout(function () {
+      popup.classList.remove('visible');
+      popup.setAttribute('aria-hidden', 'true');
+    }, 4200);
+  }
+
+  /* ── accordion toggle ── */
   toggleBtn.addEventListener('click', function () {
     isOpen = !isOpen;
     content.classList.toggle('demo-content-open', isOpen);
     toggleBtn.classList.toggle('open', isOpen);
     if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
 
-    // Trigger progress bars when accordion opens
+    // Animate progress bars when opening
     if (isOpen) {
       setTimeout(function () {
         content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
+          f.style.transition = ''; // restore CSS transition
           f.style.width = f.getAttribute('data-w') || '0%';
         });
       }, 80);
+
+      // Fire the error popup every time the accordion is opened
+      setTimeout(showErrorPopup, 400);
     }
   });
 })();

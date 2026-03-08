@@ -26,10 +26,10 @@
             <div class="intro-cube-wrap">
                 <div class="intro-cube-face front">{ }</div>
                 <div class="intro-cube-face back">&lt;/&gt;</div>
-                <div class="intro-cube-face left">\u03bb</div>
-                <div class="intro-cube-face right">\u26a1</div>
+                <div class="intro-cube-face left">λ</div>
+                <div class="intro-cube-face right">⚡</div>
                 <div class="intro-cube-face top">#</div>
-                <div class="intro-cube-face bottom">\u221e</div>
+                <div class="intro-cube-face bottom">∞</div>
                 <div class="intro-ring"></div>
                 <div class="intro-ring-2"></div>
             </div>
@@ -858,7 +858,7 @@
 
 
     <div class="section-divider"></div>
-    <!-- EXPERIENCE SECTION \u2014 with accordion toggle -->
+    <!-- EXPERIENCE SECTION — with accordion toggle -->
     <section id="demo" class="section-in">
         <div class="section-inner">
             <div class="section-header centered">
@@ -866,21 +866,21 @@
                 <h2 class="section-title" style="text-align:center">Experience</h2>
                 <p class="section-sub">Where I've spent my time, energy, and sanity.</p>
             </div>
-
+    
             <!-- Accordion toggle button -->
             <div style="display:flex;justify-content:center;">
                 <button id="experience-toggle">
                     View Experience
-                    <span class="exp-toggle-arrow">\u25bc</span>
+                    <span class="exp-toggle-arrow">▼</span>
                 </button>
             </div>
-
+    
             <!-- Collapsible content -->
             <div id="demo-content">
                 <div class="demo-grid">
-
+    
                     <div class="glass-card demo-card reveal">
-                        <span class="demo-emoji">\ud83d\udcca</span>
+                        <span class="demo-emoji">📊</span>
                         <h3>Actual Skill Distribution</h3>
                         <p style="margin-bottom:14px">Based on hours spent vs. hours productive</p>
                         <div class="demo-progress-fake">
@@ -916,9 +916,9 @@
                             </div>
                         </div>
                     </div>
-
+    
                     <div class="glass-card demo-card reveal">
-                        <span class="demo-emoji">\u2b50</span>
+                        <span class="demo-emoji">⭐</span>
                         <h3>Testimonials</h3>
                         <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
                             <div
@@ -926,36 +926,26 @@
                                 <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"He once spent 3
                                     hours debugging a
                                     missing semicolon. Growth."</p>
-                                <span style="font-size:0.68rem;color:var(--text-dim)">\u2014 Claude, probably </span>
-                                <div class="demo-stars">\u2605\u2605\u2605\u2605\u2606</div>
+                                <span style="font-size:0.68rem;color:var(--text-dim)">— Claude, probably </span>
+                                <div class="demo-stars">★★★★☆</div>
                             </div>
                             <div
                                 style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
                                 <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"Works perfectly.
                                     On my machine.
                                     Every time."</p>
-                                <span style="font-size:0.68rem;color:var(--text-dim)">\u2014 localhost:5000</span>
-                                <div class="demo-stars">\u2605\u2605\u2605\u2605\u2605</div>
+                                <span style="font-size:0.68rem;color:var(--text-dim)">— localhost:5000</span>
+                                <div class="demo-stars">★★★★★</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="glass-card demo-404 reveal" id="demo-404-card">
-                        <div class="demo-404-corner tl"></div>
-                        <div class="demo-404-corner br"></div>
-                        <div class="demo-big">404</div>
-                        <h3>Experience Not Found</h3>
-                        <p>You scrolled all the way down here looking for any hints of past experience, good luck on
-                            finding it!</p>
-                        <span class="demo-404-hint">click to trigger exception</span>
-                    </div>
-
+    
                 </div>
             </div><!-- /#demo-content -->
         </div>
     </section>
-
-    <!-- ERROR POPUP -->
+    
+    <!-- ERROR POPUP — triggered by #experience-toggle click -->
     <div id="error-popup" class="error-popup" aria-hidden="true">
         <div class="error-popup-bar">
             <span class="error-popup-trafficlight red"></span>
@@ -964,23 +954,25 @@
             <span class="error-popup-title">runtime_exception.log</span>
         </div>
         <div class="error-popup-body">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                style="flex-shrink:0;margin-top:2px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
             <div>
                 <p class="error-popup-msg">ExperienceNotFoundException</p>
-                <p class="error-popup-trace">at Portfolio.getWorkHistory() \u2192 line 404</p>
-                <p class="error-popup-trace" style="opacity:0.5">No prior employment records found in scope.</p>
+                <p class="error-popup-trace">at Portfolio.getWorkHistory() → line 404</p>
+                <p class="error-popup-trace">at #experience-toggle :: click handler</p>
+                <p class="error-popup-trace" style="opacity:0.5">Experience Not Found — you scrolled all the way
+                    down here looking for hints of past experience. Good luck finding it.</p>
             </div>
         </div>
         <div class="error-popup-timer">
             <div class="error-popup-timer-fill" id="error-timer-fill"></div>
         </div>
     </div>
+
 
 
     <div class="section-divider"></div>
