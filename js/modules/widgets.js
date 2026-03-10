@@ -54,7 +54,8 @@
 
   /* ── FC Barcelona Live Score via ESPN ── */
   var barcaScoreEl = document.getElementById('barca-score');
-  var barcaItem    = document.querySelector('.rotating-item[data-index="2"]');
+  var barcaItem = document.querySelector('.rotating-item[data-index="2"]');
+  if (barcaItem) barcaItem.classList.add('barca-slot');
   if (!barcaScoreEl && !barcaItem) return;
 
   function setBarcaDisplay(scoreText, isLive) {
@@ -62,9 +63,14 @@
     if (valEl && scoreText) valEl.textContent = scoreText;
 
     if (!barcaItem) return;
-    // Remove old live badge first
+
+    /* Remove old live badge */
     var oldBadge = barcaItem.querySelector('.barca-live-badge');
     if (oldBadge) oldBadge.remove();
+
+    /* .barca-slot is a permanent CSS class for blaugrana styling
+       regardless of live status. It should always be present. */
+    barcaItem.classList.add('barca-slot');
 
     if (isLive) {
       barcaItem.classList.add('barca-live');
@@ -77,7 +83,6 @@
       barcaItem.classList.remove('barca-live');
     }
   }
-
   fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83/schedule?limit=5')
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (data) {

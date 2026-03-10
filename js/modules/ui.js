@@ -237,37 +237,82 @@
   });
 })();
 
-/* ── Rotating Widget ────────────────────────────────────── */
+/* ── Rotating Widget — smooth directional animation ─────── */
 (function () {
-  var widget = document.getElementById('rotating-widget');
+  var widget   = document.getElementById('rotating-widget');
   var dotsWrap = document.getElementById('rotating-dots');
   if (!widget || !dotsWrap) return;
-  var items = widget.querySelectorAll('.rotating-item');
-  var dots  = dotsWrap.querySelectorAll('.r-dot');
-  var current = 0, timer;
+
+  var items   = widget.querySelectorAll('.rotating-item');
+  var dots    = dotsWrap.querySelectorAll('.r-dot');
+  var current = 0;
+  var timer;
+  var isAnimating = false;
+
+  /* Mark the football slot permanently so CSS can target it */
+  items.forEach(function (item) {
+    if (item.getAttribute('data-index') === '2') {
+      item.classList.add('barca-slot');
+    }
+  });
+
   function show(index) {
-  items.forEach(function (item) { item.classList.remove('active'); });
-  dots.forEach(function (dot) { dot.classList.remove('active'); });
-  items[index].classList.add('active');
-  dots[index].classList.add('active');
-  current = index;
-  // Blaugrana mode when football slot (index 2) is active
-  if (index === 2) {
-    dotsWrap.classList.add('barca-active');
-    widget.classList.add('football-active');
-  } else {
-    dotsWrap.classList.remove('barca-active');
-    widget.classList.remove('football-active');
+    if (isAnimating || index === current) return;
+    isAnimating = true;
+
+    var outItem = items[current];
+    var inItem  = items[index];
+
+    /* Exit: add class that slides current item OUT upward */
+    outItem.classList.add('exit-up');
+    outItem.classList.remove('active');
+
+    /* Clean up exit class after transition */
+    outItem.addEventListener('transitionend', function cleanup() {
+      outItem.removeEventListener('transitionend', cleanup);
+      outItem.classList.remove('exit-up');
+      isAnimating = false;
+    }, { once: true });
+
+    /* Enter: make new item active (CSS transition handles the rest) */
+    setTimeout(function () {
+      inItem.classList.add('active');
+    }, 60); /* tiny delay so exit starts first */
+
+    /* Dots */
+    dots.forEach(function (d) { d.classList.remove('active'); });
+    dots[index].classList.add('active');
+
+    current = index;
+
+    /* Blaugrana activation */
+    if (index === 2) {
+      dotsWrap.classList.add('barca-active');
+      widget.classList.add('football-active');
+    } else {
+      dotsWrap.classList.remove('barca-active');
+      widget.classList.remove('football-active');
+    }
   }
+
+  /* Auto-rotate */
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(function () {
+      show((current + 1) % items.length);
+    }, 4500);
   }
-  timer = setInterval(function () { show((current + 1) % items.length); }, 4000);
+
+  /* Dot click */
   dots.forEach(function (dot) {
     dot.addEventListener('click', function () {
       clearInterval(timer);
       show(parseInt(dot.getAttribute('data-i'), 10));
-      timer = setInterval(function () { show((current + 1) % items.length); }, 4000);
+      startTimer();
     });
   });
+
+  startTimer();
 })();
 
 /* ── Toast ──────────────────────────────────────────────── */
@@ -341,35 +386,19 @@ document.addEventListener('keydown', function (e) {
   });
 })();
 
-/* ── Skill Chip Effects — NO falling icons, reduced particles ── */
+/* ── Skill Chip Effects — hover expand only, no particles ── */
 (function () {
-  if (window._isMobile) return;
-  var chips = document.querySelectorAll('.skill-chip');
-  chips.forEach(function (chip, i) {
-    if (i % 4 === 0) { chip.classList.add('pulsing'); chip.style.animationDelay = (Math.random() * 3) + 's'; }
-  });
+  /* Pause marquee when tech section scrolls out of view */
   var techSection = document.getElementById('tech');
   if (techSection && window.IntersectionObserver) {
     var lanes = techSection.querySelectorAll('.export-tech-marquee-lane');
     new IntersectionObserver(function (entries) {
       var visible = entries[0].isIntersecting;
-      lanes.forEach(function (lane) { lane.style.animationPlayState = visible ? 'running' : 'paused'; });
-    }, { threshold: 0, rootMargin: '100px 0px 100px 0px' }).observe(techSection);
+      lanes.forEach(function (lane) {
+        lane.style.animationPlayState = visible ? 'running' : 'paused';
+      });
+    }, { threshold: 0.05 }).observe(techSection);
   }
-  // Reduced particles — subtle, no confetti
-  var wrap = document.querySelector('.marquee-wrap');
-  if (!wrap) return;
-  var pColors = ['var(--cyan)', '#a855f7', 'rgba(255,255,255,0.3)'];
-  function spawnParticle() {
-    var p = document.createElement('div');
-    p.className = 'marquee-particle';
-    p.style.cssText = 'left:' + (5 + Math.random() * 90) + '%;bottom:0;background:' + pColors[Math.floor(Math.random() * pColors.length)] + ';animation-duration:' + (2.5 + Math.random() * 3) + 's;animation-delay:' + (Math.random() * 2) + 's;width:' + (2 + Math.random() * 2) + 'px;height:' + (2 + Math.random() * 2) + 'px;';
-    wrap.appendChild(p);
-    p.addEventListener('animationend', function () { p.remove(); });
-  }
-  // Very reduced interval — 1 particle per 1200ms instead of 600ms
-  setInterval(spawnParticle, 1200);
-  for (var i = 0; i < 2; i++) setTimeout(spawnParticle, i * 400);
 })();
 
 /* ── Whimsy: Hero Sparks only ───────────────────────────── */
