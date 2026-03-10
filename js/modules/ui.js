@@ -246,11 +246,19 @@
   var dots  = dotsWrap.querySelectorAll('.r-dot');
   var current = 0, timer;
   function show(index) {
-    items.forEach(function (item) { item.classList.remove('active'); });
-    dots.forEach(function (dot) { dot.classList.remove('active'); });
-    items[index].classList.add('active');
-    dots[index].classList.add('active');
-    current = index;
+  items.forEach(function (item) { item.classList.remove('active'); });
+  dots.forEach(function (dot) { dot.classList.remove('active'); });
+  items[index].classList.add('active');
+  dots[index].classList.add('active');
+  current = index;
+  // Blaugrana mode when football slot (index 2) is active
+  if (index === 2) {
+    dotsWrap.classList.add('barca-active');
+    widget.classList.add('football-active');
+  } else {
+    dotsWrap.classList.remove('barca-active');
+    widget.classList.remove('football-active');
+  }
   }
   timer = setInterval(function () { show((current + 1) % items.length); }, 4000);
   dots.forEach(function (dot) {

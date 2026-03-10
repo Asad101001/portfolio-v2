@@ -7,8 +7,7 @@
     <title>Asad's Portfolio</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
-    <meta name="description"
-        content="Muhammad Asad Khan \u2014 CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
+    <meta name="description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
     <meta name="robots" content="index,follow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +19,10 @@
 
 <body>
 
-    <!-- LOADING SCREEN \u2014 3D Intro -->
+    <!-- ════════════════════════════════════════════
+         LOADING SCREEN — 3D Intro
+         components/loading-screen.html
+    ════════════════════════════════════════════ -->
     <div id="loading-screen">
         <div class="loading-inner">
             <div class="intro-cube-wrap">
@@ -34,12 +36,20 @@
                 <div class="intro-ring-2"></div>
             </div>
             <div class="loading-name">Muhammad Asad Khan</div>
-            <div class="loading-tagline">Cloud \u00b7 AI \u00b7 Dev</div>
+            <div class="loading-tagline">Cloud · AI · Dev</div>
             <div class="loading-bar-wrap">
                 <div class="loading-bar-fill"></div>
             </div>
         </div>
     </div>
+
+    <!-- ════════════════════════════════════════════
+         OVERLAYS — utility UI layers
+         Includes: scroll-progress, cursor-glow, toast,
+         bg-canvas, back-to-top, feedback btn + modal,
+         certifications drawer, error popup
+         components/overlays.html
+    ════════════════════════════════════════════ -->
 
     <div id="scroll-progress"></div>
     <div id="cursor-glow"></div>
@@ -76,18 +86,18 @@
         <div id="feedback-modal">
             <button id="feedback-close" aria-label="Close feedback">&#x2715;</button>
             <div class="feedback-header">
-                <div class="feedback-icon">&#x1F4AC;</div>
+                <div class="feedback-icon">💬</div>
                 <h3>Leave Feedback</h3>
-                <p>How's the portfolio? Be honest \u2014 I can take it.</p>
+                <p>How's the portfolio? Be honest — I can take it.</p>
             </div>
             <div class="feedback-rating" id="feedback-rating">
-                <button class="rating-btn" data-val="1" title="Terrible">&#x1F621;</button>
-                <button class="rating-btn" data-val="2" title="Meh">&#x1F615;</button>
-                <button class="rating-btn" data-val="3" title="Okay">&#x1F610;</button>
-                <button class="rating-btn" data-val="4" title="Good">&#x1F60A;</button>
-                <button class="rating-btn" data-val="5" title="Amazing!">&#x1F929;</button>
+                <button class="rating-btn" data-val="1" title="Terrible">😡</button>
+                <button class="rating-btn" data-val="2" title="Meh">😕</button>
+                <button class="rating-btn" data-val="3" title="Okay">😐</button>
+                <button class="rating-btn" data-val="4" title="Good">😊</button>
+                <button class="rating-btn" data-val="5" title="Amazing!">🤩</button>
             </div>
-            <textarea id="feedback-text" placeholder="Say something\u2026 good or bad, I read every one."
+            <textarea id="feedback-text" placeholder="Say something… good or bad, I read every one."
                 rows="4"></textarea>
             <button id="feedback-submit" class="btn-primary feedback-submit-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -98,7 +108,7 @@
                 Send Feedback
             </button>
             <div id="feedback-success" class="feedback-success" style="display:none">
-                <div class="feedback-success-icon">&#x2728;</div>
+                <div class="feedback-success-icon">✨</div>
                 <p>Thanks! I'll check it out.</p>
             </div>
         </div>
@@ -115,7 +125,7 @@
                 <div class="cert-card">
                     <div class="cert-thumb">
                         <img src="public/certs/google-agile.png" alt="Google Agile Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'&#x1F504;'}))" />
+                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🔄'}))" />
                     </div>
                     <p class="cert-title">Google Agile Essentials</p>
                     <p class="cert-issuer">Google</p>
@@ -130,7 +140,7 @@
                 <div class="cert-card">
                     <div class="cert-thumb">
                         <img src="public/certs/google-ai.png" alt="Google AI Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'&#x1F916;'}))" />
+                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🤖'}))" />
                     </div>
                     <p class="cert-title">Google AI Essentials</p>
                     <p class="cert-issuer">Google</p>
@@ -147,7 +157,7 @@
                 <div class="cert-card">
                     <div class="cert-thumb">
                         <img src="public/certs/google-prompt.png" alt="Google Prompting Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'&#x1F4AC;'}))" />
+                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'💬'}))" />
                     </div>
                     <p class="cert-title">Google Prompting Essentials</p>
                     <p class="cert-issuer">Google</p>
@@ -162,7 +172,7 @@
                 <div class="cert-card">
                     <div class="cert-thumb">
                         <img src="public/certs/ned-ds.png" alt="Certified Data Scientist"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'&#x1F4CA;'}))" />
+                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'📊'}))" />
                     </div>
                     <p class="cert-title">Certified Data Scientist</p>
                     <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
@@ -180,7 +190,7 @@
                 </div>
                 <div class="cert-card cert-card--ongoing">
                     <div class="cert-thumb cert-thumb--placeholder">
-                        <span class="cert-placeholder-icon">&#x2601;</span>
+                        <span class="cert-placeholder-icon">☁</span>
                     </div>
                     <p class="cert-title">Cloud Computing</p>
                     <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
@@ -196,7 +206,7 @@
                 </div>
                 <div class="cert-card cert-card--ongoing">
                     <div class="cert-thumb cert-thumb--placeholder">
-                        <span class="cert-placeholder-icon">&#x1F9E0;</span>
+                        <span class="cert-placeholder-icon">🧠</span>
                     </div>
                     <p class="cert-title">Generative AI Training Cohort 2</p>
                     <p class="cert-issuer">Higher Education Commission (HEC) Pakistan</p>
@@ -214,8 +224,39 @@
         </div>
     </div>
 
+    <!-- ERROR POPUP — triggered by #experience-toggle click -->
+    <div id="error-popup" class="error-popup" aria-hidden="true">
+        <div class="error-popup-bar">
+            <span class="error-popup-trafficlight red"></span>
+            <span class="error-popup-trafficlight yellow"></span>
+            <span class="error-popup-trafficlight green"></span>
+            <span class="error-popup-title">runtime_exception.log</span>
+        </div>
+        <div class="error-popup-body">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                style="flex-shrink:0;margin-top:2px">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <div>
+                <p class="error-popup-msg">ExperienceNotFoundException</p>
+                <p class="error-popup-trace">at Portfolio.getWorkHistory() → line 404</p>
+                <p class="error-popup-trace">at #experience-toggle :: click handler</p>
+                <p class="error-popup-trace" style="opacity:0.5">Experience Not Found — you scrolled all the way
+                    down here looking for hints of past experience. Good luck finding it.</p>
+            </div>
+        </div>
+        <div class="error-popup-timer">
+            <div class="error-popup-timer-fill" id="error-timer-fill"></div>
+        </div>
+    </div>
 
-    <!-- NAVIGATION -->
+    <!-- ════════════════════════════════════════════
+         NAVIGATION
+         components/nav.html
+    ════════════════════════════════════════════ -->
     <nav>
         <div class="nav-inner">
             <span class="nav-brand">Asad's Portfolio</span>
@@ -245,15 +286,17 @@
                     <a href="#projects">Projects</a>
                     <a href="#certifications">Certifications</a>
                     <a href="https://drive.google.com/uc?export=download&id=1gvB1-w130_q4dpVpGDjcB8WKm5Kd4qkq"
-                        download="Muhammad_Asad_Khan_Resume.pdf">Resume \u2193</a>
+                        download="Muhammad_Asad_Khan_Resume.pdf">Resume ↓</a>
                     <a href="#contact">Socials</a>
                 </div>
             </details>
         </div>
     </nav>
 
-
-    <!-- HERO -->
+    <!-- ════════════════════════════════════════════
+         HERO SECTION
+         components/hero.html
+    ════════════════════════════════════════════ -->
     <section id="hero">
         <div class="hero-backdrop" id="hero-backdrop">
             <img src="public/images/hero-bg.png" alt="" class="hero-backdrop-img" />
@@ -266,13 +309,14 @@
 
         <div class="hero-grid">
 
+            <!-- Main card -->
             <div class="card hero-main glass-card reveal" style="--delay:0ms">
                 <div class="status-pill">
                     <span class="status-dot"></span>
                     Building &amp; exploring
                 </div>
 
-                <!-- 3D Micro-Orb \u2014 just above the name -->
+                <!-- 3D Micro-Orb — just above the name -->
                 <div class="hero-name-3d-wrap" aria-hidden="true">
                     <div class="hero-micro-orb">
                         <div class="hero-micro-orb-inner"></div>
@@ -310,7 +354,7 @@
                         </svg>
                         LinkedIn
                     </a>
-                    <!-- \u2705 Plain mailto \u2014 no Cloudflare obfuscation -->
+                    <!-- Plain mailto — no obfuscation -->
                     <a href="mailto:muhammadasadk42@gmail.com" class="btn-secondary magnetic">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
@@ -322,6 +366,7 @@
                 </div>
             </div>
 
+            <!-- Terminal card -->
             <div class="card hero-side glass-card reveal" style="--delay:100ms">
                 <div class="terminal-bar">
                     <span class="t-dot t-red"></span>
@@ -337,28 +382,27 @@
                     <p class="t-line t-out">Cloud (AWS) &middot; AI/ML &middot; RAG</p>
                     <p class="t-line t-out">Networking &middot; Linux &middot; Web Dev</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">echo $LOCATION</span></p>
-                    <p class="t-line t-out">Karachi, Pakistan &#x1F1F5;&#x1F1F0;</p>
+                    <p class="t-line t-out">Karachi, Pakistan 🇵🇰</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">cat status.txt</span></p>
-                    <p class="t-line t-out" style="color:var(--cyan)">&#x1F7E2; Open to collabs &amp; internships</p>
+                    <p class="t-line t-out" style="color:var(--cyan)">🟢 Open to collabs &amp; internships</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">&#x25AE;</span></p>
                 </div>
             </div>
 
-            <!-- CURRENTLY INTO CARD \u2014 dynamic with media covers, separated from fun facts -->
+            <!-- Currently Into card — dynamic with media covers, separated from fun facts -->
             <div class="card glass-card reveal" style="--delay:200ms">
                 <p class="card-label">Currently Into</p>
 
-                <!-- Rotating items with media thumbnails -->
                 <div class="rotating-widget" id="rotating-widget">
 
                     <!-- Reading -->
                     <div class="rotating-item currently-into-item active" data-index="0">
                         <img id="reading-cover" class="currently-into-thumb" src="" alt="Book cover"
                             style="display:none" />
-                        <div id="reading-placeholder" class="currently-into-thumb-placeholder">\ud83d\udcd6</div>
+                        <div id="reading-placeholder" class="currently-into-thumb-placeholder">📖</div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Reading</span>
-                            <span class="rotating-value currently-into-value">1984 \u2014 George Orwell</span>
+                            <span class="rotating-value currently-into-value">1984 — George Orwell</span>
                         </div>
                     </div>
 
@@ -366,16 +410,16 @@
                     <div class="rotating-item currently-into-item" data-index="1">
                         <img id="watching-poster" class="currently-into-thumb" src="" alt="Show poster"
                             style="display:none" />
-                        <div id="watching-placeholder" class="currently-into-thumb-placeholder">\ud83d\udcfa</div>
+                        <div id="watching-placeholder" class="currently-into-thumb-placeholder">📺</div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Watching</span>
-                            <span class="rotating-value currently-into-value">The Pitt \u2014 HBO</span>
+                            <span class="rotating-value currently-into-value">The Pitt — HBO</span>
                         </div>
                     </div>
 
                     <!-- Football / Barca live score -->
                     <div class="rotating-item currently-into-item" data-index="2">
-                        <div class="currently-into-thumb-placeholder">\u26bd</div>
+                        <div class="currently-into-thumb-placeholder">⚽</div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Football</span>
                             <span class="rotating-value currently-into-value" id="barca-score">Enduring FC Barcelona's
@@ -391,14 +435,15 @@
                     <button class="r-dot" data-i="2"></button>
                 </div>
 
-                <!-- Fun facts \u2014 visually separated block -->
+                <!-- Fun facts — visually separated block -->
                 <div class="fun-facts fun-facts-block">
                     <div class="fun-fact-item">Bugs feared? 0. Bugs fixed? debatable.</div>
-                    <div class="fun-fact-item">Peak productivity: 11pm\u20133am</div>
+                    <div class="fun-fact-item">Peak productivity: 11pm–3am</div>
                     <div class="fun-fact-item">Reads docs... eventually</div>
                 </div>
             </div>
 
+            <!-- Build Focus card -->
             <div class="card glass-card reveal" style="--delay:300ms">
                 <p class="card-label">Build Focus</p>
                 <div class="focus-list">
@@ -431,7 +476,7 @@
                 </div>
             </div>
 
-            <!-- Availability card \u2014 plain email, no obfuscation -->
+            <!-- Availability card — plain email, no obfuscation -->
             <div class="card glass-card avail-card reveal" style="--delay:400ms">
                 <p class="card-label">Availability</p>
                 <p class="avail-text">Open for internships, part-time roles, and remote collaborations.</p>
@@ -465,9 +510,11 @@
         </div>
     </section>
 
-
+    <!-- ════════════════════════════════════════════
+         ABOUT SECTION
+         components/about.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- ABOUT -->
     <section id="about" class="section-in">
         <div class="ambient-glow"></div>
         <div class="section-inner">
@@ -483,10 +530,10 @@
                         I'm a Computer Science student at UBIT, University of Karachi '28, driven to explore
                         every corner of CS before settling on a specialty. So far I've covered Cloud Computing,
                         Networking, Web Dev, Data Science, Version Control, Project Management, Prompt Engineering,
-                        and AI \u2014 with lots more ahead.
+                        and AI — with lots more ahead.
                     </p>
                     <p style="margin-top:1rem">
-                        I learn by building. Every project is a live experiment \u2014 from AWS VPC architecture to
+                        I learn by building. Every project is a live experiment — from AWS VPC architecture to
                         RAG-powered LLM pipelines. My philosophy: build broken things, understand why they broke,
                         then spend ages unbreaking them.
                     </p>
@@ -537,7 +584,7 @@
                 </div>
                 <div class="working-on-grid stagger">
                     <div class="wip-card">
-                        <div class="wip-icon" style="background:rgba(0,255,65,0.1);color:var(--cyan)">&#x1F9E0;</div>
+                        <div class="wip-icon" style="background:rgba(0,255,65,0.1);color:var(--cyan)">🧠</div>
                         <div class="wip-info">
                             <p class="wip-title">LLM Pipeline v2</p>
                             <p class="wip-desc">Improving RAG chunking strategy with hybrid retrieval</p>
@@ -547,19 +594,18 @@
                         </div>
                     </div>
                     <div class="wip-card">
-                        <div class="wip-icon" style="background:rgba(255,153,0,0.1);color:#FF9900">&#x2601;&#xFE0F;
-                        </div>
+                        <div class="wip-icon" style="background:rgba(255,153,0,0.1);color:#FF9900">☁️</div>
                         <div class="wip-info">
                             <p class="wip-title">AWS Cloud Computing</p>
-                            <p class="wip-desc">NED University \u2014 EC2, S3, VPC, RDS &amp; cloud architecture deep
-                                dives</p>
+                            <p class="wip-desc">NED University — EC2, S3, VPC, RDS &amp; cloud architecture deep dives
+                            </p>
                         </div>
                         <div class="wip-bar-wrap">
                             <div class="wip-bar" style="--pct:95%;--clr:#FF9900"></div>
                         </div>
                     </div>
                     <div class="wip-card">
-                        <div class="wip-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">&#x1F916;</div>
+                        <div class="wip-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">🤖</div>
                         <div class="wip-info">
                             <p class="wip-title">HEC GenAI Cohort 2</p>
                             <p class="wip-desc">Working through RAG systems and AI ethics modules</p>
@@ -581,7 +627,7 @@
                         <path d="M9 18c-4.51 2-5-2-7-2" />
                     </svg>
                     <span>GitHub Activity</span>
-                    <a href="https://github.com/Asad101001" target="_blank" rel="noopener">@Asad101001 &#x2197;</a>
+                    <a href="https://github.com/Asad101001" target="_blank" rel="noopener">@Asad101001 ↗</a>
                 </div>
                 <div id="commit-grid" class="commit-grid"></div>
                 <div class="commit-grid-footer">
@@ -602,9 +648,11 @@
         </div>
     </section>
 
-
+    <!-- ════════════════════════════════════════════
+         PROJECTS SECTION
+         components/projects.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- PROJECTS -->
     <section id="projects" class="section-in">
         <div class="ambient-glow"></div>
         <div class="section-inner">
@@ -651,15 +699,15 @@
                             <div>
                                 <h3 class="proj-title">LegalEaseAI</h3>
                                 <p class="proj-live"><a href="https://legal-ease-ai-iota.vercel.app/" target="_blank"
-                                        rel="noopener">legal-ease-ai-iota.vercel.app &#x2197;</a></p>
+                                        rel="noopener">legal-ease-ai-iota.vercel.app ↗</a></p>
                             </div>
                         </div>
                         <p class="proj-desc">
                             Upload any contract and get every clause risk-rated <span class="risk-red">Red</span> /
                             <span class="risk-yellow">Yellow</span> / <span class="risk-green">Green</span>,
                             a plain Urdu explanation, a RAG chatbot grounded in your document, and a downloadable PDF
-                            risk report \u2014 in
-                            under a minute. Powered by LangChain + FAISS for retrieval and FastAPI on the backend.
+                            risk report — in under a minute. Powered by LangChain + FAISS for retrieval and FastAPI on
+                            the backend.
                         </p>
                         <div class="proj-tags">
                             <span class="tag">ES6+ Vanilla JS</span>
@@ -720,8 +768,7 @@
                         </div>
                         <p class="proj-desc">
                             Real-time polling platform built end-to-end on AWS. Custom VPC with EC2 in a public subnet
-                            and RDS MySQL isolated in a private subnet \u2014 proper production separation. Chart.js
-                            renders
+                            and RDS MySQL isolated in a private subnet — proper production separation. Chart.js renders
                             live vote analytics, Node.js + Express handles the backend with bcrypt auth.
                         </p>
                         <div class="proj-tags">
@@ -772,10 +819,8 @@
                         </div>
                         <p class="proj-desc">
                             Notebook collection built during the NED Data Science certification. Covers the full
-                            pipeline:
-                            pandas wrangling, EDA, statistical analysis, Seaborn visualisation, and ML \u2014
-                            regression,
-                            classification, Random Forest \u2014 applied to real-world datasets.
+                            pipeline: pandas wrangling, EDA, statistical analysis, Seaborn visualisation, and ML —
+                            regression, classification, Random Forest — applied to real-world datasets.
                         </p>
                         <div class="proj-tags">
                             <span class="tag">Python</span>
@@ -825,10 +870,9 @@
                             </div>
                         </div>
                         <p class="proj-desc">
-                            Static site served from EC2 running Ubuntu + Nginx. Full provisioning workflow from scratch:
-                            launching the instance, configuring security groups, SSH setup, installing Nginx, and
-                            deploying
-                            HTML/CSS/JS \u2014 no click-ops shortcuts.
+                            Static site served from EC2 running Ubuntu + Nginx. Full provisioning workflow from
+                            scratch: launching the instance, configuring security groups, SSH setup, installing Nginx,
+                            and deploying HTML/CSS/JS — no click-ops shortcuts.
                         </p>
                         <div class="proj-tags">
                             <span class="tag">AWS EC2</span>
@@ -856,9 +900,11 @@
         </div>
     </section>
 
-
+    <!-- ════════════════════════════════════════════
+         EXPERIENCE SECTION — accordion toggle
+         components/experience.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- EXPERIENCE SECTION — with accordion toggle -->
     <section id="demo" class="section-in">
         <div class="section-inner">
             <div class="section-header centered">
@@ -866,7 +912,7 @@
                 <h2 class="section-title" style="text-align:center">Experience</h2>
                 <p class="section-sub">Where I've spent my time, energy, and sanity.</p>
             </div>
-    
+
             <!-- Accordion toggle button -->
             <div style="display:flex;justify-content:center;">
                 <button id="experience-toggle">
@@ -874,11 +920,11 @@
                     <span class="exp-toggle-arrow">▼</span>
                 </button>
             </div>
-    
+
             <!-- Collapsible content -->
             <div id="demo-content">
                 <div class="demo-grid">
-    
+
                     <div class="glass-card demo-card reveal">
                         <span class="demo-emoji">📊</span>
                         <h3>Actual Skill Distribution</h3>
@@ -916,7 +962,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="glass-card demo-card reveal">
                         <span class="demo-emoji">⭐</span>
                         <h3>Testimonials</h3>
@@ -924,59 +970,30 @@
                             <div
                                 style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
                                 <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"He once spent 3
-                                    hours debugging a
-                                    missing semicolon. Growth."</p>
-                                <span style="font-size:0.68rem;color:var(--text-dim)">— Claude, probably </span>
+                                    hours debugging a missing semicolon. Growth."</p>
+                                <span style="font-size:0.68rem;color:var(--text-dim)">— Claude, probably</span>
                                 <div class="demo-stars">★★★★☆</div>
                             </div>
                             <div
                                 style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
                                 <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"Works perfectly.
-                                    On my machine.
-                                    Every time."</p>
+                                    On my machine. Every time."</p>
                                 <span style="font-size:0.68rem;color:var(--text-dim)">— localhost:5000</span>
                                 <div class="demo-stars">★★★★★</div>
                             </div>
                         </div>
                     </div>
-    
+
                 </div>
             </div><!-- /#demo-content -->
         </div>
     </section>
-    
-    <!-- ERROR POPUP — triggered by #experience-toggle click -->
-    <div id="error-popup" class="error-popup" aria-hidden="true">
-        <div class="error-popup-bar">
-            <span class="error-popup-trafficlight red"></span>
-            <span class="error-popup-trafficlight yellow"></span>
-            <span class="error-popup-trafficlight green"></span>
-            <span class="error-popup-title">runtime_exception.log</span>
-        </div>
-        <div class="error-popup-body">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-            <div>
-                <p class="error-popup-msg">ExperienceNotFoundException</p>
-                <p class="error-popup-trace">at Portfolio.getWorkHistory() → line 404</p>
-                <p class="error-popup-trace">at #experience-toggle :: click handler</p>
-                <p class="error-popup-trace" style="opacity:0.5">Experience Not Found — you scrolled all the way
-                    down here looking for hints of past experience. Good luck finding it.</p>
-            </div>
-        </div>
-        <div class="error-popup-timer">
-            <div class="error-popup-timer-fill" id="error-timer-fill"></div>
-        </div>
-    </div>
 
-
-
+    <!-- ════════════════════════════════════════════
+         TECH STACK MARQUEE
+         components/tech-stack.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- TECH STACK MARQUEE -->
     <section id="tech" class="section-in">
         <div class="ambient-glow"></div>
         <div class="section-inner">
@@ -990,6 +1007,7 @@
                 <div class="marquee-fade-r"></div>
                 <div class="marquee-rows">
 
+                    <!-- ROW 1 — forwards -->
                     <div class="export-tech-marquee-lane">
                         <span class="skill-chip"><svg class="chip-svg" viewBox="0 0 24 24" fill="#3776AB">
                                 <path
@@ -1035,6 +1053,7 @@
                             </svg><span class="chip-label">R</span></span>
                     </div>
 
+                    <!-- ROW 2 — reverse -->
                     <div class="export-tech-marquee-lane export-tech-marquee-lane--reverse">
                         <span class="skill-chip"><svg class="chip-svg" viewBox="0 0 24 24" fill="#009688">
                                 <path
@@ -1088,9 +1107,11 @@
         </div>
     </section>
 
-
+    <!-- ════════════════════════════════════════════
+         EDUCATION SECTION
+         components/education.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- EDUCATION -->
     <section id="education" class="section-in">
         <div class="ambient-glow"></div>
         <div class="section-inner">
@@ -1104,7 +1125,7 @@
                 <div class="timeline-item reveal">
                     <div class="tl-dot"></div>
                     <div class="tl-card glass-card">
-                        <span class="tl-year">2025 &#x2013; Present</span>
+                        <span class="tl-year">2025 – Present</span>
                         <h3 class="tl-degree">B.S Computer Science</h3>
                         <div class="tl-inst-row">
                             <span class="tl-logo" style="background:rgba(0,255,65,0.1);color:var(--cyan)"
@@ -1119,7 +1140,7 @@
                 <div class="timeline-item reveal">
                     <div class="tl-dot"></div>
                     <div class="tl-card glass-card">
-                        <span class="tl-year">2023 &#x2013; 2024</span>
+                        <span class="tl-year">2023 – 2024</span>
                         <h3 class="tl-degree">Intermediate (Pre-Engineering)</h3>
                         <div class="tl-inst-row">
                             <span class="tl-logo" style="background:rgba(168,85,247,0.1);color:#a855f7"
@@ -1134,7 +1155,7 @@
                 <div class="timeline-item reveal">
                     <div class="tl-dot"></div>
                     <div class="tl-card glass-card">
-                        <span class="tl-year">2009 &#x2013; 2022</span>
+                        <span class="tl-year">2009 – 2022</span>
                         <h3 class="tl-degree">Matric (SSC)</h3>
                         <div class="tl-inst-row">
                             <span class="tl-logo" style="background:rgba(249,115,22,0.1);color:#f97316"
@@ -1150,9 +1171,11 @@
         </div>
     </section>
 
-
+    <!-- ════════════════════════════════════════════
+         CONTACT / SOCIALS SECTION
+         components/contact.html
+    ════════════════════════════════════════════ -->
     <div class="section-divider"></div>
-    <!-- SOCIALS / CONTACT -->
     <section id="contact" class="section-in">
         <div class="ambient-glow"></div>
         <div class="section-inner">
@@ -1162,22 +1185,35 @@
                     <p class="label-xs">Get to Know Me</p>
                     <h2 class="section-title">Let's Be Internet Friends</h2>
                     <p class="contact-sub">Catch me building stuff, posting takes, or listening to music. Slide in
-                        anywhere &#x1F44B;</p>
+                        anywhere 👋</p>
                 </div>
+                <a href="mailto:muhammadasadk42@gmail.com" class="contact-ping-cta">
+                    <span class="contact-ping-dot"></span>
+                    Available for internships &amp; collabs — ping me
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M7 17 17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
+                </a>
 
                 <div class="contact-bottom">
                     <div class="social-cards-grid stagger">
 
                         <a href="https://github.com/Asad101001" target="_blank" rel="noopener"
                             class="social-card github">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.8">
                                     <path
                                         d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
                                     <path d="M9 18c-4.51 2-5-2-7-2" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">GitHub</span><span
-                                    class="social-card-handle">@Asad101001</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">GitHub</span>
+                                <span class="social-card-handle">@Asad101001</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1187,15 +1223,19 @@
 
                         <a href="https://www.linkedin.com/in/muhammadasadk/" target="_blank" rel="noopener"
                             class="social-card linkedin">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.8">
                                     <path
                                         d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                                     <rect width="4" height="12" x="2" y="9" />
                                     <circle cx="4" cy="4" r="2" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">LinkedIn</span><span
-                                    class="social-card-handle">muhammadasadk</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">LinkedIn</span>
+                                <span class="social-card-handle">muhammadasadk</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1205,13 +1245,17 @@
 
                         <a href="https://medium.com/@muhammadasadk42" target="_blank" rel="noopener"
                             class="social-card medium">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="currentColor">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="currentColor">
                                     <path
                                         d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">Medium</span><span
-                                    class="social-card-handle">@muhammadasadk42</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">Medium</span>
+                                <span class="social-card-handle">@muhammadasadk42</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1221,13 +1265,17 @@
 
                         <a href="https://discord.com/users/1390327957062418654" target="_blank" rel="noopener"
                             class="social-card discord">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="currentColor">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="currentColor">
                                     <path
                                         d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">Discord</span><span
-                                    class="social-card-handle">asad101001</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">Discord</span>
+                                <span class="social-card-handle">asad101001</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1237,14 +1285,18 @@
 
                         <a href="https://www.instagram.com/muhammadasad.k_/" target="_blank" rel="noopener"
                             class="social-card instagram">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.8">
                                     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
                                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                                     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">Instagram</span><span
-                                    class="social-card-handle">@muhammadasad.k_</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">Instagram</span>
+                                <span class="social-card-handle">@muhammadasad.k_</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1254,13 +1306,17 @@
 
                         <a href="https://open.spotify.com/user/31ldw4ockaqhvr4syjpxp6hv4dge" target="_blank"
                             rel="noopener" class="social-card spotify">
-                            <div class="social-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                                    viewBox="0 0 24 24" fill="#1DB954">
+                            <div class="social-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+                                    fill="#1DB954">
                                     <path
                                         d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
-                                </svg></div>
-                            <div class="social-card-text"><span class="social-card-name">Spotify</span><span
-                                    class="social-card-handle">muhammadasadk</span></div>
+                                </svg>
+                            </div>
+                            <div class="social-card-text">
+                                <span class="social-card-name">Spotify</span>
+                                <span class="social-card-handle">muhammadasadk</span>
+                            </div>
                             <svg class="social-card-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M7 17 17 7" />
@@ -1270,6 +1326,7 @@
 
                     </div>
 
+                    <!-- Spotify Now Playing widget -->
                     <div class="spotify-widget" id="spotify-widget">
                         <div class="spotify-widget-header">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -1288,7 +1345,7 @@
                         </div>
                     </div>
 
-                    <!-- Last.fm widget -->
+                    <!-- Last.fm Recently Played widget -->
                     <div class="lastfm-widget">
                         <div class="lastfm-widget-header">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -1317,23 +1374,45 @@
                             <div class="xp-bar-fill" id="xp-bar"></div>
                         </div>
                         <div class="xp-meta">
-                            <span id="xp-count-label">&#x2014;</span>
-                            <span id="xp-next">\u2014 XP to next level</span>
+                            <span id="xp-count-label">—</span>
+                            <span id="xp-next">— XP to next level</span>
                         </div>
                     </div>
 
-                    <!-- Coding Clock -->
+                    <!-- Analogue Clock (PKT) -->
                     <div class="clock-widget glass-card" id="coding-clock">
                         <div class="clock-face">
-                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="32" cy="32" r="30" stroke="rgba(255,255,255,0.07)" stroke-width="2" />
-                                <circle id="clock-arc" cx="32" cy="32" r="28" stroke="var(--cyan)" stroke-width="3"
-                                    stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9"
+                            <svg id="clock-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Outer ring -->
+                                <circle cx="32" cy="32" r="30" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" />
+                                <!-- Zone arc (time-of-day color) -->
+                                <circle id="clock-arc" cx="32" cy="32" r="27" stroke="var(--cyan)" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="169.6"
                                     transform="rotate(-90 32 32)"
-                                    style="transition: stroke-dashoffset 0.8s cubic-bezier(0.34,1.56,0.64,1)" />
-                                <text x="32" y="36" text-anchor="middle" fill="white"
-                                    font-family="JetBrains Mono,monospace" font-size="11" font-weight="700"
-                                    id="clock-hour-text">--</text>
+                                    style="transition: stroke-dashoffset 0.8s cubic-bezier(0.34,1.56,0.64,1), stroke 0.6s ease" />
+                                <!-- Hour tick marks -->
+                                <line id="t12" x1="32" y1="4" x2="32" y2="9" stroke="rgba(255,255,255,0.18)"
+                                    stroke-width="1.5" />
+                                <line id="t3" x1="60" y1="32" x2="55" y2="32" stroke="rgba(255,255,255,0.18)"
+                                    stroke-width="1.5" />
+                                <line id="t6" x1="32" y1="60" x2="32" y2="55" stroke="rgba(255,255,255,0.18)"
+                                    stroke-width="1.5" />
+                                <line id="t9" x1="4" y1="32" x2="9" y2="32" stroke="rgba(255,255,255,0.18)"
+                                    stroke-width="1.5" />
+                                <!-- Hour hand -->
+                                <line id="clock-hour-hand" x1="32" y1="32" x2="32" y2="18" stroke="white"
+                                    stroke-width="2.5" stroke-linecap="round" transform-origin="32 32"
+                                    style="transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1)" />
+                                <!-- Minute hand -->
+                                <line id="clock-min-hand" x1="32" y1="32" x2="32" y2="12" stroke="var(--cyan)"
+                                    stroke-width="1.5" stroke-linecap="round" transform-origin="32 32"
+                                    style="transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1)" />
+                                <!-- Second hand -->
+                                <line id="clock-sec-hand" x1="32" y1="36" x2="32" y2="10" stroke="#ef4444"
+                                    stroke-width="0.8" stroke-linecap="round" transform-origin="32 32" />
+                                <!-- Center dot -->
+                                <circle cx="32" cy="32" r="2.5" fill="var(--cyan)" />
+                                <circle cx="32" cy="32" r="1.2" fill="#0d0d0d" />
                             </svg>
                             <div class="clock-label">PKT</div>
                         </div>
