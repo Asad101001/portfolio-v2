@@ -140,9 +140,9 @@
 .tl-inst { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
 
 /* ── Contact / Socials ────────────────────────────────────── */
-.social-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.social-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
 @media (max-width: 900px) { .social-cards-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .social-cards-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .social-cards-grid { grid-template-columns: 1fr; } }
 
 /* ── Footer ───────────────────────────────────────────────── */
 footer { padding: 40px 16px; text-align: center; border-top: 1px solid rgba(16,185,129,0.1); font-size: 0.78rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; background: linear-gradient(to top, rgba(16,185,129,0.025), transparent); letter-spacing: 0.05em; }

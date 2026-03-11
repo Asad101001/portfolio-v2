@@ -347,14 +347,24 @@
     var isPlaying = data.isPlaying;
     if (dotEl) { dotEl.style.background = isPlaying ? '#1DB954' : 'rgba(255,255,255,0.25)'; dotEl.style.boxShadow = isPlaying ? '0 0 8px #1DB954' : 'none'; }
     var artInner = t.albumArt
-      ? '<img class="spotify-art" src="' + t.albumArt + '" alt="" crossorigin="anonymous" />'
-      : '<div class="spotify-art spotify-art--empty"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>';
+      ? '<img class="spotify-art-expanded" src="' + t.albumArt + '" alt="" crossorigin="anonymous" />'
+      : '<div class="spotify-art-expanded spotify-art--empty-expanded"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>';
+
     var eqOrPause = isPlaying
       ? '<div class="spotify-eq"><span></span><span></span><span></span><span></span><span></span></div>'
-      : '<svg class="spotify-paused-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1DB954" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>';
+      : '<svg class="spotify-paused-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DB954" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>';
+
+    var shuffleIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>';
+    var prevIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
+    var playIcon = isPlaying ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    var nextIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
+    var repeatIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
+
+    var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="spotify-play-btn">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
+
     var a = document.createElement('a');
-    a.href = t.url || '#'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.className = 'spotify-track';
-    a.innerHTML = '<div class="spotify-art-wrap">' + artInner + (isPlaying ? '<div class="spotify-spin-ring"></div>' : '') + '</div><div class="spotify-info"><div class="spotify-row"><div class="spotify-title">' + t.name + '</div>' + eqOrPause + '</div><div class="spotify-artist">' + t.artist + '</div><div class="spotify-progress-wrap"><div class="spotify-bar"><div class="spotify-bar-fill" style="width:' + pct.toFixed(1) + '%"></div></div><div class="spotify-times"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div></div></div>';
+    a.href = t.url || '#'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.className = 'spotify-track-expanded';
+    a.innerHTML = '<div class="spotify-art-wrap-expanded">' + artInner + '</div><div class="spotify-info-expanded"><div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div><div class="spotify-artist-expanded">' + t.artist + '</div></div><div class="spotify-progress-wrap-expanded"><div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div><div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div></div>' + controlsHTML;
     wrap.appendChild(a);
   }
 
