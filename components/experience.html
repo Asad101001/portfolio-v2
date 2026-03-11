@@ -1,0 +1,88 @@
+<!-- ════════════════════════════════════════════
+         EXPERIENCE SECTION — accordion toggle
+         components/experience.html
+    ════════════════════════════════════════════ -->
+    <div class="section-divider"></div>
+    <section id="demo" class="section-in">
+        <div class="section-inner">
+            <div class="section-header centered">
+                <p class="label-xs" style="text-align:center">Background</p>
+                <h2 class="section-title" style="text-align:center">Experience</h2>
+                <p class="section-sub">Where I've spent my time, energy, and sanity.</p>
+            </div>
+
+            <!-- Accordion toggle button -->
+            <div style="display:flex;justify-content:center;">
+                <button id="experience-toggle">
+                    View Experience
+                    <span class="exp-toggle-arrow">▼</span>
+                </button>
+            </div>
+
+            <!-- Collapsible content -->
+            <div id="demo-content">
+                <div class="demo-grid">
+
+                    <div class="glass-card demo-card reveal">
+                        <span class="demo-emoji">📊</span>
+                        <h3>Actual Skill Distribution</h3>
+                        <p style="margin-bottom:14px">Based on hours spent vs. hours productive</p>
+                        <div class="demo-progress-fake">
+                            <div class="demo-progress-row">
+                                <span class="demo-progress-label">Googling stuff</span>
+                                <div class="demo-progress-bar-wrap">
+                                    <div class="demo-progress-fill" data-w="97%" style="--clr:#f97316"></div>
+                                </div>
+                            </div>
+                            <div class="demo-progress-row">
+                                <span class="demo-progress-label">Reading docs</span>
+                                <div class="demo-progress-bar-wrap">
+                                    <div class="demo-progress-fill" data-w="15%" style="--clr:#a855f7"></div>
+                                </div>
+                            </div>
+                            <div class="demo-progress-row">
+                                <span class="demo-progress-label">Actual coding</span>
+                                <div class="demo-progress-bar-wrap">
+                                    <div class="demo-progress-fill" data-w="61%" style="--clr:#00ff41"></div>
+                                </div>
+                            </div>
+                            <div class="demo-progress-row">
+                                <span class="demo-progress-label">Debugging</span>
+                                <div class="demo-progress-bar-wrap">
+                                    <div class="demo-progress-fill" data-w="40%" style="--clr:#f87171"></div>
+                                </div>
+                            </div>
+                            <div class="demo-progress-row">
+                                <span class="demo-progress-label">It works locally</span>
+                                <div class="demo-progress-bar-wrap">
+                                    <div class="demo-progress-fill" data-w="85%" style="--clr:#22c55e"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card demo-card reveal">
+                        <span class="demo-emoji">⭐</span>
+                        <h3>Testimonials</h3>
+                        <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
+                            <div
+                                style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
+                                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"He once spent 3
+                                    hours debugging a missing semicolon. Growth."</p>
+                                <span style="font-size:0.68rem;color:var(--text-dim)">— Claude, probably</span>
+                                <div class="demo-stars">★★★★☆</div>
+                            </div>
+                            <div
+                                style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07)">
+                                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">"Works perfectly.
+                                    On my machine. Every time."</p>
+                                <span style="font-size:0.68rem;color:var(--text-dim)">— localhost:5000</span>
+                                <div class="demo-stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- /#demo-content -->
+        </div>
+    </section>
