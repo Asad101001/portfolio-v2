@@ -6,7 +6,7 @@
          components/overlays.html
     ════════════════════════════════════════════ -->
 
-    <div id="scroll-progress"></div>
+
     <div id="cursor-glow"></div>
     <div id="toast"></div>
 
@@ -28,46 +28,7 @@
         </svg>
     </button>
 
-    <!-- FEEDBACK BUTTON -->
-    <button id="feedback-btn" aria-label="Send feedback" title="Send feedback">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-    </button>
 
-    <!-- FEEDBACK MODAL -->
-    <div id="feedback-overlay" role="dialog" aria-modal="true" aria-label="Send Feedback">
-        <div id="feedback-modal">
-            <button id="feedback-close" aria-label="Close feedback">&#x2715;</button>
-            <div class="feedback-header">
-                <div class="feedback-icon">💬</div>
-                <h3>Leave Feedback</h3>
-                <p>How's the portfolio? Be honest — I can take it.</p>
-            </div>
-            <div class="feedback-rating" id="feedback-rating">
-                <button class="rating-btn" data-val="1" title="Terrible">😡</button>
-                <button class="rating-btn" data-val="2" title="Meh">😕</button>
-                <button class="rating-btn" data-val="3" title="Okay">😐</button>
-                <button class="rating-btn" data-val="4" title="Good">😊</button>
-                <button class="rating-btn" data-val="5" title="Amazing!">🤩</button>
-            </div>
-            <textarea id="feedback-text" placeholder="Say something… good or bad, I read every one."
-                rows="4"></textarea>
-            <button id="feedback-submit" class="btn-primary feedback-submit-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
-                    <line x1="22" y1="2" x2="11" y2="13" />
-                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-                Send Feedback
-            </button>
-            <div id="feedback-success" class="feedback-success" style="display:none">
-                <div class="feedback-success-icon">✨</div>
-                <p>Thanks! I'll check it out.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- CERTIFICATIONS DRAWER -->
     <div id="certs-drawer" aria-modal="true" role="dialog" aria-label="Certifications">

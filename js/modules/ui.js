@@ -1,9 +1,6 @@
 /* ============================================================
    js/modules/ui.js
-   All UI interactions: nav, scroll ring, typewriter, terminal,
-   section dots, cursor glow, magnetic, ripple, card tilt,
-   rotating widget, stat counters, feedback modal, toast,
-   scroll reveal, marquee, whimsy, keyboard shortcut
+   All UI interactions.
    ============================================================ */
 'use strict';
 
@@ -159,7 +156,7 @@
   mn.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { mn.removeAttribute('open'); }); });
 })();
 
-    /* ── Marquee Duplication — 4× fill, no gaps on wide screens ── */
+    /* ── Marquee Duplication ── */
     document.querySelectorAll('.export-tech-marquee-lane').forEach(function (lane) {
       var original = lane.innerHTML;
       lane.innerHTML = original + original + original + original;
@@ -380,15 +377,7 @@ document.addEventListener('keydown', function (e) {
   document.querySelectorAll('.section-in').forEach(function (s) { obs.observe(s); });
 })();
 
-/* ── Scroll Progress Bar ────────────────────────────────── */
-(function () {
-  var el = document.getElementById('scroll-progress');
-  if (!el) return;
-  window._scrollTasks.push(function () {
-    var pct = window._docH > 0 ? (window._scrollY / window._docH * 100).toFixed(1) : '0';
-    el.style.setProperty('--pct', pct + '%');
-  });
-})();
+
 
 /* ── Ambient Glow ───────────────────────────────────────── */
 (function () {
@@ -400,7 +389,7 @@ document.addEventListener('keydown', function (e) {
   });
 })();
 
-/* ── Skill Chip Effects — hover expand only, no particles ── */
+/* ── Skill Chip Effects - hover expand only, no particles ── */
 (function () {
   /* Pause marquee when tech section scrolls out of view */
   var techSection = document.getElementById('tech');
@@ -502,52 +491,5 @@ document.addEventListener('keydown', function (e) {
       // Fire the error popup every time the accordion is opened
       setTimeout(showErrorPopup, 400);
     }
-  });
-})();
-
-/* ── Feedback Modal ─────────────────────────────────────── */
-(function () {
-  var btn       = document.getElementById('feedback-btn');
-  var overlay   = document.getElementById('feedback-overlay');
-  var closeBtn  = document.getElementById('feedback-close');
-  var submitBtn = document.getElementById('feedback-submit');
-  var textarea  = document.getElementById('feedback-text');
-  var successEl = document.getElementById('feedback-success');
-  var ratingBtns = document.querySelectorAll('.rating-btn');
-  if (!btn || !overlay) return;
-  var rating = 0;
-  var open  = function () { overlay.classList.add('open');    document.body.style.overflow='hidden'; };
-  var close = function () { overlay.classList.remove('open'); document.body.style.overflow=''; };
-  btn.addEventListener('click', open);
-  if (closeBtn) closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  ratingBtns.forEach(function (rb) {
-    rb.addEventListener('click', function () {
-      rating = parseInt(rb.dataset.val, 10);
-      ratingBtns.forEach(function (b) { b.classList.remove('selected'); });
-      rb.classList.add('selected');
-    });
-  });
-  var SB_URL = 'https://maqcxedrpmqtqibdjeae.supabase.co';
-  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1hcWN4ZWRycG1xdHFpYmRqZWFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NzYyOTIsImV4cCI6MjA4ODA1MjI5Mn0.pAjBAmDhsbh8p7noOuyV6maPFDkRtptocE6VpuD6hSA';
-  if (submitBtn) submitBtn.addEventListener('click', function () {
-    var msg = textarea ? textarea.value.trim() : '';
-    fetch(SB_URL + '/rest/v1/feedback', {
-      method:'POST', headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'},
-      body: JSON.stringify({ rating:rating, message:msg })
-    }).catch(function(){});
-    [submitBtn, textarea].forEach(function(x){ if(x) x.style.display='none'; });
-    ['feedback-rating','feedback-header'].forEach(function(cls){ var el=document.querySelector('.'+cls); if(el) el.style.display='none'; });
-    if (successEl) successEl.style.display='block';
-    setTimeout(function () {
-      close();
-      setTimeout(function () {
-        [submitBtn,textarea].forEach(function(x){if(x){x.style.display='';if(x.value!==undefined)x.value='';}});
-        ['feedback-rating','feedback-header'].forEach(function(cls){var el=document.querySelector('.'+cls);if(el)el.style.display='';});
-        if(successEl)successEl.style.display='none';
-        rating=0; ratingBtns.forEach(function(b){b.classList.remove('selected');});
-      }, 400);
-    }, 1800);
   });
 })();

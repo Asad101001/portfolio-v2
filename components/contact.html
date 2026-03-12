@@ -15,15 +15,10 @@
                         <p class="social-sub">Catch me building stuff, posting takes, or listening to music. Slide in
                             anywhere 👋</p>
 
-                        <a href="mailto:muhammadasadk42@gmail.com" class="social-ping-btn">
-                            <span class="social-ping-dot"></span>
-                            Available for internships &amp; collabs — ping me
+                            Available for internships &amp; collabs - ping me
                         </a>
-
-                        <div class="social-stats">
-                            <div class="social-stat"><span class="social-stat-dot"></span> Tracking Visitor XP...</div>
-                        </div>
                     </div>
+
 
                     <div class="social-right">
                         <!-- GitHub -->
@@ -145,7 +140,7 @@
                             rel="noopener" class="social-platform-row spotify">
                             <div class="spr-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                                    fill="#1DB954">
+                                    fill="none" stroke="currentColor" stroke-width="1.8">
                                     <path
                                         d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
                                 </svg>
@@ -211,7 +206,7 @@
                     </div>
 
                     <!-- Visitor XP -->
-                    <div class="xp-widget glass-card stagger-item" style="padding:14px;">
+                    <div class="xp-widget glass-card stagger-item" id="xp-widget">
                         <div class="xp-header" style="margin-bottom:8px;">
                             <span class="xp-label"
                                 style="font-size: 0.75rem; font-weight: 700; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; display:flex; align-items:center; gap:6px;">
@@ -229,12 +224,30 @@
                             <div class="xp-bar-fill" id="xp-bar"></div>
                         </div>
                         <div class="xp-meta" style="margin-top: 8px;">
-                            <span id="xp-count-label">—</span>
-                            <span id="xp-next" style="margin-left:auto;">— XP to next</span>
+                            <span id="xp-count-label">-</span>
+                            <span id="xp-next" style="margin-left:auto;">- XP to next</span>
                         </div>
                     </div>
 
-
+                    <!-- Git Logic Jumper (CS Theme Game) -->
+                    <div class="game-widget glass-card stagger-item" id="game-widget">
+                        <div class="game-header" style="margin-bottom:8px; display:flex; align-items:center;">
+                            <span class="game-label"
+                                style="font-size: 0.72rem; font-weight: 700; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; display:flex; align-items:center; gap:6px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                                </svg>
+                                Git Logic
+                            </span>
+                            <span id="game-score" style="margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--text-dim);">0 Commits</span>
+                        </div>
+                        <div id="game-canvas-wrap" style="position:relative; width:100%; height:80px; background:rgba(0,255,100,0.02); border-radius:4px; overflow:hidden; border:1px solid rgba(0,255,100,0.1);">
+                            <canvas id="game-canvas" width="400" height="80" style="width:100%; height:100%; image-rendering: pixelated;"></canvas>
+                            <div id="game-overlay" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); opacity:0; transition:opacity 0.3s; pointer-events:none; backdrop-filter:blur(2px);">
+                                <span style="font-family:'JetBrains Mono', monospace; font-size:0.55rem; color:#22c55e; text-align:center; padding:0 10px;">FATAL: MERGE CONFLICT.<br>[SPACE] TO REBASE.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

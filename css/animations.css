@@ -49,7 +49,6 @@
   .social-heading { font-size: 1.8rem; }
   #section-dots { display: none; }
   #back-to-top  { right: 16px; bottom: 72px; }
-  #feedback-btn { right: 16px; bottom: 20px; }
   .hero-orb { display: none; }
   .faller, .hero-spark { display: none; }
 }
@@ -67,7 +66,6 @@
 }
 @supports (padding: env(safe-area-inset-left)) {
   nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
-  #feedback-btn { bottom: max(20px, env(safe-area-inset-bottom)); }
   #back-to-top  { bottom: max(72px, calc(env(safe-area-inset-bottom) + 52px)); }
 }
 @media (hover: none) {

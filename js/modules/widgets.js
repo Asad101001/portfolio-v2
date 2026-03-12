@@ -1,11 +1,10 @@
 /* ============================================================
    js/modules/widgets.js
-   External API widgets: Last.fm, Spotify, GitHub heatmap,
-   Coding clock, Visitor XP, Currently Into (dynamic)
+   External API widgets.
    ============================================================ */
 'use strict';
 
-/* ── Currently Into — Dynamic Card ─────────────────────────── */
+/* ── Currently Into - Dynamic Card ─────────────────────────── */
 (function () {
   /* ── Book Cover via Open Library ── */
   var readingCover = document.getElementById('reading-cover');
@@ -21,35 +20,52 @@
     img.onerror = function () {
       if (readingPlaceholder) readingPlaceholder.style.display = 'flex';
     };
-    // 1984 by George Orwell — ISBN 9780451524935
+    // 1984 by George Orwell - ISBN 9780451524935
     img.src = 'https://covers.openlibrary.org/b/isbn/9780451524935-M.jpg';
   }
 
-  /* ── TV Poster via TVmaze ── */
+  /* ── Media Hub via Letterboxd RSS ── */
   var watchingPoster = document.getElementById('watching-poster');
   var watchingPlaceholder = document.getElementById('watching-placeholder');
+  
   if (watchingPoster) {
-    fetch('https://api.tvmaze.com/singlesearch/shows?q=The+Pitt')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var url = data && data.image && (data.image.medium || data.image.original);
-        if (url) {
-          var img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = function () {
-            watchingPoster.src = url;
-            watchingPoster.style.display = 'block';
-            if (watchingPlaceholder) watchingPlaceholder.style.display = 'none';
-          };
-          img.onerror = function () {
-            if (watchingPlaceholder) watchingPlaceholder.style.display = 'flex';
-          };
-          img.src = url;
-        }
-      })
-      .catch(function () {
-        if (watchingPlaceholder) watchingPlaceholder.style.display = 'flex';
-      });
+    var LB_USER = 'asad_k'; // 👈 ENTER YOUR LETTERBOXD USERNAME HERE
+    var RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://letterboxd.com/' + LB_USER + '/rss/';
+    
+    function fetchMovie() {
+      fetch(RSS_URL)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || !data.items || !data.items.length) return;
+          var latest = data.items[0];
+          var match = latest.description.match(/src="([^"]+)"/);
+          var url = match ? match[1] : null;
+          
+          if (url) {
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function () {
+              watchingPoster.style.opacity = '0';
+              setTimeout(function() {
+                watchingPoster.src = url;
+                watchingPoster.style.display = 'block';
+                watchingPoster.style.opacity = '1';
+                if (watchingPlaceholder) watchingPlaceholder.style.display = 'none';
+              }, 300);
+            };
+            img.src = url;
+          }
+          
+          // Also update the text value if needed
+          var valEl = watchingPoster.closest('.rotating-item') && watchingPoster.closest('.rotating-item').querySelector('.currently-into-value');
+          if (valEl && latest.title) {
+            valEl.textContent = latest.title.replace('â˜…', '★'); // Clean up star rating characters if any
+          }
+        })
+        .catch(function () {});
+    }
+    fetchMovie();
+    setInterval(fetchMovie, 60000 * 5); 
   }
 
   /* ── FC Barcelona Live Score via ESPN ── */
@@ -141,7 +157,7 @@
       }
     })
     .catch(function () {
-      // Silent fallback — keep static text
+      // Fallback
     });
 })();
 
@@ -187,14 +203,27 @@
   }
 
   container.innerHTML = '<div class="lastfm-loading"><span class="lastfm-bars"><span></span><span></span><span></span><span></span></span> Loading scrobbles...</div>';
+  
+  // Cache check
+  var cached = localStorage.getItem('asad_lastfm_cache');
+  if (cached) {
+    try { render(JSON.parse(cached)); } catch(e) {}
+  }
+
   fetch(URL)
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (data) {
       var tracks = data && data.recenttracks && data.recenttracks.track;
       if (!tracks || !tracks.length) { container.innerHTML = '<p class="lastfm-error">No recent tracks.</p>'; return; }
-      render(Array.isArray(tracks) ? tracks : [tracks]);
+      var trackList = Array.isArray(tracks) ? tracks : [tracks];
+      localStorage.setItem('asad_lastfm_cache', JSON.stringify(trackList));
+      render(trackList);
     })
-    .catch(function () { container.innerHTML = '<p class="lastfm-error">⚠ Could not load scrobbles.</p>'; });
+    .catch(function () { 
+      if (!localStorage.getItem('asad_lastfm_cache')) {
+        container.innerHTML = '<p class="lastfm-error">⚠ Could not load scrobbles.</p>';
+      }
+    });
 })();
 
 
@@ -389,9 +418,117 @@
   function load() {
     fetch(ENDPOINT)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(render)
-      .catch(function () { wrap.innerHTML = '<p class="spotify-offline">&#x26A0; Could not reach Spotify</p>'; });
+      .then(function(data) {
+        localStorage.setItem('asad_spotify_cache', JSON.stringify(data));
+        render(data);
+      })
+      .catch(function () { 
+        var cached = localStorage.getItem('asad_spotify_cache');
+        if (cached) {
+          try { render(JSON.parse(cached)); return; } catch(e) {}
+        }
+        wrap.innerHTML = '<p class="spotify-offline">&#x26A0; Could not reach Spotify</p>'; 
+      });
   }
+  
+  // Initial load with cache
+  var cached = localStorage.getItem('asad_spotify_cache');
+  if (cached) { try { render(JSON.parse(cached)); } catch(e) {} }
+  
   load();
   setInterval(load, 30000);
+})();
+
+
+/* ── Git Logic Jumper Game (CS Theme) ───────────────────── */
+(function () {
+  var canvas = document.getElementById('game-canvas');
+  var scoreEl = document.getElementById('game-score');
+  var overlay = document.getElementById('game-overlay');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  
+  var game = {
+    score: 0,
+    speed: 3.2,
+    active: true,
+    player: { y: 61, vy: 0, jumping: false },
+    obstacles: []
+  };
+
+  function jump() {
+    if (!game.player.jumping && game.active) {
+      game.player.vy = -8.5;
+      game.player.jumping = true;
+    } else if (!game.active) {
+      reset();
+    }
+  }
+
+  window.addEventListener('keydown', function(e) { if (e.code === 'Space') { e.preventDefault(); jump(); } });
+  canvas.addEventListener('mousedown', function(e) { e.preventDefault(); jump(); });
+  canvas.addEventListener('touchstart', function(e) { e.preventDefault(); jump(); });
+
+  function reset() {
+    game = { score: 0, speed: 3.2, active: true, player: { y: 61, vy: 0, jumping: false }, obstacles: [] };
+    if (scoreEl) scoreEl.textContent = '0 Commits';
+    overlay.style.opacity = '0';
+  }
+
+  function loop() {
+    if (!game.active) { requestAnimationFrame(loop); return; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Grid Floor
+    ctx.strokeStyle = 'rgba(34,197,94,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, 75); ctx.lineTo(400, 75);
+    for(var x=0; x<400; x+=20) { ctx.moveTo(x, 75); ctx.lineTo(x-8, 80); }
+    ctx.stroke();
+
+    // Player (A Green "Commit" Block)
+    game.player.vy += 0.52;
+    game.player.y += game.player.vy;
+    if (game.player.y > 61) { game.player.y = 61; game.player.vy = 0; game.player.jumping = false; }
+    
+    ctx.fillStyle = '#22c55e';
+    ctx.shadowBlur = 8; ctx.shadowColor = '#22c55e';
+    ctx.fillRect(30, game.player.y, 14, 14);
+    ctx.shadowBlur = 0;
+    
+    // Player Symbol
+    ctx.fillStyle = '#000'; ctx.font = '7px monospace';
+    ctx.fillText('git', 31, game.player.y + 10);
+
+    // Obstacles (Red "Merge Conflicts")
+    if (Math.random() < 0.016 && (game.obstacles.length === 0 || game.obstacles[game.obstacles.length-1].x < 240)) {
+      game.obstacles.push({ x: 400, w: 12 + Math.random() * 12, h: 8 + Math.random() * 8 });
+    }
+
+    for (var i = game.obstacles.length - 1; i >= 0; i--) {
+      var o = game.obstacles[i];
+      o.x -= game.speed;
+      
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(o.x, 75 - o.h, o.w, o.h);
+      ctx.fillStyle = '#fff'; ctx.font = '7px monospace';
+      ctx.fillText('!', o.x + o.w/2 - 2, 75 - o.h + 8);
+
+      // Collision
+      if (o.x < 44 && o.x + o.w > 30 && game.player.y + 14 > 75 - o.h) {
+        game.active = false;
+        overlay.style.opacity = '1';
+      }
+
+      if (o.x < -o.w) {
+        game.obstacles.splice(i, 1);
+        game.score++;
+        if (scoreEl) scoreEl.textContent = game.score + ' Commits';
+        game.speed += 0.035;
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
