@@ -352,19 +352,37 @@
 
     var eqOrPause = isPlaying
       ? '<div class="spotify-eq"><span></span><span></span><span></span><span></span><span></span></div>'
-      : '<svg class="spotify-paused-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DB954" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>';
+      : '';
 
     var shuffleIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>';
     var prevIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
-    var playIcon = isPlaying ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    
+    // Play button toggles between play (when paused) and pause (when playing)
+    // If not isPlaying, we show a 'play' icon in a 'paused-state' styled button
+    // User requested: "when im not playing any song instead of the play control button a paused control button is shown"
+    // And "when im playing a song only then can the song line be changed to this material 3 expressive squiggle only when a song is playing, and the play button reappears"
+    // I interpret "paused control button" as the button itself looking like it's in a paused/idle state, 
+    // and "play button reappears" as the prominent white play/pause button.
+    
+    var playIcon = isPlaying 
+      ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>' // Pause icon
+      : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'; // Play icon
+      
+    var playBtnClass = isPlaying ? 'spotify-play-btn' : 'spotify-play-btn paused-state';
+
     var nextIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
     var repeatIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
 
-    var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="spotify-play-btn">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
+    var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="' + playBtnClass + '">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
+
+    // Toggle between squiggle and normal bar
+    var progressLineHTML = isPlaying 
+      ? '<div class="spotify-squiggle"></div>'
+      : '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
 
     var a = document.createElement('a');
     a.href = t.url || '#'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.className = 'spotify-track-expanded';
-    a.innerHTML = '<div class="spotify-art-wrap-expanded">' + artInner + '</div><div class="spotify-info-expanded"><div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div><div class="spotify-artist-expanded">' + t.artist + '</div></div><div class="spotify-progress-wrap-expanded"><div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div><div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div></div>' + controlsHTML;
+    a.innerHTML = '<div class="spotify-art-wrap-expanded">' + artInner + '</div><div class="spotify-info-expanded"><div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div><div class="spotify-artist-expanded">' + t.artist + '</div></div><div class="spotify-progress-wrap-expanded"><div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div>' + progressLineHTML + '</div>' + controlsHTML;
     wrap.appendChild(a);
   }
 

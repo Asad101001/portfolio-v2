@@ -43,8 +43,10 @@
   .demo-404 { grid-column: 1; }
   .section-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
   .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
-  .contact-wrap { padding: 24px 20px; }
-  .social-cards-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .contact-wrap { padding: 24px 16px; width: 100%; }
+  .social-cards-grid { grid-template-columns: 1fr; gap: 12px; }
+  .social-right { margin-top: 32px; }
+  .social-heading { font-size: 1.8rem; }
   #section-dots { display: none; }
   #back-to-top  { right: 16px; bottom: 72px; }
   #feedback-btn { right: 16px; bottom: 20px; }
@@ -55,7 +57,9 @@
   .hero-actions { flex-direction: column; }
   .btn-primary, .btn-linkedin, .btn-secondary { width: 100%; justify-content: center; }
   .social-cards-grid { grid-template-columns: 1fr; }
-  .about-stats-col { flex-direction: column; }
+  .about-stats-col { flex-direction: column; width: 100%; }
+  .spotify-art-wrap-expanded { max-width: 200px; }
+  .spotify-title-expanded { font-size: 1.1rem; }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .social-cards-grid { grid-template-columns: repeat(3,1fr); }

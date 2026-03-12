@@ -11,9 +11,9 @@
      css/additions.css   — hero orb, currently-into, barca, marquee, accordion, popup
    ============================================================ */
 
-@import url('css/base.css');
-@import url('css/components.css');
-@import url('css/sections.css');
-@import url('css/widgets.css');
-@import url('css/animations.css');
-@import url('css/additions.css');
+@import url('base.css');
+@import url('components.css');
+@import url('sections.css');
+@import url('widgets.css');
+@import url('animations.css');
+@import url('additions.css');
