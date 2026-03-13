@@ -8,6 +8,11 @@
      js/modules/ui.js       — All UI interactions
      js/modules/widgets.js  — External API widgets
    ============================================================ */
+/* ── Force Scroll to Top on Reload ────────────────────────── */
+if (history.scrollRestoration) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
 
 /* ── Global Shared State ─────────────────────────────────── */
 window._isMobile   = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;

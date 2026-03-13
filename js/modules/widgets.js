@@ -7,7 +7,7 @@ const CONFIG = {
   },
   currently: {
     reading: '1984 George Orwell', // Just type title & author
-    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms'] // TV Shows pool
+    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking'] // TV Shows pool
   }
 };
 
@@ -47,7 +47,6 @@ const CONFIG = {
   
   if (moviePoster) {
     var LB_USER = CONFIG.usernames.letterboxd;
-    // Add cache buster to bypass stale RSS proxy results
     var RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://letterboxd.com/' + LB_USER + '/rss/&_t=' + Date.now();
     
     function fetchMovie() {
@@ -57,14 +56,10 @@ const CONFIG = {
           if (!data || !data.items || !data.items.length) throw new Error('No items');
           var latest = data.items[0];
           
-          // Strategy 1: Check description for <img> tag (Standard Letterboxd RSS)
-          var match = latest.description.match(/src="([^"]+)"/);
-          var url = match ? match[1] : null;
-          
-          // Strategy 2: Check thumbnail or enclosure if rss2json parsed them
-          if (!url) {
-            url = latest.thumbnail || (latest.enclosure && latest.enclosure.link);
-          }
+          // Improved extraction: check description and content
+          var source = (latest.description || '') + (latest.content || '');
+          var match = source.match(/src="([^"]+)"/);
+          var url = match ? match[1] : (latest.thumbnail || (latest.enclosure && latest.enclosure.link));
           
           if (url) {
             var img = new Image();
@@ -76,20 +71,20 @@ const CONFIG = {
                 moviePoster.style.display = 'block';
                 moviePoster.style.opacity = '1';
                 if (moviePlaceholder) moviePlaceholder.style.display = 'none';
-              }, 300);
+              }, 200);
             };
             img.src = url;
           }
           if (movieTitle && latest.title) {
-            movieTitle.textContent = latest.title.replace('â˜…', '★');
+            // Clean title (Letterboxd sometimes adds watched/reviewed prefix)
+            var cleanTitle = latest.title.replace('★', ' ★').split('...')[0].trim();
+            movieTitle.textContent = cleanTitle;
           }
         })
-        .catch(function () {
-          // Keep default fallback ("The Pitt") if RSS is empty or user hasn't "Logged" movies
-        });
+        .catch(function () {});
     }
     fetchMovie();
-    setInterval(fetchMovie, 60000 * 10); // Refresh every 10 mins
+    setInterval(fetchMovie, 60000 * 15);
   }
 
   /* ── Media Hub: Series (TVmaze) ── */
@@ -369,13 +364,13 @@ const CONFIG = {
   var arc      = document.getElementById('clock-arc');
   var hourText = document.getElementById('clock-hour-text');
   if (!display) return;
-  var CIRC = 175.9;
+  var CIRC = 188.5; // Updated for r=30
   var zones = [
     { start: 0,  end: 6,  label: '🌙 Asleep (probably)', color: '#a855f7' },
     { start: 6,  end: 9,  label: '☕ Morning grind',      color: '#f97316' },
-    { start: 9,  end: 13, label: '💻 Peak coding hours',  color: '#00ff41' },
-    { start: 13, end: 15, label: '🍜 Lunch / break',      color: '#22c55e' },
-    { start: 15, end: 19, label: '⚡ Deep work mode',     color: '#00ff41' },
+    { start: 9,  end: 13, label: '💻 Peak coding hours',  color: '#22c55e' },
+    { start: 13, end: 15, label: '🍜 Lunch / break',      color: '#10b981' },
+    { start: 15, end: 19, label: '⚡ Deep work mode',     color: '#22c55e' },
     { start: 19, end: 22, label: '🎧 Side projects / music', color: '#a855f7' },
     { start: 22, end: 24, label: '🌙 Late night hacking', color: '#f97316' }
   ];
@@ -525,7 +520,7 @@ const CONFIG = {
 
   function reset() {
     game = { score: 0, speed: 3.2, active: true, player: { y: 61, vy: 0, jumping: false }, obstacles: [] };
-    if (scoreEl) scoreEl.textContent = '0 Commits';
+    if (scoreEl) scoreEl.textContent = '0 Commits [initial commit]';
     overlay.style.opacity = '0';
   }
 
@@ -578,7 +573,11 @@ const CONFIG = {
       if (o.x < -o.w) {
         game.obstacles.splice(i, 1);
         game.score++;
-        if (scoreEl) scoreEl.textContent = game.score + ' Commits';
+        if (scoreEl) {
+          var msgs = ["init", "fix", "feat", "docs", "refactor", "style", "test", "chore"];
+          var msg = msgs[Math.floor(game.score / 5) % msgs.length];
+          scoreEl.textContent = game.score + ' Commits [' + msg + ']';
+        }
         game.speed += 0.035;
       }
     }

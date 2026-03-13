@@ -14,14 +14,13 @@
 
         <div class="hero-grid">
 
-            <!-- Main card -->
+            <!-- Row 1 & 2 Left: Main Hero Card -->
             <div class="card hero-main glass-card reveal" style="--delay:0ms">
                 <div class="status-pill">
                     <span class="status-dot"></span>
                     Building &amp; exploring
                 </div>
 
-                <!-- 3D Micro-Orb — just above the name -->
                 <div class="hero-name-3d-wrap" aria-hidden="true">
                     <div class="hero-micro-orb">
                         <div class="hero-micro-orb-inner"></div>
@@ -37,8 +36,10 @@
                 <div class="typewriter-wrap">
                     <span id="typewriter" class="typewriter-text"></span><span class="caret">|</span>
                 </div>
+                
                 <p class="hero-sub">CS Student @ UBIT '28</p>
                 <p class="hero-desc">Python &middot; AWS &middot; Data Science &middot; AI/ML &middot; Networking</p>
+                
                 <div class="hero-actions">
                     <a href="https://github.com/Asad101001" target="_blank" rel="noopener" class="btn-primary magnetic">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -59,20 +60,18 @@
                         </svg>
                         LinkedIn
                     </a>
-                    <!-- Plain mailto — no obfuscation -->
-                    <a href="/cdn-cgi/l/email-protection#fa978f929b97979b9e9b899b9e91cec8ba9d979b9396d4999597"
-                        class="btn-secondary magnetic">
+                    <a href="mailto:muhammadasadk42@gmail.com" class="btn-secondary magnetic">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                         </svg>
-                        Contact Me
+                        Chat
                     </a>
                 </div>
             </div>
 
-            <!-- Terminal card -->
+            <!-- Row 1 Right: Terminal card -->
             <div class="card hero-side glass-card reveal" style="--delay:100ms">
                 <div class="terminal-bar">
                     <span class="t-dot t-red"></span>
@@ -85,18 +84,19 @@
                     <p class="t-line t-out">Muhammad Asad Khan</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">cat focus.txt</span></p>
                     <p class="t-line t-out">Python &middot; OOP &middot; Data Science</p>
-                    <p class="t-line t-out">Cloud (AWS) &middot; AI/ML &middot; RAG</p>
-                    <p class="t-line t-out">Networking &middot; Linux &middot; Web Dev</p>
+                    <p class="t-line t-out">Cloud (AWS) &middot; AI &middot; RAG</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">echo $LOCATION</span></p>
                     <p class="t-line t-out">Karachi, Pakistan 🇵🇰</p>
+                    <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">git log -1 --oneline</span></p>
+                    <p class="t-line t-out">7f8c2e1 feat: overhaul hero grid & clock style</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">cat status.txt</span></p>
                     <p class="t-line t-out" style="color:var(--cyan)">🟢 Open to collabs &amp; internships</p>
                     <p class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">&#x25AE;</span></p>
                 </div>
             </div>
 
-            <!-- Currently Into card — dynamic with media covers, separated from fun facts -->
-            <div class="card glass-card reveal" style="--delay:200ms">
+            <!-- Row 3 Left: Currently Into Card -->
+            <div class="card currently-into-card glass-card reveal" style="--delay:200ms">
                 <p class="card-label">Currently Into</p>
 
                 <div class="rotating-widget" id="rotating-widget">
@@ -114,12 +114,12 @@
 
                     <!-- Movies (Letterboxd) -->
                     <div class="rotating-item currently-into-item" data-index="1">
-                        <img id="watching-poster" class="currently-into-thumb" src="https://image.tmdb.org/t/p/w500/y92VpWh7d2kIq4zT8B4rFm9S6f4.jpg" alt="Movie poster"
+                        <img id="watching-poster" class="currently-into-thumb" src="" alt="Movie poster"
                             style="display:none" />
                         <div id="watching-placeholder" class="currently-into-thumb-placeholder">🎬</div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Last Watched</span>
-                            <span class="rotating-value currently-into-value" id="movie-title">The Pitt — HBO</span>
+                            <span class="rotating-value currently-into-value" id="movie-title">Checking Letterboxd...</span>
                         </div>
                     </div>
 
@@ -139,8 +139,7 @@
                         <div class="currently-into-thumb-placeholder">⚽</div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Football</span>
-                            <span class="rotating-value currently-into-value" id="barca-score">Enduring FC Barcelona's
-                                weekly humiliation rituals</span>
+                            <span class="rotating-value currently-into-value" id="barca-score">Checking Barça score...</span>
                         </div>
                     </div>
 
@@ -151,16 +150,6 @@
                     <button class="r-dot" data-i="1"></button>
                     <button class="r-dot" data-i="2"></button>
                     <button class="r-dot" data-i="3"></button>
-                </div>
-
-            </div>
-
-            <div class="card glass-card reveal fun-facts-section" style="--delay:250ms">
-                <p class="card-label">Dev Notes</p>
-                <div class="fun-facts">
-                    <div class="fun-fact-item">Bugs feared? 0. Bugs fixed? debatable.</div>
-                    <div class="fun-fact-item">Peak productivity: 11pm&#x2013;3am</div>
-                    <div class="fun-fact-item">Reads docs... eventually</div>
                 </div>
             </div>
 
@@ -200,13 +189,20 @@
             <div class="clock-widget glass-card reveal" id="coding-clock" style="--delay:400ms">
                 <div class="clock-face">
                     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="32" cy="32" r="30" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" />
-                        <circle id="clock-arc" cx="32" cy="32" r="28" stroke="var(--cyan)" stroke-width="3"
-                            stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9"
-                            transform="rotate(-90 32 32)"
-                            style="transition: stroke-dashoffset 0.8s cubic-bezier(0.34,1.56,0.64,1), stroke 0.6s ease" />
-                        <text x="32" y="36" text-anchor="middle" fill="white" font-family="JetBrains Mono,monospace"
-                            font-size="11" font-weight="700" id="clock-hour-text">--</text>
+                        <!-- Outer ring: Day progress -->
+                        <circle cx="32" cy="32" r="30" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                        <circle id="clock-arc" cx="32" cy="32" r="30" stroke="var(--cyan)" stroke-width="2"
+                            stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="188.5"
+                            transform="rotate(-90 32 32)" />
+                        
+                        <!-- Inner ring: Rotating scanner -->
+                        <circle id="clock-scanner" cx="32" cy="32" r="24" stroke="rgba(168,85,247,0.3)" stroke-width="1.5"
+                            stroke-dasharray="10 40" transform="rotate(0 32 32)">
+                             <animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="4s" repeatCount="indefinite" />
+                        </circle>
+
+                        <text x="32" y="38" text-anchor="middle" fill="white" font-family="Space Grotesk, sans-serif"
+                            font-size="14" font-weight="800" id="clock-hour-text">--</text>
                     </svg>
                     <div class="clock-label">PKT</div>
                 </div>
