@@ -143,64 +143,67 @@ const CONFIG = {
       barcaItem.classList.remove('barca-live');
     }
   }
-  fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83/schedule?limit=5')
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (data) {
-      var events = data && data.events;
-      if (!events || !events.length) return;
+  function fetchBarca() {
+    fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83/schedule?limit=5')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var events = data && data.events;
+        if (!events || !events.length) return;
 
-      var liveEvent = null, recentEvent = null, upcomingEvent = null;
-      for (var i = 0; i < events.length; i++) {
-        var ev = events[i];
-        var state = ev.status && ev.status.type && ev.status.type.state;
-        if (state === 'in' && !liveEvent) liveEvent = ev;
-        else if (state === 'post' && !recentEvent) recentEvent = ev;
-        else if (state === 'pre' && !upcomingEvent) upcomingEvent = ev;
-      }
-
-      function getMatchInfo(ev) {
-        if (!ev || !ev.competitions || !ev.competitions[0]) return null;
-        var comp = ev.competitions[0];
-        var comps = comp.competitors || [];
-        var home = comps.find(function (c) { return c.homeAway === 'home'; });
-        var away = comps.find(function (c) { return c.homeAway === 'away'; });
-        if (!home || !away) return null;
-        var barcaIsHome = home.team && (home.team.id === '83' || (home.team.shortDisplayName || '').toLowerCase().indexOf('barcelona') >= 0);
-        var barcaSide = barcaIsHome ? home : away;
-        var oppSide   = barcaIsHome ? away : home;
-        return {
-          barcaScore: barcaSide.score || '0',
-          oppScore:   oppSide.score || '0',
-          oppName:    (oppSide.team && (oppSide.team.abbreviation || oppSide.team.shortDisplayName)) || '?',
-          barcaIsHome: barcaIsHome
-        };
-      }
-
-      if (liveEvent) {
-        var info = getMatchInfo(liveEvent);
-        var min = liveEvent.status && liveEvent.status.displayClock || '';
-        if (info) setBarcaDisplay('Barça ' + info.barcaScore + ' – ' + info.oppScore + ' ' + info.oppName + (min ? ' (' + min + ')' : ''), true);
-      } else if (recentEvent) {
-        var info = getMatchInfo(recentEvent);
-        if (info) {
-          var bs = parseInt(info.barcaScore, 10), os = parseInt(info.oppScore, 10);
-          var emoji = bs > os ? '✅' : bs === os ? '🤝' : '😭';
-          var result = bs > os ? 'W' : bs === os ? 'D' : 'L';
-          setBarcaDisplay(emoji + ' Barça ' + info.barcaScore + '–' + info.oppScore + ' ' + info.oppName + ' · ' + result, false);
+        var liveEvent = null, recentEvent = null, upcomingEvent = null;
+        for (var i = 0; i < events.length; i++) {
+          var ev = events[i];
+          var state = ev.status && ev.status.type && ev.status.type.state;
+          if (state === 'in' && !liveEvent) liveEvent = ev;
+          else if (state === 'post' && !recentEvent) recentEvent = ev;
+          else if (state === 'pre' && !upcomingEvent) upcomingEvent = ev;
         }
-      } else if (upcomingEvent) {
-        var dateStr = '';
-        if (upcomingEvent.date) {
-          var d = new Date(upcomingEvent.date);
-          dateStr = ' · ' + d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+        function getMatchInfo(ev) {
+          if (!ev || !ev.competitions || !ev.competitions[0]) return null;
+          var comp = ev.competitions[0];
+          var comps = comp.competitors || [];
+          var home = comps.find(function (c) { return c.homeAway === 'home'; });
+          var away = comps.find(function (c) { return c.homeAway === 'away'; });
+          if (!home || !away) return null;
+          var barcaIsHome = home.team && (home.team.id === '83' || (home.team.shortDisplayName || '').toLowerCase().indexOf('barcelona') >= 0);
+          var barcaSide = barcaIsHome ? home : away;
+          var oppSide   = barcaIsHome ? away : home;
+          return {
+            barcaScore: barcaSide.score || '0',
+            oppScore:   oppSide.score || '0',
+            oppName:    (oppSide.team && (oppSide.team.abbreviation || oppSide.team.shortDisplayName)) || '?',
+            barcaIsHome: barcaIsHome
+          };
         }
-        var shortName = upcomingEvent.shortName || upcomingEvent.name || 'Next match TBD';
-        setBarcaDisplay('📅 Next: ' + shortName + dateStr, false);
-      }
-    })
-    .catch(function () {
-      // Fallback
-    });
+
+        if (liveEvent) {
+          var info = getMatchInfo(liveEvent);
+          var min = liveEvent.status && liveEvent.status.displayClock || '';
+          if (info) setBarcaDisplay('Barça ' + info.barcaScore + ' – ' + info.oppScore + ' ' + info.oppName + (min ? ' (' + min + ')' : ''), true);
+        } else if (recentEvent) {
+          var info = getMatchInfo(recentEvent);
+          if (info) {
+            var bs = parseInt(info.barcaScore, 10), os = parseInt(info.oppScore, 10);
+            var emoji = bs > os ? '✅' : bs === os ? '🤝' : '😭';
+            var result = bs > os ? 'W' : bs === os ? 'D' : 'L';
+            setBarcaDisplay(emoji + ' Barça ' + info.barcaScore + '–' + info.oppScore + ' ' + info.oppName + ' · ' + result, false);
+          }
+        } else if (upcomingEvent) {
+          var dateStr = '';
+          if (upcomingEvent.date) {
+            var d = new Date(upcomingEvent.date);
+            dateStr = ' · ' + d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+          }
+          var shortName = upcomingEvent.shortName || upcomingEvent.name || 'Next match TBD';
+          setBarcaDisplay('📅 Next: ' + shortName + dateStr, false);
+        }
+      })
+      .catch(function () {});
+  }
+
+  fetchBarca();
+  setInterval(fetchBarca, 300000); // 5 mins
 })();
 
 
@@ -461,10 +464,7 @@ const CONFIG = {
 
     var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="' + playBtnClass + '">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
 
-    // Toggle between squiggle and normal bar
-    var progressLineHTML = isPlaying 
-      ? '<div class="spotify-squiggle-wrap" style="width:' + pct.toFixed(1) + '%"><div class="spotify-squiggle" style="--squiggle-speed:' + speed + '"></div></div>'
-      : '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
+    var progressLineHTML = '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
 
     var a = document.createElement('a');
     a.href = t.url || 'https://open.spotify.com/'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.className = 'spotify-track-expanded';

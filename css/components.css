@@ -181,7 +181,7 @@ section:not(#hero) { position: relative; z-index: 2; background: #0D0D0D; }
 }
 
 /* Mapping to actual card order in hero.html */
-.hero-grid .glass-card:nth-child(3) { grid-column: 1; grid-row: 3; padding: 22px 32px; min-height: 180px; } /* Currently Into */
+.hero-grid .glass-card:nth-child(3) { grid-column: 1; grid-row: 3; padding: 22px 32px; min-height: 140px; } /* Currently Into */
 .hero-grid .glass-card:nth-child(4) { grid-column: 2; grid-row: 2; padding: 22px; } /* Build Focus */
 .hero-grid .glass-card:nth-child(5) { grid-column: 2; grid-row: 3; padding: 22px; } /* Clock Widget */
 

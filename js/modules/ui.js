@@ -268,27 +268,44 @@
   });
 
   function show(index) {
+    if (!items || items.length === 0) return;
     if (isAnimating || index === current) return;
+    
+    var inItem = items[index];
+    var outItem = items[current];
+    if (!inItem || !outItem) return;
+
     isAnimating = true;
 
-    var outItem = items[current];
-    var inItem  = items[index];
+    /* 1. Clear ALL items of exit classes just in case */
+    items.forEach(function(item) { 
+      if (item !== outItem && item !== inItem) {
+        item.classList.remove('active', 'exit-up'); 
+      }
+    });
 
     /* Exit */
     outItem.classList.add('exit-up');
     outItem.classList.remove('active');
 
     /* Clean up exit class after transition */
-    outItem.addEventListener('transitionend', function cleanup() {
+    var cleanup = function() {
       outItem.removeEventListener('transitionend', cleanup);
       outItem.classList.remove('exit-up');
       isAnimating = false;
-    }, { once: true });
+    };
+    outItem.addEventListener('transitionend', cleanup, { once: true });
+    
+    // Safety fallback for cleanup
+    setTimeout(function() {
+      outItem.classList.remove('exit-up');
+      isAnimating = false;
+    }, 700);
 
     /* Enter */
     setTimeout(function () {
       inItem.classList.add('active');
-    }, 60);
+    }, 50);
 
     /* Dots */
     dots.forEach(function (d) { d.classList.remove('active'); });

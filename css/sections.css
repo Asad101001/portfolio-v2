@@ -145,9 +145,9 @@
   display: grid; 
   grid-template-columns: repeat(3, 1fr); 
   gap: 16px; 
-  align-items: stretch;
+  align-items: start;
 }
-.spotify-widget, .lastfm-widget { grid-row: span 3; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+.spotify-widget, .lastfm-widget { grid-row: span 3; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); height: max-content; }
 .xp-widget, .game-widget, .dev-notes-widget { grid-column: 3; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
 /* Unique Hover Personalities */

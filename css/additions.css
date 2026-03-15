@@ -144,55 +144,19 @@
 .tag[data-tech="FAISS"] { --tech-color: #00c3ff; --tech-bg: rgba(0, 195, 255, 0.1); --tech-glow: rgba(0, 195, 255, 0.3); }
 .tag[data-tech="FastAPI"] { --tech-color: #009688; --tech-bg: rgba(0, 150, 136, 0.15); --tech-glow: rgba(0, 150, 136, 0.4); }
 
-/* --- Chaotic Wave Interference Spotify Squiggle --- */
-.spotify-squiggle-wrap {
-  width: 100%;
-  height: 22px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 99px;
-  background: rgba(0,0,0,0.4);
-  box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
+/* --- Simple Spotify Progress (Mobile Style) --- */
+.spotify-progress-wrap-expanded {
+  margin-top: 14px;
 }
-
-.spotify-squiggle {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: #1DB954;
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='20' viewBox='0 0 200 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 5 0, 10 10 T 20 10 Q 25 20, 30 10 T 40 10 Q 45 0, 50 10 T 60 10 Q 65 20, 70 10 T 80 10 Q 85 0, 90 10 T 100 10 T 110 10 Q 115 0, 120 10 T 130 10 Q 135 20, 140 10 T 150 10 Q 155 0, 160 10 T 170 10 Q 175 20, 180 10 T 190 10 Q 195 0, 200 10' fill='transparent' stroke='black' stroke-width='6'/%3E%3C/svg%3E");
-  mask-repeat: repeat-x;
-  mask-size: 120px 20px;
-  animation: squiggle-move var(--squiggle-speed, 0.5s) linear infinite;
-  filter: drop-shadow(0 0 10px rgba(29, 185, 84, 0.8));
-  opacity: 0.8;
+.spotify-bar-expanded {
+  width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; position: relative;
 }
-
-/* Secondary layer for haphazard interference */
-.spotify-squiggle::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: #1ed760;
-  mask-image: url("data:image/svg+xml,%3Csvg width='150' height='20' viewBox='0 0 150 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 10 20, 20 10 T 40 10 Q 50 0, 60 10 T 80 10 Q 90 20, 100 10 T 120 10 Q 130 0, 140 10 T 150 10' fill='transparent' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
-  mask-repeat: repeat-x;
-  mask-size: 80px 20px;
-  animation: squiggle-move 0.7s linear infinite reverse,
-             squiggle-jitter-v2 0.1s steps(2) infinite;
-  opacity: 0.6;
+.spotify-bar-fill-expanded {
+  height: 100%; background: #1DB954; border-radius: 4px; position: relative;
 }
-
-@keyframes squiggle-jitter-v2 {
-  0%   { transform: scaleY(0.6) translateY(2px) rotate(1deg); }
-  50%  { transform: scaleY(1.5) translateY(-3px) rotate(-1deg); }
-  100% { transform: scaleY(0.8) translateY(1px) rotate(0deg); }
-}
-
-@keyframes squiggle-move {
-  from { mask-position: 0 center; }
-  to { mask-position: 120px center; }
+.spotify-bar-fill-expanded::after {
+  content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
+  width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px rgba(255,255,255,0.4);
 }
 
 /* 🧊 Ultimate Liquid Glass Architecture */
@@ -202,7 +166,7 @@
   backdrop-filter: blur(45px) saturate(220%) contrast(115%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255,255,255,0.12) !important;
-  overflow: visible !important; /* Allow some pop-out effects */
+  overflow: visible !important;
 }
 
 /* Animated Flowing Mesh Gradient */
@@ -241,7 +205,7 @@
 
 /* Ensure Lastfm is not obscured */
 .lastfm-widget {
-  min-height: 480px;
+  min-height: auto;
   overflow: visible !important;
 }
 .lastfm-tracks {
@@ -288,30 +252,82 @@
 }
 
 /* ── Rotation animation — smooth, directional, with depth ─ */
-/* Override the base .rotating-item transition entirely */
-.rotating-item {
-  position: absolute; top: 0; left: 0; right: 0;
-  opacity: 0;
-  transform: translateY(14px) scale(0.97);
-  filter: blur(2px);
+/* 💻 Enhanced Terminal Feel */
+.terminal-body {
+  position: relative;
+  background: rgba(4, 5, 10, 0.85);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  overflow: hidden;
+}
+
+.terminal-body::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
   pointer-events: none;
-  transition:
-    opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    filter 0.45s ease;
-  will-change: opacity, transform, filter;
+}
+
+.terminal-meta {
+  color: #666; font-size: 0.7rem; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;
+}
+
+.t-prompt { color: #50fa7b; margin-right: 8px; font-weight: bold; }
+.t-cmd { color: #f1fa8c; }
+.t-out { color: #f8f8f2; opacity: 0.9; }
+
+/* Navigation Logo */
+.nav-logo {
+  width: 32px; height: 32px; border-radius: 6px; object-fit: cover;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 10px rgba(16,185,129,0.2);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.nav-logo:hover { transform: scale(1.15) rotate(5deg); border-color: var(--cyan); }
+
+.nav-logo-symbol {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: linear-gradient(135deg, var(--cyan), #0d9966);
+  color: #060a12; font-weight: 800; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 15px rgba(16,185,129,0.3);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.project-card.coming-soon { 
+  filter: grayscale(0.5); opacity: 0.85; border-style: dashed;
+}
+.project-card.coming-soon .proj-desc { font-style: italic; }
+
+@media (min-width: 721px) {
+  .project-card.coming-soon {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 540px;
+    width: 100%;
+  }
 }
 .rotating-item.active {
-  position: relative;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0px);
+  position: relative !important;
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0px) !important;
   pointer-events: all;
+  z-index: 2;
 }
 .rotating-item.exit-up {
-  opacity: 0;
-  transform: translateY(-14px) scale(0.97);
+  position: absolute !important;
+  top: 0; left: 0; right: 0;
+  opacity: 0 !important;
+  transform: translateY(-14px) scale(0.97) !important;
   filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Dots — match active item color */
