@@ -148,7 +148,10 @@ const CONFIG = {
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) {
         var events = data && data.events;
-        if (!events || !events.length) return;
+        if (!events || !events.length) {
+          setBarcaDisplay('⚽ Barça: No recent match data found.', false);
+          return;
+        }
 
         var liveEvent = null, recentEvent = null, upcomingEvent = null;
         for (var i = 0; i < events.length; i++) {
@@ -197,9 +200,13 @@ const CONFIG = {
           }
           var shortName = upcomingEvent.shortName || upcomingEvent.name || 'Next match TBD';
           setBarcaDisplay('📅 Next: ' + shortName + dateStr, false);
+        } else {
+           setBarcaDisplay('⚽ Barça: Session break or TBD.', false);
         }
       })
-      .catch(function () {});
+      .catch(function () {
+        setBarcaDisplay('⚽ Barça: Data offline. Check live scores.', false);
+      });
   }
 
   fetchBarca();
