@@ -4,6 +4,11 @@
    ============================================================ */
 'use strict';
 
+// Ensure smoothTransition helper exists as a fallback
+if (!window.smoothTransition) {
+    window.smoothTransition = (cb) => cb();
+}
+
 /* ── Shooting Stars ─────────────────────────────────────── */
 (function () {
   if (window._isMobile) return;
@@ -109,7 +114,7 @@
 /* ── Terminal Entrance ─────────────────────────────────── */
 (function () {
   document.querySelectorAll('.terminal-body .t-line').forEach(function (line, i) {
-    setTimeout(function () { line.classList.add('t-visible'); }, 200 + i * 260);
+    setTimeout(function () { line.classList.add('t-visible'); }, 50 + i * 120);
   });
 })();
 
@@ -141,8 +146,8 @@
   var backdrop = document.getElementById('certs-backdrop');
   var closeBtn = document.getElementById('certs-close');
   if (!drawer) return;
-  function open()  { drawer.classList.add('open');    document.body.style.overflow = 'hidden'; }
-  function close() { drawer.classList.remove('open'); document.body.style.overflow = ''; }
+  function open()  { window.smoothTransition(() => { drawer.classList.add('open');    document.body.style.overflow = 'hidden'; }); }
+  function close() { window.smoothTransition(() => { drawer.classList.remove('open'); document.body.style.overflow = ''; }); }
   document.querySelectorAll('a[href="#certifications"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); open(); }); });
   if (backdrop) backdrop.addEventListener('click', close);
   if (closeBtn)  closeBtn.addEventListener('click', close);
@@ -491,10 +496,12 @@ document.addEventListener('keydown', function (e) {
 
   /* ── accordion toggle ── */
   toggleBtn.addEventListener('click', function () {
-    isOpen = !isOpen;
-    content.classList.toggle('demo-content-open', isOpen);
-    toggleBtn.classList.toggle('open', isOpen);
-    if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
+    window.smoothTransition(() => {
+        isOpen = !isOpen;
+        content.classList.toggle('demo-content-open', isOpen);
+        toggleBtn.classList.toggle('open', isOpen);
+        if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
+    });
 
     // Animate progress bars when opening
     if (isOpen) {
@@ -505,8 +512,8 @@ document.addEventListener('keydown', function (e) {
         });
       }, 80);
 
-      // Fire the error popup every time the accordion is opened
-      setTimeout(showErrorPopup, 400);
+      // Fire the error popup after a very short delay
+      setTimeout(showErrorPopup, 100);
     }
   });
 })();

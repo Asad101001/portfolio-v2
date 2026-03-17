@@ -1,0 +1,164 @@
+
+/* ── Theme Definitions ── */
+:root {
+    /* Default: Emerald Cyber (current) */
+    --p-clr: #10B981;
+    --s-clr: #ADFF2F;
+    --acc-clr: #a855f7;
+}
+
+/* Industrial Brutalist Theme (Stark Monochrome) */
+body.theme-industrial {
+    --cyan:      #ffffff;
+    --lime:      #ffffff;
+    --purple:    #ffffff;
+    --orange:    #ffffff;
+    --bg:        #000000;
+    --bg2:       #000000;
+    --surface:   #0a0a0a;
+    --border:    rgba(255, 255, 255, 0.15);
+    --border-h:  #ffffff;
+    --text:      #ffffff;
+    --text-muted:#888888;
+    --text-dim:  #444444;
+    --scanline-op: 0.12;
+    --grid-clr: rgba(255, 255, 255, 0.08);
+}
+
+body.theme-industrial .glass-card {
+    border-radius: 0; /* Brutalist sharp corners */
+    border-width: 2px;
+}
+
+body.theme-industrial .hero-name {
+    text-shadow: 2px 2px 0px #ffffff;
+}
+
+body.theme-sunset {
+    --scanline-op: 0.03;
+    --grid-clr: rgba(255, 0, 85, 0.1);
+}
+
+:root {
+    --scanline-op: 0;
+    --grid-clr: rgba(16, 185, 129, 0.1);
+}
+
+/* Cyberpunk Sunset Theme (Crimson + Gold) */
+body.theme-sunset {
+    --cyan:      #ff0055;
+    --lime:      #ffd700;
+    --purple:    #ff00ff;
+    --orange:    #ff8800;
+    --bg:        #1a000d;
+    --bg2:       #0d0006;
+    --surface:   rgba(30, 0, 15, 0.85);
+    --border:    rgba(255, 0, 85, 0.2);
+    --border-h:  rgba(255, 0, 85, 0.5);
+    --text:      #ffccdd;
+    --text-muted:#cc99aa;
+    --text-dim:  #885566;
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 1000;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.theme-toggle.toggle-hidden {
+    transform: translateY(100px) scale(0.8);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    border-color: var(--cyan);
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Tooltip */
+.theme-toggle::after {
+    content: 'Switch Theme';
+    position: absolute;
+    left: calc(100% + 12px);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(-10px);
+}
+
+.theme-toggle:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Override specifics for themes */
+body.theme-industrial .hero-name {
+    background: linear-gradient(135deg, #fff 0%, #333 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+body.theme-sunset .hero-name {
+    background: linear-gradient(135deg, #ff0055 0%, #ffd700 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* CRT Scanline Overlay */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.15) 50%
+    ), linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.03), 
+        rgba(0, 255, 0, 0.01), 
+        rgba(0, 0, 255, 0.03)
+    );
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: var(--scanline-op);
+    mix-blend-mode: overlay;
+}
+
+/* View transition for theme swap */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

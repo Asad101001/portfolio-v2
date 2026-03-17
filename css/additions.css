@@ -999,10 +999,34 @@ section::before {
 #demo-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1);
+  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
   margin-top: 0;
 }
 #demo-content.demo-content-open {
   max-height: 1200px;
   margin-top: 28px;
 }
+
+/* ══════════════════════════════════════════════════════════
+   VIEW TRANSITIONS — Smooth UI Morphing
+   ══════════════════════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.certs-drawer { view-transition-name: certs-drawer; }
+
+/* ══════════════════════════════════════════════════════════
+   MAGNETIC REFINEMENTS
+   ══════════════════════════════════════════════════════════ */
+.magnetic, .social-platform-card, .proj-link-code, .proj-link-demo {
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.magnetic:hover, .social-platform-card:hover {
+  cursor: pointer;
+  z-index: 10;
+}
