@@ -1,0 +1,39 @@
+/* ── Industrial Stark (Overhauled) ── */
+body.theme-industrial {
+    --cyan:      #f97316; /* Safety Orange */
+    --lime:      #ffffff;
+    --purple:    #f97316;
+    --orange:    #ffffff;
+    --bg:        #000000;
+    --bg2:       #000000;
+    --surface:   #0a0a0a;
+    --border:    rgba(249, 115, 22, 0.2);
+    --border-h:  #f97316;
+    --text:      #ffffff;
+    --text-muted:#888888;
+    --text-dim:  #444444;
+    --scanline-op: 0.15;
+    --grid-clr: rgba(249, 115, 22, 0.1);
+}
+
+body.theme-industrial .glass-card {
+    border-radius: 0;
+    border-width: 2px;
+    border-color: rgba(249, 115, 22, 0.3) !important;
+}
+
+body.theme-industrial .hero-name {
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    text-shadow: 4px 4px 0px #f97316;
+}
+
+body.theme-industrial .status-pill {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: #f97316;
+}
+
+body.theme-industrial .btn-primary {
+    background: #f97316;
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+}

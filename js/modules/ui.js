@@ -505,15 +505,20 @@ document.addEventListener('keydown', function (e) {
 
     // Animate progress bars when opening
     if (isOpen) {
-      setTimeout(function () {
-        content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
-          f.style.transition = ''; // restore CSS transition
-          f.style.width = f.getAttribute('data-w') || '0%';
-        });
-      }, 80);
+      // TRIGGER INSTANTLY
+      content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
+        f.style.transition = 'width 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+        f.style.width = f.getAttribute('data-w') || '0%';
+      });
 
       // Fire the error popup after a very short delay
       setTimeout(showErrorPopup, 100);
+    } else {
+        // Reset them when closing so they re-animate next time
+        content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
+            f.style.transition = 'none';
+            f.style.width = '0%';
+        });
     }
   });
 })();

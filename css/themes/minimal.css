@@ -1,0 +1,40 @@
+/* ── Professional Minimal (Clean) ── */
+body.theme-minimal {
+    --cyan:      #2563eb; /* Clean Blue */
+    --lime:      #64748b;
+    --purple:    #2563eb;
+    --orange:    #2563eb;
+    --bg:        #ffffff;
+    --bg2:       #f8fafc;
+    --surface:   rgba(255, 255, 255, 0.9);
+    --border:    rgba(0, 0, 0, 0.05);
+    --border-h:  rgba(37, 99, 235, 0.3);
+    --text:      #0f172a;
+    --text-muted:#64748b;
+    --text-dim:  #94a3b8;
+    --scanline-op: 0;
+    --grid-clr: rgba(0, 0, 0, 0.03);
+}
+
+body.theme-minimal .hero-name {
+    background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: none;
+}
+
+body.theme-minimal .glass-card {
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-color: #e2e8f0;
+}
+
+body.theme-minimal .status-pill {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+body.theme-minimal section {
+    background: #ffffff;
+}

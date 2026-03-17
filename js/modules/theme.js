@@ -5,14 +5,21 @@
 'use strict';
 
 (function() {
-    const themes = ['default', 'industrial', 'sunset'];
+    const themes = ['sunset', 'industrial', 'emerald'];
     let currentThemeIndex = 0;
 
     // Load saved theme
     const savedTheme = localStorage.getItem('asad_portfolio_theme');
     if (savedTheme && themes.includes(savedTheme)) {
         currentThemeIndex = themes.indexOf(savedTheme);
-        document.body.className = currentThemeIndex === 0 ? '' : `theme-${themes[currentThemeIndex]}`;
+    } else {
+        // Default to sunset if no saved preference
+        currentThemeIndex = 0;
+    }
+    
+    // Apply initial theme immediately to body
+    if (currentThemeIndex !== -1) {
+        document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
     }
 
     function rotateTheme() {
