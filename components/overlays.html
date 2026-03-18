@@ -7,164 +7,163 @@
     ════════════════════════════════════════════ -->
 
 
-    <div id="cursor-glow"></div>
-    <div id="toast"></div>
+<div id="cursor-glow"></div>
+<div id="toast"></div>
 
-    <canvas id="bg-canvas"></canvas>
+<canvas id="bg-canvas"></canvas>
 
-    <!-- BACK TO TOP -->
-    <button id="back-to-top" aria-label="Back to top" title="Back to top">
-        <svg class="progress-ring" width="44" height="44" viewBox="0 0 44 44"
-            style="position:absolute;top:0;left:0;pointer-events:none">
-            <circle class="progress-ring-track" cx="22" cy="22" r="19" fill="none" stroke="rgba(0,255,65,0.12)"
-                stroke-width="2" />
-            <circle id="scroll-ring" cx="22" cy="22" r="19" fill="none" stroke="var(--cyan)" stroke-width="2"
-                stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" transform="rotate(-90 22 22)"
-                style="transition:stroke-dashoffset 0.2s ease" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.5" style="position:relative;z-index:1">
-            <path d="m18 15-6-6-6 6" />
-        </svg>
-    </button>
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg class="progress-ring" width="44" height="44" viewBox="0 0 44 44"
+        style="position:absolute;top:0;left:0;pointer-events:none">
+        <circle class="progress-ring-track" cx="22" cy="22" r="19" fill="none" stroke="rgba(0,255,65,0.12)"
+            stroke-width="2" />
+        <circle id="scroll-ring" cx="22" cy="22" r="19" fill="none" stroke="var(--cyan)" stroke-width="2"
+            stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" transform="rotate(-90 22 22)"
+            style="transition:stroke-dashoffset 0.2s ease" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" style="position:relative;z-index:1">
+        <path d="m18 15-6-6-6 6" />
+    </svg>
+</button>
 
 
 
-    <!-- CERTIFICATIONS DRAWER -->
-    <div id="certs-drawer" aria-modal="true" role="dialog" aria-label="Certifications">
-        <div id="certs-backdrop"></div>
-        <div id="certs-panel">
-            <button id="certs-close" aria-label="Close certifications">&#x2715; Close</button>
-            <p class="label-xs">Credentials</p>
-            <h2 class="drawer-title">Certifications</h2>
-            <div class="certs-grid">
-                <div class="cert-card">
-                    <div class="cert-thumb">
-                        <img src="/certs/google-agile.png" alt="Google Agile Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🔄'}))" />
-                    </div>
-                    <p class="cert-title">Google Agile Essentials</p>
-                    <p class="cert-issuer">Google</p>
-                    <p class="cert-meta">Issued Jan 2026 &middot; ID 5RY1Q2E8VFGC</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">Agile Methodology</span>
-                        <span class="cert-skill">Lean Methodologies</span>
-                        <span class="cert-skill">Agile Project Management</span>
-                    </div>
-                    <span class="cert-badge completed">Completed</span>
+<!-- CERTIFICATIONS DRAWER -->
+<div id="certs-drawer" aria-modal="true" role="dialog" aria-label="Certifications">
+    <div id="certs-backdrop"></div>
+    <div id="certs-panel">
+        <button id="certs-close" aria-label="Close certifications">&#x2715; Close</button>
+        <p class="label-xs">Credentials</p>
+        <h2 class="drawer-title">Certifications</h2>
+        <div class="certs-grid">
+            <div class="cert-card">
+                <div class="cert-thumb">
+                    <img src="/certs/google-agile.png" alt="Google Agile Essentials"
+                        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🔄'}))" />
                 </div>
-                <div class="cert-card">
-                    <div class="cert-thumb">
-                        <img src="/certs/google-ai.png" alt="Google AI Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🤖'}))" />
-                    </div>
-                    <p class="cert-title">Google AI Essentials</p>
-                    <p class="cert-issuer">Google</p>
-                    <p class="cert-meta">Issued Dec 2025 &middot; ID HY8VX0Q5HT0U</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">AI / ML</span>
-                        <span class="cert-skill">NLP</span>
-                        <span class="cert-skill">Generative AI</span>
-                        <span class="cert-skill">Prompt Engineering</span>
-                        <span class="cert-skill">Use AI Responsibly</span>
-                    </div>
-                    <span class="cert-badge completed">Completed</span>
+                <p class="cert-title">Google Agile Essentials</p>
+                <p class="cert-issuer">Google</p>
+                <p class="cert-meta">Issued Jan 2026 &middot; ID 5RY1Q2E8VFGC</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">Agile Methodology</span>
+                    <span class="cert-skill">Lean Methodologies</span>
+                    <span class="cert-skill">Agile Project Management</span>
                 </div>
-                <div class="cert-card">
-                    <div class="cert-thumb">
-                        <img src="/certs/google-prompt.png" alt="Google Prompting Essentials"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'💬'}))" />
-                    </div>
-                    <p class="cert-title">Google Prompting Essentials</p>
-                    <p class="cert-issuer">Google</p>
-                    <p class="cert-meta">Issued Dec 2025 &middot; ID ONHQG9H3H8EE</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">Prompt Engineering</span>
-                        <span class="cert-skill">AI Tools</span>
-                        <span class="cert-skill">Responsible AI Use</span>
-                    </div>
-                    <span class="cert-badge completed">Completed</span>
+                <span class="cert-badge completed">Completed</span>
+            </div>
+            <div class="cert-card">
+                <div class="cert-thumb">
+                    <img src="/certs/google-ai.png" alt="Google AI Essentials"
+                        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'🤖'}))" />
                 </div>
-                <div class="cert-card">
-                    <div class="cert-thumb">
-                        <img src="/certs/ned-ds.png" alt="Certified Data Scientist"
-                            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'📊'}))" />
-                    </div>
-                    <p class="cert-title">Certified Data Scientist</p>
-                    <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
-                    <p class="cert-meta">Issued Nov 2024 &middot; ID 25317</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">Statistical Analysis</span>
-                        <span class="cert-skill">NumPy</span>
-                        <span class="cert-skill">Scikit-Learn</span>
-                        <span class="cert-skill">pandas</span>
-                        <span class="cert-skill">Matplotlib</span>
-                        <span class="cert-skill">R</span>
-                        <span class="cert-skill">Random Forest</span>
-                    </div>
-                    <span class="cert-badge completed">Completed</span>
+                <p class="cert-title">Google AI Essentials</p>
+                <p class="cert-issuer">Google</p>
+                <p class="cert-meta">Issued Dec 2025 &middot; ID HY8VX0Q5HT0U</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">AI / ML</span>
+                    <span class="cert-skill">NLP</span>
+                    <span class="cert-skill">Generative AI</span>
+                    <span class="cert-skill">Prompt Engineering</span>
+                    <span class="cert-skill">Use AI Responsibly</span>
                 </div>
-                <div class="cert-card cert-card--ongoing">
-                    <div class="cert-thumb cert-thumb--placeholder">
-                        <span class="cert-placeholder-icon">☁</span>
-                    </div>
-                    <p class="cert-title">Cloud Computing</p>
-                    <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
-                    <p class="cert-meta">Ongoing &middot; Certificate pending</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">AWS</span>
-                        <span class="cert-skill">Cloud Architecture</span>
-                        <span class="cert-skill">EC2 / S3 / RDS</span>
-                        <span class="cert-skill">VPC Networking</span>
-                        <span class="cert-skill">Linux</span>
-                    </div>
-                    <span class="cert-badge inprogress">In Progress</span>
+                <span class="cert-badge completed">Completed</span>
+            </div>
+            <div class="cert-card">
+                <div class="cert-thumb">
+                    <img src="/certs/google-prompt.png" alt="Google Prompting Essentials"
+                        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'💬'}))" />
                 </div>
-                <div class="cert-card cert-card--ongoing">
-                    <div class="cert-thumb cert-thumb--placeholder">
-                        <span class="cert-placeholder-icon">🧠</span>
-                    </div>
-                    <p class="cert-title">Generative AI Training Cohort 2</p>
-                    <p class="cert-issuer">Higher Education Commission (HEC) Pakistan</p>
-                    <p class="cert-meta">Ongoing &middot; Certificate pending</p>
-                    <div class="cert-skills">
-                        <span class="cert-skill">Generative AI</span>
-                        <span class="cert-skill">LLMs</span>
-                        <span class="cert-skill">Prompt Engineering</span>
-                        <span class="cert-skill">RAG Systems</span>
-                        <span class="cert-skill">AI Ethics</span>
-                    </div>
-                    <span class="cert-badge inprogress">In Progress</span>
+                <p class="cert-title">Google Prompting Essentials</p>
+                <p class="cert-issuer">Google</p>
+                <p class="cert-meta">Issued Dec 2025 &middot; ID ONHQG9H3H8EE</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">Prompt Engineering</span>
+                    <span class="cert-skill">AI Tools</span>
+                    <span class="cert-skill">Responsible AI Use</span>
                 </div>
+                <span class="cert-badge completed">Completed</span>
+            </div>
+            <div class="cert-card">
+                <div class="cert-thumb">
+                    <img src="/certs/ned-ds.png" alt="Certified Data Scientist"
+                        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cert-emoji',textContent:'📊'}))" />
+                </div>
+                <p class="cert-title">Certified Data Scientist</p>
+                <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
+                <p class="cert-meta">Issued Nov 2024 &middot; ID 25317</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">Statistical Analysis</span>
+                    <span class="cert-skill">NumPy</span>
+                    <span class="cert-skill">Scikit-Learn</span>
+                    <span class="cert-skill">pandas</span>
+                    <span class="cert-skill">Matplotlib</span>
+                    <span class="cert-skill">R</span>
+                    <span class="cert-skill">Random Forest</span>
+                </div>
+                <span class="cert-badge completed">Completed</span>
+            </div>
+            <div class="cert-card cert-card--ongoing">
+                <div class="cert-thumb cert-thumb--placeholder">
+                    <span class="cert-placeholder-icon">☁</span>
+                </div>
+                <p class="cert-title">Cloud Computing</p>
+                <p class="cert-issuer">NED University of Engineering &amp; Technology</p>
+                <p class="cert-meta">Ongoing &middot; Certificate pending</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">AWS</span>
+                    <span class="cert-skill">Cloud Architecture</span>
+                    <span class="cert-skill">EC2 / S3 / RDS</span>
+                    <span class="cert-skill">VPC Networking</span>
+                    <span class="cert-skill">Linux</span>
+                </div>
+                <span class="cert-badge inprogress">In Progress</span>
+            </div>
+            <div class="cert-card cert-card--ongoing">
+                <div class="cert-thumb cert-thumb--placeholder">
+                    <span class="cert-placeholder-icon">🧠</span>
+                </div>
+                <p class="cert-title">Generative AI Training Cohort 2</p>
+                <p class="cert-issuer">Higher Education Commission (HEC) Pakistan</p>
+                <p class="cert-meta">Ongoing &middot; Certificate pending</p>
+                <div class="cert-skills">
+                    <span class="cert-skill">Generative AI</span>
+                    <span class="cert-skill">LLMs</span>
+                    <span class="cert-skill">Prompt Engineering</span>
+                    <span class="cert-skill">RAG Systems</span>
+                    <span class="cert-skill">AI Ethics</span>
+                </div>
+                <span class="cert-badge inprogress">In Progress</span>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- ERROR POPUP — triggered by #experience-toggle click -->
-    <div id="error-popup" class="error-popup" aria-hidden="true">
-        <div class="error-popup-bar">
-            <span class="error-popup-trafficlight red"></span>
-            <span class="error-popup-trafficlight yellow"></span>
-            <span class="error-popup-trafficlight green"></span>
-            <span class="error-popup-title">runtime_exception.log</span>
-        </div>
-        <div class="error-popup-body">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                style="flex-shrink:0;margin-top:2px">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-            <div>
-                <p class="error-popup-msg">ExperienceNotFoundException</p>
-                <p class="error-popup-trace">at Portfolio.getWorkHistory() → line 404</p>
-                <p class="error-popup-trace">at #experience-toggle :: click handler</p>
-                <p class="error-popup-trace" style="opacity:0.5">Experience Not Found — you scrolled all the way
-                    down here looking for hints of past experience. Good luck finding it.</p>
-            </div>
-        </div>
-        <div class="error-popup-timer">
-            <div class="error-popup-timer-fill" id="error-timer-fill"></div>
+<!-- ERROR POPUP — triggered by #experience-toggle click -->
+<div id="error-popup" class="error-popup" aria-hidden="true">
+    <div class="error-popup-bar">
+        <span class="error-popup-trafficlight red"></span>
+        <span class="error-popup-trafficlight yellow"></span>
+        <span class="error-popup-trafficlight green"></span>
+        <span class="error-popup-title">runtime_exception.log</span>
+    </div>
+    <div class="error-popup-body">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <div>
+            <p class="error-popup-msg">ExperienceNotFoundException</p>
+            <p class="error-popup-trace">at Portfolio.getWorkHistory() → line 404</p>
+            <p class="error-popup-trace">at #experience-toggle :: click handler</p>
+            <p class="error-popup-trace" style="opacity:0.5">Experience Not Found — you scrolled all the way
+                down here looking for hints of past experience. Good luck finding it.</p>
         </div>
     </div>
+    <div class="error-popup-timer">
+        <div class="error-popup-timer-fill" id="error-timer-fill"></div>
+    </div>
+</div>

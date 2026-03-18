@@ -66,9 +66,9 @@
             </a>
         </div>
 
-        <!-- Row 2: Optimized Social Grid (Focused Ratios) -->
+        <!-- Row 2: Optimized Social Grid -->
         <div class="social-cards-grid stagger">
-            <!-- Col 1: Spotify (Main Focus) -->
+            <!-- Col 1: Spotify -->
             <div class="spotify-widget glass-card stagger-item" id="spotify-widget">
                 <div class="spotify-widget-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#1DB954">
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            <!-- Col 2: Last.fm (Full Data) -->
+            <!-- Col 2: Last.fm -->
             <div class="lastfm-widget glass-card stagger-item" style="display:flex; flex-direction:column;">
                 <div class="lastfm-widget-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#D51007">
@@ -102,42 +102,46 @@
                 </div>
             </div>
 
-            <!-- Col 3: Stack -->
-            <div class="xp-widget glass-card stagger-item" id="xp-widget">
-                <div class="xp-header">
-                    <span class="xp-label">Visitor XP</span>
-                    <span class="xp-level" id="xp-level-badge">Lv.1</span>
+            <!-- Col 3: Twitter, LinkedIn & XP -->
+            <div class="social-col-3-wrap stagger-item" style="display:flex; flex-direction:column; gap:20px;">
+                <div class="glass-card twitter-widget" style="padding:14px;">
+                    <div class="twitter-header" style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        <span style="font-size: 0.68rem; font-weight: 700; color: #fff; text-transform: uppercase;">X / Twitter</span>
+                    </div>
+                    <div id="twitter-feed" class="twitter-feed"></div>
                 </div>
-                <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar"></div></div>
-                <div class="xp-meta">
-                    <span id="xp-count-label" style="font-size:0.6rem;">Visit #0</span>
-                    <span id="xp-next" style="margin-left:auto; font-size:0.6rem;">- XP</span>
-                </div>
-            </div>
 
-            <div class="game-widget glass-card stagger-item" id="game-widget">
-                <div class="game-header">
-                    <span class="game-label" style="font-size:0.65rem;">Git Logic</span>
-                    <span id="game-score" style="margin-left:auto; font-size:0.6rem; color:var(--text-dim);">0 Commits</span>
-                </div>
-                <div id="game-canvas-wrap" style="position:relative; width:100%; height:80px; background:rgba(0,255,100,0.02); border-radius:4px; overflow:hidden; border:1px solid rgba(0,255,100,0.1); margin-top:8px;">
-                    <canvas id="game-canvas" width="400" height="80" style="width:100%; height:100%; image-rendering: pixelated;"></canvas>
-                    <div id="game-overlay" style="position:absolute; inset:0; background:rgba(0,0,0,0.8); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; z-index:10;">
-                        <span style="font-size:0.7rem; font-weight:800; color:#ef4444; margin-bottom:4px;">MERGE CONFLICT!</span>
-                        <span style="font-size:0.6rem; color:var(--text-dim);">Tap to force push (restart)</span>
+                <div class="glass-card linkedin-activity-widget" style="padding:14px;">
+                    <div class="li-header" style="margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <span style="font-size: 0.68rem; font-weight: 700; color: #fff; text-transform: uppercase;">Professional Activity</span>
+                    </div>
+                    <div id="li-post-snippet" class="li-post-snippet">
+                        <div class="li-profile-mini" style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <div style="width:24px; height:24px; border-radius:50%; background:var(--cyan); font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#000;">MA</div>
+                            <div>
+                                <div style="font-size:0.65rem; font-weight:700;">Muhammad Asad Khan</div>
+                                <div style="font-size:0.5rem; color:var(--text-dim);">Post • 4h ago</div>
+                            </div>
+                        </div>
+                        <p style="font-size:0.72rem; line-height:1.4; color:var(--text-muted); margin-bottom:4px;">
+                            "Excited to share that I've been diving deep into Cloud Architecture and RAG systems..."
+                        </p>
+                        <a href="https://www.linkedin.com/in/muhammadasadk/" target="_blank" style="font-size:0.58rem; color:var(--cyan);">Open Profile ↗</a>
                     </div>
                 </div>
-            </div>
 
-            <div class="dev-notes-widget glass-card stagger-item" style="padding:14px;">
-                <div class="dev-notes-header" style="margin-bottom:10px; display:flex; align-items:center; gap:8px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                    <span style="font-size: 0.68rem; font-weight: 700; color: var(--purple); text-transform: uppercase;">Dev Notes</span>
-                </div>
-                <div class="fun-facts" style="gap:6px; display:flex; flex-direction:column;">
-                    <div class="fun-fact-item" style="font-size:0.68rem; padding:8px 12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:4px; line-height:1.4;">Bugs feared? 0.<br>Bugs fixed? debatable.</div>
-                    <div class="fun-fact-item" style="font-size:0.68rem; padding:8px 12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:4px;">Peak productivity: 11pm &ndash; 3am.</div>
-                    <div class="fun-fact-item" style="font-size:0.68rem; padding:8px 12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:4px;">Reads docs... eventually.</div>
+                <div class="xp-widget glass-card" id="xp-widget">
+                    <div class="xp-header">
+                        <span class="xp-label">Visitor XP</span>
+                        <span class="xp-level" id="xp-level-badge">Lv.1</span>
+                    </div>
+                    <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar"></div></div>
+                    <div class="xp-meta">
+                        <span id="xp-count-label" style="font-size:0.6rem;">Visit #0</span>
+                        <span id="xp-next" style="margin-left:auto; font-size:0.6rem;">- XP</span>
+                    </div>
                 </div>
             </div>
         </div>

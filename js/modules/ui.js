@@ -5,9 +5,7 @@
 'use strict';
 
 // Ensure smoothTransition helper exists as a fallback
-if (!window.smoothTransition) {
-    window.smoothTransition = (cb) => cb();
-}
+// window.smoothTransition is handled by animations.js
 
 /* ── Shooting Stars ─────────────────────────────────────── */
 (function () {
@@ -25,7 +23,16 @@ if (!window.smoothTransition) {
   setTimeout(spawn, 1200);
 })();
 
-/* ── Cursor Glow ────────────────────────────────────────── */
+/* ── Global Mouse Tracking for Glows ────────────────────── */
+(function () {
+  if (window._isMobile) return;
+  document.addEventListener('mousemove', function (e) {
+    document.documentElement.style.setProperty('--x', e.clientX + 'px');
+    document.documentElement.style.setProperty('--y', e.clientY + 'px');
+  }, { passive: true });
+})();
+
+/* ── Cursor Glow (Follower) ─────────────────────────────── */
 (function () {
   var el = document.getElementById('cursor-glow');
   if (!el || window._isMobile) return;
@@ -211,47 +218,7 @@ if (!window.smoothTransition) {
   });
 })();
 
-/* ── Card Tilt ──────────────────────────────────────────── */
-(function () {
-  if (window._isMobile) return;
-  document.querySelectorAll('.project-card').forEach(function (card) {
-    card.addEventListener('mousemove', function (e) {
-      var rect = card.getBoundingClientRect();
-      var rx = ((e.clientY - rect.top) / rect.height - 0.5) * -4;
-      var ry = ((e.clientX - rect.left) / rect.width - 0.5) * 4;
-      card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
-    });
-    card.addEventListener('mouseleave', function () { card.style.transform = ''; });
-  });
-})();
-
-/* ── Magnetic Button Hover ──────────────────────────────── */
-(function () {
-  if (window._isMobile) return;
-  document.querySelectorAll('.magnetic').forEach(function (btn) {
-    btn.addEventListener('mousemove', function (e) {
-      var rect = btn.getBoundingClientRect();
-      var dx = (e.clientX - rect.left - rect.width / 2) * 0.15;
-      var dy = (e.clientY - rect.top  - rect.height / 2) * 0.15;
-      btn.style.transform = 'translate3d(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px,0)';
-    });
-    btn.addEventListener('mouseleave', function () { btn.style.transform = ''; });
-  });
-})();
-
-/* ── Interactive Spotlight Hover for Social Cards ──────── */
-(function () {
-  if (window._isMobile) return;
-  document.querySelectorAll('.social-platform-row').forEach(function (row) {
-    row.addEventListener('mousemove', function (e) {
-      var rect = row.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      row.style.setProperty('--x', x + 'px');
-      row.style.setProperty('--y', y + 'px');
-    });
-  });
-})();
+/* Animation effects (Tilt, Magnetic, Spotlight) moved to animations.js */
 
 /* ── Rotating Widget — smooth directional animation ─────── */
 (function () {
@@ -465,60 +432,56 @@ document.addEventListener('keydown', function (e) {
   var isOpen = false;
   var popupTimer = null;
 
-  /* ── shared helper: show the error popup ── */
   function showErrorPopup() {
     if (!popup) return;
-    // Reset timer bar
+    popup.classList.add('visible');
+    popup.setAttribute('aria-hidden', 'false');
+
     if (timerFill) {
       timerFill.style.transition = 'none';
       timerFill.style.transform  = 'scaleX(1)';
-    }
-    popup.setAttribute('aria-hidden', 'false');
-    popup.classList.add('visible');
-
-    // Animate timer bar draining over 4 s
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        if (timerFill) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
           timerFill.style.transition = 'transform 4s linear';
           timerFill.style.transform  = 'scaleX(0)';
-        }
+        });
       });
-    });
+    }
 
-    // Auto-dismiss
     clearTimeout(popupTimer);
-    popupTimer = setTimeout(function () {
+    popupTimer = setTimeout(() => {
       popup.classList.remove('visible');
       popup.setAttribute('aria-hidden', 'true');
     }, 4200);
   }
 
-  /* ── accordion toggle ── */
   toggleBtn.addEventListener('click', function () {
-    window.smoothTransition(() => {
-        isOpen = !isOpen;
-        content.classList.toggle('demo-content-open', isOpen);
-        toggleBtn.classList.toggle('open', isOpen);
-        if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
-    });
+    isOpen = !isOpen;
+    
+    // UI Updates
+    toggleBtn.classList.toggle('open', isOpen);
+    content.classList.toggle('demo-content-open', isOpen);
+    if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
 
-    // Animate progress bars when opening
     if (isOpen) {
-      // TRIGGER INSTANTLY
-      content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
-        f.style.transition = 'width 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+      // TRIGGER BARS IMMEDIATELY
+      var bars = content.querySelectorAll('.demo-progress-fill');
+      bars.forEach(function (f) {
+        f.style.transition = 'width 1.2s cubic-bezier(0.22, 1, 0.36, 1)';
         f.style.width = f.getAttribute('data-w') || '0%';
       });
-
-      // Fire the error popup after a very short delay
-      setTimeout(showErrorPopup, 100);
+      // Delay popup slightly for impact
+      setTimeout(showErrorPopup, 200);
     } else {
-        // Reset them when closing so they re-animate next time
-        content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
-            f.style.transition = 'none';
-            f.style.width = '0%';
-        });
+      // Reset
+      content.querySelectorAll('.demo-progress-fill').forEach(function (f) {
+        f.style.transition = 'none';
+        f.style.width = '0%';
+      });
+      if (popup) {
+        popup.classList.remove('visible');
+        clearTimeout(popupTimer);
+      }
     }
   });
 })();

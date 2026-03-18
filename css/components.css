@@ -2,6 +2,11 @@
    css/components.css
    Nav, Buttons, Cards, Hero, Sections — all component styles
    ============================================================ */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; width: 0%; height: 2px;
+  background: var(--cyan); z-index: 200; box-shadow: 0 0 8px var(--cyan);
+  transition: width 0.1s linear;
+}
 
 /* ── Space Background Canvas ─────────────────────────────── */
 #bg-canvas {
@@ -39,10 +44,13 @@
   position: relative; overflow: hidden; contain: layout style;
 }
 .glass-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(16,185,129,0.2), transparent);
+  content: ''; position: absolute; inset: 0;
+  background: var(--spotlight-gradient, radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%));
+  opacity: 0; transition: opacity 0.5s ease;
   pointer-events: none; z-index: 0;
 }
+.glass-card:hover::before { opacity: 1; }
+.glass-card .proj-body, .glass-card .proj-head, .glass-card .proj-img-wrap, .glass-card > * { position: relative; z-index: 1; }
 .glass-card::after { display: none; }
 .glass-card:hover {
   border-color: rgba(16,185,129,0.28); transform: translateY(-3px);
@@ -91,7 +99,7 @@ nav.nav-hidden { transform: translateY(-100px); opacity: 0; pointer-events: none
 @media (max-width: 900px) { #section-dots { display: none; } }
 
 /* ── Sections & Layout ────────────────────────────────────── */
-section { padding: 80px 16px; position: relative; content-visibility: auto; contain-intrinsic-size: auto 800px; background: #0D0D0D; z-index: 2; }
+section { padding: 80px 16px; position: relative; content-visibility: auto; contain-intrinsic-size: auto 800px; background: rgba(2, 2, 2, 0.45); backdrop-filter: blur(2px); z-index: 2; }
 #hero { content-visibility: visible; contain-intrinsic-size: auto; background: transparent; z-index: 1; }
 .section-inner { max-width: 1100px; margin: 0 auto; }
 .section-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 48px; }
@@ -121,26 +129,67 @@ section { padding: 80px 16px; position: relative; content-visibility: auto; cont
 #hero { min-height: 100vh; padding: 120px 16px 80px; display: flex; align-items: center; overflow: hidden; position: relative; }
 
 /* Hero Backdrop Image */
+/* Hero Backdrop Inner */
 .hero-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; will-change: transform, opacity; transform-origin: center top; transform: scale(calc(1 - var(--shrink, 0) * 0.15)); border-radius: calc(var(--shrink, 0) * 20px); opacity: calc(1 - var(--shrink, 0) * 1.2); transition: border-radius 0.15s linear; }
-.hero-backdrop-img {
+
+.hero-backdrop-inner {
   position: absolute; inset: 0;
   width: 100%; height: 115%;
   background-image: var(--hero-bg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.38;
-  filter: brightness(0.6) saturate(0.8) grayscale(0.1);
+  opacity: var(--hero-op, 0.38);
+  filter: brightness(var(--hero-br, 0.6)) saturate(0.8);
   will-change: transform;
   transform: translateY(0) translateZ(0);
+  transition: background-image 0.6s ease-in-out, opacity 0.6s ease;
 }
+
 .hero-backdrop-overlay {
   position: absolute; inset: 0;
   background: 
     linear-gradient(var(--grid-clr) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-clr) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(13,13,13,0.15) 0%, rgba(13,13,13,0.4) 40%, rgba(13,13,13,0.88) 78%, #0D0D0D 100%);
+    linear-gradient(to bottom, transparent 0%, rgba(2, 2, 2, 0.3) 40%, rgba(2, 2, 2, 0.7) 78%, rgba(2, 2, 2, 0.95) 100%);
   background-size: 40px 40px, 40px 40px, 100% 100%;
+  transition: background 0.6s ease;
+}
+
+/* Interactive Terminal */
+.interactive-terminal {
+    cursor: text;
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+    padding-bottom: 20px !important;
+}
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+#terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+}
+.t-cursor {
+    color: var(--cyan);
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+#terminal-history {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 #hero { position: relative; z-index: 1; }
 section:not(#hero) { position: relative; z-index: 2; background: #0D0D0D; }

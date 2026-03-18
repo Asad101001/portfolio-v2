@@ -76,41 +76,127 @@
         });
     }
 
-    /* ── Parallax Depth (Subtle) ── */
-    function initParallax() {
+    /* ── Spotlight Effect ── */
+    function initSpotlight() {
         if (window._isMobile) return;
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+    }
+
+    /* ── 3D Tilt Effect ── */
+    function initTilt() {
+        if (window._isMobile) return;
+        const tiltCards = document.querySelectorAll('.project-card, .about-stat-card, .social-platform-card, .hero-main, .hero-side');
+        
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Max tilt 5 degrees
+                const rotateX = ((y - centerY) / centerY) * -3;
+                const rotateY = ((x - centerX) / centerX) * 3;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    /* ── Spotlight Effect ── */
+    function initSpotlight() {
+        if (window._isMobile) return;
+        const cards = document.querySelectorAll('.glass-card, .social-platform-card, .project-card, .about-stat-card, .social-platform-row');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+    }
+
+    /* ── Parallax Depth & Scroll Progress ── */
+    function initParallax() {
+        const progressBar = document.querySelector('.scroll-progress');
         
         window._scrollTasks.push(function() {
             const y = window._scrollY;
+            const ly = window._lerpY || y; // Smooth value
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (y / Math.max(1, scrollHeight)) * 100;
             
-            // Hero parallax
-            const heroBackdrop = document.querySelector('.hero-backdrop-img');
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            
+            if (window._isMobile) return;
+            
+            // Hero parallax and zoom
+            const heroBackdrop = document.querySelector('.hero-backdrop-inner');
+            const heroBackdropContainer = document.querySelector('.hero-backdrop');
+            
             if (heroBackdrop) {
-                heroBackdrop.style.transform = `translate3d(0, ${y * 0.4}px, 0)`;
+                // Parallax shift using smooth lerp
+                heroBackdrop.style.transform = `translate3d(0, ${ly * 0.35}px, 0)`;
             }
-            
-            // Section watermark parallax (the 01, 02 numbers)
-            document.querySelectorAll('section::before').forEach(watermark => {
-                // Since pseudo-elements can't be styled via JS easily, we skip this or use a data-attribute trick
-                // Alternative: just use regular elements for watermarks
-            });
+            if (heroBackdropContainer) {
+                // Subtle zoom-out as you scroll
+                const shrink = (ly / 800);
+                const scale = Math.max(0.85, 1 - shrink * 0.15);
+                const opacity = Math.max(0, 1 - shrink * 1.1);
+                const radius = Math.min(24, shrink * 24);
+                
+                heroBackdropContainer.style.transform = `scale(${scale})`;
+                heroBackdropContainer.style.opacity = opacity;
+                heroBackdropContainer.style.borderRadius = `${radius}px`;
+            }
         });
+    }
+
+    /* ── Smooth Load Reveal ── */
+    function initLoadReveal() {
+        // Triggered when loader finishes
+        setTimeout(() => {
+            document.body.classList.add('is-ready');
+        }, 100);
     }
 
     /* ── Subtle Particle System ── */
     function initParticles() {
         const canvas = document.createElement('canvas');
         canvas.id = 'theme-particles';
-        canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;';
+        canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.25;';
         document.body.appendChild(canvas);
         
         const ctx = canvas.getContext('2d');
         let particles = [];
         let w, h;
+        let activeColor = '#10B981';
+
+        function updateColor() {
+            activeColor = getComputedStyle(document.body).getPropertyValue('--cyan').trim() || '#10B981';
+        }
 
         function resize() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
+            updateColor();
         }
 
         class Particle {
@@ -120,10 +206,10 @@
             reset() {
                 this.x = Math.random() * w;
                 this.y = Math.random() * h;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.35;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.alpha = Math.random() * 0.4 + 0.1;
             }
             update() {
                 this.x += this.vx;
@@ -131,8 +217,7 @@
                 if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
             }
             draw() {
-                const clr = getComputedStyle(document.body).getPropertyValue('--cyan').trim() || '#10B981';
-                ctx.fillStyle = clr;
+                ctx.fillStyle = activeColor;
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -142,7 +227,8 @@
 
         function init() {
             resize();
-            particles = Array.from({ length: 50 }, () => new Particle());
+            particles = Array.from({ length: 45 }, () => new Particle());
+            window.addEventListener('themechanged', updateColor);
         }
 
         function loop() {
@@ -165,6 +251,9 @@
         initSVGTrace();
         initParallax();
         initParticles();
+        initSpotlight();
+        initTilt();
+        initLoadReveal();
         
         // Wrap existing drawer toggle in View Transition
         const oldDrawerOpen = window.openCertsDrawer;

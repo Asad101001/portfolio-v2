@@ -4,16 +4,22 @@ body.theme-industrial {
     --lime:      #ffffff;
     --purple:    #f97316;
     --orange:    #ffffff;
-    --bg:        #000000;
-    --bg2:       #000000;
-    --surface:   #0a0a0a;
-    --border:    rgba(249, 115, 22, 0.2);
+    --bg:        #020202;
+    --bg2:       #0d0d0d;
+    --surface:   #060606;
+    --border:    rgba(249, 115, 22, 0.4);
     --border-h:  #f97316;
     --text:      #ffffff;
-    --text-muted:#888888;
-    --text-dim:  #444444;
-    --scanline-op: 0.15;
-    --grid-clr: rgba(249, 115, 22, 0.1);
+    --text-muted:#a1a1aa;
+    --text-dim:  #3f3f46;
+    --scanline-op: 0.25;
+    --grid-clr: rgba(249, 115, 22, 0.2);
+    --spotlight-gradient: radial-gradient(500px circle at var(--x, 0px) var(--y, 0px), rgba(249, 115, 22, 0.15), transparent 40%);
+}
+body.theme-industrial .glass-card {
+    background: #080808;
+    border-radius: 0;
+    border: 2px solid rgba(249, 115, 22, 0.3) !important;
 }
 
 body.theme-industrial .glass-card {

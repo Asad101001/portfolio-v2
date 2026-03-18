@@ -4,6 +4,17 @@
    ============================================================ */
 
 /* ── Section Reveal System ───────────────────────────────── */
+body:not(.is-ready) main, 
+body:not(.is-ready) section,
+body:not(.is-ready) nav { opacity: 0; }
+
+body.is-ready main, 
+body.is-ready section,
+body.is-ready nav { 
+  opacity: 1; 
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .section-in { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
 .section-in.in-view { opacity: 1; transform: translateY(0); }
 .section-in .s-child { opacity: 0; transform: translateY(18px); transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1); }
@@ -76,3 +87,15 @@
 
 /* ── Image transitions ───────────────────────────────────── */
 img { transition: opacity 0.3s ease; }
+
+/* ── Live Status Pulse ─────────────────────────────────── */
+.live-dot-pulse {
+  display: inline-block; width: 6px; height: 6px;
+  background: #22c55e; border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}

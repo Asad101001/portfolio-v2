@@ -4,7 +4,8 @@
     ════════════════════════════════════════════ -->
     <section id="hero">
         <div class="hero-backdrop" id="hero-backdrop">
-            <img src="/images/hero-bg.png" alt="" class="hero-backdrop-img" />
+            <!-- Background is now handled via CSS variable for theme-switching -->
+            <div class="hero-backdrop-inner" id="hero-bg-inner"></div>
             <div class="hero-backdrop-overlay"></div>
         </div>
 
@@ -71,7 +72,6 @@
                 </div>
             </div>
 
-            <!-- Row 1 Right: Terminal card -->
             <div class="card hero-side glass-card reveal" style="--delay:100ms">
                 <div class="terminal-bar">
                     <span class="t-dot t-red"></span>

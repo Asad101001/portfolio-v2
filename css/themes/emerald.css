@@ -4,16 +4,22 @@ body.theme-emerald {
     --lime:      #ADFF2F;
     --purple:    #a855f7;
     --orange:    #f97316;
-    --bg:        #0D0D0D;
-    --bg2:       #050505;
-    --surface:   rgba(13,13,13,0.75);
-    --border:    rgba(16,185,129,0.1);
-    --border-h:  rgba(16,185,129,0.35);
+    --bg:        #010503;
+    --bg2:       #02120a;
+    --surface:   rgba(2, 8, 5, 0.96);
+    --border:    rgba(16, 185, 129, 0.4);
+    --border-h:  rgba(16, 185, 129, 0.7);
     --text:      #e2e8f0;
-    --text-muted:#71717a;
-    --text-dim:  #3f3f46;
+    --text-muted:#80a090;
+    --text-dim:  #2d4038;
     --scanline-op: 0;
-    --grid-clr: rgba(16, 185, 129, 0.1);
+    --grid-clr: rgba(16, 185, 129, 0.25);
+    --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16, 185, 129, 0.15), transparent 40%);
+}
+body.theme-emerald .glass-card {
+    background: rgba(2, 10, 6, 0.9);
+    border-color: rgba(16, 185, 129, 0.25) !important;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(16, 185, 129, 0.05);
 }
 
 body.theme-emerald .hero-name {

@@ -3,17 +3,26 @@
 @import url('themes/emerald.css');
 
 :root {
-    --hero-bg: url('/images/sunset_bg.png'); /* Default */
+    --hero-bg: url('/images/sunset_bg.png'); /* Default Sunset */
+    --hero-op: 0.42;
+    --hero-br: 0.7;
     --scanline-op: 0;
     --grid-clr: rgba(255, 255, 255, 0.1);
+    --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%);
 }
 
 body.theme-industrial {
     --hero-bg: url('/images/industrial_bg.png');
+    --hero-op: 0.35;
+    --hero-br: 0.55;
+    --spotlight-gradient: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(249,115,22,0.1), transparent 40%);
 }
 
 body.theme-emerald {
     --hero-bg: url('/images/hero-bg.png');
+    --hero-op: 0.28;
+    --hero-br: 0.65;
+    --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16,185,129,0.08), transparent 40%);
 }
 
 /* Theme Toggle Button Styling */

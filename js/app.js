@@ -16,10 +16,7 @@ window.scrollTo(0, 0);
 
 /* ── Global Shared State ─────────────────────────────────── */
 window._isMobile   = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
-window._scrollY    = 0;
-window._scrollDir  = 0;
-window._docH       = 0;
-window._heroVisible = true;
+window._lerpY    = 0;
 window._scrollTasks = [];
 
 /* ── Passive scroll listener ─────────────────────────────── */
@@ -45,6 +42,10 @@ window._scrollTasks = [];
 
 /* ── Master rAF Loop — drives all registered scroll tasks ── */
 (function loop() {
+  // Lerp factor (higher = faster response)
+  const factor = 0.08;
+  window._lerpY += (window._scrollY - window._lerpY) * factor;
+  
   for (var i = 0; i < window._scrollTasks.length; i++) window._scrollTasks[i]();
   requestAnimationFrame(loop);
 })();

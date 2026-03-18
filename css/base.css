@@ -37,17 +37,29 @@ html {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* ── Body ───────────────────────────────────────────────── */
 body {
   font-family: 'Space Grotesk', sans-serif;
-  background: #0D0D0D;
+  background: var(--bg, #020202);
   background-image:
-    radial-gradient(circle at 50% 0%,   rgba(16,185,129,0.04) 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(173,255,47,0.015) 0%, transparent 40%);
+    radial-gradient(circle at 50% 0%,   var(--grid-clr) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, var(--border) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-attachment: fixed;
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
   -webkit-overflow-scrolling: touch;
+  transition: background 0.6s ease;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(40vmax circle at var(--x, 50.1%) var(--y, 50.1%), var(--grid-clr) 0%, transparent 80%);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 1;
 }
 
 /* ── Selection ──────────────────────────────────────────── */
