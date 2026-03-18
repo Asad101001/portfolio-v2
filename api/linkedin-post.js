@@ -4,15 +4,13 @@ const UPSTASH_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 const POST_SECRET   = process.env.LINKEDIN_POST_SECRET;
 
-async function kv_set(key, value) {
-  // value must be a plain object — we stringify it once here
-  const res = await fetch(`${UPSTASH_URL}/set/${encodeURIComponent(key)}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${UPSTASH_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(JSON.stringify(value)), // Upstash SET body wraps the value
+// Upstash REST: SET key value
+// The value goes in the URL as a path segment, NOT in the body
+async function kv_set(key, obj) {
+  const value = JSON.stringify(obj);
+  const res = await fetch(`${UPSTASH_URL}/set/${encodeURIComponent(key)}/${encodeURIComponent(value)}`, {
+    method: 'GET', // Upstash REST SET via GET: /set/key/value
+    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
   });
   return res.json();
 }
@@ -23,7 +21,6 @@ async function kv_get(key) {
   });
   const data = await res.json();
   if (!data.result) return null;
-  // data.result is a string — parse it to get the object back
   try {
     return JSON.parse(data.result);
   } catch {
@@ -45,22 +42,22 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   if (req.method === 'GET') {
-    res.setHeader('Cache-Control', 'no-store'); // Disable CDN cache while debugging
+    res.setHeader('Cache-Control', 'no-store');
     try {
       const stored = await kv_get('linkedin_data');
-      if (!stored || typeof stored !== 'object') {
+      if (!stored || typeof stored !== 'object' || !stored.text) {
         return res.json({
-          text: "Excited to share that I have been diving deep into Cloud Architecture, LLM pipelines and RAG systems as part of the HEC GenAI Cohort 2. Building broken things and unbreaking them - that is the way.",
-          url: 'https://www.linkedin.com/in/muhammadasadk/',
+          text: "Proud to present LegalEase AI - built at the Hackathon for HEC Generative AI Training Cohort 2. My first hackathon ever. Upload any contract and get clause risk-rating, plain Urdu explanations, a RAG chatbot, and a downloadable PDF report. Full analysis in under a minute.",
+          url: 'https://www.linkedin.com/feed/update/urn:li:activity:7432247621462675456/',
           date: null,
           profile: DEFAULT_PROFILE,
           source: 'fallback'
         });
       }
       return res.json({
-        text:    stored.text    || '',
-        url:     stored.url     || 'https://www.linkedin.com/in/muhammadasadk/',
-        date:    stored.date    || null,
+        text:    stored.text,
+        url:     stored.url || 'https://www.linkedin.com/in/muhammadasadk/',
+        date:    stored.date || null,
         profile: { ...DEFAULT_PROFILE, ...(stored.profile || {}) },
         source:  'live'
       });
