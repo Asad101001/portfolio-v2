@@ -157,62 +157,53 @@
                     <div id="twitter-feed" class="twitter-feed"></div>
                 </div>
 
-                <!-- Replace the existing linkedin-activity-widget glass-card in contact.html with this -->
-
+                <!-- Replace the existing linkedin-activity-widget glass-card in contact.html with this entire block -->
+                
                 <div class="glass-card linkedin-activity-widget" style="padding:14px;">
                     <div class="li-header" style="margin-bottom:10px; display:flex; align-items:center; gap:8px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                            fill="#0077b5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#0077b5">
                             <path
                                 d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                         </svg>
-                        <span
-                            style="font-size: 0.68rem; font-weight: 700; color: #fff; text-transform: uppercase;">Latest
-                            Post</span>
-                        <!-- Live indicator dot — green if post < 7 days old -->
-                        <span class="li-live-dot" style="
-            width: 6px; height: 6px; border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            margin-left: auto; flex-shrink: 0;
-            transition: background 0.3s, box-shadow 0.3s;
-        "></span>
+                        <span style="font-size:0.68rem; font-weight:700; color:#fff; text-transform:uppercase;">Latest Post</span>
+                        <span class="li-live-dot"
+                            style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);margin-left:auto;flex-shrink:0;transition:background 0.3s,box-shadow 0.3s;"></span>
                     </div>
-
-                    <div id="li-post-snippet" style="display:flex; flex-direction:column; gap:8px;">
-                        <!-- Profile row -->
-                        <div class="li-profile-mini" style="display:flex; align-items:center; gap:8px;">
-                            <div
-                                style="width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#0077b5,#00a0dc); font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#fff; flex-shrink:0;">
+                
+                    <div id="li-post-snippet" style="display:flex;flex-direction:column;gap:8px;">
+                
+                        <!-- Profile row — avatar, name, headline, timestamp -->
+                        <div class="li-profile-mini" style="display:flex;align-items:center;gap:8px;">
+                            <!-- Avatar: JS will replace with photo if available, otherwise shows initials -->
+                            <div class="li-avatar-wrap"
+                                style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0077b5,#00a0dc);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;flex-shrink:0;">
                                 MA</div>
-                            <div>
-                                <div style="font-size:0.68rem; font-weight:700; color:#fff;">Muhammad Asad Khan</div>
-                                <div style="font-size:0.55rem; color:var(--text-dim);">
-                                    CS Student @ UBIT · <span class="li-post-time">recent</span>
-                                </div>
+                            <div style="min-width:0;flex:1;">
+                                <div class="li-profile-name"
+                                    style="font-size:0.68rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    Muhammad Asad Khan</div>
+                                <div class="li-profile-headline"
+                                    style="font-size:0.55rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    CS Student @ UBIT · <span class="li-post-time">recently</span></div>
                             </div>
                         </div>
-
+                
                         <!-- Post text -->
-                        <p class="li-post-text"
-                            style="font-size:0.72rem; line-height:1.5; color:var(--text-muted); margin:0;">
+                        <p class="li-post-text" style="font-size:0.72rem;line-height:1.5;color:var(--text-muted);margin:0;">
                             "Loading latest post…"
                         </p>
-
+                
                         <!-- Footer -->
                         <div
-                            style="display:flex; align-items:center; justify-content:space-between; padding-top:6px; border-top:1px solid rgba(255,255,255,0.05);">
-                            <div style="display:flex; gap:12px;">
-                                <span
-                                    style="font-size:0.6rem; color:var(--text-dim); display:flex; align-items:center; gap:3px;">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="#0077b5">
-                                        <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z" />
-                                    </svg>
-                                    LinkedIn
-                                </span>
-                            </div>
-                            <a class="li-post-link" href="https://www.linkedin.com/in/muhammadasadk/" target="_blank"
-                                rel="noopener"
-                                style="font-size:0.6rem; color:#0077b5; font-weight:700; text-decoration:none; transition:opacity 0.2s;"
+                            style="display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);">
+                            <span style="font-size:0.6rem;color:var(--text-dim);display:flex;align-items:center;gap:3px;">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="#0077b5">
+                                    <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z" />
+                                </svg>
+                                LinkedIn
+                            </span>
+                            <a class="li-post-link" href="https://www.linkedin.com/in/muhammadasadk/" target="_blank" rel="noopener"
+                                style="font-size:0.6rem;color:#0077b5;font-weight:700;text-decoration:none;transition:opacity 0.2s;"
                                 onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
                                 View on LinkedIn ↗
                             </a>
