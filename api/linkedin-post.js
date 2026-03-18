@@ -1,20 +1,18 @@
 // api/linkedin-post.js
-// Stores your latest LinkedIn post + profile snapshot
-// GET  /api/linkedin-post  → returns { text, url, date, profile: { name, headline, photo } }
-// POST /api/linkedin-post  → saves new data (called by you manually)
 
 const UPSTASH_URL   = process.env.UPSTASH_REDIS_REST_URL;
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 const POST_SECRET   = process.env.LINKEDIN_POST_SECRET;
 
 async function kv_set(key, value) {
+  // value must be a plain object — we stringify it once here
   const res = await fetch(`${UPSTASH_URL}/set/${encodeURIComponent(key)}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${UPSTASH_TOKEN}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(value),
+    body: JSON.stringify(JSON.stringify(value)), // Upstash SET body wraps the value
   });
   return res.json();
 }
@@ -24,21 +22,20 @@ async function kv_get(key) {
     headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
   });
   const data = await res.json();
-  return data.result ? JSON.parse(data.result) : null;
+  if (!data.result) return null;
+  // data.result is a string — parse it to get the object back
+  try {
+    return JSON.parse(data.result);
+  } catch {
+    return null;
+  }
 }
 
-// ── EDIT THIS ONCE ──────────────────────────────────────────
-// How to get your LinkedIn photo URL:
-//   1. Open linkedin.com/in/muhammadasadk in browser
-//   2. Right-click your profile photo → "Open image in new tab"
-//   3. Copy the URL from the address bar → paste below
-// It looks like: https://media.licdn.com/dms/image/v2/D4D.../photo...
 const DEFAULT_PROFILE = {
   name:     'Muhammad Asad Khan',
   headline: "CS Student @ UBIT '28 | Python · AWS · AI",
-  photo:    'https://media.licdn.com/dms/image/v2/D4D03AQHAXvV1pZT4Uw/profile-displayphoto-scale_200_200/B4DZwNavPQHgAY-/0/1769751641032?e=1775692800&v=beta&t=Zeya4BD7yQHomtvZXPvKFW00wN97pBiGJun9FK0Rvlg'
+  photo:    'https://media.licdn.com/dms/image/v2/D4D03AQHAXvV1pZT4Uw/profile-displayphoto-scale_200_200/B4DZwNavPQHgAY-/0/1769751641032?e=1775692800&v=beta&t=Zeya4BD7yQHomtvZXPvKFW00wN97pBiGJun9FK0Rvlg',
 };
-
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,28 +44,25 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // ── GET: widget fetches this ──
   if (req.method === 'GET') {
-    res.setHeader('Cache-Control', 's-maxage=300');
+    res.setHeader('Cache-Control', 'no-store'); // Disable CDN cache while debugging
     try {
       const stored = await kv_get('linkedin_data');
-      if (!stored) {
+      if (!stored || typeof stored !== 'object') {
         return res.json({
-          text: "Excited to be diving deep into Cloud Architecture and RAG systems as part of the HEC GenAI Cohort 2. The intersection of LLMs and retrieval systems is genuinely fascinating.",
+          text: "Excited to share that I have been diving deep into Cloud Architecture, LLM pipelines and RAG systems as part of the HEC GenAI Cohort 2. Building broken things and unbreaking them - that is the way.",
           url: 'https://www.linkedin.com/in/muhammadasadk/',
           date: null,
           profile: DEFAULT_PROFILE,
           source: 'fallback'
         });
       }
-      // Merge stored profile with defaults (in case photo was added later)
       return res.json({
-        ...stored,
-        profile: {
-          ...DEFAULT_PROFILE,
-          ...(stored.profile || {}),
-        },
-        source: 'live'
+        text:    stored.text    || '',
+        url:     stored.url     || 'https://www.linkedin.com/in/muhammadasadk/',
+        date:    stored.date    || null,
+        profile: { ...DEFAULT_PROFILE, ...(stored.profile || {}) },
+        source:  'live'
       });
     } catch (e) {
       return res.status(200).json({
@@ -81,7 +75,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── POST: you call this to update ──
   if (req.method === 'POST') {
     const auth = req.headers['authorization'] || '';
     const token = auth.replace('Bearer ', '').trim();
@@ -106,7 +99,7 @@ export default async function handler(req, res) {
     };
 
     try {
-      await kv_set('linkedin_data', JSON.stringify(payload));
+      await kv_set('linkedin_data', payload);
       return res.json({ success: true, saved: payload });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to save', detail: e.message });
