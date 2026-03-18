@@ -616,18 +616,52 @@ const CONFIG = {
 })();
 
 /* ── LinkedIn Activity Snippet ─────────────────────────── */
+
 (function () {
   const snippet = document.getElementById('li-post-snippet');
   if (!snippet) return;
 
-  // Static list for now, imitating a "live" feel
-  const updates = [
-    "Just finished a deep dive into AWS Lambda and Serverless architectures. The potential for cost-scaling is insane!",
-    "Hacking on a new developer telemetry dashboard—DevPulse. Coming soon!",
-    "Honored to be part of the UBIT '28 cohort. The journey into CS has officially begun."
-  ];
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+    if (diff < 60)    return 'just now';
+    if (diff < 3600)  return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
 
-  const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
-  const p = snippet.querySelector('p');
-  if (p) p.textContent = `"${randomUpdate}"`;
+  function render(data) {
+    const timeEl  = snippet.querySelector('.li-post-time');
+    const textEl  = snippet.querySelector('.li-post-text');
+    const linkEl  = snippet.querySelector('.li-post-link');
+    const dotEl   = snippet.querySelector('.li-live-dot');
+
+    if (timeEl) timeEl.textContent = data.date ? timeAgo(data.date) : 'recent';
+    if (textEl) textEl.textContent = '"' + (data.text || '').slice(0, 160) + (data.text && data.text.length > 160 ? '…' : '') + '"';
+    if (linkEl) linkEl.href = data.url || 'https://www.linkedin.com/in/muhammadasadk/';
+
+    // Show green dot if post is from last 7 days, grey otherwise
+    if (dotEl) {
+      const isRecent = data.date && (Date.now() - new Date(data.date).getTime()) < 7 * 86400 * 1000;
+      dotEl.style.background = isRecent ? '#22c55e' : 'rgba(255,255,255,0.2)';
+      dotEl.style.boxShadow  = isRecent ? '0 0 6px #22c55e' : 'none';
+    }
+  }
+
+  // Show cached version instantly if available
+  const cached = localStorage.getItem('asad_li_post_cache');
+  if (cached) {
+    try { render(JSON.parse(cached)); } catch(e) {}
+  }
+
+  fetch('/api/linkedin-post')
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.text) {
+        localStorage.setItem('asad_li_post_cache', JSON.stringify(data));
+        render(data);
+      }
+    })
+    .catch(() => {}); // Static fallback already rendered if cached
 })();

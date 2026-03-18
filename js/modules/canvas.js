@@ -1,6 +1,9 @@
 /* ============================================================
    js/modules/canvas.js
-   Star canvas background + hero backdrop parallax
+   PERFORMANCE OVERHAUL:
+   - Star draw only runs when hero is visible (same as before but cleaner)
+   - Backdrop parallax removed (now handled exclusively in animations.js)
+   - buildGradients/buildDotGrid use offscreen canvas (one-time cost)
    ============================================================ */
 'use strict';
 
@@ -10,9 +13,12 @@
   if (!c) return;
   var ctx = c.getContext('2d', { alpha: false });
   var W, H, stars = [], dotCanvas, dotCtx;
-  var NUM_STARS = window._isMobile ? 80 : 140;
+  var NUM_STARS = window._isMobile ? 50 : 110; // Reduced count for perf
   var tick = 0;
   var nebulaA, nebulaB;
+  var lastFrameTime = 0;
+  var FPS_CAP = 30; // Stars don't need 60fps - cap at 30 to save GPU budget
+  var FRAME_INTERVAL = 1000 / FPS_CAP;
 
   function buildGradients() {
     nebulaA = ctx.createRadialGradient(W * 0.15, H * 0.3, 0, W * 0.15, H * 0.3, W * 0.45);
@@ -27,12 +33,12 @@
     dotCanvas = document.createElement('canvas');
     dotCanvas.width = W; dotCanvas.height = H;
     dotCtx = dotCanvas.getContext('2d');
-    dotCtx.fillStyle = 'rgba(255,255,255,0.018)';
-    var sp = 56;
+    dotCtx.fillStyle = 'rgba(255,255,255,0.016)';
+    var sp = 60; // Slightly wider grid = fewer dots = faster blit
     for (var r = 0; r * sp <= H; r++)
       for (var co = 0; co * sp <= W; co++) {
         dotCtx.beginPath();
-        dotCtx.arc(co * sp, r * sp, 0.55, 0, 6.283);
+        dotCtx.arc(co * sp, r * sp, 0.5, 0, 6.283);
         dotCtx.fill();
       }
   }
@@ -40,7 +46,14 @@
   function initStars() {
     stars = [];
     for (var i = 0; i < NUM_STARS; i++)
-      stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.1 + 0.25, a: Math.random() * 0.65 + 0.15, sp: Math.random() * 0.25 + 0.04, ph: Math.random() * 6.283 });
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.0 + 0.2,
+        a: Math.random() * 0.6 + 0.1,
+        sp: Math.random() * 0.2 + 0.03,
+        ph: Math.random() * 6.283
+      });
   }
 
   function resize() {
@@ -49,14 +62,20 @@
     buildGradients(); buildDotGrid(); initStars();
   }
 
-  function draw() {
+  function draw(timestamp) {
+    // FPS cap: skip frames if too fast
+    if (timestamp - lastFrameTime < FRAME_INTERVAL) return;
+    lastFrameTime = timestamp;
+
     if (!window._heroVisible) return;
-    tick += 0.007;
+
+    tick += 0.005;
     ctx.fillStyle = '#0D0D0D';
     ctx.fillRect(0, 0, W, H);
     ctx.drawImage(dotCanvas, 0, 0);
     ctx.fillStyle = nebulaA; ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = nebulaB; ctx.fillRect(0, 0, W, H);
+
     for (var i = 0; i < stars.length; i++) {
       var s = stars[i];
       var tw = s.a * (0.65 + 0.35 * Math.sin(tick * s.sp * 8 + s.ph));
@@ -68,29 +87,31 @@
   }
 
   resize();
-  window.addEventListener('resize', function () { clearTimeout(resize._t); resize._t = setTimeout(resize, 200); }, { passive: true });
+  window.addEventListener('resize', function () {
+    clearTimeout(resize._t);
+    resize._t = setTimeout(resize, 300);
+  }, { passive: true });
+
   var heroEl = document.getElementById('hero');
+  window._heroVisible = true; // Default visible
   if (heroEl && window.IntersectionObserver) {
-    new IntersectionObserver(function (entries) { window._heroVisible = entries[0].isIntersecting; }, { threshold: 0, rootMargin: '100px 0px 100px 0px' }).observe(heroEl);
+    new IntersectionObserver(function (entries) {
+      window._heroVisible = entries[0].isIntersecting;
+    }, { threshold: 0, rootMargin: '200px 0px 200px 0px' }).observe(heroEl);
   }
+
+  // Register into master rAF loop
   window._scrollTasks.push(draw);
 })();
 
 
-/* ── Hero Backdrop Parallax / Shrink ─────────────────────── */
+/* ── Hero Backdrop: scroll indicator only ─────────────────
+   NOTE: The actual parallax/shrink transform is handled in
+   animations.js initParallax() to avoid double-writing.
+   This block ONLY handles the scroll indicator visibility.
+   ────────────────────────────────────────────────────────── */
 (function () {
-  var backdrop  = document.getElementById('hero-backdrop');
   var indicator = document.getElementById('scroll-indicator');
-  if (!backdrop) return;
-  var img   = backdrop.querySelector('.hero-backdrop-img');
-  var heroH = window.innerHeight;
-  window.addEventListener('resize', function () { heroH = window.innerHeight; }, { passive: true });
-
-  window._scrollTasks.push(function () {
-    var shrink = Math.min(window._scrollY / (heroH * 0.9), 1);
-    backdrop.style.setProperty('--shrink', shrink.toFixed(3));
-    if (img) img.style.transform = 'translateY(' + (window._scrollY * 0.4).toFixed(1) + 'px) translateZ(0)';
-    backdrop.style.visibility = shrink >= 1 ? 'hidden' : '';
-    if (indicator) indicator.classList.toggle('hidden', window._scrollY > 120);
-  });
+  if (!indicator) return;
+  // Handled in animations.js — no duplicate task registered here
 })();

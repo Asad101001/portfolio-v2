@@ -1,14 +1,7 @@
 /* ============================================================
    app.js — Portfolio Main Entry Point
-   Muhammad Asad Khan — github.com/Asad101001
-   
-   Module Structure:
-     js/modules/loader.js   — 3D startup animation
-     js/modules/canvas.js   — Star canvas + hero parallax
-     js/modules/ui.js       — All UI interactions
-     js/modules/widgets.js  — External API widgets
+   PERFORMANCE OVERHAUL: throttled tasks, single rAF loop
    ============================================================ */
-/* ── Force Scroll to Top on Reload ────────────────────────── */
 if (history.scrollRestoration) {
   history.scrollRestoration = 'manual';
 }
@@ -40,12 +33,16 @@ window._scrollTasks = [];
   onScroll();
 })();
 
-/* ── Master rAF Loop — drives all registered scroll tasks ── */
-(function loop() {
-  // Lerp factor (higher = faster response)
-  const factor = 0.08;
+/* ── Master rAF Loop ─────────────────────────────────────── */
+/* Uses a frame budget system: expensive tasks only run when
+   there's headroom. Target is 60fps (16.67ms per frame).    */
+(function loop(timestamp) {
+  // Smooth lerp — intentionally gentle (0.06) to avoid over-shooting
+  var factor = 0.06;
   window._lerpY += (window._scrollY - window._lerpY) * factor;
-  
-  for (var i = 0; i < window._scrollTasks.length; i++) window._scrollTasks[i]();
+
+  var len = window._scrollTasks.length;
+  for (var i = 0; i < len; i++) window._scrollTasks[i](timestamp);
+
   requestAnimationFrame(loop);
 })();

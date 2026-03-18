@@ -9,6 +9,7 @@
      css/widgets.css     — github, clock, spotify, lastfm, xp, certs drawer, toast
      css/animations.css  — section reveal, responsive, keyframes
      css/additions.css   — hero orb, currently-into, barca, marquee, accordion, popup
+     css/perf.css        — PERFORMANCE OVERRIDES (must be last)
    ============================================================ */
 
 @import url('base.css');
@@ -18,3 +19,4 @@
 @import url('animations.css');
 @import url('themes.css');
 @import url('additions.css');
+@import url('perf.css');

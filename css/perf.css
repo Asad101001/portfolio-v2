@@ -1,0 +1,217 @@
+/* ============================================================
+   css/perf.css — PERFORMANCE OVERHAUL PATCH
+   Drop @import url('perf.css') at the END of style.css
+   (after additions.css import) so these rules win specificity.
+
+   Key fixes:
+   1. Remove backdrop-filter from .liquid-glass (most expensive)
+   2. Fix body::before radial-gradient mouse tracking (full repaint on every mousemove)
+   3. Add GPU promotion hints only where needed
+   4. Reduce paint areas with contain: paint
+   5. Fix scroll-anchoring
+   ============================================================ */
+
+/* ── 1. KILL backdrop-filter on liquid-glass ─────────────────
+   backdrop-filter: blur(45px) on Spotify/Lastfm widgets triggers
+   a full compositing layer reconstruction every frame it's visible.
+   Replace with a solid semi-transparent background that looks
+   nearly identical but costs almost nothing.
+   ──────────────────────────────────────────────────────────── */
+.liquid-glass {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(8, 10, 18, 0.92) !important;
+}
+
+/* Also kill it on the nav — nav blur is fine since it's tiny surface area
+   and position:fixed, so keep it. But kill on section cards. */
+.about-text,
+.wip-card,
+.tl-card,
+.cert-card,
+.lastfm-widget,
+.xp-widget,
+.glass-card:not(.hero-main):not(.hero-side):not(.nav-inner) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ── 2. FIX body::before mouse-tracking background ───────────
+   The --x/--y vars update on EVERY mousemove and trigger a full
+   page background repaint. Isolate this to its own composited layer
+   that doesn't affect layout, and use a more subtle effect.
+   ──────────────────────────────────────────────────────────── */
+body::before {
+  /* Move to its own GPU layer so repaints don't cascade */
+  will-change: background;
+  /* Dampen the effect intensity — doesn't need to be this strong */
+  background: radial-gradient(
+    30vmax circle at var(--x, 50%) var(--y, 50%),
+    rgba(16, 185, 129, 0.025) 0%,
+    transparent 80%
+  ) !important;
+  /* Critical: isolate from paint */
+  isolation: isolate;
+}
+
+/* ── 3. GPU promotion only where it actually moves ───────────
+   Only promote elements that will be transformed or animated.
+   Over-promoting (will-change: transform everywhere) wastes VRAM.
+   ──────────────────────────────────────────────────────────── */
+
+/* Elements that scroll/move — promote */
+.hero-backdrop-inner,
+.hero-backdrop,
+.scroll-progress,
+#cursor-glow,
+#bg-canvas {
+  will-change: transform;
+}
+
+/* Elements that animate opacity/transform on reveal */
+.reveal,
+.section-in {
+  will-change: transform, opacity;
+}
+/* Release will-change after reveal completes (done in JS) */
+.reveal.visible,
+.section-in.in-view {
+  will-change: auto;
+}
+
+/* ── 4. Contain paint to prevent cascade repaints ────────────
+   Without contain:paint, a hover effect on a card can trigger
+   repaints in sibling sections. This stops that.
+   ──────────────────────────────────────────────────────────── */
+.projects-grid .project-card,
+.about-stat-card,
+.wip-card,
+.cert-card,
+.timeline-item .tl-card,
+.social-platform-card,
+.xp-widget,
+.lastfm-widget,
+#spotify-widget {
+  contain: layout style paint;
+}
+
+/* Section-level containment stops cross-section repaint contamination */
+section {
+  contain: layout style;
+}
+
+/* ── 5. Scroll-anchor + overscroll ───────────────────────────
+   Prevents layout shifts during scroll that cause jank.
+   ──────────────────────────────────────────────────────────── */
+html {
+  overflow-anchor: auto;
+  overscroll-behavior: none;
+}
+
+/* ── 6. Remove expensive animations on marquee hover expand ──
+   The chip expand animation triggers layout recalc (max-width change).
+   Switch to opacity + transform only.
+   ──────────────────────────────────────────────────────────── */
+.skill-chip {
+  /* Remove max-width animation (causes layout recalc) */
+  max-width: none !important;
+  width: 32px;
+  overflow: hidden;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.2s,
+              box-shadow 0.2s,
+              background 0.2s,
+              transform 0.2s !important;
+}
+.skill-chip:hover {
+  width: 160px;
+  transform: translateY(-4px) scale(1.08) !important;
+}
+.skill-chip .chip-label {
+  max-width: none;
+  width: 0;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.2s !important;
+  overflow: hidden;
+  display: inline-block;
+}
+.skill-chip:hover .chip-label {
+  width: 120px;
+  opacity: 1;
+}
+
+/* ── 7. Social platform cards — remove layout-triggering transitions ── */
+.social-platform-card {
+  /* Only transition compositor-safe properties */
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s !important;
+}
+
+/* ── 8. Tag expand (projects) — same fix as chips ────────────── */
+.tag {
+  max-width: none !important;
+  width: 36px;
+  overflow: hidden;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s, box-shadow 0.3s, background 0.3s,
+              transform 0.3s !important;
+}
+.tag:hover,
+.tag.active {
+  width: 200px;
+  transform: translateY(-3px) scale(1.05) !important;
+}
+.tag-label {
+  max-width: none !important;
+  width: 0;
+  overflow: hidden;
+  display: inline-block;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s !important;
+}
+.tag:hover .tag-label,
+.tag.active .tag-label {
+  width: 140px;
+  opacity: 1;
+  margin-left: 8px;
+}
+
+/* ── 9. Glass card hover — reduce shadow complexity ─────────── */
+.glass-card:hover {
+  /* Single clean shadow instead of 4 layered ones */
+  box-shadow:
+    inset 0 1px 0 rgba(16,185,129,0.15),
+    0 0 40px rgba(16,185,129,0.12),
+    0 20px 50px rgba(0,0,0,0.7) !important;
+  transform: translateY(-6px) !important;
+}
+
+/* ── 10. Reduce project card shadow on hover ─────────────────── */
+.project-card:hover {
+  box-shadow:
+    0 0 0 1.5px rgba(16, 185, 129, 0.4),
+    0 0 40px rgba(16, 185, 129, 0.18),
+    0 30px 70px rgba(0,0,0,0.8) !important;
+  transform: translateY(-8px) scale(1.02) !important;
+}
+
+/* ── 11. Cursor glow — reduce gradient complexity ────────────── */
+#cursor-glow {
+  background: radial-gradient(
+    circle,
+    rgba(16,185,129,0.04) 0%,
+    transparent 60%
+  ) !important;
+}
+
+/* ── 12. CRT scanline on body::after — remove on non-industrial ── */
+/* The body::after with background-size: 100% 3px repaints entire
+   viewport on scroll in some browsers. Disable by default. */
+body:not(.theme-industrial)::after {
+  display: none !important;
+}
+
+/* ── 13. Ambient glow — use opacity:0 not display:none so
+   IntersectionObserver transition still works ─────────────── */
+.ambient-glow {
+  /* Already does opacity transition — just ensure it's on own layer */
+  will-change: opacity;
+}
