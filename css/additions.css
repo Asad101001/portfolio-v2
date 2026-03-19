@@ -66,53 +66,53 @@
 /* Projects Section Enhancements */
 /* --- Tech Tag Glow System --- */
 .tag { 
-  display: inline-flex; align-items: center; gap: 0;
-  font-size: 0.75rem; font-weight: 600; color: var(--text-dim); 
+  display: inline-flex; align-items: center; justify-content: flex-start;
+  font-size: 0.72rem; font-weight: 600; color: var(--text-dim); 
   background: rgba(255,255,255,0.03); 
-  padding: 6px 10px; border-radius: 4px; 
+  padding: 5px 10px; border-radius: 4px; 
   border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   font-family: 'JetBrains Mono', monospace;
   cursor: default;
   position: relative;
   overflow: hidden;
-  max-width: 44px; /* Icon only + small padding */
+  width: fit-content;
+  max-width: 40px; /* Base icon-only constraint */
   white-space: nowrap;
+  flex: none !important;
 }
 
 .tag svg {
   width: 18px; height: 18px; flex-shrink: 0;
   transition: transform 0.3s ease, filter 0.3s ease;
-  filter: grayscale(0.6) brightness(0.9);
+  filter: grayscale(0.7) brightness(0.9);
 }
 
 .tag-label {
   display: inline-block;
   max-width: 0; opacity: 0;
-  transition: max-width 0.45s ease, opacity 0.3s ease, margin 0.3s ease;
+  transition: max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, margin 0.3s ease;
+  overflow: hidden;
   margin-left: 0;
 }
 
 .tag:hover, .tag.active { 
-  max-width: 240px;
-  padding: 6px 16px;
+  max-width: 400px; /* Allow natural expansion without limit */
+  padding: 5px 12px;
   color: #fff;
   background: var(--tech-bg, rgba(16, 185, 129, 0.12));
   border-color: var(--tech-color, var(--cyan));
-  box-shadow: 0 0 20px var(--tech-glow, rgba(16, 185, 129, 0.25)), 
-              inset 0 0 10px rgba(255,255,255,0.05);
-  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 0 15px var(--tech-glow, rgba(16, 185, 129, 0.2)), 
+              inset 0 0 8px rgba(255,255,255,0.05);
+  transform: translateY(-2px);
   z-index: 10;
 }
 
-.tag:hover svg, .tag.active svg {
-  filter: grayscale(0) brightness(1.1);
-  transform: scale(1.15) rotate(-5deg);
-}
-
 .tag:hover .tag-label, .tag.active .tag-label {
-  max-width: 200px; opacity: 1;
-  margin-left: 10px;
+  max-width: fit-content; /* THIS is the key for dynamic sizing */
+  max-width: 250px;       /* Hard upper bound for transition */
+  opacity: 1;
+  margin-left: 8px;
 }
 
 /* Tech Color Definitions */
@@ -599,6 +599,14 @@
   text-decoration: none;
   margin-bottom: 48px;
 }
+/* LinkedIn Activity Widget Theming */
+.linkedin-activity-widget {
+  --li-clr: var(--p-clr, #0077b5);
+}
+.linkedin-activity-widget svg { fill: var(--li-clr) !important; }
+.linkedin-activity-widget .li-post-link { color: var(--li-clr) !important; }
+.linkedin-activity-widget .li-avatar-wrap { background: var(--li-clr) !important; }
+
 .social-ping-btn:hover {
   background: rgba(16, 185, 129, 0.15);
   border-color: rgba(16, 185, 129, 0.5);

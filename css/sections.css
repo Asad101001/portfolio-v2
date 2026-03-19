@@ -152,22 +152,22 @@
 
 /* Unique Hover Personalities */
 .spotify-widget:hover {
-    border-color: #1DB954 !important;
-    background: linear-gradient(180deg, rgba(29, 185, 84, 0.1) 0%, rgba(8, 11, 20, 0.9) 100%);
-    box-shadow: 0 0 30px rgba(29, 185, 84, 0.15), 0 12px 40px rgba(0, 0, 0, 0.6);
+    border-color: var(--spotify-clr, #1DB954) !important;
+    background: linear-gradient(180deg, var(--spotify-bg, rgba(29,185,84,0.1)) 0%, rgba(8,11,20,0.9) 100%);
+    box-shadow: 0 0 30px var(--spotify-bg, rgba(29, 185, 84, 0.15)), 0 12px 40px rgba(0, 0, 0, 0.6);
     transform: translateY(-6px) scale(1.01);
 }
-.spotify-widget:hover .spotify-widget-header span { color: #1DB954 !important; transition: color 0.3s; }
-.spotify-widget:hover .spotify-live-dot { background: #1DB954; box-shadow: 0 0 10px #1DB954; }
+.spotify-widget:hover .spotify-widget-header span { color: var(--spotify-clr, #1DB954) !important; transition: color 0.3s; }
+.spotify-widget:hover .spotify-live-dot { background: var(--spotify-clr, #1DB954); box-shadow: 0 0 10px var(--spotify-clr, #1DB954); }
 
 .lastfm-widget:hover {
-    border-color: #D51007 !important;
-    background: linear-gradient(180deg, rgba(213, 16, 7, 0.05) 0%, rgba(8, 11, 20, 0.9) 100%);
-    box-shadow: 0 0 30px rgba(213, 16, 7, 0.15), 0 12px 40px rgba(0, 0, 0, 0.6);
+    border-color: var(--lastfm-clr, #D51007) !important;
+    background: linear-gradient(180deg, var(--lastfm-bg, rgba(213, 16, 7, 0.05)) 0%, rgba(8, 11, 20, 0.9) 100%);
+    box-shadow: 0 0 30px var(--lastfm-bg, rgba(213, 16, 7, 0.15)), 0 12px 40px rgba(0, 0, 0, 0.6);
     transform: translateY(-6px) scale(1.01);
 }
-.lastfm-widget:hover .lastfm-widget-header span { color: #D51007 !important; transition: color 0.3s; }
-.lastfm-widget:hover .lastfm-user { color: #D51007; }
+.lastfm-widget:hover .lastfm-widget-header span { color: var(--lastfm-clr, #D51007) !important; transition: color 0.3s; }
+.lastfm-widget:hover .lastfm-user { color: var(--lastfm-clr, #D51007); }
 
 .xp-widget:hover {
     border-color: var(--cyan) !important;
@@ -219,5 +219,5 @@
 /* ── Scrollbar ────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: #050505; }
-::-webkit-scrollbar-thumb { background: #10B981; border-radius: 0; }
-::-webkit-scrollbar-thumb:hover { background: #0d9966; }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-h, #10B981); }

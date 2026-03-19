@@ -16,10 +16,10 @@
 .commit-day { width: 11px; height: 11px; border-radius: 2px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.04); transition: transform 0.15s, box-shadow 0.15s; cursor: default; position: relative; }
 .commit-day:hover { transform: scale(1.4); z-index: 10; }
 .commit-day[data-count="0"] { background: rgba(255,255,255,0.04); }
-.commit-day[data-count="1"] { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.2); }
-.commit-day[data-count="2"] { background: rgba(16,185,129,0.3);  border-color: rgba(16,185,129,0.35); }
-.commit-day[data-count="3"] { background: rgba(16,185,129,0.5);  border-color: rgba(16,185,129,0.55); box-shadow: 0 0 6px rgba(16,185,129,0.3); }
-.commit-day[data-count="4"] { background: rgba(16,185,129,0.75); border-color: rgba(16,185,129,0.8);  box-shadow: 0 0 8px rgba(16,185,129,0.5); }
+.commit-day[data-count="1"] { background: var(--github-bg1, rgba(16,185,129,0.15)); border-color: var(--github-br1, rgba(16,185,129,0.2)); }
+.commit-day[data-count="2"] { background: var(--github-bg2, rgba(16,185,129,0.3));  border-color: var(--github-br2, rgba(16,185,129,0.35)); }
+.commit-day[data-count="3"] { background: var(--github-bg3, rgba(16,185,129,0.5));  border-color: var(--github-br3, rgba(16,185,129,0.55)); box-shadow: 0 0 6px var(--github-gl, rgba(16,185,129,0.3)); }
+.commit-day[data-count="4"] { background: var(--github-bg4, rgba(16,185,129,0.75)); border-color: var(--github-br4, rgba(16,185,129,0.8));  box-shadow: 0 0 8px var(--github-gl, rgba(16,185,129,0.5)); }
 .commit-day-tooltip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: rgba(4,6,13,0.95); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.62rem; color: var(--text); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 20; font-family: 'JetBrains Mono', monospace; }
 .commit-day:hover .commit-day-tooltip { opacity: 1; }
 .commit-grid-footer { display: flex; align-items: center; justify-content: space-between; padding: 0 18px 14px; font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
@@ -57,9 +57,9 @@
 .clock-bar-seg.active { background: var(--clr, var(--purple)); box-shadow: 0 0 6px var(--clr, var(--purple)); }
 
 /* ── Last.fm Widget ───────────────────────────────────────── */
-.lastfm-widget { border-radius: 4px; border: 1px solid rgba(213,16,7,0.2); background: rgba(213,16,7,0.02); overflow: hidden; }
-.lastfm-widget-header { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(213,16,7,0.1); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.lastfm-user { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: #D51007; font-size: 0.7rem; font-weight: 600; text-transform: none; letter-spacing: 0; }
+.lastfm-widget { border-radius: 4px; border: 1px solid var(--lastfm-br, rgba(213,16,7,0.2)); background: var(--lastfm-bg, rgba(213,16,7,0.02)); overflow: hidden; }
+.lastfm-widget-header { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--lastfm-br, rgba(213,16,7,0.1)); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.lastfm-user { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: var(--lastfm-clr, #D51007); font-size: 0.7rem; font-weight: 600; text-transform: none; letter-spacing: 0; }
 .lastfm-tracks { padding: 8px 0; overflow-y: visible; }
 .lastfm-track { display: flex; align-items: center; gap: 12px; padding: 10px 18px; transition: background 0.15s; text-decoration: none; color: inherit; border-radius: 4px; }
 .lastfm-track:hover { background: rgba(213,16,7,0.05); }
@@ -69,9 +69,9 @@
 .lastfm-track-name { font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lastfm-track-artist { font-size: 0.71rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 .lastfm-track-time { font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; text-align: right; }
-.lastfm-now-playing { display: inline-flex; align-items: center; gap: 4px; font-size: 0.62rem; font-weight: 700; color: #D51007; text-transform: uppercase; letter-spacing: 0.06em; }
+.lastfm-now-playing { display: inline-flex; align-items: center; gap: 4px; font-size: 0.62rem; font-weight: 700; color: var(--lastfm-clr, #D51007); text-transform: uppercase; letter-spacing: 0.06em; }
 .lastfm-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
-.lastfm-eq span { display: inline-block; width: 2px; background: #D51007; border-radius: 1px; animation: eq-bounce 0.8s ease-in-out infinite; }
+.lastfm-eq span { display: inline-block; width: 2px; background: var(--lastfm-clr, #D51007); border-radius: 1px; animation: eq-bounce 0.8s ease-in-out infinite; }
 .lastfm-eq span:nth-child(1) { animation-delay: 0s;    height: 40%; }
 .lastfm-eq span:nth-child(2) { animation-delay: 0.15s; height: 80%; }
 .lastfm-eq span:nth-child(3) { animation-delay: 0.3s;  height: 60%; }
@@ -87,7 +87,7 @@
 .lastfm-error { padding: 16px 18px; font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
 
 /* ── Spotify Widget ───────────────────────────────────────── */
-#spotify-widget { padding: 0; min-height: 80px; border-radius: 16px; border: 1px solid rgba(29,185,84,0.22); background: linear-gradient(180deg, rgba(29,185,84,0.15) 0%, rgba(8,11,20,0.8) 100%); overflow: hidden; position: relative; height: 100%; display: flex; flex-direction: column; }
+#spotify-widget { padding: 0; min-height: 80px; border-radius: 16px; border: 1px solid var(--spotify-br, rgba(29,185,84,0.22)); background: linear-gradient(180deg, var(--spotify-bg, rgba(29,185,84,0.15)) 0%, rgba(8,11,20,0.8) 100%); overflow: hidden; position: relative; height: 100%; display: flex; flex-direction: column; }
 .spotify-widget-header { display: flex; align-items: center; gap: 8px; padding: 16px 20px; font-size: 0.7rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.08em; z-index: 2; border-bottom: none; }
 .spotify-live-dot { margin-left: auto; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s, box-shadow 0.3s; }
 .spotify-track-wrap { flex: 1; padding: 0 20px 24px; display: flex; flex-direction: column; justify-content: flex-end; }

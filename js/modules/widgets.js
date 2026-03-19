@@ -144,53 +144,65 @@ const CONFIG = {
     }
   }
   function fetchBarca() {
-    // Scoreboard gets current Live, Recent, and Upcoming across the league - most accurate real-time feed
-    fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard')
+    var d = new Date();
+    var today = d.toISOString().split('T')[0].replace(/-/g, '');
+    d.setDate(d.getDate() - 7);
+    var weekAgo = d.toISOString().split('T')[0].replace(/-/g, '');
+    var dRange = weekAgo + '-' + today;
+
+    // Use a date range scoreboard for maximum reliability in finding the "just concluded" match
+    fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=' + dRange)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) {
         var events = data && data.events;
         if (!events || !events.length) throw new Error('No events');
 
-        // Look for Barcelona (ID 83)
-        var barcaEvent = events.find(function(ev) {
-          return ev.competitions[0].competitors.some(function(c) { return c.team.id === '83'; });
+        // Filter and sort events to find the most recent one involving Barca (ID 83)
+        // that is either LIVE or POST (concluded)
+        var barcaMatches = events.filter(function(ev) {
+          return ev.competitions[0].competitors.some(function(c) { return c.team.id === '83'; }) && 
+                 (ev.status.type.state === 'in' || ev.status.type.state === 'post');
+        }).sort(function(a, b) { 
+          return new Date(b.date) - new Date(a.date); // Sort newest first
         });
 
-        // Fallback: If not found in current scoreboard (no game today/this week), use team summary summary
-        if (!barcaEvent) {
-          fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83')
-            .then(function(r) { return r.json(); })
-            .then(function(tData) {
-              var next = tData.team.nextEvent && tData.team.nextEvent[0];
-              if (next) {
-                var d = new Date(next.date);
-                setBarcaDisplay('📅 ' + next.shortName + ' (' + d.toLocaleDateString('en-GB', {day:'numeric', month:'short'}) + ')', false);
-              } else {
-                setBarcaDisplay('⚽ No upcoming/live match data available.', false);
-              }
-            }).catch(function(){});
+        if (barcaMatches.length > 0) {
+          var barcaEvent = barcaMatches[0];
+          var comp = barcaEvent.competitions[0];
+          var barca = comp.competitors.find(function(c) { return c.team.id === '83'; });
+          var opp = comp.competitors.find(function(c) { return c.team.id !== '83'; });
+          var statusState = barcaEvent.status.type.state; 
+          var scoreStr = 'Barça ' + barca.score + '–' + opp.score + ' ' + (opp.team.abbreviation || opp.team.shortDisplayName);
+
+          if (statusState === 'in') {
+            var min = barcaEvent.status.displayClock || '';
+            setBarcaDisplay('🔥 ' + scoreStr + (min ? ' ('+min+')' : ''), true);
+          } else {
+            var res = parseInt(barca.score) > parseInt(opp.score) ? '✅ W' : (barca.score === opp.score ? '🤝 D' : '😭 L');
+            setBarcaDisplay(res + ' ' + scoreStr, false);
+          }
           return;
         }
 
-        var comp = barcaEvent.competitions[0];
-        var barca = comp.competitors.find(function(c) { return c.team.id === '83'; });
-        var opp = comp.competitors.find(function(c) { return c.team.id !== '83'; });
-        var statusState = barcaEvent.status.type.state; // 'in' = live, 'post' = finished, 'pre' = upcoming
-        var scoreStr = 'Barça ' + barca.score + '–' + opp.score + ' ' + (opp.team.abbreviation || opp.team.shortDisplayName);
-
-        if (statusState === 'in') {
-          var min = barcaEvent.status.displayClock || '';
-          setBarcaDisplay('🔥 ' + scoreStr + (min ? ' ('+min+')' : ''), true);
-        } else if (statusState === 'post') {
-          var res = parseInt(barca.score) > parseInt(opp.score) ? '✅ W' : (barca.score === opp.score ? '🤝 D' : '😭 L');
-          setBarcaDisplay(res + ' ' + scoreStr, false);
-        } else {
-          var date = new Date(barcaEvent.date);
-          setBarcaDisplay('📅 ' + barcaEvent.shortName + ' (' + date.toLocaleDateString('en-GB', {day:'numeric', month:'short'}) + ')', false);
-        }
+        // Deep Fallback: Team summary if scoreboard range somehow fails
+        fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83')
+          .then(function(r) { return r.json(); })
+          .then(function(tData) {
+            var last = tData.team.lastEvent && tData.team.lastEvent[0];
+            if (last) {
+              var comp = last.competitions[0];
+              var barca = comp.competitors.find(function(c) { return c.team.id === '83'; });
+              var opp = comp.competitors.find(function(c) { return c.team.id !== '83'; });
+              var res = parseInt(barca.score) > parseInt(opp.score) ? '✅ W' : (barca.score === opp.score ? '🤝 D' : '😭 L');
+              var scoreStr = 'Barça ' + barca.score + '–' + opp.score + ' ' + (opp.team.abbreviation || opp.team.shortDisplayName);
+              setBarcaDisplay(res + ' ' + scoreStr, false);
+            } else {
+              setBarcaDisplay('⚽ Barça data unavailable.', false);
+            }
+          }).catch(function(){});
       })
       .catch(function () {
-        setBarcaDisplay('⚽ Barça: Schedule TBD.', false);
+        setBarcaDisplay('⚽ Barça: No recent match data.', false);
       });
   }
 
@@ -670,7 +682,8 @@ const CONFIG = {
           // If photo fails, fall back to initials
           avatarWrap.innerHTML = '';
           const initials = (profile.name || 'MA').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
-          avatarWrap.style.cssText = 'width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0077b5,#00a0dc);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;flex-shrink:0;';
+          const liClr = getComputedStyle(snippet).getPropertyValue('--li-clr') || '#0077b5';
+          avatarWrap.style.cssText = 'width:28px;height:28px;border-radius:50%;background:' + liClr + ';font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;flex-shrink:0;';
           avatarWrap.textContent = initials;
         };
         img.style.display = 'block';
