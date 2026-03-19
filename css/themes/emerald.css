@@ -15,6 +15,14 @@ body.theme-emerald {
     --scanline-op: 0;
     --grid-clr: rgba(16, 185, 129, 0.25);
     --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16, 185, 129, 0.15), transparent 40%);
+
+    /* Widget Theme Overrides for Emerald */
+    --lastfm-clr: #10B981;
+    --lastfm-br:  rgba(16, 185, 129, 0.2);
+    --lastfm-bg:  rgba(16, 185, 129, 0.04);
+    --spotify-clr:#10B981;
+    --spotify-br: rgba(16, 185, 129, 0.22);
+    --spotify-bg: rgba(16, 185, 129, 0.15);
 }
 body.theme-emerald .glass-card {
     background: rgba(2, 10, 6, 0.9);

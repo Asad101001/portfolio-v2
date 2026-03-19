@@ -29,7 +29,7 @@
 
 /* ── Scroll Behaviour ───────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; -- REMOVED to avoid conflict with JS Lerp */
   scroll-padding-top: 80px;
 }
 @media (prefers-reduced-motion: reduce) {

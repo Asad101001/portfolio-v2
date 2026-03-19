@@ -1,7 +1,3 @@
-/* ============================================================
-   app.js — Portfolio Main Entry Point
-   PERFORMANCE OVERHAUL: throttled tasks, single rAF loop
-   ============================================================ */
 if (history.scrollRestoration) {
   history.scrollRestoration = 'manual';
 }
@@ -37,7 +33,7 @@ window._scrollTasks = [];
 (function loop(timestamp) {
   // Disable lerp on mobile for native smoothness
   if (!window._isMobile) {
-    var factor = 0.065;
+    var factor = 0.08;
     window._lerpY += (window._scrollY - window._lerpY) * factor;
   } else {
     window._lerpY = window._scrollY;
@@ -54,4 +50,9 @@ window._scrollTasks = [];
   }
 
   requestAnimationFrame(loop);
-})();
+})(0);
+
+/* ── DOM Ready Initializations ────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  // Init other modules if needed
+});

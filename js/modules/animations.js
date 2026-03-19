@@ -75,13 +75,14 @@
         var styleEl = document.createElement('style');
         styleEl.textContent = [
             '.tilt-card {',
-            '  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);',
+            '  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);',
+            '  will-change: transform;',
             '}',
             '.tilt-card:hover {',
             '  transform: perspective(1000px)',
             '    rotateX(var(--tilt-x, 0deg))',
             '    rotateY(var(--tilt-y, 0deg))',
-            '    translateZ(8px);',
+            '    translateZ(10px);',
             '}'
         ].join('\n');
         document.head.appendChild(styleEl);
@@ -91,17 +92,27 @@
             card.classList.add('tilt-card');
             var rafId = null;
             var pendingX = 0, pendingY = 0;
+            var pendingShX = 0, pendingShY = 0;
 
             card.addEventListener('mousemove', function(e) {
                 var rect = card.getBoundingClientRect();
                 var x = e.clientX - rect.left;
                 var y = e.clientY - rect.top;
+                
+                // Tilt logic
                 pendingX = ((y - rect.height / 2) / rect.height * -4).toFixed(2);
                 pendingY = ((x - rect.width / 2)  / rect.width  *  4).toFixed(2);
+                
+                // Shadow logic (simulating light from mouse)
+                pendingShX = ((rect.width / 2 - x) / rect.width  * 12).toFixed(2);
+                pendingShY = ((rect.height / 2 - y) / rect.height * 12).toFixed(2);
+
                 if (!rafId) {
                     rafId = requestAnimationFrame(function() {
                         card.style.setProperty('--tilt-x', pendingX + 'deg');
                         card.style.setProperty('--tilt-y', pendingY + 'deg');
+                        card.style.setProperty('--sh-x', pendingShX + 'px');
+                        card.style.setProperty('--sh-y', pendingShY + 'px');
                         rafId = null;
                     });
                 }
@@ -111,6 +122,8 @@
                 if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
                 card.style.setProperty('--tilt-x', '0deg');
                 card.style.setProperty('--tilt-y', '0deg');
+                card.style.setProperty('--sh-x', '0px');
+                card.style.setProperty('--sh-y', '0px');
             });
         });
     }
@@ -154,6 +167,75 @@
         });
     }
 
+    /* ── Text Scramble Effect ── */
+    class TextScramble {
+        constructor(el) {
+            this.el = el;
+            this.chars = '!<>-_\\/[]{}—=+*^?#________';
+            this.update = this.update.bind(this);
+        }
+        setText(newText) {
+            const oldText = this.el.innerText;
+            const length = Math.max(oldText.length, newText.length);
+            const promise = new Promise((resolve) => this.resolve = resolve);
+            this.queue = [];
+            for (let i = 0; i < length; i++) {
+                const from = oldText[i] || '';
+                const to = newText[i] || '';
+                const start = Math.floor(Math.random() * 20); // Reduced delay
+                const end = start + Math.floor(Math.random() * 20); // Reduced duration
+                this.queue.push({ from, to, start, end });
+            }
+            cancelAnimationFrame(this.frameRequest);
+            this.frame = 0;
+            this.update();
+            return promise;
+        }
+        update() {
+            let output = '';
+            let complete = 0;
+            for (let i = 0, n = this.queue.length; i < n; i++) {
+                let { from, to, start, end, char } = this.queue[i];
+                if (this.frame >= end) {
+                    complete++;
+                    output += to;
+                } else if (this.frame >= start) {
+                    if (!char || Math.random() < 0.2) { // Less frequent randomization
+                        char = this.randomChar();
+                        this.queue[i].char = char;
+                    }
+                    output += `<span class="scramble-char">${char}</span>`;
+                } else {
+                    output += from;
+                }
+            }
+            this.el.innerHTML = output;
+            if (complete === this.queue.length) {
+                this.resolve();
+            } else {
+                this.frameRequest = requestAnimationFrame(this.update);
+                this.frame++;
+            }
+        }
+        randomChar() {
+            return this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+    }
+
+    function initScrambleHeaders() {
+        const headers = document.querySelectorAll('.section-title, .card-label, .hero-name');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.hasAttribute('data-scrambled')) {
+                    const fx = new TextScramble(entry.target);
+                    fx.setText(entry.target.innerText);
+                    entry.target.setAttribute('data-scrambled', 'true');
+                }
+            });
+        }, { threshold: 0.5 });
+        headers.forEach(h => observer.observe(h));
+    }
+
     /* ── Load Reveal ── */
     function initLoadReveal() {
         setTimeout(function() {
@@ -167,6 +249,7 @@
         initSpotlight();
         initTilt();
         initScrollAnimations();
+        initScrambleHeaders();
         initLoadReveal();
     });
 

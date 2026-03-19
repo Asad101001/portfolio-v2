@@ -18,24 +18,22 @@ const CONFIG = {
   var readingPlaceholder = document.getElementById('reading-placeholder');
   
   if (readingCover && CONFIG.currently.reading) {
-    // Search for the book to get an ID automatically
     var query = encodeURIComponent(CONFIG.currently.reading);
-    fetch('https://openlibrary.org/search.json?q=' + query + '&limit=1')
-      .then(r => r.json())
-      .then(data => {
-        if (data.docs && data.docs[0] && data.docs[0].cover_i) {
-          var coverId = data.docs[0].cover_i;
-          var img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = function () {
-            readingCover.src = img.src;
+    fetch('https://openlibrary.org/search.json?q=' + query + '&limit=8')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.docs && data.docs.length) {
+          // Find first doc with a cover
+          var doc = data.docs.find(function(d) { return d.cover_i; });
+          if (doc) {
+            var url = 'https://covers.openlibrary.org/b/id/' + doc.cover_i + '-M.jpg';
+            readingCover.src = url;
             readingCover.style.display = 'block';
             if (readingPlaceholder) readingPlaceholder.style.display = 'none';
-          };
-          img.src = 'https://covers.openlibrary.org/b/id/' + coverId + '-M.jpg';
+          }
         }
       })
-      .catch(() => {
+      .catch(function() {
         if (readingPlaceholder) readingPlaceholder.style.display = 'flex';
       });
   }
@@ -56,27 +54,20 @@ const CONFIG = {
           if (!data || !data.items || !data.items.length) throw new Error('No items');
           var latest = data.items[0];
           
-          // Improved extraction: check description and content
-          var source = (latest.description || '') + (latest.content || '');
-          var match = source.match(/src="([^"]+)"/);
-          var url = match ? match[1] : (latest.thumbnail || (latest.enclosure && latest.enclosure.link));
+          // Prioritize thumbnail field from rss2json
+          var url = latest.thumbnail || '';
+          if (!url) {
+            var source = (latest.description || '') + (latest.content || '');
+            var match = source.match(/src="([^"]+)"/);
+            url = match ? match[1] : '';
+          }
           
           if (url) {
-            var img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = function () {
-              moviePoster.style.opacity = '0';
-              setTimeout(function() {
-                moviePoster.src = url;
-                moviePoster.style.display = 'block';
-                moviePoster.style.opacity = '1';
-                if (moviePlaceholder) moviePlaceholder.style.display = 'none';
-              }, 200);
-            };
-            img.src = url;
+            moviePoster.src = url;
+            moviePoster.style.display = 'block';
+            if (moviePlaceholder) moviePlaceholder.style.display = 'none';
           }
           if (movieTitle && latest.title) {
-            // Clean title (Letterboxd sometimes adds watched/reviewed prefix)
             var cleanTitle = latest.title.replace('★', ' ★').split('...')[0].trim();
             movieTitle.textContent = cleanTitle;
           }
@@ -714,4 +705,31 @@ const CONFIG = {
       }
     })
     .catch(() => {});
+})();
+
+/* ── Discord Status (Lanyard) ────────────────────────────── */
+(function initDiscordStatus() {
+  const DISCORD_ID = '1390327957062418654';
+  const statusDot = document.getElementById('discord-status');
+  if (!statusDot) return;
+
+  function updateStatus() {
+    fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
+      .then(r => r.json())
+      .then(res => {
+        if (!res.success) return;
+        const status = res.data.discord_status; // online, idle, dnd, offline
+        
+        statusDot.className = 'discord-status-dot ' + status;
+        
+        // Add tooltip or title
+        statusDot.title = status.charAt(0).toUpperCase() + status.slice(1);
+      })
+      .catch(() => {
+        statusDot.className = 'discord-status-dot offline';
+      });
+  }
+
+  updateStatus();
+  setInterval(updateStatus, 30000); // Update every 30s
 })();
