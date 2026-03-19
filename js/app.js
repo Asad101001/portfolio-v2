@@ -33,8 +33,9 @@ window._scrollTasks = [];
 (function loop(timestamp) {
   // Disable lerp on mobile for native smoothness
   if (!window._isMobile) {
-    var factor = 0.08;
-    window._lerpY += (window._scrollY - window._lerpY) * factor;
+    // UPDATED: Disable lerp by setting it to 1.0 for "behemoth level" smoothness (native)
+    var factor = 1.0; 
+    window._lerpY = window._scrollY;
   } else {
     window._lerpY = window._scrollY;
   }

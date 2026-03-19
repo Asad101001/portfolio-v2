@@ -5,7 +5,7 @@
 'use strict';
 
 (function() {
-    const themes = ['sunset', 'industrial', 'emerald'];
+    const themes = ['cyberpunk', 'sunset', 'industrial', 'emerald'];
     let currentThemeIndex = 0;
 
     // Load saved theme
@@ -13,7 +13,7 @@
     if (savedTheme && themes.includes(savedTheme)) {
         currentThemeIndex = themes.indexOf(savedTheme);
     } else {
-        // Default to sunset if no saved preference
+        // Default to cyberpunk if no saved preference
         currentThemeIndex = 0;
     }
     

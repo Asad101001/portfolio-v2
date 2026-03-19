@@ -1,0 +1,61 @@
+/* ── Cyberpunk Neon Theme ── */
+body.theme-cyberpunk {
+    --cyan:      #00fff9; /* Electric Cyan */
+    --lime:      #39ff14; /* Neon Green */
+    --purple:    #bc13fe; /* Neon Purple */
+    --orange:    #ffb000; /* Cyber Orange */
+    --bg:        #000000; /* Pure Black */
+    --bg2:       #0d0216; /* Deep Void */
+    --surface:   rgba(13, 2, 22, 0.95);
+    --border:    rgba(0, 255, 249, 0.4);
+    --border-h:  #00fff9;
+    --text:      #e0ffff;
+    --text-muted:#a0e0e0;
+    --text-dim:  #608080;
+    --scanline-op: 0.12;
+    --grid-clr: rgba(0, 255, 249, 0.15);
+    --spotlight-gradient: radial-gradient(500px circle at var(--x, 0px) var(--y, 0px), rgba(0, 255, 249, 0.15), transparent 45%);
+
+    /* Widget Theme Overrides */
+    --lastfm-clr: #ff00ff;
+    --lastfm-br:  rgba(255, 0, 255, 0.2);
+    --lastfm-bg:  rgba(255, 0, 255, 0.05);
+    --spotify-clr:#00fff9;
+    --spotify-br: rgba(0, 255, 249, 0.2);
+    --spotify-bg: rgba(0, 255, 249, 0.08);
+
+    /* GitHub Theme Overrides */
+    --github-bg1: rgba(0, 255, 249, 0.1);
+    --github-br1: rgba(0, 255, 249, 0.15);
+    --github-bg2: rgba(0, 255, 249, 0.25);
+    --github-br2: rgba(0, 255, 249, 0.35);
+    --github-bg3: rgba(0, 255, 249, 0.5);
+    --github-br3: rgba(0, 255, 249, 0.6);
+    --github-bg4: #00fff9;
+    --github-br4: #00fff9;
+    --github-gl:  rgba(0, 255, 249, 0.4);
+}
+
+/* Cyberpunk specific HUD elements */
+body.theme-cyberpunk .glass-card {
+    background: rgba(10, 2, 18, 0.92);
+    border: 1.5px solid rgba(0, 255, 249, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 249, 0.05), 0 30px 60px rgba(0,0,0,0.9);
+}
+
+body.theme-cyberpunk .hero-name {
+    background: linear-gradient(90deg, #00fff9 0%, #bc13fe 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 15px rgba(0, 255, 249, 0.6));
+    text-shadow: 0 0 10px rgba(0, 255, 249, 0.3);
+}
+
+body.theme-cyberpunk .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0;
+    width: 60px; height: 3px;
+    background: var(--cyan);
+    box-shadow: 0 0 15px var(--cyan);
+}

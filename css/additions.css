@@ -430,6 +430,22 @@
   font-size: 1.3rem;
 }
 
+/* Barca Scorecard Subtext */
+.barca-score-row {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.barca-subtext {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffb114; /* Barca Gold/Yellow */
+  font-weight: 800;
+  font-style: italic;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 /* Dots pulse blaugrana when football slot active */
 #rotating-dots.barca-active .r-dot.active {
   background: #A50044;

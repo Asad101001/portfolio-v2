@@ -106,55 +106,65 @@ const CONFIG = {
     fetchSeries();
   }
 
-  /* ── FC Barcelona Live Score via ESPN ── */
-  var barcaScoreEl = document.getElementById('barca-score');
-  var barcaItem = document.querySelector('.rotating-item[data-index="3"]');
-  if (barcaItem) barcaItem.classList.add('barca-slot');
+  /* ── FC Barcelona Scorecard via ESPN ── */
+  var barcaItem = document.querySelector('.currently-into-item.barca-slot');
+  if (!barcaItem) {
+    // If not found by slot class, find by index
+    barcaItem = document.querySelector('.rotating-item[data-index="3"]');
+    if (barcaItem) barcaItem.classList.add('barca-slot');
+  }
   if (!barcaItem) return;
 
   function setBarcaDisplay(scoreText, isLive) {
     var valEl = barcaItem.querySelector('.currently-into-value');
-    if (valEl && scoreText) valEl.textContent = scoreText;
+    var labelEl = barcaItem.querySelector('.currently-into-label');
+    
+    // Update label to pink "FC Barcelona"
+    if (labelEl) {
+      labelEl.textContent = 'FC Barcelona';
+      labelEl.style.color = '#ff0055'; // Pink
+      labelEl.style.textShadow = '0 0 10px rgba(255, 0, 85, 0.3)';
+    }
+
+    if (valEl && scoreText) {
+      // Add subtext "Mes que un club"
+      valEl.innerHTML = `
+        <div class="barca-score-row">${scoreText}</div>
+        <div class="barca-subtext">Més que un club</div>
+      `;
+    }
 
     var oldBadge = barcaItem.querySelector('.barca-live-badge');
     if (oldBadge) oldBadge.remove();
-
-    /* .barca-slot is a permanent CSS class for blaugrana styling
-       regardless of live status. It should always be present. */
-    barcaItem.classList.add('barca-slot');
 
     if (isLive) {
       barcaItem.classList.add('barca-live');
       var badge = document.createElement('span');
       badge.className = 'barca-live-badge';
       badge.textContent = 'LIVE';
-      var lbl = barcaItem.querySelector('.rotating-label');
-      if (lbl) lbl.after(badge);
+      if (labelEl) labelEl.after(badge);
     } else {
       barcaItem.classList.remove('barca-live');
     }
   }
+
   function fetchBarca() {
     var d = new Date();
     var today = d.toISOString().split('T')[0].replace(/-/g, '');
-    d.setDate(d.getDate() - 7);
-    var weekAgo = d.toISOString().split('T')[0].replace(/-/g, '');
-    var dRange = weekAgo + '-' + today;
+    d.setDate(d.getDate() - 5); // 5 days limit as requested
+    var fiveDaysAgo = d.toISOString().split('T')[0].replace(/-/g, '');
+    var dRange = fiveDaysAgo + '-' + today;
 
-    // Use a date range scoreboard for maximum reliability in finding the "just concluded" match
     fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=' + dRange)
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) {
         var events = data && data.events;
         if (!events || !events.length) throw new Error('No events');
 
-        // Filter and sort events to find the most recent one involving Barca (ID 83)
-        // that is either LIVE or POST (concluded)
         var barcaMatches = events.filter(function(ev) {
-          return ev.competitions[0].competitors.some(function(c) { return c.team.id === '83'; }) && 
-                 (ev.status.type.state === 'in' || ev.status.type.state === 'post');
+          return ev.competitions[0].competitors.some(function(c) { return c.team.id === '83'; });
         }).sort(function(a, b) { 
-          return new Date(b.date) - new Date(a.date); // Sort newest first
+          return new Date(b.date) - new Date(a.date);
         });
 
         if (barcaMatches.length > 0) {
@@ -163,37 +173,20 @@ const CONFIG = {
           var barca = comp.competitors.find(function(c) { return c.team.id === '83'; });
           var opp = comp.competitors.find(function(c) { return c.team.id !== '83'; });
           var statusState = barcaEvent.status.type.state; 
-          var scoreStr = 'Barça ' + barca.score + '–' + opp.score + ' ' + (opp.team.abbreviation || opp.team.shortDisplayName);
+          var scoreStr = barca.score + ' – ' + opp.score + ' vs ' + (opp.team.abbreviation || opp.team.shortDisplayName);
 
           if (statusState === 'in') {
-            var min = barcaEvent.status.displayClock || '';
-            setBarcaDisplay('🔥 ' + scoreStr + (min ? ' ('+min+')' : ''), true);
+            setBarcaDisplay(scoreStr, true);
           } else {
-            var res = parseInt(barca.score) > parseInt(opp.score) ? '✅ W' : (barca.score === opp.score ? '🤝 D' : '😭 L');
+            var res = parseInt(barca.score) > parseInt(opp.score) ? 'W' : (barca.score === opp.score ? 'D' : 'L');
             setBarcaDisplay(res + ' ' + scoreStr, false);
           }
           return;
         }
-
-        // Deep Fallback: Team summary if scoreboard range somehow fails
-        fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/83')
-          .then(function(r) { return r.json(); })
-          .then(function(tData) {
-            var last = tData.team.lastEvent && tData.team.lastEvent[0];
-            if (last) {
-              var comp = last.competitions[0];
-              var barca = comp.competitors.find(function(c) { return c.team.id === '83'; });
-              var opp = comp.competitors.find(function(c) { return c.team.id !== '83'; });
-              var res = parseInt(barca.score) > parseInt(opp.score) ? '✅ W' : (barca.score === opp.score ? '🤝 D' : '😭 L');
-              var scoreStr = 'Barça ' + barca.score + '–' + opp.score + ' ' + (opp.team.abbreviation || opp.team.shortDisplayName);
-              setBarcaDisplay(res + ' ' + scoreStr, false);
-            } else {
-              setBarcaDisplay('⚽ Barça data unavailable.', false);
-            }
-          }).catch(function(){});
+        setBarcaDisplay('Full Matchday Data Pending', false);
       })
       .catch(function () {
-        setBarcaDisplay('⚽ Barça: No recent match data.', false);
+        setBarcaDisplay('Match stats syncing...', false);
       });
   }
 
