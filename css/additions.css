@@ -533,6 +533,24 @@
   font-weight: 800;
 }
 
+.score-row.barca-win-tint {
+  background: rgba(34, 197, 94, 0.12);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.score-row.barca-loss-tint {
+  background: rgba(239, 68, 68, 0.12);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 -8px;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
 .score-vs-divider {
   font-size: 0.55rem;
   text-align: center;
@@ -796,6 +814,20 @@
   transform: translateY(-2px);
 }
 
+@media (max-width: 768px) {
+  .acard {
+    max-width: 42px !important;
+    min-width: 42px !important;
+    padding: 9px 0 !important;
+    gap: 0 !important;
+  }
+  .acard.manual-expand {
+    max-width: 180px !important;
+    padding: 9px 12px !important;
+    gap: 8px !important;
+  }
+}
+
 /* Icon */
 .acard-icon {
   width: 22px;
@@ -863,7 +895,6 @@
 }
 
 @media (max-width: 768px) {
-  .acard { flex: 1 1 140px; min-width: 140px; }
   .adom-desc { display: none; }
   .arsenal-stats { gap: 18px; padding: 14px 20px; }
 }
@@ -1431,4 +1462,67 @@ section::before {
 .magnetic:hover, .social-platform-card:hover {
   cursor: pointer;
   z-index: 10;
+}
+
+/* ── Twitter Feed Items ────────────────────────────── */
+.twitter-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tweet-item {
+  position: relative;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.tweet-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+.tweet-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.tweet-author {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #fff;
+}
+.tweet-dot, .tweet-time {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+.tweet-rt-icon {
+  font-size: 0.65rem;
+  margin-left:auto;
+}
+.tweet-text {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  word-break: break-word;
+}
+.tweet-media {
+  margin-top: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tweet-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 200px;
+  object-fit: cover;
+}
+.tweet-link-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
 }
