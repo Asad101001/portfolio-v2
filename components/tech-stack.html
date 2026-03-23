@@ -11,6 +11,7 @@
             <div class="arsenal-filter-bar" id="arsenal-filter">
                 <button class="af-btn active" data-filter="all">All</button>
                 <button class="af-btn" data-filter="lang">Languages</button>
+                <button class="af-btn" data-filter="web">Web Development</button>
                 <button class="af-btn" data-filter="cloud">Cloud & Infrastructure</button>
                 <button class="af-btn" data-filter="ai">AI / Data</button>
                 <button class="af-btn" data-filter="backend">Backend & Tools</button>
@@ -41,18 +42,6 @@
                             <span class="acard-icon"><i class="devicon-java-plain colored"></i></span>
                             <span class="acard-name">Java</span>
                         </span>
-                        <span class="acard" style="--ac:#F7DF1E;--ag:rgba(247,223,30,0.15)">
-                            <span class="acard-icon"><i class="devicon-javascript-plain colored"></i></span>
-                            <span class="acard-name">JavaScript</span>
-                        </span>
-                        <span class="acard" style="--ac:#E34F26;--ag:rgba(227,79,38,0.2)">
-                            <span class="acard-icon"><i class="devicon-html5-plain colored"></i></span>
-                            <span class="acard-name">HTML5</span>
-                        </span>
-                        <span class="acard" style="--ac:#1572B6;--ag:rgba(21,114,182,0.2)">
-                            <span class="acard-icon"><i class="devicon-css3-plain colored"></i></span>
-                            <span class="acard-name">CSS3</span>
-                        </span>
                         <span class="acard" style="--ac:#276DC3;--ag:rgba(39,109,195,0.2)">
                             <span class="acard-icon"><i class="devicon-r-plain colored"></i></span>
                             <span class="acard-name">R</span>
@@ -64,6 +53,36 @@
                     </div>
                 </div>
 
+                <!-- Web Development -->
+                <div class="arsenal-domain" data-domain="web">
+                    <div class="arsenal-domain-header">
+                        <span class="adom-badge">Web Development</span>
+                        <span class="adom-desc">Modern frontend architectures & styling</span>
+                    </div>
+                    <div class="arsenal-row">
+                        <span class="acard" style="--ac:#F7DF1E;--ag:rgba(247,223,30,0.2)">
+                            <span class="acard-icon"><i class="devicon-javascript-plain colored"></i></span>
+                            <span class="acard-name">JS</span>
+                        </span>
+                        <span class="acard" style="--ac:#61DAFB;--ag:rgba(97,218,251,0.2)">
+                            <span class="acard-icon"><i class="devicon-react-original colored"></i></span>
+                            <span class="acard-name">React</span>
+                        </span>
+                        <span class="acard" style="--ac:#06B6D4;--ag:rgba(6,182,212,0.2)">
+                            <span class="acard-icon"><i class="devicon-tailwindcss-original colored"></i></span>
+                            <span class="acard-name">Tailwind</span>
+                        </span>
+                        <span class="acard" style="--ac:#E34F26;--ag:rgba(227,79,38,0.2)">
+                            <span class="acard-icon"><i class="devicon-html5-plain colored"></i></span>
+                            <span class="acard-name">HTML5</span>
+                        </span>
+                        <span class="acard" style="--ac:#1572B6;--ag:rgba(21,114,182,0.2)">
+                            <span class="acard-icon"><i class="devicon-css3-plain colored"></i></span>
+                            <span class="acard-name">CSS3</span>
+                        </span>
+                    </div>
+                </div>
+
                 <!-- Cloud & Infrastructure -->
                 <div class="arsenal-domain" data-domain="cloud">
                     <div class="arsenal-domain-header">
@@ -71,9 +90,16 @@
                         <span class="adom-desc">Infrastructure, Linux Systems & Cloud services</span>
                     </div>
                     <div class="arsenal-row">
-                        <span class="acard" style="--ac:#FF9900;--ag:rgba(255,153,0,0.2)">
-                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain-wordmark colored"></i></span>
+                        <span class="acard aws-merged" style="--ac:#FF9900;--ag:rgba(255,153,0,0.2)">
+                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain colored"></i></span>
                             <span class="acard-name">AWS</span>
+                            <div class="aws-services">
+                                <span class="aws-svc" style="--svc-clr:#2E71B8;">RDS</span>
+                                <span class="aws-svc" style="--svc-clr:#569A31;">S3</span>
+                                <span class="aws-svc" style="--svc-clr:#FF9900;">EC2</span>
+                                <span class="aws-svc" style="--svc-clr:#FF4F8B;">VPC</span>
+                                <span class="aws-svc" style="--svc-clr:#DD344C;">IAM</span>
+                            </div>
                         </span>
                         <span class="acard" style="--ac:#FCC624;--ag:rgba(252,198,36,0.2)">
                             <span class="acard-icon"><i class="devicon-linux-plain"></i></span>
@@ -82,22 +108,6 @@
                         <span class="acard" style="--ac:#009639;--ag:rgba(0,150,57,0.2)">
                             <span class="acard-icon"><i class="devicon-nginx-original colored"></i></span>
                             <span class="acard-name">Nginx</span>
-                        </span>
-                        <span class="acard" style="--ac:#FF9900;--ag:rgba(255,153,0,0.2)">
-                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain-wordmark colored"></i></span>
-                            <span class="acard-name">EC2</span>
-                        </span>
-                        <span class="acard" style="--ac:#569A31;--ag:rgba(86,154,49,0.2)">
-                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain-wordmark colored"></i></span>
-                            <span class="acard-name">S3</span>
-                        </span>
-                        <span class="acard" style="--ac:#2E71B8;--ag:rgba(46,113,184,0.2)">
-                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain-wordmark colored"></i></span>
-                            <span class="acard-name">RDS</span>
-                        </span>
-                        <span class="acard" style="--ac:#DD344C;--ag:rgba(221,52,76,0.2)">
-                            <span class="acard-icon"><i class="devicon-amazonwebservices-plain-wordmark colored"></i></span>
-                            <span class="acard-name">IAM</span>
                         </span>
                         <span class="acard" style="--ac:#FF6C37;--ag:rgba(255,108,55,0.2)">
                             <span class="acard-icon"><i class="devicon-postman-plain colored"></i></span>
@@ -129,10 +139,6 @@
                             <span class="acard-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 7.2l4.8 4.8-4.8 4.8-1.4-1.4 3.4-3.4-3.4-3.4 1.4-1.4zm-4.8 0l1.4 1.4-3.4 3.4 3.4 3.4-1.4 1.4-4.8-4.8 4.8-4.8zM0 12l12-12 12 12-12 12L0 12z"/></svg></span>
                             <span class="acard-name">Groq</span>
                         </span>
-                        <span class="acard" style="--ac:#8E75C2;--ag:rgba(142,117,194,0.2)">
-                            <span class="acard-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5L9.5 8h-5l4 3-1.5 7.5 6-4.5 6 4.5-1.5-7.5 4-3h-5L12 .5zM12 4.2l1.6 4.8h4.8l-3.9 2.9 1.5 7.4-4-3-4 3 1.5-7.4-3.9-2.9h4.8L12 4.2z"/></svg></span>
-                            <span class="acard-name">Gemini</span>
-                        </span>
                         <span class="acard" style="--ac:#00C3FF;--ag:rgba(0,195,255,0.2)">
                             <span class="acard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-check"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
                             <span class="acard-name">RAG</span>
@@ -140,6 +146,10 @@
                         <span class="acard" style="--ac:#8E75C2;--ag:rgba(142,117,194,0.2)">
                             <span class="acard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="m12 3 1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg></span>
                             <span class="acard-name">Generative AI</span>
+                        </span>
+                        <span class="acard" style="--ac:#FF6F00;--ag:rgba(255,111,0,0.2)">
+                            <span class="acard-icon"><i class="devicon-tensorflow-original colored"></i></span>
+                            <span class="acard-name">TFlow</span>
                         </span>
                         <span class="acard" style="--ac:#150458;--ag:rgba(21,4,88,0.2)">
                             <span class="acard-icon"><i class="devicon-pandas-plain colored"></i></span>
@@ -178,6 +188,10 @@
                         <span class="acard" style="--ac:#4479A1;--ag:rgba(68,121,161,0.2)">
                             <span class="acard-icon"><i class="devicon-mysql-plain colored"></i></span>
                             <span class="acard-name">MySQL</span>
+                        </span>
+                        <span class="acard" style="--ac:#47A248;--ag:rgba(71,162,72,0.2)">
+                            <span class="acard-icon"><i class="devicon-mongodb-plain colored"></i></span>
+                            <span class="acard-name">MongoDB</span>
                         </span>
                         <span class="acard" style="--ac:#F05032;--ag:rgba(240,80,50,0.2)">
                             <span class="acard-icon"><i class="devicon-git-plain colored"></i></span>

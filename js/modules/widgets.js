@@ -1,5 +1,5 @@
 /* ── Configuration ── */
-const CONFIG = {
+export const CONFIG = {
   usernames: {
     letterboxd: 'asad_k',     // Movies
     lastfm: 'Asad991',        // Music
@@ -718,95 +718,10 @@ const CONFIG = {
   loop();
 })();
 
-/* ── Twitter (X) Feed — replace existing IIFE in widgets.js ── */
-/* 2 tweets max, clearly placeholder until real account added  */
 
-(function () {
-  const container = document.getElementById('twitter-feed');
-  if (!container) return;
 
-  const USER = CONFIG.usernames.twitter;
-  // Use a public Nitter instance to bypass Twitter's restrictive API
-  const RSS_URL = `https://nitter.net/${USER}/rss`;
-  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&v=${Date.now()}`;
 
-  function timeAgo(dateStr) {
-    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return Math.floor(diff / 60) + 'm';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h';
-    return Math.floor(diff / 86400) + 'd';
-  }
-
-  function render(items) {
-    container.innerHTML = '';
-    
-    if (!items || items.length === 0) {
-      container.innerHTML = '<p style="font-size:0.7rem;color:var(--text-dim);text-align:center;padding:10px;">No recent posts found.</p>';
-      return;
-    }
-
-    // Limit to 2-3 items
-    items.slice(0, 3).forEach(item => {
-      const isRetweet = item.title.startsWith('RT by');
-      const text = item.description || item.content;
-      
-      // Extract image if present in description (Nitter format)
-      let mediaHtml = '';
-      const imgMatch = text.match(/<img[^>]+src="([^">]+)"/);
-      if (imgMatch && imgMatch[1]) {
-        mediaHtml = `<div class="tweet-media"><img src="${imgMatch[1]}" alt="Tweet media"></div>`;
-      }
-
-      // Clean HTML tags from text
-      const cleanText = item.title.replace(/^RT by @[a-zA-Z0-9_]+: /, '').replace(/<[^>]*>/g, '').trim();
-
-      const tweetEl = document.createElement('div');
-      tweetEl.className = 'tweet-item';
-      tweetEl.innerHTML = `
-        <div class="tweet-header">
-          <span class="tweet-author">@${USER}</span>
-          <span class="tweet-dot">·</span>
-          <span class="tweet-time">${timeAgo(item.pubDate)}</span>
-          ${isRetweet ? '<span class="tweet-rt-icon">🔄</span>' : ''}
-        </div>
-        <div class="tweet-text">${cleanText}</div>
-        ${mediaHtml}
-        <a href="${item.link}" target="_blank" rel="noopener" class="tweet-link-overlay"></a>
-      `;
-      container.appendChild(tweetEl);
-    });
-  }
-
-  function fetchTweets() {
-    fetch(API_URL)
-      .then(r => r.json())
-      .then(data => {
-        if (data.status === 'ok') {
-          localStorage.setItem('asad_twitter_cache', JSON.stringify(data.items));
-          render(data.items);
-        } else {
-          throw new Error('RSS fail');
-        }
-      })
-      .catch(() => {
-        const cached = localStorage.getItem('asad_twitter_cache');
-        if (cached) render(JSON.parse(cached));
-        else {
-          container.innerHTML = `
-            <div style="padding:10px;text-align:center;font-size:0.7rem;color:var(--text-dim);">
-              Feed unavailable. <a href="https://twitter.com/${USER}" target="_blank" style="color:var(--cyan)">View Profile ↗</a>
-            </div>
-          `;
-        }
-      });
-  }
-
-  fetchTweets();
-  setInterval(fetchTweets, 60000 * 30); // 30 mins
-})();
-
-/* ── LinkedIn Activity Snippet ─────────────────────────── */
+/* ── Last.fm Recently Played ────────────────────────────── */
 
 (function () {
   const snippet = document.getElementById('li-post-snippet');
@@ -904,31 +819,4 @@ const CONFIG = {
       }
     })
     .catch(() => {});
-})();
-
-/* ── Discord Status (Lanyard) ────────────────────────────── */
-(function initDiscordStatus() {
-  const DISCORD_ID = '1390327957062418654';
-  const statusDot = document.getElementById('discord-status');
-  if (!statusDot) return;
-
-  function updateStatus() {
-    fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`)
-      .then(r => r.json())
-      .then(res => {
-        if (!res.success) return;
-        const status = res.data.discord_status; // online, idle, dnd, offline
-        
-        statusDot.className = 'discord-status-dot ' + status;
-        
-        // Add tooltip or title
-        statusDot.title = status.charAt(0).toUpperCase() + status.slice(1);
-      })
-      .catch(() => {
-        statusDot.className = 'discord-status-dot offline';
-      });
-  }
-
-  updateStatus();
-  setInterval(updateStatus, 30000); // Update every 30s
 })();

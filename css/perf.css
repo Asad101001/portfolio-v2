@@ -104,7 +104,7 @@ section {
    ──────────────────────────────────────────────────────────── */
 html {
   overflow-anchor: auto;
-  overscroll-behavior: none;
+  overscroll-behavior: auto;
 }
 
 /* ── 6. Remove expensive animations on marquee hover expand ──

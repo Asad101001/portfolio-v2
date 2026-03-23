@@ -9,8 +9,18 @@
   }
 
   section {
-    padding: 60px 20px;
+    padding: 50px 18px;
+    width: 100%;
+    margin: 0;
   }
+
+  /* ── Universal Card/Glow Scaling ─────────────────────────── */
+  .glass-card, .acard, .project-card, .lastfm-widget, .spotify-widget {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important;
+    filter: none !important; /* Toning down intense glows on mobile */
+  }
+  
+  .acard:hover { transform: none !important; } /* Stop hover jitter on touch */
 
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
@@ -117,6 +127,18 @@
     padding: 8px 16px;
   }
 
+  /* ── Education Stagger (Ladder) ─────────────────────────── */
+  .timeline-item:nth-child(1) { width: 95%; transform: translateX(0); }
+  .timeline-item:nth-child(2) { width: 90%; transform: translateX(10px); }
+  .timeline-item:nth-child(3) { width: 85%; transform: translateX(20px); }
+
+  /* ── Twitter Media (Mobile) ────────────────────────────── */
+  .x-card-media {
+    width: 62px;
+    height: 62px;
+    margin-right: 0;
+  }
+
   /* ── Footer ───────────────────────────────────────────── */
   .footer-grid {
     grid-template-columns: 1fr !important;
@@ -126,6 +148,31 @@
 
   .footer-col {
     align-items: center;
+  }
+
+  /* ── Theme-Specific Mobile Tweaks ─────────────────────── */
+  body.theme-industrial .glass-card, 
+  body.theme-industrial .project-card,
+  body.theme-industrial .arsenal-dom {
+    border-radius: 12px !important; /* Soften edges on mobile */
+    border-width: 1px !important;
+  }
+
+  body.theme-minimal {
+    background: #fff !important;
+    color: #0f172a !important;
+  }
+  
+  body.theme-minimal .glass-card {
+    background: #fff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04) !important;
+  }
+
+  /* Reduce Hero Name for Theme Industrial to avoid overlap */
+  body.theme-industrial .hero-name {
+    text-shadow: 2px 2px 0px #f97316 !important;
+    font-size: 2.4rem !important;
   }
 }
 

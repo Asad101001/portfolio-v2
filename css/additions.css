@@ -986,13 +986,14 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 15px rgba(16, 185, 129, 0.1);
 }
 .social-platform-card .spc-icon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s;
 }
+.social-platform-card .spc-icon i { font-size: 1.3rem; }
 .social-platform-card:hover .spc-icon {
   transform: scale(1.2);
 }
@@ -1390,6 +1391,219 @@ section::before {
 }
 @keyframes blink-dot { 50% { opacity: 0; } }
 
+/* ── Twitter (X) - Real-time Feed Styled as X ────────────────── */
+.twitter-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.x-post-container {
+    position: relative;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
+    transition: background 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.x-post-body {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.x-post-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.x-post-container:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.x-post-container:last-child { border-bottom: none; }
+
+.x-post-header {
+    display: flex;
+    gap: 10px; /* Downsized */
+    margin-bottom: 4px; /* Downsized */
+    align-items: flex-start;
+}
+
+.x-avatar {
+    width: 32px; /* Downsized */
+    height: 32px; /* Downsized */
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #18181b;
+}
+
+.x-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.x-author-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.x-names {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.x-display-name {
+    font-size: 0.8rem; /* Downsized */
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.x-handle, .x-dot, .x-time {
+    font-size: 0.72rem; /* Downsized */
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+.x-rt-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-top: 2px;
+}
+
+.x-post-content {
+    padding-left: 0;
+    margin-bottom: 8px;
+    z-index: 2;
+}
+
+.x-post-text { 
+    font-size: 0.78rem; 
+    line-height: 1.4; 
+    color: #e7e9ea; 
+    margin: 2px 0 0; 
+}
+
+.x-card-media { 
+    width: 68px;
+    height: 68px;
+    border-radius: 8px; 
+    overflow: hidden; 
+    border: 1px solid rgba(255,255,255,0.08); 
+    background: #000;
+    flex-shrink: 0;
+    margin-right: 2px;
+}
+
+.x-card-media img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block; 
+}
+
+.x-post-actions {
+    display: flex;
+    justify-content: space-between;
+    max-width: 380px;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+.x-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.x-action:hover { color: var(--cyan); }
+
+.x-post-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: block;
+}
+
+/* ── Arsenal Icon Size Bump ── */
+.acard-icon { width: 32px !important; height: 32px !important; padding: 0 !important; }
+.acard-icon i { font-size: 2rem !important; }
+
+/* ── AWS Merged & Expandable ── */
+.acard.aws-merged {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px !important;
+    min-width: unset !important;
+    width: fit-content;
+    overflow: hidden;
+}
+
+.aws-services {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    overflow: hidden;
+    padding-left: 4px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    margin-left: 4px;
+}
+
+.aws-svc {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 900;
+    color: var(--svc-clr, #fff);
+    text-transform: uppercase;
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: inline-block;
+    padding: 0;
+    letter-spacing: -0.02em;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+    margin: 0;
+}
+
+.acard.aws-merged:hover .aws-svc {
+    max-width: 110px;
+    opacity: 1;
+    padding: 2px 6px;
+    margin: 0 3px;
+}
+
+.acard.aws-merged .acard-name {
+    margin-right: 0;
+}
+
 /* ── Experience Accordion ────────────────────────────────── */
 #experience-toggle {
   display: inline-flex;
@@ -1463,66 +1677,4 @@ section::before {
   cursor: pointer;
   z-index: 10;
 }
-
-/* ── Twitter Feed Items ────────────────────────────── */
-.twitter-feed {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.tweet-item {
-  position: relative;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-.tweet-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(4px);
-}
-.tweet-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-.tweet-author {
-  font-size: 0.68rem;
-  font-weight: 800;
-  color: #fff;
-}
-.tweet-dot, .tweet-time {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-}
-.tweet-rt-icon {
-  font-size: 0.65rem;
-  margin-left:auto;
-}
-.tweet-text {
-  font-size: 0.72rem;
-  line-height: 1.4;
-  color: var(--text-muted);
-  word-break: break-word;
-}
-.tweet-media {
-  margin-top: 8px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.tweet-media img {
-  width: 100%;
-  height: auto;
-  display: block;
-  max-height: 200px;
-  object-fit: cover;
-}
-.tweet-link-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 1;
-}
+

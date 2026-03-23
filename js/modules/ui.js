@@ -93,11 +93,20 @@
   window.addEventListener('keydown', function(e) {
     if (e.key === 'PageDown' || e.key === 'PageUp') {
       e.preventDefault();
-      var curIdx = -1, rects = sections.map(id => document.getElementById(id).getBoundingClientRect());
-      rects.forEach((r, i) => { if (r.top < window.innerHeight/2 && r.bottom > window.innerHeight/2) curIdx = i; });
-      var nextIdx = (e.key === 'PageDown') ? curIdx + 1 : curIdx - 1;
+      const scrollPos = window.scrollY;
+      const sectionStarts = sections.map(id => {
+        const el = document.getElementById(id);
+        return el ? el.offsetTop - 80 : 0; // subtract 80 for scroll-padding-top
+      });
+
+      let curIdx = 0;
+      for (let i = 0; i < sectionStarts.length; i++) {
+        if (scrollPos >= sectionStarts[i] - 10) curIdx = i;
+      }
+
+      const nextIdx = (e.key === 'PageDown') ? curIdx + 1 : curIdx - 1;
       if (nextIdx >= 0 && nextIdx < sections.length) {
-        document.getElementById(sections[nextIdx]).scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: sectionStarts[nextIdx], behavior: 'smooth' });
       }
     }
   });

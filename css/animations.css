@@ -102,8 +102,8 @@ img { transition: opacity 0.3s ease; }
 
 /* ── SVG Path Animation ──────────────────────────────────── */
 .draw-path {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
   animation: draw-stroke 2.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
 }
 
@@ -114,7 +114,7 @@ img { transition: opacity 0.3s ease; }
 }
 
 .draw-path-slow {
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
   animation: draw-stroke 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
 }
