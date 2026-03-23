@@ -337,7 +337,7 @@ export const CONFIG = {
   if (!container) return;
   var USER    = CONFIG.usernames.lastfm;
   var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
-  var LIMIT   = 8;
+  var LIMIT   = 4;
   var URL     = 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=' + USER + '&api_key=' + API_KEY + '&format=json&limit=' + LIMIT;
 
   function timeAgo(ts) {
@@ -721,7 +721,7 @@ export const CONFIG = {
 
 
 
-/* ── Last.fm Recently Played ────────────────────────────── */
+/* ── LinkedIn Post Snippet ───────────────────────────────── */
 
 (function () {
   const snippet = document.getElementById('li-post-snippet');

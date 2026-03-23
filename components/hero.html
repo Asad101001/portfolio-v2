@@ -97,7 +97,7 @@
 
             <!-- Row 3 Left: Currently Into Card -->
             <div class="card currently-into-card glass-card reveal" style="--delay:200ms">
-                <p class="card-label">Media Hub</p>
+                <p class="card-label">Activity Hub</p>
 
                 <div class="rotating-widget" id="rotating-widget">
 
@@ -118,7 +118,7 @@
                             style="display:none" />
                         <div id="watching-placeholder" class="currently-into-thumb-placeholder">🎬</div>
                         <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label">Movie</span>
+                            <span class="rotating-label currently-into-label">Last Movie</span>
                             <span class="rotating-value currently-into-value" id="movie-title">Checking Letterboxd...</span>
                         </div>
                     </div>
@@ -129,20 +129,22 @@
                             style="display:none" />
                         <div id="series-placeholder" class="currently-into-thumb-placeholder">📺</div>
                         <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label">Shows</span>
+                            <span class="rotating-label currently-into-label">Watching Shows</span>
                             <span class="rotating-value currently-into-value" id="series-title">Severance — Apple TV+</span>
                         </div>
                     </div>
 
                     <!-- Football / Barca live score -->
                     <div class="rotating-item currently-into-item" data-index="3">
-                        <div class="currently-into-thumb-placeholder">⚽</div>
+                        <div class="currently-into-thumb--football">
+                            <span class="football-supporting-tag">SUPPORTING</span>
+                            <img src="https://a.espncdn.com/i/teamlogos/soccer/500/83.png" class="football-crest-big" alt="FCB" />
+                        </div>
                         <div class="currently-into-text">
                             <span class="rotating-label currently-into-label">Watching Football</span>
-                            <div style="font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: -2px; font-weight: 800;">Supporting</div>
                             <span class="rotating-value currently-into-value" id="barca-score-static">
-                                Last: BAR 2-0 JUV <br>
-                                Next: BAR vs REAL
+                                Final: BAR 0-2 MAL <br>
+                                Next: BAR vs SEV
                             </span>
                         </div>
                     </div>
