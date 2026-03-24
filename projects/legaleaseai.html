@@ -4,131 +4,285 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>LegalEaseAI - Case Study</title>
+    <title>LegalEaseAI - Product Overview</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
-    <meta name="robots" content="index,follow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <!-- Using absolute path /css/style.css so it resolves identically to index.html -->
+    
+    <!-- Core styles mirroring index.html -->
     <link rel="stylesheet" href="/css/style.css" />
+    
+    <style>
+        /* Hide global sidebars and extraneous features when inside a submodule */
+        .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
+        body { padding-top: 80px; }
+
+        /* ── Product Showcase Aesthetic ── */
+        .product-section {
+            padding: 80px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .product-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .product-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .product-media {
+            flex: 1.2;
+            position: relative;
+            perspective: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The 3D Hover Tilt Effect */
+        .tilt-frame {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-style: preserve-3d;
+            background: #111;
+        }
+
+        .product-media:hover .tilt-frame {
+            transform: rotateY(-4deg) rotateX(4deg) scale(1.02);
+            box-shadow: 20px 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.2); /* Gold glow */
+        }
+
+        .product-section.reverse .product-media:hover .tilt-frame {
+            transform: rotateY(4deg) rotateX(4deg) scale(1.02);
+        }
+
+        .tilt-frame img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Magical Orbs */
+        .magical-orb {
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); /* Gold/Beige tint */
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* Accent Badges */
+        .gold-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(212,175,55,0.1); /* Gold */
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #D4AF37; /* Gold text */
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .product-heading {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            color: #fff;
+        }
+
+        .product-desc {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .team-member {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            background: rgba(212,175,55,0.05); /* Gold hover */
+            border-color: rgba(212,175,55,0.3);
+        }
+        .team-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #D4AF37;
+            color: #111;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 12px auto;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 900px) {
+            .product-section, .product-section.reverse {
+                flex-direction: column;
+                gap: 40px;
+                padding: 40px 0;
+            }
+            .product-media { width: 100%; }
+        }
+
+    </style>
 </head>
 
-<body style="padding-top: 100px;">
+<body class="theme-cyberpunk project-body" style="background-color: #0d0d0d;">
 
+    <!-- Submodule loader and nav -->
     <include src="./components/loading-screen.html"></include>
     <include src="./components/overlays.html"></include>
-    <include src="./components/nav.html"></include>
+    <include src="./components/nav-submodule.html"></include>
 
-    <!-- Project Subpage Main Content -->
-    <main id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2;">
+    <main id="main-content" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2;">
         
-        <!-- Back Button -->
-        <a href="/" style="display: inline-flex; align-items: center; gap: 8px; color: var(--cyan); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; margin-bottom: 40px; transition: transform 0.2s;" onmouseenter="this.style.transform='translateX(-5px)'" onmouseleave="this.style.transform='translateX(0)'">
-            <span>&larr;</span> Return to Home
-        </a>
-
-        <!-- Hero Card -->
-        <div class="glass-card reveal visible" style="padding: 40px; border-top: 2px solid var(--cyan); margin-bottom: 40px;">
-            <p style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 2px;">Urdu Legal Assistant</p>
-            <h1 class="section-title" style="margin-bottom: 24px;">LegalEaseAI</h1>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-dim); max-width: 800px; margin-bottom: 30px;">
-                Understanding legal documents shouldn't require a law degree. Built in 72 hours for the HEC Generative AI Training Cohort 2, LegalEaseAI processes dense, technical English contracts and provides instant, plain-Urdu explanations, risk ratings, and a precise RAG Q&A chatbot.
-            </p>
-            
-            <div style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                <!-- Replace with actual deployment image if user has one, fallback to standard image -->
-                <img src="/images/legalease.png" alt="LegalEaseAI Interface" style="width: 100%; display: block;" onerror="this.src='https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1200&h=600'">
+        <!-- Hero Section -->
+        <section class="product-section">
+            <div class="product-text reveal stagger-item" style="--delay: 100ms;">
+                <div class="gold-badge">✨ Hackathon 2026 Winner</div>
+                <h1 class="product-heading">Why LegalEase AI?</h1>
+                <p class="product-desc">
+                    Over 90% of Pakistanis lack higher education. Legal documents written in complex English are a daily barrier that puts millions at risk every time they sign.<br><br>
+                    LegalEase AI is the bridge. Upload a contract to receive mathematically grounded risk-analysis and crystal clear Urdu explanations instantly without exorbitant lawyers fees.
+                </p>
+                <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; color: #D4AF37; font-weight: 700; text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='#D4AF37'" onmouseout="this.style.borderColor='transparent'">
+                    Experience Live Demo &rarr;
+                </a>
             </div>
-        </div>
-
-        <!-- Problem & Metrics Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 40px;">
             
-            <div class="glass-card reveal visible" style="padding: 30px;">
-                <h3 style="font-size: 1.4rem; color: #fff; margin-bottom: 16px;">The Problem</h3>
-                <p style="color: var(--text-dim); line-height: 1.7; font-size: 0.95rem;">
-                    Pakistan has over 220 million people, and millions sign agreements daily written in English legalese they cannot understand. Lawyers charge PKR 5,000–50,000 per consultation—a week's wage for most. This gap leads to exploited workers and trapped tenants.
+            <div class="product-media reveal stagger-item" style="--delay: 200ms;">
+                <div class="magical-orb" style="top: -50px; right: -50px;"></div>
+                <div class="tilt-frame">
+                    <img src="/images/legalease-hero.png" alt="Hero Screen" onerror="this.src='/images/legalease.png'" style="aspect-ratio: 16/10; object-position: top;">
+                </div>
+            </div>
+        </section>
+
+        <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 40px 0;"></div>
+
+        <!-- Architecture Breakdown -->
+        <section class="product-section reverse">
+            <div class="product-text reveal stagger-item" style="--delay: 300ms;">
+                <div class="gold-badge">⚙️ Advanced NLP Engine</div>
+                <h2 class="product-heading" style="font-size: 2.5rem;">Technical Architecture</h2>
+                <p class="product-desc">
+                    Unlike standard wrappers, LegalEase utilizes a strict pipeline to prevent dangerous legal hallucinations:
+                </p>
+                <ul style="color: var(--text-dim); line-height: 1.8; font-size: 1.05rem; list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">1. Extraction:</strong> `pdfplumber` and `PyPDF2`</li>
+                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">2. Chunking:</strong> `LangChain` splitters feeding a `FAISS` vector DB.</li>
+                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">3. Risk Detection:</strong> Keyword and semantic pattern matching.</li>
+                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">4. Generative Explanations:</strong> Prompt-engineered `GPT` or `Gemini` models returning structured Urdu JSON.</li>
+                    <li><strong style="color:#fff;">5. Automated Off-boarding:</strong> Formatted `ReportLab` and `WeasyPrint` PDF generations.</li>
+                </ul>
+            </div>
+            
+            <div class="product-media reveal stagger-item" style="--delay: 400ms;">
+                <div class="magical-orb" style="bottom: -50px; left: -50px;"></div>
+                <div class="tilt-frame">
+                    <img src="/images/legalease-arch.png" alt="Architecture Diagram" onerror="this.src='/images/legalease.png'">
+                </div>
+            </div>
+        </section>
+
+        <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 40px 0;"></div>
+
+        <!-- Semantic Q&A Showcase -->
+        <section class="product-section">
+            <div class="product-text reveal stagger-item" style="--delay: 500ms;">
+                <div class="gold-badge">💬 Grounded RAG</div>
+                <h2 class="product-heading" style="font-size: 2.5rem;">Ask About Your Document</h2>
+                <p class="product-desc">
+                    Interact directly with your contract. The chatbot constraints answers strictly to context found within the uploaded document using Vector Retrieval Augmented Generation (RAG). Every answer provides its clause citation, ensuring complete transparency.
                 </p>
             </div>
             
-            <div class="glass-card reveal visible" style="padding: 30px;">
-                <h3 style="font-size: 1.4rem; color: #fff; margin-bottom: 16px;">The Solution</h3>
-                <p style="color: var(--text-dim); line-height: 1.7; font-size: 0.95rem;">
-                    Users upload any legal document (PDF, DOCX, TXT) to instantly get plain-Urdu explanations of every clause, color-coded risk ratings (High/Medium/Safe), and a highly-optimized conversational chatbot grounded strictly in the provided document using Vector DBs.
+            <div class="product-media reveal stagger-item" style="--delay: 600ms;">
+                <div class="magical-orb" style="top: 0px; right: 0px;"></div>
+                <div class="tilt-frame">
+                    <img src="/images/legalease-qa.png" alt="RAG Q&A Output" onerror="this.src='/images/legalease.png'" style="aspect-ratio: 16/10; object-position: center;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Reporting View -->
+        <section class="product-section reverse">
+            <div class="product-text reveal stagger-item" style="--delay: 500ms;">
+                <div class="gold-badge">📊 Deliverables</div>
+                <h2 class="product-heading" style="font-size: 2.5rem;">Compiled Risk Reports</h2>
+                <p class="product-desc">
+                    Instantly view aggregated statistics tracking Safe, Medium, and High-Risk clauses. Download beautifully formatted complete PDF reports directly via the browser for physical review.
                 </p>
             </div>
+            
+            <div class="product-media reveal stagger-item" style="--delay: 600ms;">
+                <div class="magical-orb" style="bottom: -50px; left: 0px;"></div>
+                <div class="tilt-frame">
+                    <img src="/images/legalease-report.png" alt="Actionable Analytics View" onerror="this.src='/images/legalease.png'">
+                </div>
+            </div>
+        </section>
 
-        </div>
-
-        <!-- System Architecture & Tech Stack -->
-        <div class="glass-card reveal visible" style="padding: 40px; margin-bottom: 40px;">
-             <h2 class="section-title" style="font-size: 2rem; margin-bottom: 30px;">System Architecture</h2>
+        <!-- Team Acknowledgment -->
+        <div class="reveal stagger-item" style="--delay: 700ms; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; margin-bottom: 60px; margin-top: 40px;">
+             <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 12px;">Built Collaboratively</h3>
+             <p style="color: var(--text-muted); font-size: 1rem;">Architected over 72 intense hours by:</p>
              
-             <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; overflow-x: auto; margin-bottom: 40px;">
-<pre style="margin: 0;">
-[Client Uploads Document]
-       │
-       ▼
-[Extraction] -> pdfplumber / python-docx
-       │
-       ▼
-[Chunking] -> LangChain RecursiveTextSplitter (Optimized for Legal Clauses)
-       │
-       ▼
-[Vectorization] -> Cohere/OpenAI Embeddings -> FAISS (In-Memory Vector Search)
-       │
-       ▼
-[Analysis] -> Keyword/Regex Risk Classifier + Gemini Prompt Engineering
-       │
-       ▼
-[Inference] -> Groq LPUs (Llama 3) for zero-latency RAG response generation
-</pre>
+             <div class="team-grid">
+                 <div class="team-member"><div class="team-avatar">F</div> <span style="color:#fff;font-size:0.9rem;">Farhana Faiz</span></div>
+                 <div class="team-member"><div class="team-avatar">F</div> <span style="color:#fff;font-size:0.9rem;">Fazeelat Shaheen</span></div>
+                 <div class="team-member"><div class="team-avatar">H</div> <span style="color:#fff;font-size:0.9rem;">Hammad Zahid</span></div>
+                 <div class="team-member"><div class="team-avatar">M</div> <span style="color:#fff;font-size:0.9rem;">Muhammad Asad</span></div>
+                 <div class="team-member"><div class="team-avatar">Z</div> <span style="color:#fff;font-size:0.9rem;">Zain Ibrar</span></div>
+                 <div class="team-member"><div class="team-avatar">Z</div> <span style="color:#fff;font-size:0.9rem;">Zaryab Aamir</span></div>
              </div>
-
-             <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 20px;">Core Technologies</h3>
-             
-             <!-- Reusing the arsenal styles roughly -->
-             <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-                 <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 4px; color: #fff; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                     <i class="devicon-python-plain colored"></i> Python 3.11+
-                 </span>
-                 <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 4px; color: #fff; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                     <i class="devicon-fastapi-plain colored"></i> FastAPI
-                 </span>
-                 <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 4px; color: var(--cyan); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.45l8.15 14.1H3.85L12 5.45z" /></svg> LangChain
-                 </span>
-                 <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 4px; color: #4ade80; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.334 9.873c.26-1.02.236-1.99-.067-2.799-.303-.81-.876-1.448-1.73-1.903l.022-.081c.166-.614.1-1.274-.185-1.889A3.214 3.214 0 0 0 17.8 1.938c-.6-.343-1.312-.497-2.073-.45a3.46 3.46 0 0 0-.613-.735C14.54.26 13.784 0 12.988 0c-.822 0-1.604.28-2.23.81a4.17 4.17 0 0 0-1.296 2.031 3.397 3.397 0 0 0-1.87.495A3.562 3.562 0 0 0 6.2 4.824c-.338.728-.428 1.561-.258 2.366a4.084 4.084 0 0 0-1.545 1.103c-.509.612-.806 1.365-.848 2.155-.04.77.168 1.54-.591 2.198.15.231.32.447.51.642a4.047 4.047 0 0 0-.263 2.765c.303.81.876 1.447 1.73 1.902l-.022.082c-.166.614-.1 1.274.185 1.888.284.614.79 1.14 1.474 1.517.6.343 1.311.497 2.073.45.185.265.4.507.643.72.574.493 1.33.752 2.126.752.822 0 1.604-.28 2.23-.81a4.17 4.17 0 0 0 1.297-2.031 3.397 3.397 0 0 0 1.869-.495 3.562 3.562 0 0 0 1.392-1.488c.338-.728.428-1.56.258-2.366a4.084 4.084 0 0 0 1.545-1.103c.509-.612.806-1.365.848-2.155.04-.77-.168-1.54-.591-2.198a4.19 4.19 0 0 0-.51-.642z" /></svg> FAISS Memory
-                 </span>
-                 <span style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 4px; color: #f97316; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 17.5L4.5 12 12 4.5 19.5 12 12 19.5z" /></svg> Groq LPUs
-                 </span>
-             </div>
-        </div>
-
-        <!-- Links Footer -->
-        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 60px;">
-            <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: rgba(16,185,129,0.1); border: 1px solid var(--lime); color: var(--lime); font-weight: 600; border-radius: 6px; text-decoration: none; transition: transform 0.2s, background 0.2s;" onmouseenter="this.style.transform='translateY(-2px)'; this.style.background='rgba(16,185,129,0.2)';" onmouseleave="this.style.transform='translateY(0)'; this.style.background='rgba(16,185,129,0.1)';">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
-                Launch Live App
-            </a>
-            <a href="https://github.com/Asad101001/LegalEaseAI" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-weight: 600; border-radius: 6px; text-decoration: none; transition: transform 0.2s, background 0.2s;" onmouseenter="this.style.transform='translateY(-2px)'; this.style.background='rgba(255,255,255,0.1)';" onmouseleave="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.05)';">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                View Repository
-            </a>
         </div>
 
     </main>
 
-    <footer class="main-footer">
+    <footer class="main-footer reveal stagger-item" style="--delay: 800ms;">
         <div class="footer-inner">
-            <div class="footer-bottom">
+            <div class="footer-bottom" style="border-top: none;">
                 <p>&copy; 2025 Muhammad Asad Khan. All rights reserved.</p>
             </div>
         </div>
@@ -144,6 +298,29 @@
     <script type="module" src="/js/modules/theme.js"></script>
     <script type="module" src="/js/modules/mobile.js"></script>
     <script type="module" src="/js/modules/desktop.js"></script>
+
+    <!-- Activate 3D Hover perspective locally without heavy libraries -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.tilt-frame').forEach(frame => {
+                frame.addEventListener('mousemove', (e) => {
+                    const rect = frame.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    
+                    frame.style.transform = `scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                frame.addEventListener('mouseleave', () => {
+                    frame.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

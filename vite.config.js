@@ -25,6 +25,12 @@ function htmlIncludePlugin() {
 export default {
   plugins: [htmlIncludePlugin()],
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        legaleaseai: path.resolve(__dirname, 'projects/legaleaseai.html')
+      }
+    }
   }
 };
