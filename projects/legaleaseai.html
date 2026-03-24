@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>LegalEaseAI - Product Overview</title>
+    <title>LegalEaseAI - Component Briefing</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,281 +14,210 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     
-    <!-- Core styles mirroring index.html -->
     <link rel="stylesheet" href="/css/style.css" />
     
     <style>
-        /* Hide global sidebars and extraneous features when inside a submodule */
         .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
-        body { padding-top: 80px; }
-
-        /* ── Product Showcase Aesthetic ── */
-        .product-section {
-            padding: 80px 0;
-            position: relative;
+        body { padding-top: 100px; }
+        
+        .sm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        
+        /* ── DOM Flowchart Diagram ── */
+        .flow-container {
             display: flex;
-            align-items: center;
-            gap: 60px;
-        }
-
-        .product-section.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .product-text {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .product-media {
-            flex: 1.2;
-            position: relative;
-            perspective: 1200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* The 3D Hover Tilt Effect */
-        .tilt-frame {
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform-style: preserve-3d;
-            background: #111;
-        }
-
-        .product-media:hover .tilt-frame {
-            transform: rotateY(-4deg) rotateX(4deg) scale(1.02);
-            box-shadow: 20px 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.2); /* Gold glow */
-        }
-
-        .product-section.reverse .product-media:hover .tilt-frame {
-            transform: rotateY(4deg) rotateX(4deg) scale(1.02);
-        }
-
-        .tilt-frame img {
-            width: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* Magical Orbs */
-        .magical-orb {
-            position: absolute;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); /* Gold/Beige tint */
-            border-radius: 50%;
-            filter: blur(40px);
-            z-index: -1;
-            pointer-events: none;
-            animation: float 6s infinite ease-in-out alternate;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) scale(1); }
-            100% { transform: translateY(-30px) scale(1.1); }
-        }
-
-        /* Accent Badges */
-        .gold-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(212,175,55,0.1); /* Gold */
-            border: 1px solid rgba(212,175,55,0.3);
-            color: #D4AF37; /* Gold text */
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 24px;
-        }
-
-        .product-heading {
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
-            margin-bottom: 20px;
-            line-height: 1.1;
-            color: #fff;
-        }
-
-        .product-desc {
-            font-size: 1.15rem;
-            color: var(--text-dim);
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        /* Team Grid */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            flex-direction: column;
             gap: 16px;
-            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.4);
         }
-        .team-member {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 16px;
+        .flow-node {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--surface);
+            padding: 16px 20px;
             border-radius: 12px;
-            text-align: center;
-            transition: transform 0.3s, background 0.3s;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            transition: transform 0.3s, border-color 0.3s;
         }
-        .team-member:hover {
-            transform: translateY(-5px);
-            background: rgba(212,175,55,0.05); /* Gold hover */
-            border-color: rgba(212,175,55,0.3);
+        .flow-node:hover { transform: translateX(8px); border-color: var(--cyan); }
+        .flow-arrow {
+            display: flex;
+            justify-content: center;
+            color: var(--cyan);
+            font-size: 1.5rem;
+            height: 24px;
+            line-height: 24px;
+            animation: float-down 2.5s infinite ease-in-out alternate;
         }
-        .team-avatar {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            background: #D4AF37;
-            color: #111;
+        .flow-icon {
+            width: 42px; height: 42px;
+            background: rgba(16,185,129,0.1);
+            border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            margin: 0 auto 12px auto;
+            color: var(--cyan);
+            font-size: 1.4rem;
+            flex-shrink: 0;
         }
+        .flow-text h4 { margin: 0 0 4px 0; font-size: 1rem; color: #fff; font-family: 'JetBrains Mono', monospace; }
+        .flow-text p { margin: 0; font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 900px) {
-            .product-section, .product-section.reverse {
-                flex-direction: column;
-                gap: 40px;
-                padding: 40px 0;
-            }
-            .product-media { width: 100%; }
+        @keyframes float-down { 0% { transform: translateY(-4px); } 100% { transform: translateY(4px); } }
+
+        .api-block {
+            background: rgba(0,0,0,0.4);
+            border-left: 4px solid var(--cyan);
+            border-radius: 4px 12px 12px 4px;
+            padding: 20px;
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
         }
-
+        .api-method { color: var(--lime); font-weight: 700; margin-right: 8px; }
+        .api-route { color: #fff; font-weight: 600; }
+        .api-desc { color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+        
+        .showcase-img {
+            width: 100%; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .showcase-img:hover { transform: scale(1.02); border-color: rgba(16,185,129,0.3); }
+        
+        .submodule-return { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); text-decoration: none; padding: 10px 0; transition: transform 0.2s; }
+        .submodule-return:hover { transform: translateX(-5px); color: var(--lime); }
     </style>
 </head>
 
-<body class="theme-cyberpunk project-body" style="background-color: #0d0d0d;">
+<body class="theme-cyberpunk project-body">
 
-    <!-- Submodule loader and nav -->
+    <!-- Extract just a clean nav element so I don't use nav-submodule.html -->
+    <nav>
+        <div class="nav-inner" style="justify-content: space-between; padding: 12px 24px;">
+            <a href="/#projects" class="submodule-return">
+                &larr; Return to Projects
+            </a>
+        </div>
+    </nav>
     <include src="./components/loading-screen.html"></include>
     <include src="./components/overlays.html"></include>
-    <include src="./components/nav-submodule.html"></include>
 
-    <main id="main-content" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2;">
+    <main id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 2;">
         
         <!-- Hero Section -->
-        <section class="product-section">
-            <div class="product-text reveal stagger-item" style="--delay: 100ms;">
-                <div class="gold-badge">✨ Hackathon 2026 Winner</div>
-                <h1 class="product-heading">Why LegalEase AI?</h1>
-                <p class="product-desc">
-                    Over 90% of Pakistanis lack higher education. Legal documents written in complex English are a daily barrier that puts millions at risk every time they sign.<br><br>
-                    LegalEase AI is the bridge. Upload a contract to receive mathematically grounded risk-analysis and crystal clear Urdu explanations instantly without exorbitant lawyers fees.
-                </p>
-                <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; color: #D4AF37; font-weight: 700; text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color 0.3s;" onmouseover="this.style.borderColor='#D4AF37'" onmouseout="this.style.borderColor='transparent'">
-                    Experience Live Demo &rarr;
-                </a>
-            </div>
+        <div class="glass-card reveal" style="padding: 40px; border-top: 2px solid var(--cyan); margin-bottom: 40px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); opacity: 0.1; filter: blur(50px); pointer-events: none;"></div>
             
-            <div class="product-media reveal stagger-item" style="--delay: 200ms;">
-                <div class="magical-orb" style="top: -50px; right: -50px;"></div>
-                <div class="tilt-frame">
-                    <img src="/images/legalease-hero.png" alt="Hero Screen" onerror="this.src='/images/legalease.png'" style="aspect-ratio: 16/10; object-position: top;">
-                </div>
-            </div>
-        </section>
+            <p style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 2px;">Heuristic Legal Analysis</p>
+            <h1 class="section-title" style="margin-bottom: 24px;">LegalEaseAI</h1>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-dim); max-width: 800px; margin-bottom: 30px;">
+                Pakistan has over 220M people, yet contracts strictly use dense English legalese. LegalEase AI bridges this gap by translating complex technical conditions into plain Urdu securely, providing mathematical risk assessments via native RAG memory pipelines.
+            </p>
+            
+            <img src="/images/legalease-hero.png" alt="LegalEase Hero Screenshot" class="showcase-img" onerror="this.src='/images/legalease.png'" style="aspect-ratio: 16/9;">
+        </div>
 
-        <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 40px 0;"></div>
-
-        <!-- Architecture Breakdown -->
-        <section class="product-section reverse">
-            <div class="product-text reveal stagger-item" style="--delay: 300ms;">
-                <div class="gold-badge">⚙️ Advanced NLP Engine</div>
-                <h2 class="product-heading" style="font-size: 2.5rem;">Technical Architecture</h2>
-                <p class="product-desc">
-                    Unlike standard wrappers, LegalEase utilizes a strict pipeline to prevent dangerous legal hallucinations:
-                </p>
-                <ul style="color: var(--text-dim); line-height: 1.8; font-size: 1.05rem; list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">1. Extraction:</strong> `pdfplumber` and `PyPDF2`</li>
-                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">2. Chunking:</strong> `LangChain` splitters feeding a `FAISS` vector DB.</li>
-                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">3. Risk Detection:</strong> Keyword and semantic pattern matching.</li>
-                    <li style="margin-bottom: 12px;"><strong style="color:#fff;">4. Generative Explanations:</strong> Prompt-engineered `GPT` or `Gemini` models returning structured Urdu JSON.</li>
-                    <li><strong style="color:#fff;">5. Automated Off-boarding:</strong> Formatted `ReportLab` and `WeasyPrint` PDF generations.</li>
+        <div class="sm-grid">
+            <!-- Features -->
+            <div class="glass-card reveal" style="padding: 30px;">
+                <h3 style="font-size: 1.4rem; color: #fff; margin-bottom: 16px;">Key Outcomes</h3>
+                <ul style="color: var(--text-dim); line-height: 1.8; font-size: 0.95rem; list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 15px;"><strong style="color:var(--lime);">Risk Detection:</strong> Clauses automatically parsed into High/Medium/Safe buckets using semantic pattern matching.</li>
+                    <li style="margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 15px;"><strong style="color:var(--cyan);">RAG Chatbot:</strong> Users can query their exact document and receive context-grounded completions using LPU infrastructure.</li>
+                    <li><strong style="color:#a855f7;">Report Generation:</strong> Executing on-demand physical PDF outputs for offline auditing.</li>
                 </ul>
             </div>
             
-            <div class="product-media reveal stagger-item" style="--delay: 400ms;">
-                <div class="magical-orb" style="bottom: -50px; left: -50px;"></div>
-                <div class="tilt-frame">
-                    <img src="/images/legalease-arch.png" alt="Architecture Diagram" onerror="this.src='/images/legalease.png'">
-                </div>
+            <div class="glass-card reveal" style="padding: 30px; display: flex; flex-direction: column; gap: 20px;">
+                <img src="/images/legalease-qa.png" alt="RAG Overview" class="showcase-img" onerror="this.src='/images/legalease.png'" style="height: 100%;">
             </div>
-        </section>
+        </div>
 
-        <div style="width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 40px 0;"></div>
-
-        <!-- Semantic Q&A Showcase -->
-        <section class="product-section">
-            <div class="product-text reveal stagger-item" style="--delay: 500ms;">
-                <div class="gold-badge">💬 Grounded RAG</div>
-                <h2 class="product-heading" style="font-size: 2.5rem;">Ask About Your Document</h2>
-                <p class="product-desc">
-                    Interact directly with your contract. The chatbot constraints answers strictly to context found within the uploaded document using Vector Retrieval Augmented Generation (RAG). Every answer provides its clause citation, ensuring complete transparency.
-                </p>
-            </div>
-            
-            <div class="product-media reveal stagger-item" style="--delay: 600ms;">
-                <div class="magical-orb" style="top: 0px; right: 0px;"></div>
-                <div class="tilt-frame">
-                    <img src="/images/legalease-qa.png" alt="RAG Q&A Output" onerror="this.src='/images/legalease.png'" style="aspect-ratio: 16/10; object-position: center;">
-                </div>
-            </div>
-        </section>
-
-        <!-- Reporting View -->
-        <section class="product-section reverse">
-            <div class="product-text reveal stagger-item" style="--delay: 500ms;">
-                <div class="gold-badge">📊 Deliverables</div>
-                <h2 class="product-heading" style="font-size: 2.5rem;">Compiled Risk Reports</h2>
-                <p class="product-desc">
-                    Instantly view aggregated statistics tracking Safe, Medium, and High-Risk clauses. Download beautifully formatted complete PDF reports directly via the browser for physical review.
-                </p>
-            </div>
-            
-            <div class="product-media reveal stagger-item" style="--delay: 600ms;">
-                <div class="magical-orb" style="bottom: -50px; left: 0px;"></div>
-                <div class="tilt-frame">
-                    <img src="/images/legalease-report.png" alt="Actionable Analytics View" onerror="this.src='/images/legalease.png'">
-                </div>
-            </div>
-        </section>
-
-        <!-- Team Acknowledgment -->
-        <div class="reveal stagger-item" style="--delay: 700ms; background: rgba(0,0,0,0.4); padding: 50px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: center; margin-bottom: 60px; margin-top: 40px;">
-             <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 12px;">Built Collaboratively</h3>
-             <p style="color: var(--text-muted); font-size: 1rem;">Architected over 72 intense hours by:</p>
+        <!-- Technical Architecture (DOM Flowchart) -->
+        <div class="glass-card reveal" style="padding: 40px; margin-bottom: 40px; position: relative;">
+             <div style="position: absolute; top: 0; left: 0; width: 100px; height: 100%; background: linear-gradient(90deg, rgba(16,185,129,0.05), transparent); pointer-events: none;"></div>
              
-             <div class="team-grid">
-                 <div class="team-member"><div class="team-avatar">F</div> <span style="color:#fff;font-size:0.9rem;">Farhana Faiz</span></div>
-                 <div class="team-member"><div class="team-avatar">F</div> <span style="color:#fff;font-size:0.9rem;">Fazeelat Shaheen</span></div>
-                 <div class="team-member"><div class="team-avatar">H</div> <span style="color:#fff;font-size:0.9rem;">Hammad Zahid</span></div>
-                 <div class="team-member"><div class="team-avatar">M</div> <span style="color:#fff;font-size:0.9rem;">Muhammad Asad</span></div>
-                 <div class="team-member"><div class="team-avatar">Z</div> <span style="color:#fff;font-size:0.9rem;">Zain Ibrar</span></div>
-                 <div class="team-member"><div class="team-avatar">Z</div> <span style="color:#fff;font-size:0.9rem;">Zaryab Aamir</span></div>
+             <h2 class="section-title" style="font-size: 2rem; margin-bottom: 20px;">Precision Architecture Pipeline</h2>
+             
+             <!-- Native CSS Flowchart -->
+             <div class="flow-container">
+                 <div class="flow-node">
+                     <div class="flow-icon"><i class="devicon-python-plain"></i></div>
+                     <div class="flow-text">
+                         <h4>Upload Phase</h4>
+                         <p>Client payloads are extracted securely into raw text arrays utilizing <code>pdfplumber</code> and <code>PyPDF2</code>.</p>
+                     </div>
+                 </div>
+                 <div class="flow-arrow">↓</div>
+                 
+                 <div class="flow-node">
+                     <div class="flow-icon" style="color: var(--lime); background: rgba(16,185,129,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2L1 21h22L12 2zm0 3.45l8.15 14.1H3.85L12 5.45z" /></svg></div>
+                     <div class="flow-text">
+                         <h4>RAG Chunking</h4>
+                         <p><code>LangChain</code> overlapping splitters vectorize data and aggressively sync it to a <code>FAISS</code> vector DB.</p>
+                     </div>
+                 </div>
+                 <div class="flow-arrow">↓</div>
+
+                 <div class="flow-node">
+                     <div class="flow-icon" style="color: #f97316; background: rgba(249,115,22,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><circle cx="12" cy="12" r="10"></circle></svg></div>
+                     <div class="flow-text">
+                         <h4 style="color: #f97316;">Risk Detection & Fallback Logic</h4>
+                         <p>Execution logic determines heuristic safety using semantic matching, handing generation to <code>GPT</code> or <code>Gemini</code>.</p>
+                     </div>
+                 </div>
+                 <div class="flow-arrow">↓</div>
+
+                 <div class="flow-node">
+                     <div class="flow-icon" style="color: #a855f7; background: rgba(168,85,247,0.1);"><i class="devicon-archlinux-plain"></i></div>
+                     <div class="flow-text">
+                         <h4 style="color: #a855f7;">PDF Reporting Output</h4>
+                         <p>Offboarding payloads are rigorously styled using <code>ReportLab</code> or <code>WeasyPrint</code> binary generation.</p>
+                     </div>
+                 </div>
              </div>
         </div>
 
+        <div class="sm-grid">
+            <div class="glass-card reveal" style="padding: 30px;">
+                <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 20px;">Core Server Endpoints</h3>
+                <div class="api-block">
+                    <div><span class="api-method">POST</span> <span class="api-route">/api/analyze</span></div>
+                    <div class="api-desc">Triggers full document ingestion natively, spinning up concurrent processing logic.</div>
+                </div>
+                <div class="api-block" style="border-color: #f97316;">
+                    <div><span class="api-method" style="color: #f97316;">POST</span> <span class="api-route">/api/qa</span></div>
+                    <div class="api-desc">Retrieves precise vector arrays mapping conversational requests directly to source contracts.</div>
+                </div>
+                <div class="api-block" style="border-color: #a855f7;">
+                    <div><span class="api-method" style="color: #a855f7;">GET</span> <span class="api-route">/api/report/{id}</span></div>
+                    <div class="api-desc">Initiates immediate bytecode delivery of the fully assessed physical audit.</div>
+                </div>
+            </div>
+
+            <div class="glass-card reveal" style="padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+                 <img src="/images/legalease-report.png" alt="PDF Reporting Output" class="showcase-img" onerror="this.src='/images/legalease.png'">
+                 <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center;">
+                    <a href="https://legal-ease-ai-iota.vercel.app/" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">Launch Output ↗</a>
+                    <a href="https://github.com/Asad101001/LegalEaseAI" target="_blank" rel="noopener" class="btn-secondary" style="text-decoration: none;">Source</a>
+                 </div>
+            </div>
+        </div>
     </main>
 
-    <footer class="main-footer reveal stagger-item" style="--delay: 800ms;">
+    <footer class="main-footer reveal">
         <div class="footer-inner">
-            <div class="footer-bottom" style="border-top: none;">
+            <div class="footer-bottom">
                 <p>&copy; 2025 Muhammad Asad Khan. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Essential Scripts exactly mimicking index.html -->
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script type="module" src="/js/app.js"></script>
     <script type="module" src="/js/modules/loader.js"></script>
@@ -298,29 +227,5 @@
     <script type="module" src="/js/modules/theme.js"></script>
     <script type="module" src="/js/modules/mobile.js"></script>
     <script type="module" src="/js/modules/desktop.js"></script>
-
-    <!-- Activate 3D Hover perspective locally without heavy libraries -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.tilt-frame').forEach(frame => {
-                frame.addEventListener('mousemove', (e) => {
-                    const rect = frame.getBoundingClientRect();
-                    const x = e.clientX - rect.left; 
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -5;
-                    const rotateY = ((x - centerX) / centerX) * 5;
-                    
-                    frame.style.transform = `scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                });
-                frame.addEventListener('mouseleave', () => {
-                    frame.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
-                });
-            });
-        });
-    </script>
 </body>
-
 </html>

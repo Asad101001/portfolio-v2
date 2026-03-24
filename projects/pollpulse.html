@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>PollPulse - Detail View</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
+        body { padding-top: 100px; }
+        .submodule-return { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); text-decoration: none; padding: 10px 0; transition: transform 0.2s; }
+        .submodule-return:hover { transform: translateX(-5px); color: var(--lime); }
+    </style>
+</head>
+<body class="theme-cyberpunk project-body">
+    <nav>
+        <div class="nav-inner" style="justify-content: space-between; padding: 12px 24px;">
+            <a href="/#projects" class="submodule-return">&larr; Return to Projects</a>
+        </div>
+    </nav>
+    <include src="../components/loading-screen.html"></include>
+    <main id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 40px 20px; position: relative;">
+        <div class="glass-card reveal" style="padding: 40px; border-top: 2px solid var(--cyan); text-align: center;">
+            <h1 class="section-title">PollPulse Overview</h1>
+            <p style="color: var(--text-dim); margin-top: 16px;">This project's deep-dive case study is currently being written. Stay tuned for architectural diagrams, code breakdowns, and production statistics.</p>
+            <div style="margin: 40px auto 0 auto; max-width: 600px;">
+                <img src="/images/pollpulse-hero.png" alt="PollPulse Interface Screenshot" onerror="this.src='/images/pollpulse.png'" style="width:100%; border-radius:12px; border:1px solid rgba(255,255,255,0.05); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            </div>
+            <div style="margin-top: 30px;">
+                <a href="https://github.com/Asad101001/pollpulse" target="_blank" class="btn-primary">View GitHub Repository ↗</a>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/modules/loader.js"></script>
+    <script type="module" src="/js/modules/theme.js"></script>
+</body>
+</html>

@@ -11,10 +11,12 @@ function htmlIncludePlugin() {
     transformIndexHtml(html) {
       return html.replace(/<include\s+src="([^"]+)"><\/include>/g, (match, src) => {
         try {
-          const filePath = path.resolve(process.cwd(), src);
+          // Standardize on root-relative paths starting with /
+          const cleanSrc = src.startsWith('/') ? src.slice(1) : src;
+          const filePath = path.resolve(process.cwd(), cleanSrc);
           return fs.readFileSync(filePath, 'utf-8');
         } catch (e) {
-          console.error(`Could not include file ${src}`, e);
+          console.error(`Could not include file ${src} at resolved path ${path.resolve(process.cwd(), src)}`, e);
           return match;
         }
       });
@@ -29,7 +31,11 @@ export default {
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        legaleaseai: path.resolve(__dirname, 'projects/legaleaseai.html')
+        legaleaseai: path.resolve(__dirname, 'projects/legaleaseai.html'),
+        pollpulse: path.resolve(__dirname, 'projects/pollpulse.html'),
+        devpulse: path.resolve(__dirname, 'projects/devpulse.html'),
+        mogscope: path.resolve(__dirname, 'projects/mogscope.html'),
+        aws: path.resolve(__dirname, 'projects/aws.html')
       }
     }
   }

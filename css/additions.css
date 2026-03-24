@@ -804,8 +804,20 @@
   opacity: 1;
   transform: scale(1);
 }
-.acard:hover, .acard.manual-expand {
-  max-width: 200px; /* Large enough for any name, but will only expand to fit content */
+@media (hover: hover) and (pointer: fine) {
+  .acard:hover {
+    max-width: 200px; /* Large enough for any name, but will only expand to fit content */
+    gap: 10px;
+    padding: 9px 12px;
+    border-color: var(--ac, rgba(16,185,129,0.45));
+    background: var(--ag, rgba(16,185,129,0.1));
+    box-shadow: 0 0 18px var(--ag, rgba(16,185,129,0.2)),
+                0 4px 16px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+  }
+}
+.acard.manual-expand {
+  max-width: 200px;
   gap: 10px;
   padding: 9px 12px;
   border-color: var(--ac, rgba(16,185,129,0.45));
@@ -858,9 +870,15 @@
   transition: opacity 0.18s ease 0.1s, max-width 0.35s cubic-bezier(0.22,1,0.36,1);
   pointer-events: none;
 }
-.acard:hover .acard-name, .acard.manual-expand .acard-name { 
+.acard.manual-expand .acard-name { 
   opacity: 1; 
   max-width: 150px; 
+}
+@media (hover: hover) and (pointer: fine) {
+  .acard:hover .acard-name {
+    opacity: 1; 
+    max-width: 150px; 
+  }
 }
 
 
