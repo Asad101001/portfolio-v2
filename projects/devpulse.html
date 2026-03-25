@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
-        body { padding-top: 100px; }
+        body { padding-top: 100px; background: #000000 !important; }
+        .hero-backdrop, .ambient-glow { display: none !important; }
         .submodule-return { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); text-decoration: none; padding: 10px 0; transition: transform 0.2s; }
         .submodule-return:hover { transform: translateX(-5px); color: var(--lime); }
         .proj-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
@@ -62,21 +63,45 @@
                 </div>
 
                 <div class="proj-card" style="grid-column: 1 / -1;">
-                    <h3 style="color: #FFD600; margin-bottom: 16px;">Tech Stack Matrix</h3>
-                    <p style="color: var(--text-dim); margin-bottom: 16px; font-size: 0.95rem;">
-                        Features robust full-stack architecture running Node.js with Express 5, integrating Github OAuth via Passport.js, and scaling data on MongoDB Atlas. Recharts renders the radar and bar visualizations dynamically on the React SPA.
+                    <h3 style="color: #FFD600; margin-bottom: 16px;">System Architecture & Telemetry Flow</h3>
+                    <p style="color: var(--text-dim); margin-bottom: 24px; font-size: 0.95rem;">
+                        A robust full-stack architecture powered by Express 5 orchestrating asynchronous Git integrations. It scales JSON metrics via authenticated GitHub Passport.js OAuth sessions and securely dumps persistent historic telemetry profiles directly into a Mongo cluster, visualizing seamlessly via React DOM.
                     </p>
-                    <div class="tech-list">
-                        <span>React 18</span>
-                        <span>Vite</span>
-                        <span>Tailwind CSS</span>
-                        <span>Recharts</span>
-                        <span>Express 5</span>
-                        <span>Node.js</span>
-                        <span>MongoDB Atlas</span>
-                        <span>Passport.js (GitHub OAuth)</span>
-                        <span>Groq API</span>
+
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,214,0,0.15); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
+                        <pre class="mermaid">
+sequenceDiagram
+    participant UI as React UI 🖥️
+    participant Server as Express Backend 💻
+    participant Github as GitHub API 🐱
+    participant AI as Groq (Llama 3) 🧠
+    participant DB as MongoDB Atlas 🗄️
+
+    UI->>Server: Request Telemetry (Token)
+    Server->>Github: OAuth Session / Fetch Commits
+    Github-->>Server: Return Commit History Batch
+    Server->>AI: Send Commits for Inference (System Prompt)
+    AI-->>Server: Returns Vibe/Burnout Multipliers
+    Server->>DB: Store Analyzed Telemetry Profile
+    Server-->>UI: Serve Aggregated JSON Payload
+    UI->>UI: Render Recharts Data Visualization
+                        </pre>
                     </div>
+
+                    <h4 style="color: #FFD600; margin-bottom: 12px; font-size: 1rem;">Tech Highlights</h4>
+                    <div class="proj-tags" style="margin-bottom: 20px; justify-content: center;">
+                        <span class="tag" data-tech="React"><svg viewBox="0 0 24 24" fill="#61DAFB"><path d="M22.664 10.306c-.056-.364-.263-.693-.583-.903-1.87-1.165-4.412-1.962-4.412-1.962-.303-.51-.62-1.01-.951-1.5 1.274-2.185 2.142-4.52 2.142-4.52.171-.341-.162-.748-.024-1.081-.185-.333-.526-.554-.908-.59-2.524-.236-5.134.42-5.134.42-.49-.331-.99-.648-1.5-.951 0 0-.797-2.542-1.962-4.412C9.133.486 8.804.279 8.44.223 8.077.167 7.708.274 7.428.514 6.263 1.481 5.064 3.018 4.25 4.908c-.147.34-.287.689-.42 1.045-2.128-1.325-4.413-2.193-4.413-2.193-.364-.056-.734.051-1.014.29-.28.24-.431.597-.417.962.063 1.838.486 4.314 1.821 6.845.319.61.666 1.214 1.04 1.806-1.325 2.128-2.193 4.413-2.193 4.413-.056.364.051.734.29 1.014.24.28.597.431.962.417 1.838-.063 4.314-.486 6.845-1.821.61-.319 1.214-.666 1.806-1.04 2.128 1.325 4.413 2.193 4.413 2.193.364.056.734-.051 1.014-.29.28-.24.431-.597.417-.962-.063-1.838-.486-4.314-1.821-6.845-.319-.61-.666-1.214-1.04-1.806 1.325-2.128 2.193-4.413 2.193-4.413.056-.364-.051-.734-.29-1.014-.24-.28-.597-.431-.962-.417-1.838.063-4.314.486-6.845 1.821-.497.262-.993.51-1.488.745l.044.025c.343.195.683.393 1.017.593 1.87 1.165 4.412 1.962 4.412 1.962.303.51.62 1.01.951 1.5-1.274 2.185-2.142 4.52-2.142 4.52-.171.341-.162.748.024 1.081.185.333.526.554.912.593 2.524.236 5.134-.42 5.134-.42.49.331.99.648 1.5.951 0 0-.797 2.542 1.962 4.412.21.319.539.526.903.583.364.056.734-.051 1.014-.29.28-.24.431-.597.417-.962-.063-1.838-.486-4.314-1.821-6.845-.319-.61-.666-1.214-1.04-1.806 1.325-2.128 2.193-4.413 2.193-4.413.056-.364-.051-.734-.29-1.014-.24-.28-.597-.431-.962-.417-1.838.063-4.314.486-6.845 1.821-.61.319-1.214.666-1.806 1.04z" /></svg><span class="tag-label">React</span></span>
+                        <span class="tag" data-tech="Express"><svg viewBox="0 0 24 24" fill="#ffffff"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067z" /></svg><span class="tag-label">Express 5</span></span>
+                        <span class="tag" data-tech="Groq"><svg viewBox="0 0 24 24" fill="#f75049"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" /></svg><span class="tag-label">Llama 3.3</span></span>
+                        <span class="tag" data-tech="MongoDB"><svg viewBox="0 0 24 24" fill="#47A248"><path d="M17.193 9.555c-1.2-3.139-3.901-5.914-4.636-6.66l-.557-.56-.557.56c-.735.746-3.436 3.521-4.636 6.66-1.282 3.352-1.218 6.551-.97 8.356.19 1.385.918 2.455 1.954 2.873 1.096.442 2.668.614 4.209.614 1.54 0 3.112-.172 4.209-.614 1.036-.418 1.764-1.488 1.954-2.873.248-1.805.312-5.004-.97-8.356zm-4.305 10.428h-1.776v-5.264h1.776v5.264zm.447-6.059c-1.352 0-2.434-1.082-2.434-2.435s1.082-2.434 2.434-2.434 2.435 1.082 2.435 2.434-1.083 2.435-2.435 2.435z"/></svg><span class="tag-label">MongoDB Atlas</span></span>
+                        <span class="tag" data-tech="Recharts"><svg viewBox="0 0 24 24" fill="#22c55e"><path d="M12 2L2 22h20L12 2zm0 4.5L18.5 19H5.5L12 6.5z"/></svg><span class="tag-label">Recharts</span></span>
+                    </div>
+
+                    <h4 style="color: #FFD600; margin-bottom: 12px; font-size: 1rem;">Core Engineering Challenges</h4>
+                    <ul class="feature-list" style="color: var(--text-muted); font-size: 0.95rem;">
+                        <li><strong>AI Strict Formatting:</strong> Constrained Llama-3 outputs strictly into deterministic JSON patterns, resolving hallucinated object structures via hard-coded parsing strategies.</li>
+                        <li><strong>API Backoffs:</strong> Implemented smart exponential retries to circumvent strict free-tier rate limits from third-party OAuth callbacks.</li>
+                    </ul>
                 </div>
             </div>
 
@@ -86,6 +111,10 @@
             </div>
         </div>
     </main>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#111', primaryBorderColor: '#FFD600', primaryTextColor: '#fff', line: '#FFD600', fontFamily: 'JetBrains Mono' } });
+    </script>
     <script type="module" src="../js/app.js"></script>
     <script type="module" src="../js/modules/loader.js"></script>
     <script type="module" src="../js/modules/animations.js"></script>

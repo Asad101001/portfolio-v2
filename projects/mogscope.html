@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
-        body { padding-top: 100px; }
+        body { padding-top: 100px; background: #000000 !important; }
+        .hero-backdrop, .ambient-glow { display: none !important; }
         .submodule-return { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); text-decoration: none; padding: 10px 0; transition: transform 0.2s; }
         .submodule-return:hover { transform: translateX(-5px); color: var(--lime); }
         .proj-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
@@ -62,20 +63,44 @@
                 </div>
 
                 <div class="proj-card" style="grid-column: 1 / -1;">
-                    <h3 style="color: #6366f1; margin-bottom: 16px;">Metrics Engine & Privacy</h3>
-                    <p style="color: var(--text-dim); margin-bottom: 16px; font-size: 0.95rem;">
-                        Facial detection remains entirely secure — 100% of mathematical extraction occurs fully client-side via WebAssembly-compiled <code>@vladmandic/face-api</code> on React 18. Only the pure resulting geometric numbers are requested outward via Vercel Edge compute units executing Groq's <code>llama-3.3-70b-versatile</code> for highly responsive, tone-strict text completions formatted elegantly by Recharts and Tailwind globally.
+                    <h3 style="color: #6366f1; margin-bottom: 16px;">Biometric Execution Pipeline</h3>
+                    <p style="color: var(--text-dim); margin-bottom: 24px; font-size: 0.95rem;">
+                        Facial detection remains entirely secure — 100% of mathematical extraction occurs fully client-side via WebAssembly-compiled <code>@vladmandic/face-api</code> on React 18. Only the pure geometric numbers orchestrate Vercel Edge compute units running Groq's <code>llama-3.3-70b-versatile</code> for highly responsive, tone-strict satirical completions formatting.
                     </p>
-                    <div class="tech-list">
-                        <span>React 18</span>
-                        <span>Vite 5</span>
-                        <span>Face-API.js (MobileNetV1)</span>
-                        <span>Three.js (WebGL)</span>
-                        <span>Recharts</span>
-                        <span>Groq API</span>
-                        <span>Framer Motion</span>
-                        <span>Zustand</span>
+
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(99,102,241,0.15); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
+                        <pre class="mermaid">
+graph LR
+    subgraph Client [Browser Environment 🖥️]
+        Webcam[HD Webcam Array] -->|Video Feed| FaceAPI(FaceAPI.js Model🧠)
+        FaceAPI -->|68-point Vector Maps| UI[React 18 Engine]
+        UI -->|Geometry Bindings| Three(Three.js Visuals 💀)
+    end
+    subgraph Cloud [Edge Serverless 🌧️]
+        UI -->|Anatomical Data| Vercel(Vercel Edge Functions)
+        Vercel -->|Llama 3 Prompting| Groq[(Groq High-Speed API)]
+        Groq -->|Satirical Script| Vercel
+        Vercel -->|JSON Insights| UI
+    end
+    UI -->|Text-to-Speech| Voice((Browser Web Audio API 🗣️))
+                        </pre>
                     </div>
+
+                    <h4 style="color: #6366f1; margin-bottom: 12px; font-size: 1rem;">Primary Tooling Matrix</h4>
+                    <div class="proj-tags" style="margin-bottom: 20px; justify-content: center;">
+                        <span class="tag" data-tech="React"><svg viewBox="0 0 24 24" fill="#61DAFB"><path d="M22.664 10.306c-.056-.364-.263-.693-.583-.903-1.87-1.165-4.412-1.962-4.412-1.962-.303-.51-.62-1.01-.951-1.5 1.274-2.185 2.142-4.52 2.142-4.52.171-.341-.162-.748-.024-1.081-.185-.333-.526-.554-.908-.59-2.524-.236-5.134.42-5.134.42-.49-.331-.99-.648-1.5-.951 0 0-.797-2.542-1.962-4.412C9.133.486 8.804.279 8.44.223 8.077.167 7.708.274 7.428.514 6.263 1.481 5.064 3.018 4.25 4.908c-.147.34-.287.689-.42 1.045-2.128-1.325-4.413-2.193-4.413-2.193-.364-.056-.734.051-1.014.29-.28.24-.431.597-.417.962.063 1.838.486 4.314 1.821 6.845.319.61.666 1.214 1.04 1.806-1.325 2.128-2.193 4.413-2.193 4.413-.056.364.051.734.29 1.014.24.28.597.431.962.417 1.838-.063 4.314-.486 6.845-1.821.61-.319 1.214-.666 1.806-1.04 2.128 1.325 4.413 2.193 4.413 2.193.364.056.734-.051 1.014-.29.28-.24.431-.597.417-.962-.063-1.838-.486-4.314-1.821-6.845-.319-.61-.666-1.214-1.04-1.806 1.325-2.128 2.193-4.413 2.193-4.413.056-.364-.051-.734-.29-1.014-.24-.28-.597-.431-.962-.417-1.838.063-4.314.486-6.845 1.821-.497.262-.993.51-1.488.745l.044.025c.343.195.683.393 1.017.593 1.87 1.165 4.412 1.962 4.412 1.962.303.51.62 1.01.951 1.5-1.274 2.185-2.142 4.52-2.142 4.52-.171.341-.162.748.024 1.081.185.333.526.554.912.593 2.524.236 5.134-.42 5.134-.42.49.331.99.648 1.5.951 0 0-.797 2.542 1.962 4.412.21.319.539.526.903.583.364.056.734-.051 1.014-.29.28-.24.431-.597.417-.962-.063-1.838-.486-4.314-1.821-6.845-.319-.61-.666-1.214-1.04-1.806 1.325-2.128 2.193-4.413 2.193-4.413.056-.364-.051-.734-.29-1.014-.24-.28-.597-.431-.962-.417-1.838.063-4.314.486-6.845 1.821-.61.319-1.214.666-1.806 1.04z" /></svg><span class="tag-label">React</span></span>
+                        <span class="tag" data-tech="Tailwind"><svg viewBox="0 0 24 24" fill="#38B2AC"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" /></svg><span class="tag-label">Tailwind</span></span>
+                        <span class="tag" data-tech="Threejs"><svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2L2 19.74h20L12 2zm0 3.86l7.3 12.88H4.7L12 5.86z" /></svg><span class="tag-label">Three.js</span></span>
+                        <span class="tag" data-tech="Groq"><svg viewBox="0 0 24 24" fill="#f75049"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" /></svg><span class="tag-label">Groq AI</span></span>
+                        <span class="tag" data-tech="TensorFlow"><svg viewBox="0 0 24 24" fill="#FF6F00"><path d="M1.29 5.87L11.5 0l10.21 5.87v11.75l-10.21 5.88L1.29 17.62V5.87zm1.21 1.19v9.37l9 5.18 9-5.18V7.06l-9-5.18-9 5.18z" /></svg><span class="tag-label">TensorFlow</span></span>
+                        <span class="tag" data-tech="Framer"><svg viewBox="0 0 24 24" fill="#f500ff"><path d="M0 0h24v24H0z" fill="none" /><path d="M12 1L4.5 8.5h15L12 1zM4.5 23l7.5-7.5 7.5 7.5h-15zM4.5 8.5V16h7.5L4.5 8.5z" /></svg><span class="tag-label">Framer Motion</span></span>
+                    </div>
+
+                    <h4 style="color: #6366f1; margin-bottom: 12px; font-size: 1rem;">Implementation Hurdles</h4>
+                    <ul class="feature-list" style="color: var(--text-muted); font-size: 0.95rem;">
+                        <li><strong>Performance Optims:</strong> Compiling heavy computer vision tensor models cleanly onto weak mobile devices utilizing WebGL backends.</li>
+                        <li><strong>State Desynchronization:</strong> Ensuring live webcam coordinate streams match seamlessly up with complex Three.js geometry orientations.</li>
+                    </ul>
                 </div>
             </div>
 
@@ -85,6 +110,10 @@
             </div>
         </div>
     </main>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#121212', primaryBorderColor: '#6366f1', primaryTextColor: '#fff', line: '#6366f1', fontFamily: 'JetBrains Mono' } });
+    </script>
     <script type="module" src="../js/app.js"></script>
     <script type="module" src="../js/modules/loader.js"></script>
     <script type="module" src="../js/modules/animations.js"></script>
