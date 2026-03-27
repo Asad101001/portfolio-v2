@@ -95,7 +95,31 @@ nav.nav-hidden { transform: translateY(-100px); opacity: 0; pointer-events: none
 .section-dot.active { color: var(--cyan); border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.1); box-shadow: 0 0 12px rgba(16,185,129,0.2); }
 .section-dot::after { content: attr(title); position: absolute; right: calc(100% + 8px); background: rgba(5,5,5,0.95); border: 1px solid rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 2px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; backdrop-filter: blur(8px); font-family: 'JetBrains Mono', monospace; }
 .section-dot.nearby:hover::after, .section-dot.active::after { opacity: 1; }
-@media (max-width: 900px) { #section-dots { display: none; } }
+@media (max-width: 900px) { 
+  #section-dots { 
+    right: 8px;
+    gap: 7px;
+  } 
+  .section-dot.nearby, .section-dot.active { 
+    width: 28px; 
+    height: 28px;
+  }
+  .section-dot.nearby svg, .section-dot.active svg { 
+    width: 12px; 
+    height: 12px;
+  }
+  /* Hide tooltip labels on small screens */
+  .section-dot::after { display: none; }
+}
+@media (max-width: 480px) {
+  #section-dots {
+    right: 5px;
+    gap: 5px;
+  }
+  .section-dot { width: 7px; height: 7px; }
+  .section-dot.nearby, .section-dot.active { width: 22px; height: 22px; border-radius: 3px; }
+  .section-dot.nearby svg, .section-dot.active svg { width: 10px; height: 10px; }
+}
 
 /* ── Sections & Layout ────────────────────────────────────── */
 section { padding: 80px 16px; position: relative; content-visibility: auto; contain-intrinsic-size: auto 800px; background: rgba(2, 2, 2, 0.45); z-index: 2; }

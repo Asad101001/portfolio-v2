@@ -12,9 +12,22 @@ export const CONFIG = {
   },
   big3: {
     players: [
-      { name: 'Lamine Yamal', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/478553.png' },
-      { name: 'Pedri Gonzalez', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/431355.png' },
-      { name: 'Nuno Mendes', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/435136.png' }
+      { 
+        name: 'Lamine Yamal', 
+        // Use Sofascore player ID URLs — very reliable for football headshots
+        photo: 'https://api.sofascore.app/api/v1/player/1070388/image',
+        fallback: '🇪🇸'
+      },
+      { 
+        name: 'Pedri González', 
+        photo: 'https://api.sofascore.app/api/v1/player/814136/image',
+        fallback: '🇪🇸'
+      },
+      { 
+        name: 'Nuno Mendes', 
+        photo: 'https://api.sofascore.app/api/v1/player/1050858/image',
+        fallback: '🇵🇹'
+      }
     ],
     watchlist: ['Dune: Part Two', 'Spider-Man: Beyond the Spider-Verse', 'Severance S2']
   }
@@ -138,7 +151,7 @@ export const CONFIG = {
             var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
             tvTitle.textContent = pick;
           }
-          if (tvStatus) tvStatus.textContent = "Watching Series";
+          if (tvStatus) tvStatus.textContent = 'Currently Watching';
         });
     }
     fetchTV();
@@ -872,23 +885,59 @@ export const CONFIG = {
   // 1. Favorite Players & Headshots
   if (playersEl && CONFIG.big3.players) {
     playersEl.textContent = CONFIG.big3.players.map(p => p.name).join(', ');
-    if (headshotsWrap) {
-      headshotsWrap.innerHTML = '';
-      CONFIG.big3.players.forEach(p => {
+    
+    // Use new footballer-headshots-row container (updated class name)
+    var headshotsEl = headshotsWrap || document.getElementById('player-headshots-wrap');
+    if (headshotsEl) {
+      headshotsEl.innerHTML = '';
+      CONFIG.big3.players.forEach(function(p) {
+        var wrap = document.createElement('div');
+        wrap.className = 'footballer-card';
+        wrap.title = p.name;
+        
         var img = document.createElement('img');
-        img.className = 'player-headshot-thumb';
-        img.src = p.photo;
+        img.className = 'footballer-headshot-img';
         img.alt = p.name;
-        img.title = p.name;
-        headshotsWrap.appendChild(img);
+        img.loading = 'lazy';
+        
+        // Try multiple image sources with fallback chain
+        var sources = [
+          p.photo,
+          // Wikipedia Commons fallback for well-known players
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Lamine_Yamal.jpg/200px-Lamine_Yamal.jpg'
+        ];
+        
+        img.onerror = function() {
+          // On error, replace with emoji avatar
+          wrap.innerHTML = '';
+          var emojiEl = document.createElement('div');
+          emojiEl.className = 'footballer-emoji-avatar';
+          emojiEl.textContent = p.fallback || '⚽';
+          var nameEl = document.createElement('span');
+          nameEl.className = 'footballer-short-name';
+          // Short first name only
+          nameEl.textContent = p.name.split(' ')[0];
+          wrap.appendChild(emojiEl);
+          wrap.appendChild(nameEl);
+        };
+        img.src = p.photo;
+        
+        var nameLabel = document.createElement('span');
+        nameLabel.className = 'footballer-name-label';
+        nameLabel.textContent = p.name.split(' ')[0]; // First name only for space
+        
+        wrap.appendChild(img);
+        wrap.appendChild(nameLabel);
+        headshotsEl.appendChild(wrap);
       });
     }
   }
 
-  // 2. Top Artists (Last.fm)
+  // 2. Top Weekly Artists (Last.fm) — with thumbnails
   var USER    = CONFIG.usernames.lastfm;
   var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
   var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER + '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
+  var artistThumbsEl = document.getElementById('big3-artist-thumbs');
 
   function fetchArtists() {
     fetch(LASTFM_URL)
@@ -897,19 +946,63 @@ export const CONFIG = {
         if (data.error) throw new Error(data.message || 'Last.fm error');
         if (!data.topartists || !data.topartists.artist) throw new Error('No artist data');
         var artists = data.topartists.artist;
-        if (artists.length >= 3) {
-          var names = artists.slice(0, 3).map(function(a, idx) { 
-            var count = a.playcount ? ' (' + a.playcount + ')' : '';
-            return (idx + 1) + '. ' + a.name + count; 
+        var top3 = artists.slice(0, 3);
+        
+        if (top3.length > 0) {
+          var names = top3.map(function(a, idx) { 
+            return (idx + 1) + '. ' + a.name; 
           }).join(', ');
           artistsEl.textContent = names;
-        } else if (artists.length > 0) {
-          artistsEl.textContent = artists.map(function(a) { return a.name; }).join(', ');
+          
+          // Inject artist thumbnails
+          if (artistThumbsEl) {
+            artistThumbsEl.innerHTML = '';
+            top3.forEach(function(a) {
+              var wrap = document.createElement('div');
+              wrap.className = 'artist-thumb-card';
+              wrap.title = a.name;
+              
+              // Last.fm images: pick the 'large' or 'extralarge' size
+              var imgUrl = '';
+              if (a.image && a.image.length) {
+                for (var i = a.image.length - 1; i >= 0; i--) {
+                  if (a.image[i]['#text'] && a.image[i]['#text'].indexOf('2a96cbd8b46e442fc41c2b86b821562f') === -1) {
+                    imgUrl = a.image[i]['#text'];
+                    break;
+                  }
+                }
+              }
+              
+              if (imgUrl) {
+                var img = document.createElement('img');
+                img.className = 'artist-thumb-img';
+                img.src = imgUrl;
+                img.alt = a.name;
+                img.loading = 'lazy';
+                img.onerror = function() {
+                  this.parentElement.innerHTML = '<div class="artist-thumb-emoji">🎵</div><span class="artist-thumb-name">' + a.name.split(' ')[0] + '</span>';
+                };
+                wrap.appendChild(img);
+              } else {
+                var emojiEl = document.createElement('div');
+                emojiEl.className = 'artist-thumb-emoji';
+                emojiEl.textContent = '🎵';
+                wrap.appendChild(emojiEl);
+              }
+              
+              var nameLabel = document.createElement('span');
+              nameLabel.className = 'artist-thumb-name';
+              nameLabel.textContent = a.name.length > 10 ? a.name.substring(0, 9) + '…' : a.name;
+              wrap.appendChild(nameLabel);
+              artistThumbsEl.appendChild(wrap);
+            });
+          }
         }
       })
       .catch(function(err) { 
         console.warn('Last.fm fetch failed:', err.message);
-        artistsEl.textContent = 'Refresh to load artists'; 
+        artistsEl.textContent = 'Refresh to load artists';
+        if (artistThumbsEl) artistThumbsEl.innerHTML = '<div class="currently-into-thumb-placeholder">🎵</div>';
       });
   }
   fetchArtists();

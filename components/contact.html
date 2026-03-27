@@ -92,16 +92,16 @@
 
                 <!-- Twitter Snippet (Centered) -->
                 <div class="glass-card twitter-widget" style="padding:18px;">
-                    <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+                    <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         <span style="font-size:0.75rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">Latest Brainrot</span>
                     </div>
-                    <div class="twitter-centering-wrap" style="display:flex; justify-content:center; width:100%;">
-                        <blockquote class="twitter-tweet" data-theme="dark" data-align="center">
-                            <a href="https://twitter.com/As4d_41/status/1815152341490262198"></a>
+                    <div class="twitter-centering-wrap">
+                        <blockquote class="twitter-tweet" data-theme="dark" data-align="center" data-dnt="true">
+                            <a href="https://twitter.com/As4d_41/status/1815152341490262198">Loading tweet…</a>
                         </blockquote>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
 
                 <!-- LinkedIn Latest Post -->
@@ -155,22 +155,24 @@
                             </div>
                         </div>
 
-                        <!-- 3. Favorite Players (Headshots) -->
-                        <div class="rotating-item currently-into-item barca-slot" data-index="2">
-                            <div class="player-headshots-row" id="player-headshots-wrap">
+                        <!-- 3. Fav Footballers (Headshots) -->
+                        <div class="rotating-item currently-into-item footballer-slot" data-index="2">
+                            <div class="footballer-headshots-row" id="player-headshots-wrap">
                                 <!-- Headshots will be injected via JS -->
                             </div>
-                            <div class="currently-into-text">
-                                <span class="rotating-label currently-into-label">Favorite Players</span>
+                            <div class="currently-into-text" style="text-align:center;">
+                                <span class="rotating-label currently-into-label">Fav Footballers</span>
                                 <span class="rotating-value currently-into-value" id="big3-players">Lamine Yamal, Pedri, Nuno Mendes</span>
                             </div>
                         </div>
 
-                        <!-- 4. Top Artists (Last.fm) -->
+                        <!-- 4. Weekly Artists (Last.fm) -->
                         <div class="rotating-item currently-into-item" data-index="3">
-                            <div class="currently-into-thumb-placeholder">🎵</div>
+                            <div class="artist-thumbs-row" id="big3-artist-thumbs">
+                                <!-- Artist thumbs will be injected via JS -->
+                            </div>
                             <div class="currently-into-text">
-                                <span class="rotating-label currently-into-label">Top Artists (7d)</span>
+                                <span class="rotating-label currently-into-label">Weekly Artists</span>
                                 <span class="rotating-value currently-into-value" id="big3-artists">Loading Last.fm...</span>
                             </div>
                         </div>

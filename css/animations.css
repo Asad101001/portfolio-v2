@@ -73,7 +73,6 @@ body.is-ready nav {
   .social-cards-grid { grid-template-columns: 1fr; gap: 12px; }
   .social-right { margin-top: 32px; }
   .social-heading { font-size: 1.8rem; }
-  #section-dots { display: none; }
   #back-to-top  { right: 16px; bottom: 72px; }
   .hero-orb { display: none; }
   .faller, .hero-spark { display: none; }
