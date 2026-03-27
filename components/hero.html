@@ -107,12 +107,12 @@
                             style="display:none" />
                         <div id="reading-placeholder" class="currently-into-thumb-placeholder">📖</div>
                         <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label">Reading</span>
-                            <span class="rotating-value currently-into-value">1984 — George Orwell</span>
+                            <span class="rotating-label currently-into-label">Current Book</span>
+                            <span class="rotating-value currently-into-value" id="reading-title">Checking Library...</span>
                         </div>
                     </div>
 
-                    <!-- Movies (Letterboxd) -->
+                    <!-- Movie -->
                     <div class="rotating-item currently-into-item" data-index="1">
                         <img id="watching-poster" class="currently-into-thumb" src="" alt="Movie poster"
                             style="display:none" />
@@ -123,18 +123,22 @@
                         </div>
                     </div>
 
-                    <!-- Series (TV Shows) -->
+                    <!-- TV Series Tracking (Trakt) -->
                     <div class="rotating-item currently-into-item" data-index="2">
-                        <img id="series-poster" class="currently-into-thumb" src="" alt="Series poster"
-                            style="display:none" />
-                        <div id="series-placeholder" class="currently-into-thumb-placeholder">📺</div>
+                        <img id="tv-tracking-poster" class="currently-into-thumb" src="" alt="TV Poster" style="display:none" />
+                        <div id="tv-tracking-placeholder" class="currently-into-thumb-placeholder">📺</div>
                         <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label">Watching Shows</span>
-                            <span class="rotating-value currently-into-value" id="series-title">Severance — Apple TV+</span>
+                            <span class="rotating-label currently-into-label" id="tv-tracking-status">Watching Series</span>
+                            <span class="rotating-value currently-into-value" id="tv-tracking-title">Checking Trakt...</span>
+                            <div class="tv-progress-container" id="tv-progress-wrap" style="display:none; margin-top: 4px;">
+                                <div class="tv-progress-bar" style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; width: 100%;">
+                                    <div id="tv-progress-fill" style="height: 100%; background: var(--cyan); width: 0%; border-radius: 2px; transition: width 0.5s ease;"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Football / Barca live score -->
+                    <!-- Football -->
                     <div class="rotating-item currently-into-item" data-index="3">
                         <div class="currently-into-thumb--football">
                             <span class="football-supporting-tag">SUPPORTING</span>

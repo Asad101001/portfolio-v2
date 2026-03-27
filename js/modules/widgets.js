@@ -8,7 +8,15 @@ export const CONFIG = {
   },
   currently: {
     reading: '1984 George Orwell', // Just type title & author
-    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking'] // TV Shows pool
+    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking'] 
+  },
+  big3: {
+    players: [
+      { name: 'Lamine Yamal', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/478553.png' },
+      { name: 'Pedri Gonzalez', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/431355.png' },
+      { name: 'Nuno Mendes', photo: 'https://a.espncdn.com/i/headshots/soccer/players/full/435136.png' }
+    ],
+    watchlist: ['Dune: Part Two', 'Spider-Man: Beyond the Spider-Verse', 'Severance S2']
   }
 };
 
@@ -105,6 +113,50 @@ export const CONFIG = {
         .catch(function () {});
     }
     fetchSeries();
+  }
+
+  /* ── Media Hub: TV Tracking (Trakt) ── */
+  var tvPoster = document.getElementById('tv-tracking-poster');
+  var tvPlaceholder = document.getElementById('tv-tracking-placeholder');
+  var tvTitle = document.getElementById('tv-tracking-title');
+  var tvStatus = document.getElementById('tv-tracking-status');
+
+  if (tvTitle) {
+    function fetchTV() {
+      fetch('/api/current-show')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || data.watching === null) {
+             if (tvTitle) tvTitle.textContent = "Not currently watching anything";
+             return;
+          }
+          
+          if (tvStatus) tvStatus.textContent = data.watching ? "Currently Watching" : "Last Watched";
+          if (tvTitle) tvTitle.textContent = data.title + ' (S' + data.season + 'E' + data.episode + ')';
+          
+          var progressWrap = document.getElementById('tv-progress-wrap');
+          var progressFill = document.getElementById('tv-progress-fill');
+          if (progressWrap && progressFill) {
+            progressWrap.style.display = 'block';
+            // If watching, show some progress (e.g. 45%), if last watched show 100%
+            progressFill.style.width = data.watching ? '45%' : '100%';
+          }
+
+          if (data.poster && tvPoster) {
+             tvPoster.src = data.poster;
+             tvPoster.style.display = 'block';
+             if (tvPlaceholder) tvPlaceholder.style.display = 'none';
+          } else {
+             if (tvPoster) tvPoster.style.display = 'none';
+             if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+          }
+        })
+        .catch(function () {
+          if (tvTitle) tvTitle.textContent = "Trakt API error";
+        });
+    }
+    fetchTV();
+    setInterval(fetchTV, 60000 * 30); // 30 mins
   }
 
   /* ── FC Barcelona Scorecard Overhaul ── */
@@ -819,4 +871,65 @@ export const CONFIG = {
       }
     })
     .catch(() => {});
+})();
+
+/* ── Socials: Media Watchlist Fetching ────────────────────── */
+(function () {
+  var artistsEl = document.getElementById('big3-artists');
+  var playersEl = document.getElementById('big3-players');
+  var watchlistEl = document.getElementById('big3-watchlist');
+  var seriesEl = document.getElementById('big3-series');
+  var headshotsWrap = document.getElementById('player-headshots-wrap');
+  
+  if (!artistsEl) return;
+
+  // 1. Favorite Players & Headshots
+  if (playersEl && CONFIG.big3.players) {
+    playersEl.textContent = CONFIG.big3.players.map(p => p.name).join(', ');
+    if (headshotsWrap) {
+      headshotsWrap.innerHTML = '';
+      CONFIG.big3.players.forEach(p => {
+        var img = document.createElement('img');
+        img.className = 'player-headshot-thumb';
+        img.src = p.photo;
+        img.alt = p.name;
+        img.title = p.name;
+        headshotsWrap.appendChild(img);
+      });
+    }
+  }
+
+  // 2. Top Artists (Last.fm)
+  var USER    = CONFIG.usernames.lastfm;
+  var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
+  var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER + '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
+
+  function fetchArtists() {
+    fetch(LASTFM_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var artists = data.topartists.artist;
+        if (artists && artists.length >= 3) {
+          var names = artists.slice(0, 3).map(function(a) { return a.name; }).join(', ');
+          artistsEl.textContent = names;
+        }
+      })
+      .catch(function() { artistsEl.textContent = "Error loading artists"; });
+  }
+  fetchArtists();
+
+  // 3. Watchlist (Trakt API)
+  function fetchWatchlist() {
+    fetch('/api/watchlist')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (seriesEl && data.shows) seriesEl.textContent = data.shows.join(', ');
+        if (watchlistEl && data.movies) watchlistEl.textContent = data.movies.join(', ');
+      })
+      .catch(function() {
+        if (seriesEl) seriesEl.textContent = "Error loading watchlist";
+        if (watchlistEl) watchlistEl.textContent = "Error loading watchlist";
+      });
+  }
+  fetchWatchlist();
 })();

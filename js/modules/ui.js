@@ -235,28 +235,42 @@ document.head.appendChild(fizzStyle);
   });
 })();
 
-/* ── Rotating Widget ───────────────────────────────────── */
+/* ── Rotating Widget Logic ─────────────────────────────── */
 (function () {
-  var widget = document.getElementById('rotating-widget'), dotsWrap = document.getElementById('rotating-dots');
-  if (!widget || !dotsWrap) return;
-  var items = widget.querySelectorAll('.rotating-item'), dots = dotsWrap.querySelectorAll('.r-dot'), current = 0, timer, isAnim = false;
-  items.forEach(item => { if (item.getAttribute('data-index') === '3') item.classList.add('barca-slot'); });
-  function show(idx) {
-    if (isAnim || idx === current) return;
-    var inI = items[idx], outI = items[current];
-    if (!inI || !outI) return;
-    isAnim = true;
-    outI.classList.add('exit-up'); outI.classList.remove('active');
-    outI.addEventListener('transitionend', () => { outI.classList.remove('exit-up'); isAnim = false; }, { once: true });
-    setTimeout(() => inI.classList.add('active'), 50);
-    dots.forEach(d => d.classList.remove('active')); if (dots[idx]) dots[idx].classList.add('active');
-    current = idx;
-    if (idx === 3) { dotsWrap.classList.add('barca-active'); widget.classList.add('football-active'); }
-    else { dotsWrap.classList.remove('barca-active'); widget.classList.remove('football-active'); }
+  function initRotation(widgetId, dotsId, interval) {
+    var widget = document.getElementById(widgetId), dotsWrap = document.getElementById(dotsId);
+    if (!widget || !dotsWrap) return;
+    
+    var items = widget.querySelectorAll('.rotating-item'), dots = dotsWrap.querySelectorAll('.r-dot'), current = 0, timer, isAnim = false;
+    
+    function show(idx) {
+      if (isAnim || idx === current) return;
+      var inI = items[idx], outI = items[current];
+      if (!inI || !outI) return;
+      isAnim = true;
+      outI.classList.add('exit-up'); outI.classList.remove('active');
+      outI.addEventListener('transitionend', () => { outI.classList.remove('exit-up'); isAnim = false; }, { once: true });
+      setTimeout(() => inI.classList.add('active'), 100);
+      dots.forEach(d => d.classList.remove('active')); if (dots[idx]) dots[idx].classList.add('active');
+      current = idx;
+      
+      // Special classes for Barca slot (index 3 in hero)
+      if (widgetId === 'rotating-widget') {
+         if (idx === 3) { dotsWrap.classList.add('barca-active'); widget.classList.add('football-active'); }
+         else { dotsWrap.classList.remove('barca-active'); widget.classList.remove('football-active'); }
+      }
+    }
+    
+    function start() { clearInterval(timer); timer = setInterval(() => show((current + 1) % items.length), interval || 4500); }
+    dots.forEach(dot => dot.addEventListener('click', () => { show(parseInt(dot.getAttribute('data-i') || dot.getAttribute('data-index'), 10)); start(); }));
+    start();
   }
-  function start() { clearInterval(timer); timer = setInterval(() => show((current + 1) % items.length), 4500); }
-  dots.forEach(dot => dot.addEventListener('click', () => { show(parseInt(dot.getAttribute('data-i'), 10)); start(); }));
-  start();
+
+  // Hero Activity Hub (5 items)
+  initRotation('rotating-widget', 'rotating-dots', 5000);
+  
+  // Socials Big 3 (3 items)
+  initRotation('big3-social-widget', 'big3-social-dots', 6000);
 })();
 
 /* ── Email & Utils ──────────────────────────────────────── */
