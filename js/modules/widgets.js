@@ -891,6 +891,7 @@ export const CONFIG = {
     if (headshotsEl) {
       headshotsEl.innerHTML = '';
       CONFIG.big3.players.forEach(function(p) {
+        if (!p) return;
         var wrap = document.createElement('div');
         wrap.className = 'footballer-card';
         wrap.title = p.name;
@@ -899,32 +900,31 @@ export const CONFIG = {
         img.className = 'footballer-headshot-img';
         img.alt = p.name;
         img.loading = 'lazy';
+        img.setAttribute('crossorigin', 'anonymous');
         
-        // Try multiple image sources with fallback chain
-        var sources = [
-          p.photo,
-          // Wikipedia Commons fallback for well-known players
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Lamine_Yamal.jpg/200px-Lamine_Yamal.jpg'
-        ];
+        // Use high-res Sofascore API endpoint
+        var photoUrl = p.photo;
+        // Improve reliability: ensure it's a valid image URL
+        if (photoUrl && photoUrl.includes('sofascore.app') && !photoUrl.endsWith('/image')) {
+            photoUrl += '/image';
+        }
         
         img.onerror = function() {
-          // On error, replace with emoji avatar
-          wrap.innerHTML = '';
-          var emojiEl = document.createElement('div');
-          emojiEl.className = 'footballer-emoji-avatar';
-          emojiEl.textContent = p.fallback || '⚽';
-          var nameEl = document.createElement('span');
-          nameEl.className = 'footballer-short-name';
-          // Short first name only
-          nameEl.textContent = p.name.split(' ')[0];
-          wrap.appendChild(emojiEl);
-          wrap.appendChild(nameEl);
+          // If the photo fails, we show the initials/emoji fallback immediately
+          if (this.src) {
+            this.style.display = 'none';
+            if (this.nextSibling && this.nextSibling.classList.contains('footballer-emoji-avatar')) return; // already added
+            var emojiEl = document.createElement('div');
+            emojiEl.className = 'footballer-emoji-avatar';
+            emojiEl.textContent = p.fallback || '⚽';
+            this.parentElement.prepend(emojiEl);
+          }
         };
-        img.src = p.photo;
+        img.src = photoUrl;
         
         var nameLabel = document.createElement('span');
         nameLabel.className = 'footballer-name-label';
-        nameLabel.textContent = p.name.split(' ')[0]; // First name only for space
+        nameLabel.textContent = p.name.split(' ')[0]; // First name only
         
         wrap.appendChild(img);
         wrap.appendChild(nameLabel);
@@ -945,12 +945,15 @@ export const CONFIG = {
       .then(function(data) {
         if (data.error) throw new Error(data.message || 'Last.fm error');
         if (!data.topartists || !data.topartists.artist) throw new Error('No artist data');
-        var artists = data.topartists.artist;
-        var top3 = artists.slice(0, 3);
         
-        if (top3.length > 0) {
+        var rawArtists = data.topartists.artist;
+        // Ensure we have an array (handle single object results)
+        var artistArr = Array.isArray(rawArtists) ? rawArtists : [rawArtists];
+        var top3 = artistArr.slice(0, 3);
+        
+        if (top3 && top3.length) {
           var names = top3.map(function(a, idx) { 
-            return (idx + 1) + '. ' + a.name; 
+            return (idx + 1) + '. ' + (a && a.name ? a.name : 'Unknown Artist'); 
           }).join(', ');
           artistsEl.textContent = names;
           
@@ -958,6 +961,7 @@ export const CONFIG = {
           if (artistThumbsEl) {
             artistThumbsEl.innerHTML = '';
             top3.forEach(function(a) {
+              if (!a) return;
               var wrap = document.createElement('div');
               wrap.className = 'artist-thumb-card';
               wrap.title = a.name;
@@ -965,6 +969,7 @@ export const CONFIG = {
               // Last.fm images: pick the 'large' or 'extralarge' size
               var imgUrl = '';
               if (a.image && a.image.length) {
+                // Iterating backwards to get highest available quality
                 for (var i = a.image.length - 1; i >= 0; i--) {
                   if (a.image[i]['#text'] && a.image[i]['#text'].indexOf('2a96cbd8b46e442fc41c2b86b821562f') === -1) {
                     imgUrl = a.image[i]['#text'];
@@ -980,7 +985,11 @@ export const CONFIG = {
                 img.alt = a.name;
                 img.loading = 'lazy';
                 img.onerror = function() {
-                  this.parentElement.innerHTML = '<div class="artist-thumb-emoji">🎵</div><span class="artist-thumb-name">' + a.name.split(' ')[0] + '</span>';
+                  this.style.display = 'none';
+                  var emojiEl = document.createElement('div');
+                  emojiEl.className = 'artist-thumb-emoji';
+                  emojiEl.textContent = '🎵';
+                  this.parentElement.prepend(emojiEl);
                 };
                 wrap.appendChild(img);
               } else {
@@ -992,7 +1001,7 @@ export const CONFIG = {
               
               var nameLabel = document.createElement('span');
               nameLabel.className = 'artist-thumb-name';
-              nameLabel.textContent = a.name.length > 10 ? a.name.substring(0, 9) + '…' : a.name;
+              nameLabel.textContent = a.name && a.name.length > 10 ? a.name.substring(0, 9) + '…' : (a.name || '---');
               wrap.appendChild(nameLabel);
               artistThumbsEl.appendChild(wrap);
             });
@@ -1001,13 +1010,13 @@ export const CONFIG = {
       })
       .catch(function(err) { 
         console.warn('Last.fm fetch failed:', err.message);
-        artistsEl.textContent = 'Refresh to load artists';
+        if (artistsEl) artistsEl.textContent = 'Refresh to load artists';
         if (artistThumbsEl) artistThumbsEl.innerHTML = '<div class="currently-into-thumb-placeholder">🎵</div>';
       });
   }
   fetchArtists();
 
-  // 3. Watchlist (Trakt API — only works on Vercel with env vars)
+  // 3. Watchlist (Trakt API — with posters)
   function fetchWatchlist() {
     fetch('/api/watchlist')
       .then(function(r) { 
@@ -1015,8 +1024,49 @@ export const CONFIG = {
         return r.json(); 
       })
       .then(function(data) {
-        if (seriesEl && data.shows && data.shows.length) seriesEl.textContent = data.shows.join(', ');
-        if (watchlistEl && data.movies && data.movies.length) watchlistEl.textContent = data.movies.join(', ');
+        // Series Logic
+        if (seriesEl) {
+          var names = data.shows && data.shows.length ? data.shows.map(s => s.title).join(', ') : '';
+          seriesEl.textContent = names;
+          
+          var seriesThumbsEl = document.getElementById('big3-series-thumbs');
+          if (seriesThumbsEl && data.shows) {
+            seriesThumbsEl.innerHTML = '';
+            data.shows.forEach(function(s) {
+              var wrap = document.createElement('div');
+              wrap.className = 'media-thumb-card';
+              wrap.title = s.title;
+              if (s.poster) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" />';
+              } else {
+                wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
+              }
+              seriesThumbsEl.appendChild(wrap);
+            });
+          }
+        }
+        
+        // Movie Logic
+        if (watchlistEl) {
+          var names = data.movies && data.movies.length ? data.movies.map(m => m.title).join(', ') : '';
+          watchlistEl.textContent = names;
+
+          var movieThumbsEl = document.getElementById('big3-movie-thumbs');
+          if (movieThumbsEl && data.movies) {
+            movieThumbsEl.innerHTML = '';
+            data.movies.forEach(function(m) {
+              var wrap = document.createElement('div');
+              wrap.className = 'media-thumb-card';
+              wrap.title = m.title;
+              if (m.poster) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + m.poster + '" alt="' + m.title + '" loading="lazy" />';
+              } else {
+                wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
+              }
+              movieThumbsEl.appendChild(wrap);
+            });
+          }
+        }
       })
       .catch(function() {
         // Fallback to CONFIG static data if API not available

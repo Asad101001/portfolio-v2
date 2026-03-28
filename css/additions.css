@@ -343,12 +343,46 @@
   }
 }
 
+/* Media Thumbs Row (The Big 3) */
+.media-thumbs-row, .footballer-headshots-row, .artist-thumbs-row {
+  display: flex !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+  margin-bottom: 8px;
+  justify-content: center;
+}
+.media-thumb-card, .footballer-card, .artist-thumb-card {
+  width: 38px;
+  height: 52px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.media-thumb-img, .footballer-headshot-img, .artist-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-thumb-emoji, .footballer-emoji-avatar, .artist-thumb-emoji {
+  font-size: 1rem;
+}
+.footballer-name-label, .artist-thumb-name {
+  display: none !important; /* Hide labels inside the thumb row to save space */
+}
+
+/* ── Layout stabilization for rotating widgets ── */
 .rotating-item {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  padding: 10px 14px;
+  padding: 12px 14px;
   border-radius: 2px;
   background: rgba(16,185,129,0.04);
   border: 1px solid rgba(16,185,129,0.12);
@@ -356,6 +390,11 @@
   transform: translateY(6px);
   transition: opacity 0.4s ease, transform 0.4s ease;
   pointer-events: none;
+  min-height: 85px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .rotating-item.active {
@@ -1825,20 +1864,20 @@ section::before {
    FOOTBALLER CARDS — Big 3 section player display
    ══════════════════════════════════════════════════════════ */
 .footballer-slot {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: row !important; /* Force row to match other items and prevent bending */
     align-items: center;
-    text-align: center;
-    gap: 8px;
+    text-align: left;
+    gap: 12px;
 }
 
 .footballer-headshots-row {
     display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: flex-end;
-    margin-bottom: 10px;
-    padding: 4px 0;
+    gap: -6px; /* Overlap slightly for compact look */
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 0;
 }
 
 .footballer-card {
@@ -1899,11 +1938,11 @@ section::before {
    ══════════════════════════════════════════════════════════ */
 .artist-thumbs-row {
     display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: flex-end;
-    margin-bottom: 10px;
-    padding: 4px 0;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 0;
 }
 
 .artist-thumb-card {
@@ -1954,40 +1993,62 @@ section::before {
     text-overflow: ellipsis;
 }
 
-/* ══════════════════════════════════════════════════════════
-   TWITTER EMBED FIX — proper centering for blockquote embed
-   ══════════════════════════════════════════════════════════ */
+/* ── Twitter Feed (X) Refinement ── */
 .twitter-centering-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    min-height: 280px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100%;
+  padding: 4px;
+}
+.x-post-container {
+  width: 100% !important;
+  max-width: 440px !important;
+  margin: 0 auto 12px auto !important;
 }
 
-.twitter-centering-wrap .twitter-tweet {
-    margin: 0 auto !important;
+/* ── Mobile Section Nav Fixes ── */
+@media (max-width: 900px) {
+  #section-dots {
+    right: 14px !important; 
+    gap: 12px !important;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(10px);
+    padding: 12px 4px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 1000 !important;
+  }
+  .section-dot {
+    width: 14px !important;
+    height: 14px !important;
+    border-width: 2px !important;
+  }
+  .section-dot.nearby, .section-dot.active {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: rgba(16,185,129,0.18) !important;
+    border-color: var(--cyan) !important;
+  }
+  #back-to-top {
+    right: 56px !important; /* Move away from side nav */
+  }
 }
 
-/* ══════════════════════════════════════════════════════════
-   MOBILE SECTION NAV — compact version on small screens
-   ══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-    /* Adjust back-to-top so it doesn't overlap side nav */
-    #back-to-top {
-        right: 46px;
-    }
-    
-    /* Footballer + artist card sizing on mobile */
-    .footballer-headshot-img,
-    .footballer-emoji-avatar {
-        width: 48px;
-        height: 48px;
-    }
-    
-    .artist-thumb-img,
-    .artist-thumb-emoji {
-        width: 42px;
-        height: 42px;
-    }
+@media (max-width: 480px) {
+  #section-dots {
+    right: 10px !important;
+    gap: 10px !important;
+    padding: 8px 3px;
+  }
+  .section-dot {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .section-dot.nearby, .section-dot.active {
+    width: 28px !important;
+    height: 28px !important;
+  }
 }
