@@ -139,7 +139,17 @@ document.head.appendChild(fizzStyle);
 
       const nextIdx = (e.key === 'PageDown') ? curIdx + 1 : curIdx - 1;
       if (nextIdx >= 0 && nextIdx < sections.length) {
-        window.scrollTo({ top: sectionStarts[nextIdx], behavior: 'smooth' });
+        const targetTop = sectionStarts[nextIdx];
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        
+        // If PageDown and specifically targeting last section, ensure we can hit the bottom
+        if (e.key === 'PageDown' && nextIdx === sections.length - 1) {
+          setTimeout(() => {
+            if (window.innerHeight + window.scrollY < document.body.offsetHeight - 50) {
+              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+          }, 400); // Wait for smooth scroll to near-completion
+        }
       }
     }
   });

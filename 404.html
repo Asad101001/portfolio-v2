@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — asad@2006: directory not found</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      color: #22c55e;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      overflow: hidden;
+      cursor: text;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.15) 50%),
+        linear-gradient(90deg, rgba(255,0,0,0.02), rgba(0,255,0,0.01), rgba(0,0,255,0.02));
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.6;
+    }
+
+    #terminal {
+      position: absolute;
+      inset: 0;
+      padding: clamp(20px, 5vw, 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    /* Glitch header */
+    #header-block {
+      position: absolute;
+      top: clamp(20px, 5vw, 60px);
+      left: clamp(20px, 5vw, 60px);
+    }
+
+    .t-404 {
+      font-size: clamp(5rem, 18vw, 14rem);
+      font-weight: 700;
+      color: #22c55e;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      text-shadow: 0 0 40px rgba(34,197,94,0.4), 0 0 80px rgba(34,197,94,0.1);
+      opacity: 0.06;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .t-sys-err {
+      color: #ef4444;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      text-shadow: 0 0 12px rgba(239,68,68,0.5);
+    }
+
+    .t-path-err {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.8rem;
+      margin-bottom: 2px;
+    }
+
+    #history-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px;
+      max-height: 40vh;
+      overflow: hidden;
+    }
+
+    .history-line {
+      display: flex;
+      gap: 8px;
+      animation: fade-in 0.18s ease forwards;
+    }
+
+    @keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .t-prompt-err { color: #ef4444; flex-shrink: 0; }
+    .t-prompt-ok  { color: #22c55e; flex-shrink: 0; }
+    .t-cmd        { color: #fff; }
+    .t-result     { color: rgba(255,255,255,0.45); margin-left: 16px; }
+    .t-result.err { color: rgba(239,68,68,0.8); }
+    .t-result.ok  { color: #22c55e; }
+
+    #input-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    #input-prompt {
+      color: #22c55e;
+      flex-shrink: 0;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+
+    #ghost-text {
+      color: #fff;
+      pointer-events: none;
+      position: relative;
+    }
+
+    #ghost-text::after {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 1.1em;
+      background: #22c55e;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      box-shadow: 0 0 8px #22c55e;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    #hidden-input {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Glitch animation on the header */
+    @keyframes glitch-1 {
+      0%,100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      20% { clip-path: inset(30% 0 50% 0); transform: translate(-3px, 1px); }
+      40% { clip-path: inset(60% 0 15% 0); transform: translate(3px, -1px); }
+      80% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="terminal">
+
+  <!-- Big 404 watermark -->
+  <div id="header-block">
+    <div class="t-404">404</div>
+  </div>
+
+  <!-- Error boot text -->
+  <div style="margin-bottom: 20px;">
+    <p class="t-sys-err">KERNEL PANIC — DIRECTORY NOT FOUND</p>
+    <p class="t-path-err">asad@2006:/var/www/portfolio$ <span style="color:#ef4444;">ERROR</span> — path does not exist</p>
+    <p class="t-path-err" style="color:rgba(255,255,255,0.3);font-size:0.72rem;">you wandered somewhere that doesn't exist. type a command to escape.</p>
+  </div>
+
+  <!-- Hint text -->
+  <div style="margin-bottom:16px; color:rgba(255,255,255,0.2); font-size:0.72rem;">
+    <p>hint: try  <span style="color:rgba(34,197,94,0.6)">cd /</span>  or  <span style="color:rgba(34,197,94,0.6)">home</span>  or  <span style="color:rgba(34,197,94,0.6)">exit</span></p>
+  </div>
+
+  <!-- Command history -->
+  <div id="history-wrap"></div>
+
+  <!-- Live input row -->
+  <div id="input-row">
+    <span id="input-prompt">asad@2006:/404$&nbsp;</span>
+    <span id="ghost-text"></span>
+  </div>
+
+  <!-- Hidden actual input -->
+  <input id="hidden-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="terminal input" />
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var input      = document.getElementById('hidden-input');
+  var ghost      = document.getElementById('ghost-text');
+  var historyWrap = document.getElementById('history-wrap');
+  var history    = [];
+  var MAX_HIST   = 6;
+
+  var EXIT_CMDS  = ['cd /', 'cd ~', 'cd ..', 'home', 'exit', 'clear', 'ls /', 'sudo home', 'quit', ':q', ':wq', 'q!'];
+
+  // Always focus the hidden input
+  input.focus();
+  document.addEventListener('click', function() { input.focus(); });
+  document.addEventListener('keydown', function() { input.focus(); });
+
+  // Mirror typing into ghost display
+  input.addEventListener('input', function() {
+    ghost.textContent = input.value;
+  });
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    var cmd = input.value.trim();
+    input.value = '';
+    ghost.textContent = '';
+
+    if (!cmd) return;
+
+    // Check for exit commands
+    var isExit = EXIT_CMDS.some(function(c) {
+      return cmd.toLowerCase() === c.toLowerCase();
+    });
+
+    if (isExit) {
+      // Flash green, then redirect
+      addHistory(cmd, '> navigating home...', 'ok');
+      setTimeout(function() { window.location.href = '/'; }, 600);
+      return;
+    }
+
+    // Unknown command
+    addHistory(cmd, 'bash: ' + cmd + ': command not found', 'err');
+  });
+
+  function addHistory(cmd, result, resultClass) {
+    history.push({ cmd: cmd, result: result, resultClass: resultClass });
+    if (history.length > MAX_HIST) history.shift();
+    renderHistory();
+  }
+
+  function renderHistory() {
+    historyWrap.innerHTML = '';
+    history.forEach(function(h) {
+      var cmdLine = document.createElement('div');
+      cmdLine.className = 'history-line';
+      cmdLine.innerHTML =
+        '<span class="t-prompt-ok">asad@2006:/404$</span>' +
+        '<span class="t-cmd">&nbsp;' + escHtml(h.cmd) + '</span>';
+      historyWrap.appendChild(cmdLine);
+
+      var resLine = document.createElement('div');
+      resLine.className = 'history-line';
+      resLine.innerHTML = '<span class="t-result ' + h.resultClass + '">' + escHtml(h.result) + '</span>';
+      historyWrap.appendChild(resLine);
+    });
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Auto-focus with slight delay for mobile
+  setTimeout(function() { input.focus(); }, 300);
+})();
+</script>
+</body>
+</html>

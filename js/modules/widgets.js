@@ -29,6 +29,41 @@ export const CONFIG = {
   }
 };
 
+/* ── GitHub Live Commit Tracker ─────────────────────────────── */
+(function() {
+  var commitLine = document.getElementById('git-commit-line');
+  if (!commitLine) return;
+
+  var REPO = 'Asad101001/portfolio-v2';
+  var GITHUB_API = 'https://api.github.com/repos/' + REPO + '/commits/main';
+
+  function timeAgo(dateStr) {
+    var diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (diff < 60)  return diff + 's ago';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+  }
+
+  fetch(GITHUB_API, { headers: { 'Accept': 'application/vnd.github.v3+json' } })
+    .then(function(r) {
+      if (!r.ok) throw new Error('GitHub API ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      var sha = (data.sha || '').slice(0, 7);
+      var msg = (data.commit && data.commit.message ? data.commit.message : '').split('\n')[0].slice(0, 52);
+      var when = data.commit && data.commit.author ? timeAgo(data.commit.author.date) : '';
+      commitLine.textContent = sha + ' ' + msg + (when ? ' (' + when + ')' : '');
+      commitLine.style.opacity = '1';
+    })
+    .catch(function() {
+      // Fallback — never break the terminal look
+      commitLine.textContent = 'a1b2c3d feat: portfolio — latest build';
+      commitLine.style.opacity = '0.55';
+    });
+})();
+
 /* ── Currently Into - Dynamic Card ─────────────────────────── */
 (function () {
   /* ── Book Cover via Open Library Search ── */
@@ -834,60 +869,73 @@ export const CONFIG = {
 
   if (!artistsEl) return;
 
-  // ── PATCH 2: Footballer headshots via TheSportsDB (CORS-safe free API) ──
+  // ── PATCH 2: Current Favourite Players — ESPN CDN (public, no CORS issues) ──
+  var FOOTBALLER_ESPN = {
+    'Lamine Yamal':    '5155905',
+    'Pedri Gonz\u00e1lez': '5153234',
+    'Pedri':           '5153234',
+    'Nuno Mendes':     '5209502'
+  };
+
   if (playersEl && CONFIG.big3.players) {
     playersEl.textContent = CONFIG.big3.players.map(p => p.name).join(', ');
 
     var headshotsEl = headshotsWrap || document.getElementById('player-headshots-wrap');
     if (headshotsEl) {
       headshotsEl.innerHTML = '';
-      CONFIG.big3.players.forEach(function(p) {
+      CONFIG.big3.players.slice(0, 3).forEach(function(p, idx) {
         if (!p) return;
         var wrap = document.createElement('div');
-        wrap.className = 'footballer-card';
+        // Podium ranking logic
+        var rankClass = ['medal-gold', 'medal-silver', 'medal-bronze'][idx] || '';
+        var medalEmoji = ['\ud83e\udd47', '\ud83e\udd48', '\ud83e\udd49'][idx] || '';
+        
+        wrap.className = 'footballer-card ' + rankClass;
         wrap.title = p.name;
 
-        // ⚽ placeholder (avoid flag emoji — renders as country code on Windows)
-        var placeholder = document.createElement('div');
-        placeholder.className = 'footballer-emoji-avatar';
-        placeholder.textContent = '⚽';
-        wrap.appendChild(placeholder);
+        var podiumWrap = document.createElement('div');
+        podiumWrap.className = 'podium-avatar-wrap';
+
+        // High-res Headshots via ESPN combiner
+        var espnId = FOOTBALLER_ESPN[p.name] || (p.espnId || null);
+        if (espnId) {
+          var img = document.createElement('img');
+          img.className = 'footballer-headshot-img';
+          img.alt = p.name;
+          img.loading = 'lazy';
+          img.src = 'https://a.espncdn.com/combiner/i?img=/i/headshots/soccer/players/full/' + espnId + '.png&w=160&h=160&scale=crop';
+          img.onerror = function() {
+            this.style.display = 'none';
+            var fb = document.createElement('div');
+            fb.className = 'footballer-emoji-avatar';
+            fb.textContent = p.fallback || '\u26bd';
+            podiumWrap.appendChild(fb);
+          };
+          podiumWrap.appendChild(img);
+        } else {
+          var fb = document.createElement('div');
+          fb.className = 'footballer-emoji-avatar';
+          fb.textContent = p.fallback || '\u26bd';
+          podiumWrap.appendChild(fb);
+        }
+
+        var medalBadge = document.createElement('div');
+        medalBadge.className = 'podium-medal';
+        medalBadge.textContent = medalEmoji;
+        podiumWrap.appendChild(medalBadge);
 
         var nameLabel = document.createElement('span');
         nameLabel.className = 'footballer-name-label';
         nameLabel.textContent = p.name.split(' ')[0];
+
+        wrap.appendChild(podiumWrap);
         wrap.appendChild(nameLabel);
-
         headshotsEl.appendChild(wrap);
-
-        // TheSportsDB free public API — no auth, CORS-friendly
-        var searchName = p.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        fetch('https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(searchName))
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            var players = data && data.player;
-            if (!players || !players.length) return;
-            var imgUrl = players[0].strThumb || players[0].strCutout;
-            if (!imgUrl) return;
-            var img = document.createElement('img');
-            img.className = 'footballer-headshot-img';
-            img.alt = p.name;
-            img.loading = 'lazy';
-            img.setAttribute('crossorigin', 'anonymous');
-            img.onerror = function() { this.style.display = 'none'; };
-            img.src = imgUrl;
-            // Replace ⚽ placeholder with real headshot
-            if (wrap.firstChild && wrap.firstChild !== nameLabel) {
-              wrap.removeChild(wrap.firstChild);
-            }
-            wrap.insertBefore(img, nameLabel);
-          })
-          .catch(function() {}); // keep ⚽ on failure
       });
     }
   }
 
-  // ── PATCH 3: Top Weekly Artists via Deezer (replaces dead Last.fm images) ──
+  // ── PATCH 3: Top Weekly Artists via Last.fm (native images from the API response) ──
   var USER       = CONFIG.usernames.lastfm;
   var API_KEY    = 'eccfb681fcf620a63fcb300d526544ba';
   var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER + '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
@@ -918,40 +966,73 @@ export const CONFIG = {
               wrap.className = 'artist-thumb-card';
               wrap.title = a.name;
 
-              // 🎵 placeholder while Deezer image loads
-              var emojiEl = document.createElement('div');
-              emojiEl.className = 'artist-thumb-emoji';
-              emojiEl.textContent = '🎵';
-              wrap.appendChild(emojiEl);
-
               var nameLabel = document.createElement('span');
               nameLabel.className = 'artist-thumb-name';
-              nameLabel.textContent = a.name && a.name.length > 10 ? a.name.substring(0, 9) + '…' : (a.name || '---');
-              wrap.appendChild(nameLabel);
+              nameLabel.textContent = a.name && a.name.length > 10 ? a.name.substring(0, 9) + '\u2026' : (a.name || '---');
 
-              artistThumbsEl.appendChild(wrap);
-
-              // Deezer search — CORS-friendly, no auth needed, live artist images
-              fetch('https://api.deezer.com/search/artist?q=' + encodeURIComponent(a.name) + '&limit=1')
-                .then(function(r) { return r.json(); })
-                .then(function(deezerData) {
-                  if (!deezerData.data || !deezerData.data.length) return;
-                  var picUrl = deezerData.data[0].picture_medium;
-                  // Deezer serves a grey default image for unknowns — skip it
-                  if (!picUrl || picUrl.indexOf('default') !== -1) return;
-                  var img = document.createElement('img');
-                  img.className = 'artist-thumb-img';
-                  img.src = picUrl;
-                  img.alt = a.name;
-                  img.loading = 'lazy';
-                  img.onerror = function() { this.style.display = 'none'; };
-                  // Swap 🎵 placeholder for real image
-                  if (wrap.firstChild && wrap.firstChild !== nameLabel) {
-                    wrap.removeChild(wrap.firstChild);
+              // Extract image from Last.fm response (already in the topartists data)
+              // Last.fm image array: [small, medium, large, extralarge, mega]
+              var lfmImgUrl = '';
+              var BLANK_LFM = '2a96cbd8b46e442fc41c2b86b821562f'; // Last.fm blank hash
+              if (a.image && a.image.length) {
+                // Try from largest to smallest
+                for (var i = a.image.length - 1; i >= 0; i--) {
+                  var candidate = a.image[i] && a.image[i]['#text'];
+                  if (candidate && candidate.indexOf(BLANK_LFM) === -1) {
+                    lfmImgUrl = candidate;
+                    break;
                   }
-                  wrap.insertBefore(img, nameLabel);
-                })
-                .catch(function() {}); // keep 🎵 on failure
+                }
+              }
+
+              if (lfmImgUrl) {
+                // Last.fm has a real image — use it directly
+                var img = document.createElement('img');
+                img.className = 'artist-thumb-img';
+                img.src = lfmImgUrl;
+                img.alt = a.name;
+                img.loading = 'lazy';
+                img.onerror = function() {
+                  this.style.display = 'none';
+                  var emojiEl = document.createElement('div');
+                  emojiEl.className = 'artist-thumb-emoji';
+                  emojiEl.textContent = '\ud83c\udfb5';
+                  wrap.insertBefore(emojiEl, nameLabel);
+                };
+                wrap.appendChild(img);
+              } else {
+                // Fallback: fetch artist image from Last.fm artist.getInfo
+                var emojiEl = document.createElement('div');
+                emojiEl.className = 'artist-thumb-emoji';
+                emojiEl.textContent = '\ud83c\udfb5';
+                wrap.appendChild(emojiEl);
+
+                var infoUrl = 'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='
+                  + encodeURIComponent(a.name) + '&api_key=' + API_KEY + '&format=json';
+                fetch(infoUrl)
+                  .then(function(r2) { return r2.json(); })
+                  .then(function(info) {
+                    var imgs = info && info.artist && info.artist.image;
+                    if (!imgs || !imgs.length) return;
+                    for (var j = imgs.length - 1; j >= 0; j--) {
+                      var cand = imgs[j] && imgs[j]['#text'];
+                      if (cand && cand.indexOf(BLANK_LFM) === -1) {
+                        var img2 = document.createElement('img');
+                        img2.className = 'artist-thumb-img';
+                        img2.src = cand; img2.alt = a.name; img2.loading = 'lazy';
+                        img2.onerror = function() { this.style.display = 'none'; };
+                        if (wrap.firstChild && wrap.firstChild !== nameLabel) {
+                          wrap.removeChild(wrap.firstChild);
+                        }
+                        wrap.insertBefore(img2, nameLabel);
+                        break;
+                      }
+                    }
+                  }).catch(function() {});
+              }
+
+              wrap.appendChild(nameLabel);
+              artistThumbsEl.appendChild(wrap);
             });
           }
         }
@@ -959,7 +1040,7 @@ export const CONFIG = {
       .catch(function(err) {
         console.warn('Last.fm fetch failed:', err.message);
         if (artistsEl) artistsEl.textContent = 'Refresh to load artists';
-        if (artistThumbsEl) artistThumbsEl.innerHTML = '<div class="currently-into-thumb-placeholder">🎵</div>';
+        if (artistThumbsEl) artistThumbsEl.innerHTML = '<div class="currently-into-thumb-placeholder">\ud83c\udfb5</div>';
       });
   }
   fetchArtists();
@@ -1017,12 +1098,59 @@ export const CONFIG = {
         }
       })
       .catch(function() {
+        // Fallback: populate text
         if (seriesEl) {
-          var fallbackSeries = CONFIG.currently.series.slice(0, 3).join(', ');
-          seriesEl.textContent = fallbackSeries;
+          var fallbackSeries = CONFIG.currently.series.slice(0, 3);
+          seriesEl.textContent = fallbackSeries.join(', ');
+
+          // Also populate series thumbnails using OMDB posters
+          var seriesThumbsElFb = document.getElementById('big3-series-thumbs');
+          if (seriesThumbsElFb) {
+            seriesThumbsElFb.innerHTML = '';
+            fallbackSeries.forEach(function(title) {
+              var wrap = document.createElement('div');
+              wrap.className = 'media-thumb-card';
+              wrap.title = title;
+              // OMDB free tier — no key needed for poster lookup at w=100
+              var omdbUrl = 'https://www.omdbapi.com/?t=' + encodeURIComponent(title) + '&apikey=trilogy';
+              wrap.innerHTML = '<div class="media-thumb-emoji">\ud83d\udcfa</div>'; // Set initial emoji
+              fetch(omdbUrl)
+                .then(function(r) { return r.json(); })
+                .then(function(od) {
+                  if (od && od.Poster && od.Poster !== 'N/A') {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + od.Poster + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                  }
+                })
+                .catch(function() {});
+              seriesThumbsElFb.appendChild(wrap);
+            });
+          }
         }
         if (watchlistEl && CONFIG.big3.watchlist) {
-          watchlistEl.textContent = CONFIG.big3.watchlist.join(', ');
+          var fallbackMovies = CONFIG.big3.watchlist;
+          watchlistEl.textContent = fallbackMovies.join(', ');
+
+          // Also populate movie thumbnails using OMDB posters
+          var movieThumbsElFb = document.getElementById('big3-movie-thumbs');
+          if (movieThumbsElFb) {
+            movieThumbsElFb.innerHTML = '';
+            fallbackMovies.forEach(function(title) {
+              var wrap = document.createElement('div');
+              wrap.className = 'media-thumb-card';
+              wrap.title = title;
+              var omdbUrl = 'https://www.omdbapi.com/?t=' + encodeURIComponent(title) + '&apikey=trilogy';
+              wrap.innerHTML = '<div class="media-thumb-emoji">\ud83c\udfac</div>'; // Set initial emoji
+              fetch(omdbUrl)
+                .then(function(r) { return r.json(); })
+                .then(function(od) {
+                  if (od && od.Poster && od.Poster !== 'N/A') {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + od.Poster + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                  }
+                })
+                .catch(function() {});
+              movieThumbsElFb.appendChild(wrap);
+            });
+          }
         }
       });
   }

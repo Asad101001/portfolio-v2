@@ -31,6 +31,7 @@ export default {
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
+        '404': path.resolve(__dirname, '404.html'),
         legaleaseai: path.resolve(__dirname, 'projects/legaleaseai.html'),
         pollpulse: path.resolve(__dirname, 'projects/pollpulse.html'),
         devpulse: path.resolve(__dirname, 'projects/devpulse.html'),
