@@ -14,22 +14,18 @@ export const CONFIG = {
     players: [
       { 
         name: 'Lamine Yamal', 
-        // Use Sofascore player ID URLs — very reliable for football headshots
-        photo: 'https://api.sofascore.app/api/v1/player/1070388/image',
-        fallback: '🇪🇸'
+        fallback: '⚽'
       },
       { 
         name: 'Pedri González', 
-        photo: 'https://api.sofascore.app/api/v1/player/814136/image',
-        fallback: '🇪🇸'
+        fallback: '⚽'
       },
       { 
         name: 'Nuno Mendes', 
-        photo: 'https://api.sofascore.app/api/v1/player/1050858/image',
-        fallback: '🇵🇹'
+        fallback: '⚽'
       }
     ],
-    watchlist: ['Dune: Part Two', 'Spider-Man: Beyond the Spider-Verse', 'Severance S2']
+    watchlist: ['Dune: Part Three', 'Spider-Man: Brand New Day', 'The Odyssey']
   }
 };
 
@@ -57,7 +53,6 @@ export const CONFIG = {
               if (readingTitle) readingTitle.textContent = doc.title + (doc.author_name ? ' — ' + doc.author_name[0] : '');
             }
           } else if (query !== CONFIG.currently.reading.split(' ')[0]) {
-            // Fallback to just the first word (likely the title)
             fetchBook(CONFIG.currently.reading.split(' ')[0]);
           }
         })
@@ -84,7 +79,6 @@ export const CONFIG = {
           if (!data || !data.items || !data.items.length) throw new Error('No items');
           var latest = data.items[0];
           
-          // Prioritize thumbnail field from rss2json
           var url = latest.thumbnail || '';
           if (!url) {
             var source = (latest.description || '') + (latest.content || '');
@@ -108,8 +102,6 @@ export const CONFIG = {
     setInterval(fetchMovie, 60000 * 15);
   }
 
-  // Removed redundant TVmaze fetching logic in favor of Trakt
-
   /* ── Media Hub: TV Tracking (Trakt) ── */
   var tvPoster = document.getElementById('tv-tracking-poster');
   var tvPlaceholder = document.getElementById('tv-tracking-placeholder');
@@ -121,14 +113,25 @@ export const CONFIG = {
       fetch('/api/current-show')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          if (!data || data.watching === null) {
-             if (tvTitle) tvTitle.textContent = "Not currently watching anything";
-             return;
+          // PATCH 1: Guard against null watching, missing/undefined title, or error object
+          if (!data || data.watching === null || data.watching === undefined || !data.title) {
+            if (tvTitle && CONFIG.currently.series.length) {
+              var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
+              tvTitle.textContent = pick;
+            }
+            if (tvStatus) tvStatus.textContent = 'Currently Watching';
+            return;
           }
-          
-          if (tvStatus) tvStatus.textContent = data.watching ? "Currently Watching" : "Last Watched";
-          if (tvTitle) tvTitle.textContent = data.title + ' (S' + data.season + 'E' + data.episode + ')';
-          
+
+          if (tvStatus) tvStatus.textContent = data.watching ? 'Currently Watching' : 'Last Watched';
+
+          // Safe season/episode formatting — never produces "undefined"
+          var epStr = '';
+          if (data.season != null && data.episode != null) {
+            epStr = ' (S' + String(data.season).padStart(2, '0') + 'E' + String(data.episode).padStart(2, '0') + ')';
+          }
+          if (tvTitle) tvTitle.textContent = data.title + epStr;
+
           var progressWrap = document.getElementById('tv-progress-wrap');
           var progressFill = document.getElementById('tv-progress-fill');
           if (progressWrap && progressFill) {
@@ -137,16 +140,15 @@ export const CONFIG = {
           }
 
           if (data.poster && tvPoster) {
-             tvPoster.src = data.poster;
-             tvPoster.style.display = 'block';
-             if (tvPlaceholder) tvPlaceholder.style.display = 'none';
+            tvPoster.src = data.poster;
+            tvPoster.style.display = 'block';
+            if (tvPlaceholder) tvPlaceholder.style.display = 'none';
           } else {
-             if (tvPoster) tvPoster.style.display = 'none';
-             if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+            if (tvPoster) tvPoster.style.display = 'none';
+            if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
           }
         })
         .catch(function () {
-          // Graceful fallback: show a random series from CONFIG
           if (tvTitle && CONFIG.currently.series.length) {
             var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
             tvTitle.textContent = pick;
@@ -155,7 +157,7 @@ export const CONFIG = {
         });
     }
     fetchTV();
-    setInterval(fetchTV, 60000 * 30); // 30 mins
+    setInterval(fetchTV, 60000 * 30);
   }
 
   /* ── FC Barcelona Scorecard Overhaul ── */
@@ -165,7 +167,6 @@ export const CONFIG = {
 
   var BARCA_ID = '83';
 
-  /* ── Date range helper (returns YYYYMMDD strings) ── */
   function dateRange(daysBack) {
     var d = new Date(), today = d.toISOString().split('T')[0].replace(/-/g,'');
     d.setDate(d.getDate() - daysBack);
@@ -173,21 +174,18 @@ export const CONFIG = {
     return from + '-' + today;
   }
 
-  /* ── Source A: La Liga scoreboard ── */
   function fetchESPN(league) {
     return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/' + league + '/scoreboard?dates=' + dateRange(28))
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){ return d.events || []; });
   }
 
-  /* ── Source D: Team schedule (catches all competitions) ── */
   function fetchESPNSchedule() {
     return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/' + BARCA_ID + '/schedule')
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){ return d.events || []; });
   }
 
-  /* ── Merge + de-duplicate events by ESPN id ── */
   function mergeEvents(arrays) {
     var seen = {}, out = [];
     arrays.forEach(function(arr){
@@ -198,7 +196,6 @@ export const CONFIG = {
     return out;
   }
 
-  /* ── Fetch goal scorers from ESPN summary endpoint ── */
   function fetchScorers(eventId, leagueSlug) {
     var url = 'https://site.api.espn.com/apis/site/v2/sports/soccer/' + leagueSlug + '/summary?event=' + eventId;
     return fetch(url)
@@ -224,7 +221,6 @@ export const CONFIG = {
       .catch(function(){ return {}; });
   }
 
-  /* ── Guess league slug from event for the summary call ── */
   function leagueSlugFromEvent(ev) {
     var slug = (ev.season && ev.season.slug) || (ev.league && ev.league.slug) || '';
     if (slug.indexOf('copa') !== -1 || slug.indexOf('cdreina') !== -1) return 'esp.copa_del_rey';
@@ -234,7 +230,6 @@ export const CONFIG = {
     return 'esp.1';
   }
 
-  /* ── Render the scorecard (unchanged visual) ── */
   function setBarcaDisplay(data) {
     var barca       = data.barca;
     var opp         = data.opp;
@@ -318,7 +313,6 @@ export const CONFIG = {
     }
   }
 
-  /* ── Main fetch: parallel sources, scorer lookup, single render ── */
   function fetchBarca() {
     Promise.allSettled([
       fetchESPN('esp.1'),
@@ -331,8 +325,6 @@ export const CONFIG = {
           .filter(function(r){ return r.status === 'fulfilled'; })
           .map(function(r){ return r.value; })
       );
-
-      /* Fallback to team schedule if all scoreboards empty */
       if (!allEvents.length) {
         return fetchESPNSchedule().then(function(evs){ return evs; });
       }
@@ -340,7 +332,6 @@ export const CONFIG = {
     }).then(function(events) {
       if (!events || !events.length) return;
 
-      /* Find most-recent Barça match */
       var barcaMatches = events
         .filter(function(ev){
           return ev.competitions && ev.competitions[0] &&
@@ -358,7 +349,6 @@ export const CONFIG = {
       var state = ev.status.type.state;
       var slug  = leagueSlugFromEvent(ev);
 
-      /* Fetch scorers for finished or live matches; skip for pre-match */
       var scorerPromise = (state === 'post' || state === 'in')
         ? fetchScorers(ev.id, slug)
         : Promise.resolve({});
@@ -378,7 +368,7 @@ export const CONFIG = {
   }
 
   fetchBarca();
-  setInterval(fetchBarca, 3600000); // hourly — ESPN data refreshes ~every hour
+  setInterval(fetchBarca, 3600000);
 })();
 
 
@@ -424,7 +414,6 @@ export const CONFIG = {
 
   container.innerHTML = '<div class="lastfm-loading"><span class="lastfm-bars"><span></span><span></span><span></span><span></span></span> Loading scrobbles...</div>';
   
-  // Cache check
   var cached = localStorage.getItem('asad_lastfm_cache');
   if (cached) {
     try { render(JSON.parse(cached)); } catch(e) {}
@@ -523,7 +512,7 @@ export const CONFIG = {
 
   buildHeatmap(generatePattern());
   fetch('https://github-contributions-api.jogruber.de/v4/' + CONFIG.usernames.github + '?y=last')
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (r) { if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (data) {
       if (!data || !data.contributions) return;
       var flat = [];
@@ -542,7 +531,7 @@ export const CONFIG = {
   var arc      = document.getElementById('clock-arc');
   var hourText = document.getElementById('clock-hour-text');
   if (!display) return;
-  var CIRC = 188.5; // Updated for r=30
+  var CIRC = 188.5;
   var zones = [
     { start: 0,  end: 6,  label: '🌙 Asleep (probably)', color: '#a855f7' },
     { start: 6,  end: 9,  label: '☕ Morning grind',      color: '#f97316' },
@@ -602,10 +591,6 @@ export const CONFIG = {
     var pct = t.duration > 0 ? Math.min((t.progress / t.duration) * 100, 100) : 0;
     var isPlaying = data.isPlaying;
     
-    
-    // Randomize squiggle speed per song for a "matching" feel
-    var speed = isPlaying ? (0.4 + Math.random() * 0.4).toFixed(2) + 's' : '0.8s';
-    
     if (dotEl) { 
       dotEl.style.background = isPlaying ? '#1DB954' : '#ef4444'; 
       dotEl.style.boxShadow = isPlaying ? '0 0 12px #1DB954' : '0 0 12px rgba(239, 68, 68, 0.6)'; 
@@ -620,25 +605,14 @@ export const CONFIG = {
 
     var shuffleIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>';
     var prevIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
-    
-    // Play button toggles between play (when paused) and pause (when playing)
-    // If not isPlaying, we show a 'play' icon in a 'paused-state' styled button
-    // User requested: "when im not playing any song instead of the play control button a paused control button is shown"
-    // And "when im playing a song only then can the song line be changed to this material 3 expressive squiggle only when a song is playing, and the play button reappears"
-    // I interpret "paused control button" as the button itself looking like it's in a paused/idle state, 
-    // and "play button reappears" as the prominent white play/pause button.
-    
     var playIcon = isPlaying 
-      ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>' // Pause icon
-      : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'; // Play icon
-      
+      ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'
+      : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
     var playBtnClass = isPlaying ? 'spotify-play-btn' : 'spotify-play-btn paused-state';
-
     var nextIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
     var repeatIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
 
     var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="' + playBtnClass + '">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
-
     var progressLineHTML = '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
 
     var a = document.createElement('a');
@@ -663,7 +637,6 @@ export const CONFIG = {
       });
   }
   
-  // Initial load with cache
   var cached = localStorage.getItem('asad_spotify_cache');
   if (cached) { try { render(JSON.parse(cached)); } catch(e) {} }
   
@@ -711,7 +684,6 @@ export const CONFIG = {
     if (!game.active) { requestAnimationFrame(loop); return; }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Grid Floor
     ctx.strokeStyle = 'rgba(34,197,94,0.12)';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -719,7 +691,6 @@ export const CONFIG = {
     for(var x=0; x<400; x+=20) { ctx.moveTo(x, 75); ctx.lineTo(x-8, 80); }
     ctx.stroke();
 
-    // Player (A Green "Commit" Block)
     game.player.vy += 0.52;
     game.player.y += game.player.vy;
     if (game.player.y > 61) { game.player.y = 61; game.player.vy = 0; game.player.jumping = false; }
@@ -729,11 +700,9 @@ export const CONFIG = {
     ctx.fillRect(30, game.player.y, 14, 14);
     ctx.shadowBlur = 0;
     
-    // Player Symbol
     ctx.fillStyle = '#000'; ctx.font = '7px monospace';
     ctx.fillText('git', 31, game.player.y + 10);
 
-    // Obstacles (Red "Merge Conflicts")
     if (Math.random() < 0.016 && (game.obstacles.length === 0 || game.obstacles[game.obstacles.length-1].x < 240)) {
       game.obstacles.push({ x: 400, w: 12 + Math.random() * 12, h: 8 + Math.random() * 8 });
     }
@@ -747,7 +716,6 @@ export const CONFIG = {
       ctx.fillStyle = '#fff'; ctx.font = '7px monospace';
       ctx.fillText('!', o.x + o.w/2 - 2, 75 - o.h + 8);
 
-      // Collision
       if (o.x < 44 && o.x + o.w > 30 && game.player.y + 14 > 75 - o.h) {
         game.active = false;
         overlay.style.opacity = '1';
@@ -770,10 +738,7 @@ export const CONFIG = {
 })();
 
 
-
-
 /* ── LinkedIn Post Snippet ───────────────────────────────── */
-
 (function () {
   const snippet = document.getElementById('li-post-snippet');
   if (!snippet) return;
@@ -792,50 +757,40 @@ export const CONFIG = {
     if (!data) return;
 
     const profile = data.profile || {};
-    const timeEl    = snippet.querySelector('.li-post-time');
-    const textEl    = snippet.querySelector('.li-post-text');
-    const linkEl    = snippet.querySelector('.li-post-link');
-    const dotEl     = document.querySelector('.li-live-dot');
+    const timeEl     = snippet.querySelector('.li-post-time');
+    const textEl     = snippet.querySelector('.li-post-text');
+    const linkEl     = snippet.querySelector('.li-post-link');
+    const dotEl      = document.querySelector('.li-live-dot');
     const avatarWrap = snippet.querySelector('.li-avatar-wrap');
-    const nameEl    = snippet.querySelector('.li-profile-name');
+    const nameEl     = snippet.querySelector('.li-profile-name');
     const headlineEl = snippet.querySelector('.li-profile-headline');
 
-    // Timestamp
     if (timeEl) timeEl.textContent = timeAgo(data.date);
 
-    // Post text
     if (textEl) {
       const text = (data.text || '').slice(0, 160);
       textEl.textContent = '\u201c' + text + (data.text && data.text.length > 160 ? '\u2026' : '') + '\u201d';
     }
 
-    // Link
     if (linkEl) linkEl.href = data.url || 'https://www.linkedin.com/in/muhammadasadk/';
 
-    // Live dot — green if < 7 days, grey otherwise
     if (dotEl) {
       const isRecent = data.date && (Date.now() - new Date(data.date).getTime()) < 7 * 86400 * 1000;
       dotEl.style.background = isRecent ? '#22c55e' : 'rgba(255,255,255,0.2)';
       dotEl.style.boxShadow  = isRecent ? '0 0 6px #22c55e' : 'none';
     }
 
-    // Profile name
     if (nameEl && profile.name) nameEl.textContent = profile.name;
-
-    // Headline
     if (headlineEl && profile.headline) headlineEl.textContent = profile.headline;
 
-    // Avatar: photo or initials fallback
     if (avatarWrap) {
       if (profile.photo) {
-        // Replace initials div with actual image
         avatarWrap.innerHTML = '';
         const img = document.createElement('img');
         img.src = profile.photo;
         img.alt = profile.name || 'Profile';
         img.style.cssText = 'width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.1);';
         img.onerror = function() {
-          // If photo fails, fall back to initials
           avatarWrap.innerHTML = '';
           const initials = (profile.name || 'MA').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
           const liClr = getComputedStyle(snippet).getPropertyValue('--li-clr') || '#0077b5';
@@ -844,23 +799,19 @@ export const CONFIG = {
         };
         img.style.display = 'block';
         avatarWrap.appendChild(img);
-        // Remove inline styles that make it look like initials div
         avatarWrap.style.background = 'none';
         avatarWrap.style.justifyContent = '';
         avatarWrap.style.alignItems = '';
         avatarWrap.style.fontSize = '';
       }
-      // If no photo, initials are already in the HTML — nothing to do
     }
   }
 
-  // Show cached immediately
   const cached = localStorage.getItem('asad_li_post_cache');
   if (cached) {
     try { render(JSON.parse(cached)); } catch(e) {}
   }
 
-  // Fetch fresh
   fetch('/api/linkedin-post?v=' + Date.now())
     .then(r => r.json())
     .then(data => {
@@ -872,21 +823,21 @@ export const CONFIG = {
     .catch(() => {});
 })();
 
+
 /* ── Socials: Media Watchlist Fetching ────────────────────── */
 (function () {
-  var artistsEl = document.getElementById('big3-artists');
-  var playersEl = document.getElementById('big3-players');
-  var watchlistEl = document.getElementById('big3-watchlist');
-  var seriesEl = document.getElementById('big3-series');
+  var artistsEl    = document.getElementById('big3-artists');
+  var playersEl    = document.getElementById('big3-players');
+  var watchlistEl  = document.getElementById('big3-watchlist');
+  var seriesEl     = document.getElementById('big3-series');
   var headshotsWrap = document.getElementById('player-headshots-wrap');
-  
+
   if (!artistsEl) return;
 
-  // 1. Favorite Players & Headshots
+  // ── PATCH 2: Footballer headshots via TheSportsDB (CORS-safe free API) ──
   if (playersEl && CONFIG.big3.players) {
     playersEl.textContent = CONFIG.big3.players.map(p => p.name).join(', ');
-    
-    // Use new footballer-headshots-row container (updated class name)
+
     var headshotsEl = headshotsWrap || document.getElementById('player-headshots-wrap');
     if (headshotsEl) {
       headshotsEl.innerHTML = '';
@@ -895,47 +846,50 @@ export const CONFIG = {
         var wrap = document.createElement('div');
         wrap.className = 'footballer-card';
         wrap.title = p.name;
-        
-        var img = document.createElement('img');
-        img.className = 'footballer-headshot-img';
-        img.alt = p.name;
-        img.loading = 'lazy';
-        img.setAttribute('crossorigin', 'anonymous');
-        
-        // Use high-res Sofascore API endpoint
-        var photoUrl = p.photo;
-        // Improve reliability: ensure it's a valid image URL
-        if (photoUrl && photoUrl.includes('sofascore.app') && !photoUrl.endsWith('/image')) {
-            photoUrl += '/image';
-        }
-        
-        img.onerror = function() {
-          // If the photo fails, we show the initials/emoji fallback immediately
-          if (this.src) {
-            this.style.display = 'none';
-            if (this.nextSibling && this.nextSibling.classList.contains('footballer-emoji-avatar')) return; // already added
-            var emojiEl = document.createElement('div');
-            emojiEl.className = 'footballer-emoji-avatar';
-            emojiEl.textContent = p.fallback || '⚽';
-            this.parentElement.prepend(emojiEl);
-          }
-        };
-        img.src = photoUrl;
-        
+
+        // ⚽ placeholder (avoid flag emoji — renders as country code on Windows)
+        var placeholder = document.createElement('div');
+        placeholder.className = 'footballer-emoji-avatar';
+        placeholder.textContent = '⚽';
+        wrap.appendChild(placeholder);
+
         var nameLabel = document.createElement('span');
         nameLabel.className = 'footballer-name-label';
-        nameLabel.textContent = p.name.split(' ')[0]; // First name only
-        
-        wrap.appendChild(img);
+        nameLabel.textContent = p.name.split(' ')[0];
         wrap.appendChild(nameLabel);
+
         headshotsEl.appendChild(wrap);
+
+        // TheSportsDB free public API — no auth, CORS-friendly
+        var searchName = p.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        fetch('https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(searchName))
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var players = data && data.player;
+            if (!players || !players.length) return;
+            var imgUrl = players[0].strThumb || players[0].strCutout;
+            if (!imgUrl) return;
+            var img = document.createElement('img');
+            img.className = 'footballer-headshot-img';
+            img.alt = p.name;
+            img.loading = 'lazy';
+            img.setAttribute('crossorigin', 'anonymous');
+            img.onerror = function() { this.style.display = 'none'; };
+            img.src = imgUrl;
+            // Replace ⚽ placeholder with real headshot
+            if (wrap.firstChild && wrap.firstChild !== nameLabel) {
+              wrap.removeChild(wrap.firstChild);
+            }
+            wrap.insertBefore(img, nameLabel);
+          })
+          .catch(function() {}); // keep ⚽ on failure
       });
     }
   }
 
-  // 2. Top Weekly Artists (Last.fm) — with thumbnails
-  var USER    = CONFIG.usernames.lastfm;
-  var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
+  // ── PATCH 3: Top Weekly Artists via Deezer (replaces dead Last.fm images) ──
+  var USER       = CONFIG.usernames.lastfm;
+  var API_KEY    = 'eccfb681fcf620a63fcb300d526544ba';
   var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER + '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
   var artistThumbsEl = document.getElementById('big3-artist-thumbs');
 
@@ -945,19 +899,17 @@ export const CONFIG = {
       .then(function(data) {
         if (data.error) throw new Error(data.message || 'Last.fm error');
         if (!data.topartists || !data.topartists.artist) throw new Error('No artist data');
-        
+
         var rawArtists = data.topartists.artist;
-        // Ensure we have an array (handle single object results)
         var artistArr = Array.isArray(rawArtists) ? rawArtists : [rawArtists];
         var top3 = artistArr.slice(0, 3);
-        
+
         if (top3 && top3.length) {
-          var names = top3.map(function(a, idx) { 
-            return (idx + 1) + '. ' + (a && a.name ? a.name : 'Unknown Artist'); 
+          var names = top3.map(function(a, idx) {
+            return (idx + 1) + '. ' + (a && a.name ? a.name : 'Unknown Artist');
           }).join(', ');
           artistsEl.textContent = names;
-          
-          // Inject artist thumbnails
+
           if (artistThumbsEl) {
             artistThumbsEl.innerHTML = '';
             top3.forEach(function(a) {
@@ -965,50 +917,46 @@ export const CONFIG = {
               var wrap = document.createElement('div');
               wrap.className = 'artist-thumb-card';
               wrap.title = a.name;
-              
-              // Last.fm images: pick the 'large' or 'extralarge' size
-              var imgUrl = '';
-              if (a.image && a.image.length) {
-                // Iterating backwards to get highest available quality
-                for (var i = a.image.length - 1; i >= 0; i--) {
-                  if (a.image[i]['#text'] && a.image[i]['#text'].indexOf('2a96cbd8b46e442fc41c2b86b821562f') === -1) {
-                    imgUrl = a.image[i]['#text'];
-                    break;
-                  }
-                }
-              }
-              
-              if (imgUrl) {
-                var img = document.createElement('img');
-                img.className = 'artist-thumb-img';
-                img.src = imgUrl;
-                img.alt = a.name;
-                img.loading = 'lazy';
-                img.onerror = function() {
-                  this.style.display = 'none';
-                  var emojiEl = document.createElement('div');
-                  emojiEl.className = 'artist-thumb-emoji';
-                  emojiEl.textContent = '🎵';
-                  this.parentElement.prepend(emojiEl);
-                };
-                wrap.appendChild(img);
-              } else {
-                var emojiEl = document.createElement('div');
-                emojiEl.className = 'artist-thumb-emoji';
-                emojiEl.textContent = '🎵';
-                wrap.appendChild(emojiEl);
-              }
-              
+
+              // 🎵 placeholder while Deezer image loads
+              var emojiEl = document.createElement('div');
+              emojiEl.className = 'artist-thumb-emoji';
+              emojiEl.textContent = '🎵';
+              wrap.appendChild(emojiEl);
+
               var nameLabel = document.createElement('span');
               nameLabel.className = 'artist-thumb-name';
               nameLabel.textContent = a.name && a.name.length > 10 ? a.name.substring(0, 9) + '…' : (a.name || '---');
               wrap.appendChild(nameLabel);
+
               artistThumbsEl.appendChild(wrap);
+
+              // Deezer search — CORS-friendly, no auth needed, live artist images
+              fetch('https://api.deezer.com/search/artist?q=' + encodeURIComponent(a.name) + '&limit=1')
+                .then(function(r) { return r.json(); })
+                .then(function(deezerData) {
+                  if (!deezerData.data || !deezerData.data.length) return;
+                  var picUrl = deezerData.data[0].picture_medium;
+                  // Deezer serves a grey default image for unknowns — skip it
+                  if (!picUrl || picUrl.indexOf('default') !== -1) return;
+                  var img = document.createElement('img');
+                  img.className = 'artist-thumb-img';
+                  img.src = picUrl;
+                  img.alt = a.name;
+                  img.loading = 'lazy';
+                  img.onerror = function() { this.style.display = 'none'; };
+                  // Swap 🎵 placeholder for real image
+                  if (wrap.firstChild && wrap.firstChild !== nameLabel) {
+                    wrap.removeChild(wrap.firstChild);
+                  }
+                  wrap.insertBefore(img, nameLabel);
+                })
+                .catch(function() {}); // keep 🎵 on failure
             });
           }
         }
       })
-      .catch(function(err) { 
+      .catch(function(err) {
         console.warn('Last.fm fetch failed:', err.message);
         if (artistsEl) artistsEl.textContent = 'Refresh to load artists';
         if (artistThumbsEl) artistThumbsEl.innerHTML = '<div class="currently-into-thumb-placeholder">🎵</div>';
@@ -1019,16 +967,16 @@ export const CONFIG = {
   // 3. Watchlist (Trakt API — with posters)
   function fetchWatchlist() {
     fetch('/api/watchlist')
-      .then(function(r) { 
+      .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json(); 
+        return r.json();
       })
       .then(function(data) {
         // Series Logic
         if (seriesEl) {
           var names = data.shows && data.shows.length ? data.shows.map(s => s.title).join(', ') : '';
           seriesEl.textContent = names;
-          
+
           var seriesThumbsEl = document.getElementById('big3-series-thumbs');
           if (seriesThumbsEl && data.shows) {
             seriesThumbsEl.innerHTML = '';
@@ -1045,7 +993,7 @@ export const CONFIG = {
             });
           }
         }
-        
+
         // Movie Logic
         if (watchlistEl) {
           var names = data.movies && data.movies.length ? data.movies.map(m => m.title).join(', ') : '';
@@ -1069,7 +1017,6 @@ export const CONFIG = {
         }
       })
       .catch(function() {
-        // Fallback to CONFIG static data if API not available
         if (seriesEl) {
           var fallbackSeries = CONFIG.currently.series.slice(0, 3).join(', ');
           seriesEl.textContent = fallbackSeries;

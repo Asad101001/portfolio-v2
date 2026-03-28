@@ -7,6 +7,7 @@ export default async function handler(req, res) {
   const USERNAME = process.env.TRAKT_USERNAME || 'Asad991';
 
   if (!TRAKT_CLIENT_ID) {
+    // Return watching:null so frontend null-check fires cleanly
     return res.status(200).json({ watching: null, error: 'TRAKT_CLIENT_ID not configured' });
   }
 
@@ -38,7 +39,9 @@ export default async function handler(req, res) {
           },
         }
       );
-      if (!historyRes.ok) throw new Error('Trakt history fetch failed: ' + historyRes.status);
+      if (!historyRes.ok) {
+        return res.status(200).json({ watching: null, error: 'Trakt history fetch failed: ' + historyRes.status });
+      }
       const historyData = await historyRes.json();
       if (historyData && historyData.length > 0) {
         data = historyData[0];
@@ -48,7 +51,7 @@ export default async function handler(req, res) {
       data = await response.json();
       watching = true;
     } else {
-      throw new Error('Trakt watching fetch failed: ' + response.status);
+      return res.status(200).json({ watching: null, error: 'Trakt watching fetch failed: ' + response.status });
     }
 
     if (!data) return res.status(200).json({ watching: null });
@@ -56,18 +59,24 @@ export default async function handler(req, res) {
     const show = data.show;
     const episode = data.episode;
 
+    // Guard against malformed data
     if (!show || !episode) {
-      return res.status(200).json({ watching: null, error: 'Unexpected data format' });
+      return res.status(200).json({ watching: null, error: 'Unexpected Trakt data format' });
     }
 
     const formatted = {
       watching,
-      title: show.title,
-      season: episode.season,
-      episode: episode.number,
+      title: show.title || null,
+      season: episode.season ?? null,
+      episode: episode.number ?? null,
       tmdbId: show.ids?.tmdb || null,
       poster: null,
     };
+
+    // Guard: title must exist
+    if (!formatted.title) {
+      return res.status(200).json({ watching: null });
+    }
 
     // 3. TMDb Poster Enrichment (optional)
     if (formatted.tmdbId && TMDB_API_KEY) {
@@ -88,6 +97,7 @@ export default async function handler(req, res) {
 
     res.status(200).json(formatted);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Trakt data', detail: error.message });
+    // Always return watching:null on error so the frontend null-check fires cleanly
+    res.status(200).json({ watching: null, error: 'Failed to fetch Trakt data', detail: error.message });
   }
 }

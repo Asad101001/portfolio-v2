@@ -2052,3 +2052,81 @@ section::before {
     height: 28px !important;
   }
 }
+
+/* ── Twitter Full-Width Media ─────────────────────────────────
+   Replaces the old 68×68 thumbnail side-layout.
+   Media now appears below the tweet text, full-width.
+   ─────────────────────────────────────────────────────────── */
+.x-full-media {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.25);
+  max-height: 320px;
+  display: block;
+}
+.x-full-media img,
+.x-full-media video {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+ 
+/* ── Footballer Cards in Big 3 Social Widget ─────────────────
+   The generic .footballer-card got constrained to 38×52 by the
+   .media-thumb-card rule. Override for the headshots row only.
+   ─────────────────────────────────────────────────────────── */
+.footballer-headshots-row .footballer-card {
+  width: 60px;
+  height: auto;
+  min-height: 60px;
+  background: transparent;
+  border: none;
+}
+.footballer-headshots-row .footballer-headshot-img {
+  width: 60px;
+  height: 60px;
+}
+.footballer-headshots-row .footballer-emoji-avatar {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 50%;
+  background: rgba(16,185,129,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+/* ── Artist Thumb Cards in Big 3 Social Widget ───────────────
+   Same override — give artist thumbs proper square dimensions.
+   ─────────────────────────────────────────────────────────── */
+.artist-thumbs-row .artist-thumb-card {
+  width: 54px;
+  height: auto;
+  min-height: 54px;
+  background: transparent;
+  border: none;
+}
+.artist-thumbs-row .artist-thumb-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.artist-thumbs-row .artist-thumb-emoji {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
