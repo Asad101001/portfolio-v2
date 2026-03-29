@@ -4,43 +4,118 @@ export const CONFIG = {
     letterboxd: 'asad_k',     // Movies
     lastfm: 'Asad991',        // Music
     github: 'Asad101001',     // Contributions
-    twitter: 'As4d_41'  // Twitter (X) Handle
+    twitter: 'As4d_41'        // Twitter (X) Handle
   },
   currently: {
-    reading: '1984 George Orwell', // Just type title & author
-    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking'] 
+    reading: '1984 George Orwell',
+    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking']
   },
   big3: {
     players: [
-      { 
-        name: 'Lamine Yamal', 
-        fallback: '⚽'
-      },
-      { 
-        name: 'Pedri González', 
-        fallback: '⚽'
-      },
-      { 
-        name: 'Nuno Mendes', 
-        fallback: '⚽'
-      }
+      { name: 'Lamine Yamal',    fallback: '⚽' },
+      { name: 'Pedri González',  fallback: '⚽' },
+      { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: ['Dune: Part Three', 'Spider-Man: Brand New Day', 'The Odyssey']
   }
 };
+
+/* ══════════════════════════════════════════════════════════
+   IMAGE / DATA UTILITY HELPERS
+   ══════════════════════════════════════════════════════════ */
+
+/** TVmaze — free, no key, CORS-safe. Returns medium poster URL or null. */
+function _tvmazePoster(title) {
+  return fetch('https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(title))
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      return d && d.image ? (d.image.medium || d.image.original || null) : null;
+    })
+    .catch(function() { return null; });
+}
+
+/**
+ * Deezer public search — CORS-safe, no key.
+ * Last.fm artist image endpoints were deprecated in 2024; Deezer is the replacement.
+ */
+function _deezerArtistImage(name) {
+  return fetch('https://api.deezer.com/search/artist?q=' + encodeURIComponent(name) + '&limit=1')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      if (d && d.data && d.data[0]) {
+        return d.data[0].picture_medium || d.data[0].picture_big || d.data[0].picture || null;
+      }
+      return null;
+    })
+    .catch(function() { return null; });
+}
+
+/**
+ * TheSportsDB free API — CORS-safe, no key required.
+ * Returns strThumb (cutout headshot) or strCutout/strRender fallbacks.
+ */
+function _sportsdbPlayer(name) {
+  return fetch(
+    'https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(name)
+  )
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      var p = d && d.player && d.player[0];
+      return p ? (p.strThumb || p.strCutout || p.strRender || null) : null;
+    })
+    .catch(function() { return null; });
+}
+
+/**
+ * Parse a Letterboxd RSS title into clean title + star string.
+ * Handles: "Film Title, 2024 - ★★★½"  →  { title: "Film Title", starsStr: "★★★½" }
+ */
+function _parseLetterboxd(rawTitle) {
+  var ratingMatch = rawTitle.match(/\s*[-–]\s*(★+½?)\s*$/);
+  var starsStr = ratingMatch ? ratingMatch[1] : '';
+  var title = rawTitle
+    .replace(/\s*[-–]\s*★.*$/, '')  // strip " - ★..." portion
+    .replace(/,\s*\d{4}\s*$/, '')   // strip ", 2024" year
+    .split('...')[0]                  // truncated titles
+    .trim();
+  return { title: title || rawTitle.split('...')[0].trim(), starsStr: starsStr };
+}
+
+/**
+ * Build HTML for a 5-star display (amber filled, dim empty, half-star supported).
+ * e.g. "★★★½" → 3 amber + ½ amber + 1.5 dim
+ */
+function _starsHTML(starsStr) {
+  if (!starsStr) return '';
+  var full = (starsStr.match(/★/g) || []).length;
+  var half = starsStr.indexOf('½') !== -1;
+  var out  = '<span style="font-size:0.75rem;letter-spacing:1px;display:block;margin-top:2px;">';
+  for (var i = 0; i < 5; i++) {
+    if (i < full) {
+      out += '<span style="color:#f59e0b;">★</span>';
+    } else if (i === full && half) {
+      out += '<span style="color:#f59e0b;font-size:0.65rem;vertical-align:middle;">½</span>';
+      half = false;
+    } else {
+      out += '<span style="color:rgba(255,255,255,0.12);">★</span>';
+    }
+  }
+  return out + '</span>';
+}
+
 
 /* ── GitHub Live Commit Tracker ─────────────────────────────── */
 (function() {
   var commitLine = document.getElementById('git-commit-line');
   if (!commitLine) return;
 
-  var REPO = 'Asad101001/portfolio-v2';
+  var REPO       = 'Asad101001/portfolio-v2';
   var GITHUB_API = 'https://api.github.com/repos/' + REPO + '/commits/main';
 
   function timeAgo(dateStr) {
     var diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-    if (diff < 60)  return diff + 's ago';
-    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 60)   return diff + 's ago';
+    if (diff < 3600)  return Math.floor(diff / 60) + 'm ago';
     if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
     return Math.floor(diff / 86400) + 'd ago';
   }
@@ -51,26 +126,27 @@ export const CONFIG = {
       return r.json();
     })
     .then(function(data) {
-      var sha = (data.sha || '').slice(0, 7);
-      var msg = (data.commit && data.commit.message ? data.commit.message : '').split('\n')[0].slice(0, 52);
+      var sha  = (data.sha || '').slice(0, 7);
+      var msg  = (data.commit && data.commit.message ? data.commit.message : '').split('\n')[0].slice(0, 52);
       var when = data.commit && data.commit.author ? timeAgo(data.commit.author.date) : '';
       commitLine.textContent = sha + ' ' + msg + (when ? ' (' + when + ')' : '');
       commitLine.style.opacity = '1';
     })
     .catch(function() {
-      // Fallback — never break the terminal look
       commitLine.textContent = 'a1b2c3d feat: portfolio — latest build';
       commitLine.style.opacity = '0.55';
     });
 })();
 
+
 /* ── Currently Into - Dynamic Card ─────────────────────────── */
 (function () {
+
   /* ── Book Cover via Open Library Search ── */
-  var readingCover = document.getElementById('reading-cover');
+  var readingCover       = document.getElementById('reading-cover');
   var readingPlaceholder = document.getElementById('reading-placeholder');
-  var readingTitle = document.getElementById('reading-title');
-  
+  var readingTitle       = document.getElementById('reading-title');
+
   if (readingCover && CONFIG.currently.reading) {
     function fetchBook(query) {
       fetch('https://openlibrary.org/search.json?q=' + encodeURIComponent(query) + '&limit=5')
@@ -85,7 +161,9 @@ export const CONFIG = {
                 readingCover.style.display = 'block';
                 if (readingPlaceholder) readingPlaceholder.style.display = 'none';
               }
-              if (readingTitle) readingTitle.textContent = doc.title + (doc.author_name ? ' — ' + doc.author_name[0] : '');
+              if (readingTitle) {
+                readingTitle.textContent = doc.title + (doc.author_name ? ' — ' + doc.author_name[0] : '');
+              }
             }
           } else if (query !== CONFIG.currently.reading.split(' ')[0]) {
             fetchBook(CONFIG.currently.reading.split(' ')[0]);
@@ -98,57 +176,69 @@ export const CONFIG = {
     fetchBook(CONFIG.currently.reading);
   }
 
-  /* ── Media Hub: Movies (Letterboxd RSS) ── */
-  var moviePoster = document.getElementById('watching-poster');
+  /* ── Media Hub: Movies (Letterboxd RSS) — with star ratings ── */
+  var moviePoster      = document.getElementById('watching-poster');
   var moviePlaceholder = document.getElementById('watching-placeholder');
-  var movieTitle = document.getElementById('movie-title');
-  
+  var movieTitle       = document.getElementById('movie-title');
+
   if (moviePoster) {
     var LB_USER = CONFIG.usernames.letterboxd;
     var RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://letterboxd.com/' + LB_USER + '/rss/&_t=' + Date.now();
-    
+
     function fetchMovie() {
       fetch(RSS_URL)
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
           if (!data || !data.items || !data.items.length) throw new Error('No items');
           var latest = data.items[0];
-          
+
+          // Poster thumbnail from RSS
           var url = latest.thumbnail || '';
           if (!url) {
             var source = (latest.description || '') + (latest.content || '');
-            var match = source.match(/src="([^"]+)"/);
+            var match  = source.match(/src="([^"]+)"/);
             url = match ? match[1] : '';
           }
-          
           if (url) {
             moviePoster.src = url;
             moviePoster.style.display = 'block';
             if (moviePlaceholder) moviePlaceholder.style.display = 'none';
           }
+
+          // Title + star rating
           if (movieTitle && latest.title) {
-            var cleanTitle = latest.title.replace('★', ' ★').split('...')[0].trim();
-            movieTitle.textContent = cleanTitle;
+            var parsed = _parseLetterboxd(latest.title);
+            movieTitle.textContent = parsed.title;
+
+            // Insert or update star rating element
+            var starsEl = document.getElementById('movie-rating-stars');
+            if (!starsEl) {
+              starsEl = document.createElement('span');
+              starsEl.id = 'movie-rating-stars';
+              if (movieTitle.parentNode) {
+                movieTitle.parentNode.insertBefore(starsEl, movieTitle.nextSibling);
+              }
+            }
+            starsEl.innerHTML = _starsHTML(parsed.starsStr);
           }
         })
-        .catch(function () {});
+        .catch(function() {});
     }
     fetchMovie();
     setInterval(fetchMovie, 60000 * 15);
   }
 
-  /* ── Media Hub: TV Tracking (Trakt) ── */
-  var tvPoster = document.getElementById('tv-tracking-poster');
+  /* ── Media Hub: TV Tracking (Trakt) — with TVmaze poster fallback ── */
+  var tvPoster      = document.getElementById('tv-tracking-poster');
   var tvPlaceholder = document.getElementById('tv-tracking-placeholder');
-  var tvTitle = document.getElementById('tv-tracking-title');
-  var tvStatus = document.getElementById('tv-tracking-status');
+  var tvTitle       = document.getElementById('tv-tracking-title');
+  var tvStatus      = document.getElementById('tv-tracking-status');
 
   if (tvTitle) {
     function fetchTV() {
       fetch('/api/current-show')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          // PATCH 1: Guard against null watching, missing/undefined title, or error object
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
           if (!data || data.watching === null || data.watching === undefined || !data.title) {
             if (tvTitle && CONFIG.currently.series.length) {
               var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
@@ -160,7 +250,6 @@ export const CONFIG = {
 
           if (tvStatus) tvStatus.textContent = data.watching ? 'Currently Watching' : 'Last Watched';
 
-          // Safe season/episode formatting — never produces "undefined"
           var epStr = '';
           if (data.season != null && data.episode != null) {
             epStr = ' (S' + String(data.season).padStart(2, '0') + 'E' + String(data.episode).padStart(2, '0') + ')';
@@ -171,19 +260,26 @@ export const CONFIG = {
           var progressFill = document.getElementById('tv-progress-fill');
           if (progressWrap && progressFill) {
             progressWrap.style.display = 'block';
-            progressFill.style.width = data.watching ? '45%' : '100%';
+            progressFill.style.width   = data.watching ? '45%' : '100%';
           }
 
           if (data.poster && tvPoster) {
+            // API already provided a poster (TMDB or TVmaze server-side)
             tvPoster.src = data.poster;
             tvPoster.style.display = 'block';
             if (tvPlaceholder) tvPlaceholder.style.display = 'none';
-          } else {
-            if (tvPoster) tvPoster.style.display = 'none';
-            if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+          } else if (data.title) {
+            // Client-side TVmaze fallback — server had no TMDB key
+            _tvmazePoster(data.title).then(function(posterUrl) {
+              if (posterUrl && tvPoster) {
+                tvPoster.src = posterUrl;
+                tvPoster.style.display = 'block';
+                if (tvPlaceholder) tvPlaceholder.style.display = 'none';
+              }
+            });
           }
         })
-        .catch(function () {
+        .catch(function() {
           if (tvTitle && CONFIG.currently.series.length) {
             var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
             tvTitle.textContent = pick;
@@ -195,7 +291,7 @@ export const CONFIG = {
     setInterval(fetchTV, 60000 * 30);
   }
 
-  /* ── FC Barcelona Scorecard Overhaul ── */
+  /* ── FC Barcelona Scorecard ── */
   var barcaItem = document.querySelector('.rotating-item[data-index="3"]');
   if (barcaItem) barcaItem.classList.add('barca-slot');
   if (!barcaItem) return;
@@ -266,11 +362,11 @@ export const CONFIG = {
   }
 
   function setBarcaDisplay(data) {
-    var barca       = data.barca;
-    var opp         = data.opp;
-    var isLive      = data.isLive;
-    var state       = data.state;
-    var barcaIsHost = data.barcaIsHost;
+    var barca        = data.barca;
+    var opp          = data.opp;
+    var isLive       = data.isLive;
+    var state        = data.state;
+    var barcaIsHost  = data.barcaIsHost;
     var barcaScorers = data.barcaScorers || [];
     var oppScorers   = data.oppScorers   || [];
 
@@ -366,7 +462,6 @@ export const CONFIG = {
       return allEvents;
     }).then(function(events) {
       if (!events || !events.length) return;
-
       var barcaMatches = events
         .filter(function(ev){
           return ev.competitions && ev.competitions[0] &&
@@ -377,8 +472,8 @@ export const CONFIG = {
 
       if (!barcaMatches.length) return;
 
-      var ev    = barcaMatches[0];
-      var comp  = ev.competitions[0];
+      var ev   = barcaMatches[0];
+      var comp = ev.competitions[0];
       var barca = comp.competitors.find(function(c){ return String(c.team.id) === BARCA_ID; });
       var opp   = comp.competitors.find(function(c){ return String(c.team.id) !== BARCA_ID; });
       var state = ev.status.type.state;
@@ -427,43 +522,49 @@ export const CONFIG = {
 
   function render(tracks) {
     container.innerHTML = '';
-    tracks.forEach(function (t) {
+    tracks.forEach(function(t) {
       var nowPlaying = t['@attr'] && t['@attr'].nowplaying === 'true';
       var art = '';
       if (t.image) {
         for (var si = t.image.length - 1; si >= 0; si--) {
-          if (t.image[si]['#text'] && t.image[si]['#text'].indexOf('2a96cbd8b46e442fc41c2b86b821562f') === -1) { art = t.image[si]['#text']; break; }
+          if (t.image[si]['#text'] && t.image[si]['#text'].indexOf('2a96cbd8b46e442fc41c2b86b821562f') === -1) {
+            art = t.image[si]['#text']; break;
+          }
         }
       }
       var ts = t.date && t.date.uts ? t.date.uts : null;
-      var a = document.createElement('a');
+      var a  = document.createElement('a');
       a.className = 'lastfm-track'; a.href = t.url || '#'; a.target = '_blank'; a.rel = 'noopener noreferrer';
-      var imgHTML = art ? '<img class="lastfm-track-art" src="' + art + '" alt="" crossorigin="anonymous" loading="lazy" decoding="async" fetchpriority="low" />' : '<div class="lastfm-track-art lastfm-track-art--empty">&#x1F3B5;</div>';
+      var imgHTML  = art
+        ? '<img class="lastfm-track-art" src="' + art + '" alt="" crossorigin="anonymous" loading="lazy" decoding="async" fetchpriority="low" />'
+        : '<div class="lastfm-track-art lastfm-track-art--empty">&#x1F3B5;</div>';
       var timeHTML = nowPlaying
         ? '<span class="lastfm-now-playing"><span class="lastfm-eq"><span></span><span></span><span></span><span></span></span>&nbsp;now</span>'
         : '<span class="lastfm-track-time">' + timeAgo(ts) + '</span>';
-      a.innerHTML = imgHTML + '<div class="lastfm-track-info"><div class="lastfm-track-name">' + (t.name || '') + '</div><div class="lastfm-track-artist">' + (t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div></div>' + timeHTML;
+      a.innerHTML = imgHTML +
+        '<div class="lastfm-track-info">' +
+          '<div class="lastfm-track-name">' + (t.name || '') + '</div>' +
+          '<div class="lastfm-track-artist">' + (t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div>' +
+        '</div>' + timeHTML;
       container.appendChild(a);
     });
   }
 
   container.innerHTML = '<div class="lastfm-loading"><span class="lastfm-bars"><span></span><span></span><span></span><span></span></span> Loading scrobbles...</div>';
-  
+
   var cached = localStorage.getItem('asad_lastfm_cache');
-  if (cached) {
-    try { render(JSON.parse(cached)); } catch(e) {}
-  }
+  if (cached) { try { render(JSON.parse(cached)); } catch(e) {} }
 
   fetch(URL)
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (data) {
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(data) {
       var tracks = data && data.recenttracks && data.recenttracks.track;
       if (!tracks || !tracks.length) { container.innerHTML = '<p class="lastfm-error">No recent tracks.</p>'; return; }
       var trackList = Array.isArray(tracks) ? tracks : [tracks];
       localStorage.setItem('asad_lastfm_cache', JSON.stringify(trackList));
       render(trackList);
     })
-    .catch(function () { 
+    .catch(function() {
       if (!localStorage.getItem('asad_lastfm_cache')) {
         container.innerHTML = '<p class="lastfm-error">⚠ Could not load scrobbles.</p>';
       }
@@ -481,7 +582,8 @@ export const CONFIG = {
   var XP_PER_VISIT = 35, XP_PER_LEVEL = 100;
   var visits = parseInt(localStorage.getItem('asad_portfolio_visit_count') || '0', 10);
   if (!sessionStorage.getItem('asad_portfolio_visited_v2')) {
-    visits++; localStorage.setItem('asad_portfolio_visit_count', visits);
+    visits++;
+    localStorage.setItem('asad_portfolio_visit_count', visits);
     sessionStorage.setItem('asad_portfolio_visited_v2', '1');
   }
   var totalXP = visits * XP_PER_VISIT;
@@ -491,7 +593,7 @@ export const CONFIG = {
   if (countEl) countEl.innerHTML = 'Visit <strong>#' + visits + '</strong> on this device';
   if (badge)   badge.textContent = 'Lv.' + level;
   if (nextEl)  nextEl.textContent = (XP_PER_LEVEL - xpInLvl) + ' XP → Lv.' + (level + 1);
-  setTimeout(function () { bar.style.width = pct + '%'; }, 600);
+  setTimeout(function() { bar.style.width = pct + '%'; }, 600);
 })();
 
 
@@ -534,12 +636,12 @@ export const CONFIG = {
     function rand(s) { s = Math.sin(s) * 10000; return s - Math.floor(s); }
     var today = new Date();
     for (var i = 363; i >= 0; i--) {
-      var d = new Date(today); d.setDate(today.getDate() - i);
+      var d   = new Date(today); d.setDate(today.getDate() - i);
       var dow = d.getDay();
       var base = rand(seed + i * 7.3 + dow * 1.1);
       var isWeekend = dow === 0 || dow === 6;
-      var isActive = base > (isWeekend ? 0.72 : 0.55);
-      var count = isActive ? Math.floor(rand(seed + i * 3.7) * 10) + 1 : 0;
+      var isActive  = base > (isWeekend ? 0.72 : 0.55);
+      var count     = isActive ? Math.floor(rand(seed + i * 3.7) * 10) + 1 : 0;
       days.push(Math.min(count, 12));
     }
     return days;
@@ -547,14 +649,14 @@ export const CONFIG = {
 
   buildHeatmap(generatePattern());
   fetch('https://github-contributions-api.jogruber.de/v4/' + CONFIG.usernames.github + '?y=last')
-    .then(function (r) { if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (data) {
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(data) {
       if (!data || !data.contributions) return;
       var flat = [];
-      data.contributions.forEach(function (day) { flat.push(day.count || 0); });
+      data.contributions.forEach(function(day) { flat.push(day.count || 0); });
       buildHeatmap(flat.slice(-364));
     })
-    .catch(function () {});
+    .catch(function() {});
 })();
 
 
@@ -568,29 +670,31 @@ export const CONFIG = {
   if (!display) return;
   var CIRC = 188.5;
   var zones = [
-    { start: 0,  end: 6,  label: '🌙 Asleep (probably)', color: '#a855f7' },
-    { start: 6,  end: 9,  label: '☕ Morning grind',      color: '#f97316' },
-    { start: 9,  end: 13, label: '💻 Peak coding hours',  color: '#22c55e' },
-    { start: 13, end: 15, label: '🍜 Lunch / break',      color: '#10b981' },
-    { start: 15, end: 19, label: '⚡ Deep work mode',     color: '#22c55e' },
-    { start: 19, end: 22, label: '🎧 Side projects / music', color: '#a855f7' },
-    { start: 22, end: 24, label: '🌙 Late night hacking', color: '#f97316' }
+    { start: 0,  end: 6,  label: '🌙 Asleep (probably)',      color: '#a855f7' },
+    { start: 6,  end: 9,  label: '☕ Morning grind',           color: '#f97316' },
+    { start: 9,  end: 13, label: '💻 Peak coding hours',       color: '#22c55e' },
+    { start: 13, end: 15, label: '🍜 Lunch / break',           color: '#10b981' },
+    { start: 15, end: 19, label: '⚡ Deep work mode',          color: '#22c55e' },
+    { start: 19, end: 22, label: '🎧 Side projects / music',   color: '#a855f7' },
+    { start: 22, end: 24, label: '🌙 Late night hacking',      color: '#f97316' }
   ];
   function tick() {
-    var now = new Date();
-    var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    var pkt = new Date(utc + 5 * 3600000);
-    var h = pkt.getHours(), m = pkt.getMinutes();
+    var now  = new Date();
+    var utc  = now.getTime() + now.getTimezoneOffset() * 60000;
+    var pkt  = new Date(utc + 5 * 3600000);
+    var h    = pkt.getHours(), m = pkt.getMinutes();
     var ampm = h >= 12 ? 'PM' : 'AM';
-    var h12 = h % 12 || 12;
+    var h12  = h % 12 || 12;
     if (display) display.textContent = h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
     var dayPct = (h + m / 60) / 24;
     if (arc) arc.style.strokeDashoffset = (CIRC * (1 - dayPct)).toFixed(2);
     if (hourText) hourText.textContent = h12;
-    var zone = zones.find(function (z) { return h >= z.start && h < z.end; }) || zones[0];
+    var zone = zones.find(function(z) { return h >= z.start && h < z.end; }) || zones[0];
     if (status) status.textContent = zone.label;
-    if (arc) arc.style.stroke = zone.color;
-    if (barsEl) Array.prototype.forEach.call(barsEl.children, function (seg, i) { seg.classList.toggle('active', i <= Math.floor(h / 4)); });
+    if (arc)    arc.style.stroke   = zone.color;
+    if (barsEl) Array.prototype.forEach.call(barsEl.children, function(seg, i) {
+      seg.classList.toggle('active', i <= Math.floor(h / 4));
+    });
   }
   tick(); setInterval(tick, 10000);
 })();
@@ -598,12 +702,12 @@ export const CONFIG = {
 
 /* ── Spotify Now Playing ────────────────────────────────── */
 (function () {
-  var wrap  = document.getElementById('spotify-track-wrap');
-  var dotEl = document.getElementById('spotify-live-dot');
+  var wrap         = document.getElementById('spotify-track-wrap');
+  var dotEl        = document.getElementById('spotify-live-dot');
   var spotifyWidget = document.getElementById('spotify-widget');
-  var lastfmWidget = document.querySelector('.lastfm-widget');
+  var lastfmWidget  = document.querySelector('.lastfm-widget');
   if (spotifyWidget) spotifyWidget.classList.add('liquid-glass');
-  if (lastfmWidget) lastfmWidget.classList.add('liquid-glass');
+  if (lastfmWidget)  lastfmWidget.classList.add('liquid-glass');
   if (!wrap) return;
   var ENDPOINT = '/api/spotify';
 
@@ -616,20 +720,18 @@ export const CONFIG = {
     wrap.innerHTML = '';
     if (!data || !data.track) {
       wrap.innerHTML = '<p class="spotify-offline">&#x1F3B5; Nothing playing right now</p>';
-      if (dotEl) { 
-        dotEl.style.background = '#ef4444'; 
-        dotEl.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.4)'; 
-      }
+      if (dotEl) { dotEl.style.background = '#ef4444'; dotEl.style.boxShadow = '0 0 10px rgba(239,68,68,0.4)'; }
       return;
     }
-    var t = data.track;
-    var pct = t.duration > 0 ? Math.min((t.progress / t.duration) * 100, 100) : 0;
+    var t         = data.track;
+    var pct       = t.duration > 0 ? Math.min((t.progress / t.duration) * 100, 100) : 0;
     var isPlaying = data.isPlaying;
-    
-    if (dotEl) { 
-      dotEl.style.background = isPlaying ? '#1DB954' : '#ef4444'; 
-      dotEl.style.boxShadow = isPlaying ? '0 0 12px #1DB954' : '0 0 12px rgba(239, 68, 68, 0.6)'; 
+
+    if (dotEl) {
+      dotEl.style.background = isPlaying ? '#1DB954' : '#ef4444';
+      dotEl.style.boxShadow  = isPlaying ? '0 0 12px #1DB954' : '0 0 12px rgba(239,68,68,0.6)';
     }
+
     var artInner = t.albumArt
       ? '<img class="spotify-art-expanded" src="' + t.albumArt + '" alt="" crossorigin="anonymous" />'
       : '<div class="spotify-art-expanded spotify-art--empty-expanded"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>';
@@ -639,42 +741,53 @@ export const CONFIG = {
       : '';
 
     var shuffleIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>';
-    var prevIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
-    var playIcon = isPlaying 
+    var prevIcon    = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
+    var playIcon    = isPlaying
       ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'
       : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
     var playBtnClass = isPlaying ? 'spotify-play-btn' : 'spotify-play-btn paused-state';
-    var nextIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
-    var repeatIcon = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
+    var nextIcon     = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>';
+    var repeatIcon   = '<svg class="spotify-controls-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
 
-    var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon + '<div class="' + playBtnClass + '">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
-    var progressLineHTML = '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
+    var controlsHTML = '<div class="spotify-controls-expanded">' + shuffleIcon + prevIcon +
+      '<div class="' + playBtnClass + '">' + playIcon + '</div>' + nextIcon + repeatIcon + '</div>';
+    var progressHTML = '<div class="spotify-bar-expanded"><div class="spotify-bar-fill-expanded" style="width:' + pct.toFixed(1) + '%"></div></div>';
 
     var a = document.createElement('a');
-    a.href = t.url || 'https://open.spotify.com/'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.className = 'spotify-track-expanded';
-    a.innerHTML = '<div class="spotify-art-wrap-expanded">' + artInner + '</div><div class="spotify-info-expanded"><div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div><div class="spotify-artist-expanded">' + t.artist + '</div></div><div class="spotify-progress-wrap-expanded"><div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div>' + progressLineHTML + '</div>' + controlsHTML;
+    a.href      = t.url || 'https://open.spotify.com/';
+    a.target    = '_blank';
+    a.rel       = 'noopener noreferrer';
+    a.className = 'spotify-track-expanded';
+    a.innerHTML =
+      '<div class="spotify-art-wrap-expanded">' + artInner + '</div>' +
+      '<div class="spotify-info-expanded">' +
+        '<div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div>' +
+        '<div class="spotify-artist-expanded">' + t.artist + '</div>' +
+      '</div>' +
+      '<div class="spotify-progress-wrap-expanded">' +
+        '<div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div>' +
+        progressHTML +
+      '</div>' + controlsHTML;
     wrap.appendChild(a);
   }
 
   function load() {
     fetch(ENDPOINT)
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(data) {
         localStorage.setItem('asad_spotify_cache', JSON.stringify(data));
         render(data);
       })
-      .catch(function () { 
+      .catch(function() {
         var cached = localStorage.getItem('asad_spotify_cache');
-        if (cached) {
-          try { render(JSON.parse(cached)); return; } catch(e) {}
-        }
-        wrap.innerHTML = '<p class="spotify-offline">&#x26A0; Could not reach Spotify</p>'; 
+        if (cached) { try { render(JSON.parse(cached)); return; } catch(e) {} }
+        wrap.innerHTML = '<p class="spotify-offline">&#x26A0; Could not reach Spotify</p>';
       });
   }
-  
+
   var cached = localStorage.getItem('asad_spotify_cache');
   if (cached) { try { render(JSON.parse(cached)); } catch(e) {} }
-  
+
   load();
   setInterval(load, 30000);
 })();
@@ -682,27 +795,21 @@ export const CONFIG = {
 
 /* ── Git Logic Jumper Game (CS Theme) ───────────────────── */
 (function () {
-  var canvas = document.getElementById('game-canvas');
+  var canvas  = document.getElementById('game-canvas');
   var scoreEl = document.getElementById('game-score');
   var overlay = document.getElementById('game-overlay');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
-  
+
   var game = {
-    score: 0,
-    speed: 3.2,
-    active: true,
+    score: 0, speed: 3.2, active: true,
     player: { y: 61, vy: 0, jumping: false },
     obstacles: []
   };
 
   function jump() {
-    if (!game.player.jumping && game.active) {
-      game.player.vy = -8.5;
-      game.player.jumping = true;
-    } else if (!game.active) {
-      reset();
-    }
+    if (!game.player.jumping && game.active) { game.player.vy = -8.5; game.player.jumping = true; }
+    else if (!game.active) { reset(); }
   }
 
   window.addEventListener('keydown', function(e) { if (e.code === 'Space') { e.preventDefault(); jump(); } });
@@ -719,24 +826,17 @@ export const CONFIG = {
     if (!game.active) { requestAnimationFrame(loop); return; }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = 'rgba(34,197,94,0.12)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(34,197,94,0.12)'; ctx.lineWidth = 1; ctx.beginPath();
     ctx.moveTo(0, 75); ctx.lineTo(400, 75);
-    for(var x=0; x<400; x+=20) { ctx.moveTo(x, 75); ctx.lineTo(x-8, 80); }
+    for (var x = 0; x < 400; x += 20) { ctx.moveTo(x, 75); ctx.lineTo(x - 8, 80); }
     ctx.stroke();
 
-    game.player.vy += 0.52;
-    game.player.y += game.player.vy;
+    game.player.vy += 0.52; game.player.y += game.player.vy;
     if (game.player.y > 61) { game.player.y = 61; game.player.vy = 0; game.player.jumping = false; }
-    
-    ctx.fillStyle = '#22c55e';
-    ctx.shadowBlur = 8; ctx.shadowColor = '#22c55e';
-    ctx.fillRect(30, game.player.y, 14, 14);
-    ctx.shadowBlur = 0;
-    
-    ctx.fillStyle = '#000'; ctx.font = '7px monospace';
-    ctx.fillText('git', 31, game.player.y + 10);
+
+    ctx.fillStyle = '#22c55e'; ctx.shadowBlur = 8; ctx.shadowColor = '#22c55e';
+    ctx.fillRect(30, game.player.y, 14, 14); ctx.shadowBlur = 0;
+    ctx.fillStyle = '#000'; ctx.font = '7px monospace'; ctx.fillText('git', 31, game.player.y + 10);
 
     if (Math.random() < 0.016 && (game.obstacles.length === 0 || game.obstacles[game.obstacles.length-1].x < 240)) {
       game.obstacles.push({ x: 400, w: 12 + Math.random() * 12, h: 8 + Math.random() * 8 });
@@ -745,24 +845,19 @@ export const CONFIG = {
     for (var i = game.obstacles.length - 1; i >= 0; i--) {
       var o = game.obstacles[i];
       o.x -= game.speed;
-      
       ctx.fillStyle = '#ef4444';
       ctx.fillRect(o.x, 75 - o.h, o.w, o.h);
       ctx.fillStyle = '#fff'; ctx.font = '7px monospace';
       ctx.fillText('!', o.x + o.w/2 - 2, 75 - o.h + 8);
 
       if (o.x < 44 && o.x + o.w > 30 && game.player.y + 14 > 75 - o.h) {
-        game.active = false;
-        overlay.style.opacity = '1';
+        game.active = false; overlay.style.opacity = '1';
       }
-
       if (o.x < -o.w) {
-        game.obstacles.splice(i, 1);
-        game.score++;
+        game.obstacles.splice(i, 1); game.score++;
         if (scoreEl) {
-          var msgs = ["init", "fix", "feat", "docs", "refactor", "style", "test", "chore"];
-          var msg = msgs[Math.floor(game.score / 5) % msgs.length];
-          scoreEl.textContent = game.score + ' Commits [' + msg + ']';
+          var msgs = ['init', 'fix', 'feat', 'docs', 'refactor', 'style', 'test', 'chore'];
+          scoreEl.textContent = game.score + ' Commits [' + msgs[Math.floor(game.score / 5) % msgs.length] + ']';
         }
         game.speed += 0.035;
       }
@@ -790,8 +885,7 @@ export const CONFIG = {
 
   function render(data) {
     if (!data) return;
-
-    const profile = data.profile || {};
+    const profile   = data.profile || {};
     const timeEl     = snippet.querySelector('.li-post-time');
     const textEl     = snippet.querySelector('.li-post-text');
     const linkEl     = snippet.querySelector('.li-post-link');
@@ -801,51 +895,36 @@ export const CONFIG = {
     const headlineEl = snippet.querySelector('.li-profile-headline');
 
     if (timeEl) timeEl.textContent = timeAgo(data.date);
-
     if (textEl) {
       const text = (data.text || '').slice(0, 160);
       textEl.textContent = '\u201c' + text + (data.text && data.text.length > 160 ? '\u2026' : '') + '\u201d';
     }
-
     if (linkEl) linkEl.href = data.url || 'https://www.linkedin.com/in/muhammadasadk/';
-
     if (dotEl) {
       const isRecent = data.date && (Date.now() - new Date(data.date).getTime()) < 7 * 86400 * 1000;
       dotEl.style.background = isRecent ? '#22c55e' : 'rgba(255,255,255,0.2)';
       dotEl.style.boxShadow  = isRecent ? '0 0 6px #22c55e' : 'none';
     }
-
     if (nameEl && profile.name) nameEl.textContent = profile.name;
     if (headlineEl && profile.headline) headlineEl.textContent = profile.headline;
-
-    if (avatarWrap) {
-      if (profile.photo) {
+    if (avatarWrap && profile.photo) {
+      avatarWrap.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = profile.photo;
+      img.alt = profile.name || 'Profile';
+      img.style.cssText = 'width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.1);';
+      img.onerror = function() {
         avatarWrap.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = profile.photo;
-        img.alt = profile.name || 'Profile';
-        img.style.cssText = 'width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.1);';
-        img.onerror = function() {
-          avatarWrap.innerHTML = '';
-          const initials = (profile.name || 'MA').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
-          const liClr = getComputedStyle(snippet).getPropertyValue('--li-clr') || '#0077b5';
-          avatarWrap.style.cssText = 'width:28px;height:28px;border-radius:50%;background:' + liClr + ';font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;flex-shrink:0;';
-          avatarWrap.textContent = initials;
-        };
-        img.style.display = 'block';
-        avatarWrap.appendChild(img);
-        avatarWrap.style.background = 'none';
-        avatarWrap.style.justifyContent = '';
-        avatarWrap.style.alignItems = '';
-        avatarWrap.style.fontSize = '';
-      }
+        const initials = (profile.name || 'MA').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+        avatarWrap.style.cssText = 'width:28px;height:28px;border-radius:50%;background:#0077b5;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;flex-shrink:0;';
+        avatarWrap.textContent = initials;
+      };
+      avatarWrap.appendChild(img);
     }
   }
 
   const cached = localStorage.getItem('asad_li_post_cache');
-  if (cached) {
-    try { render(JSON.parse(cached)); } catch(e) {}
-  }
+  if (cached) { try { render(JSON.parse(cached)); } catch(e) {} }
 
   fetch('/api/linkedin-post?v=' + Date.now())
     .then(r => r.json())
@@ -859,7 +938,9 @@ export const CONFIG = {
 })();
 
 
-/* ── Socials: Media Watchlist Fetching ────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   SOCIALS: MEDIA WATCHLIST + PLAYER HEADSHOTS + ARTISTS
+   ══════════════════════════════════════════════════════════ */
 (function () {
   var artistsEl    = document.getElementById('big3-artists');
   var playersEl    = document.getElementById('big3-players');
@@ -869,63 +950,52 @@ export const CONFIG = {
 
   if (!artistsEl) return;
 
-  // ── PATCH 2: Current Favourite Players — ESPN CDN (public, no CORS issues) ──
-  var FOOTBALLER_ESPN = {
-    'Lamine Yamal':    '5155905',
-    'Pedri Gonz\u00e1lez': '5153234',
-    'Pedri':           '5153234',
-    'Nuno Mendes':     '5209502'
-  };
-
+  /* ── FOOTBALLER HEADSHOTS — TheSportsDB (free, CORS-safe) ── */
   if (playersEl && CONFIG.big3.players) {
-    playersEl.textContent = CONFIG.big3.players.map(p => p.name).join(', ');
+    playersEl.textContent = CONFIG.big3.players.map(function(p) { return p.name; }).join(', ');
 
     var headshotsEl = headshotsWrap || document.getElementById('player-headshots-wrap');
     if (headshotsEl) {
       headshotsEl.innerHTML = '';
       CONFIG.big3.players.slice(0, 3).forEach(function(p, idx) {
         if (!p) return;
-        var wrap = document.createElement('div');
-        // Podium ranking logic
-        var rankClass = ['medal-gold', 'medal-silver', 'medal-bronze'][idx] || '';
+
+        var rankClass  = ['medal-gold', 'medal-silver', 'medal-bronze'][idx] || '';
         var medalEmoji = ['\ud83e\udd47', '\ud83e\udd48', '\ud83e\udd49'][idx] || '';
-        
+
+        var wrap = document.createElement('div');
         wrap.className = 'footballer-card ' + rankClass;
-        wrap.title = p.name;
+        wrap.title     = p.name;
 
         var podiumWrap = document.createElement('div');
         podiumWrap.className = 'podium-avatar-wrap';
 
-        // High-res Headshots via ESPN combiner
-        var espnId = FOOTBALLER_ESPN[p.name] || (p.espnId || null);
-        if (espnId) {
-          var img = document.createElement('img');
-          img.className = 'footballer-headshot-img';
-          img.alt = p.name;
-          img.loading = 'lazy';
-          img.src = 'https://a.espncdn.com/combiner/i?img=/i/headshots/soccer/players/full/' + espnId + '.png&w=160&h=160&scale=crop';
-          img.onerror = function() {
-            this.style.display = 'none';
-            var fb = document.createElement('div');
-            fb.className = 'footballer-emoji-avatar';
-            fb.textContent = p.fallback || '\u26bd';
-            podiumWrap.appendChild(fb);
-          };
-          podiumWrap.appendChild(img);
-        } else {
-          var fb = document.createElement('div');
-          fb.className = 'footballer-emoji-avatar';
-          fb.textContent = p.fallback || '\u26bd';
-          podiumWrap.appendChild(fb);
-        }
+        // Emoji placeholder while image loads
+        var avatarEl = document.createElement('div');
+        avatarEl.className   = 'footballer-emoji-avatar';
+        avatarEl.textContent = p.fallback || '⚽';
+        podiumWrap.appendChild(avatarEl);
+
+        // Fetch from TheSportsDB — closed over per-iteration variables via forEach callback
+        _sportsdbPlayer(p.name).then(function(imgUrl) {
+          if (imgUrl && avatarEl.parentNode) {
+            var img = document.createElement('img');
+            img.className = 'footballer-headshot-img';
+            img.alt       = p.name;
+            img.loading   = 'lazy';
+            img.src       = imgUrl;
+            img.onerror   = function() { this.style.display = 'none'; };
+            avatarEl.parentNode.replaceChild(img, avatarEl);
+          }
+        }).catch(function() {});
 
         var medalBadge = document.createElement('div');
-        medalBadge.className = 'podium-medal';
+        medalBadge.className   = 'podium-medal';
         medalBadge.textContent = medalEmoji;
         podiumWrap.appendChild(medalBadge);
 
         var nameLabel = document.createElement('span');
-        nameLabel.className = 'footballer-name-label';
+        nameLabel.className   = 'footballer-name-label';
         nameLabel.textContent = p.name.split(' ')[0];
 
         wrap.appendChild(podiumWrap);
@@ -935,10 +1005,11 @@ export const CONFIG = {
     }
   }
 
-  // ── PATCH 3: Top Weekly Artists via Last.fm (native images from the API response) ──
+  /* ── TOP WEEKLY ARTISTS — Deezer images (Last.fm images deprecated 2024) ── */
   var USER       = CONFIG.usernames.lastfm;
   var API_KEY    = 'eccfb681fcf620a63fcb300d526544ba';
-  var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER + '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
+  var LASTFM_URL = 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=' + USER +
+                   '&api_key=' + API_KEY + '&format=json&period=7day&limit=3';
   var artistThumbsEl = document.getElementById('big3-artist-thumbs');
 
   function fetchArtists() {
@@ -949,8 +1020,8 @@ export const CONFIG = {
         if (!data.topartists || !data.topartists.artist) throw new Error('No artist data');
 
         var rawArtists = data.topartists.artist;
-        var artistArr = Array.isArray(rawArtists) ? rawArtists : [rawArtists];
-        var top3 = artistArr.slice(0, 3);
+        var artistArr  = Array.isArray(rawArtists) ? rawArtists : [rawArtists];
+        var top3       = artistArr.slice(0, 3);
 
         if (top3 && top3.length) {
           var names = top3.map(function(a, idx) {
@@ -960,79 +1031,40 @@ export const CONFIG = {
 
           if (artistThumbsEl) {
             artistThumbsEl.innerHTML = '';
+
             top3.forEach(function(a) {
               if (!a) return;
+
               var wrap = document.createElement('div');
               wrap.className = 'artist-thumb-card';
-              wrap.title = a.name;
+              wrap.title     = a.name;
 
               var nameLabel = document.createElement('span');
-              nameLabel.className = 'artist-thumb-name';
-              nameLabel.textContent = a.name && a.name.length > 10 ? a.name.substring(0, 9) + '\u2026' : (a.name || '---');
+              nameLabel.className   = 'artist-thumb-name';
+              nameLabel.textContent = a.name && a.name.length > 10
+                ? a.name.substring(0, 9) + '\u2026'
+                : (a.name || '---');
 
-              // Extract image from Last.fm response (already in the topartists data)
-              // Last.fm image array: [small, medium, large, extralarge, mega]
-              var lfmImgUrl = '';
-              var BLANK_LFM = '2a96cbd8b46e442fc41c2b86b821562f'; // Last.fm blank hash
-              if (a.image && a.image.length) {
-                // Try from largest to smallest
-                for (var i = a.image.length - 1; i >= 0; i--) {
-                  var candidate = a.image[i] && a.image[i]['#text'];
-                  if (candidate && candidate.indexOf(BLANK_LFM) === -1) {
-                    lfmImgUrl = candidate;
-                    break;
-                  }
-                }
-              }
-
-              if (lfmImgUrl) {
-                // Last.fm has a real image — use it directly
-                var img = document.createElement('img');
-                img.className = 'artist-thumb-img';
-                img.src = lfmImgUrl;
-                img.alt = a.name;
-                img.loading = 'lazy';
-                img.onerror = function() {
-                  this.style.display = 'none';
-                  var emojiEl = document.createElement('div');
-                  emojiEl.className = 'artist-thumb-emoji';
-                  emojiEl.textContent = '\ud83c\udfb5';
-                  wrap.insertBefore(emojiEl, nameLabel);
-                };
-                wrap.appendChild(img);
-              } else {
-                // Fallback: fetch artist image from Last.fm artist.getInfo
-                var emojiEl = document.createElement('div');
-                emojiEl.className = 'artist-thumb-emoji';
-                emojiEl.textContent = '\ud83c\udfb5';
-                wrap.appendChild(emojiEl);
-
-                var infoUrl = 'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist='
-                  + encodeURIComponent(a.name) + '&api_key=' + API_KEY + '&format=json';
-                fetch(infoUrl)
-                  .then(function(r2) { return r2.json(); })
-                  .then(function(info) {
-                    var imgs = info && info.artist && info.artist.image;
-                    if (!imgs || !imgs.length) return;
-                    for (var j = imgs.length - 1; j >= 0; j--) {
-                      var cand = imgs[j] && imgs[j]['#text'];
-                      if (cand && cand.indexOf(BLANK_LFM) === -1) {
-                        var img2 = document.createElement('img');
-                        img2.className = 'artist-thumb-img';
-                        img2.src = cand; img2.alt = a.name; img2.loading = 'lazy';
-                        img2.onerror = function() { this.style.display = 'none'; };
-                        if (wrap.firstChild && wrap.firstChild !== nameLabel) {
-                          wrap.removeChild(wrap.firstChild);
-                        }
-                        wrap.insertBefore(img2, nameLabel);
-                        break;
-                      }
-                    }
-                  }).catch(function() {});
-              }
-
+              // Emoji placeholder while Deezer fetch resolves
+              var emojiEl = document.createElement('div');
+              emojiEl.className   = 'artist-thumb-emoji';
+              emojiEl.textContent = '\ud83c\udfb5';
+              wrap.appendChild(emojiEl);
               wrap.appendChild(nameLabel);
               artistThumbsEl.appendChild(wrap);
+
+              // Deezer: CORS-safe public API, replaces deprecated Last.fm image endpoints
+              _deezerArtistImage(a.name).then(function(imgUrl) {
+                if (imgUrl && emojiEl.parentNode) {
+                  var img = document.createElement('img');
+                  img.className = 'artist-thumb-img';
+                  img.src       = imgUrl;
+                  img.alt       = a.name;
+                  img.loading   = 'lazy';
+                  img.onerror   = function() { this.style.display = 'none'; };
+                  emojiEl.parentNode.replaceChild(img, emojiEl);
+                }
+              }).catch(function() {});
             });
           }
         }
@@ -1045,7 +1077,7 @@ export const CONFIG = {
   }
   fetchArtists();
 
-  // 3. Watchlist (Trakt API — with posters)
+  /* ── WATCHLIST (Trakt API) — TVmaze fallback for series posters ── */
   function fetchWatchlist() {
     fetch('/api/watchlist')
       .then(function(r) {
@@ -1053,9 +1085,12 @@ export const CONFIG = {
         return r.json();
       })
       .then(function(data) {
-        // Series Logic
+
+        /* ── Series ── */
         if (seriesEl) {
-          var names = data.shows && data.shows.length ? data.shows.map(s => s.title).join(', ') : '';
+          var names = data.shows && data.shows.length
+            ? data.shows.map(function(s) { return s.title; }).join(', ')
+            : '';
           seriesEl.textContent = names;
 
           var seriesThumbsEl = document.getElementById('big3-series-thumbs');
@@ -1064,21 +1099,31 @@ export const CONFIG = {
             data.shows.forEach(function(s) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title = s.title;
+              wrap.title     = s.title;
+
               if (s.poster) {
                 wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" />';
               } else {
+                // TVmaze client-side fallback when server had no TMDB key
                 wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
+                _tvmazePoster(s.title).then(function(url) {
+                  if (url && wrap.parentNode) {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                  }
+                });
               }
+
               seriesThumbsEl.appendChild(wrap);
             });
           }
         }
 
-        // Movie Logic
+        /* ── Movies ── */
         if (watchlistEl) {
-          var names = data.movies && data.movies.length ? data.movies.map(m => m.title).join(', ') : '';
-          watchlistEl.textContent = names;
+          var mnames = data.movies && data.movies.length
+            ? data.movies.map(function(m) { return m.title; }).join(', ')
+            : '';
+          watchlistEl.textContent = mnames;
 
           var movieThumbsEl = document.getElementById('big3-movie-thumbs');
           if (movieThumbsEl && data.movies) {
@@ -1086,68 +1131,63 @@ export const CONFIG = {
             data.movies.forEach(function(m) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title = m.title;
+              wrap.title     = m.title;
+
               if (m.poster) {
                 wrap.innerHTML = '<img class="media-thumb-img" src="' + m.poster + '" alt="' + m.title + '" loading="lazy" />';
               } else {
+                // Movie posters come from TMDB server-side; upcoming/unreleased movies won't have one
                 wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
               }
+
               movieThumbsEl.appendChild(wrap);
             });
           }
         }
       })
       .catch(function() {
-        // Fallback: populate text
+
+        /* ── Series fallback (Trakt API failed) — TVmaze for posters ── */
         if (seriesEl) {
           var fallbackSeries = CONFIG.currently.series.slice(0, 3);
           seriesEl.textContent = fallbackSeries.join(', ');
 
-          // Also populate series thumbnails using OMDB posters
           var seriesThumbsElFb = document.getElementById('big3-series-thumbs');
           if (seriesThumbsElFb) {
             seriesThumbsElFb.innerHTML = '';
             fallbackSeries.forEach(function(title) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title = title;
-              // OMDB free tier — no key needed for poster lookup at w=100
-              var omdbUrl = 'https://www.omdbapi.com/?t=' + encodeURIComponent(title) + '&apikey=trilogy';
-              wrap.innerHTML = '<div class="media-thumb-emoji">\ud83d\udcfa</div>'; // Set initial emoji
-              fetch(omdbUrl)
-                .then(function(r) { return r.json(); })
-                .then(function(od) {
-                  if (od && od.Poster && od.Poster !== 'N/A') {
-                    wrap.innerHTML = '<img class="media-thumb-img" src="' + od.Poster + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                  }
-                })
-                .catch(function() {});
+              wrap.title     = title;
+
+              wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
+
+              // TVmaze: free, no key, great show coverage
+              _tvmazePoster(title).then(function(posterUrl) {
+                if (posterUrl && wrap.parentNode) {
+                  wrap.innerHTML = '<img class="media-thumb-img" src="' + posterUrl + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                }
+              }).catch(function() {});
+
               seriesThumbsElFb.appendChild(wrap);
             });
           }
         }
+
+        /* ── Movies fallback — static config, mostly unreleased → emoji is correct ── */
         if (watchlistEl && CONFIG.big3.watchlist) {
           var fallbackMovies = CONFIG.big3.watchlist;
           watchlistEl.textContent = fallbackMovies.join(', ');
 
-          // Also populate movie thumbnails using OMDB posters
           var movieThumbsElFb = document.getElementById('big3-movie-thumbs');
           if (movieThumbsElFb) {
             movieThumbsElFb.innerHTML = '';
             fallbackMovies.forEach(function(title) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title = title;
-              var omdbUrl = 'https://www.omdbapi.com/?t=' + encodeURIComponent(title) + '&apikey=trilogy';
-              wrap.innerHTML = '<div class="media-thumb-emoji">\ud83c\udfac</div>'; // Set initial emoji
-              fetch(omdbUrl)
-                .then(function(r) { return r.json(); })
-                .then(function(od) {
-                  if (od && od.Poster && od.Poster !== 'N/A') {
-                    wrap.innerHTML = '<img class="media-thumb-img" src="' + od.Poster + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                  }
-                })
-                .catch(function() {});
+              wrap.title     = title;
+              // Upcoming/unreleased movies — no public image source available; emoji is intentional
+              wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
               movieThumbsElFb.appendChild(wrap);
             });
           }
