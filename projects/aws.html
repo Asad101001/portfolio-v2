@@ -54,7 +54,7 @@
                         <pre class="mermaid">
 graph TD
     Client((Public Internet 🌍)) -->|HTTP/HTTPS Request| IGW[Internet Gateway]
-    subrotate
+    subgraph AWS_Cloud
     IGW -->|VPC Route Table| VPC{AWS VPC ☁️}
     VPC -->|Port 80/443 Allow| SG[Security Group 🛡️]
     SG -->|Forwards| EC2[EC2 Instance - Ubuntu 🐧]

@@ -17,9 +17,9 @@ export const CONFIG = {
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: [
-      { title: 'Dune: Part Three', fallback: 'https://upload.wikimedia.org/wikipedia/en/8/8e/Dune_Part_Two_poster.jpg' },
-      { title: 'Spider-Man: Beyond the Spider-Verse', fallback: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Spider-Man-_Across_the_Spider-Verse_poster.jpeg' },
-      { title: 'The Odyssey', fallback: 'https://upload.wikimedia.org/wikipedia/en/b/b8/The_Odyssey_%-_TV_miniseries_cover.JPG' }
+      { title: 'Dune: Part Two', fallback: 'https://m.media-amazon.com/images/M/MV5BODdjMjM3NGQtZDA5OC00NGE4LWIyZDQtZjYwOGZlMTM5ZTQ1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg' },
+      { title: 'Spider-Man: Across the Spider-Verse', fallback: 'https://m.media-amazon.com/images/M/MV5BMzI0NmVkMjEtYmY4MS00ZDMxLTlkZmRE1MDhjYWQ1NDBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg' },
+      { title: 'The Odyssey', fallback: 'https://m.media-amazon.com/images/M/MV5BZWQyOWFhNGItZDk5Ni00Y2U3LWEzNDktNmJmODYxMDA3ZGQyXkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_FMjpg_UX1000_.jpg' }
     ]
   }
 };
@@ -1021,7 +1021,7 @@ function _starsHTML(starsStr) {
       CONFIG.big3.players[2]
     ].filter(Boolean);
 
-    playersEl.textContent = podiumOrder.map(function(p) { return p.name; }).join(', ');
+    playersEl.textContent = CONFIG.big3.players.map(function(p) { return p.name; }).join(', ');
 
     var headshotsEl = headshotsWrap || document.getElementById('player-headshots-wrap');
     if (headshotsEl) {
@@ -1152,6 +1152,9 @@ function _starsHTML(starsStr) {
         return r.json();
       })
       .then(function(data) {
+        if (!data || !data.shows || data.shows.length === 0) {
+          throw new Error('No series data from API');
+        }
 
         /* ── Series ── */
         if (seriesEl) {
@@ -1244,28 +1247,18 @@ function _starsHTML(starsStr) {
           var movieThumbsElFb = document.getElementById('big3-movie-thumbs');
           if (movieThumbsElFb) {
             movieThumbsElFb.innerHTML = '';
-            fallbackMovies.forEach(function(title) {
+            fallbackMovies.forEach(function(m) {
+              var mObj = typeof m === 'string' ? { title: m } : m;
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title     = title;
-              wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
+              wrap.title     = mObj.title;
 
-              // FIXED: Try iTunes for upcoming/announced movies
-              fetch(
-                'https://itunes.apple.com/search?term=' + encodeURIComponent(title) +
-                '&media=movie&limit=1&country=US'
-              )
-                .then(function(r) { return r.ok ? r.json() : null; })
-                .then(function(d) {
-                  if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-                    var posterUrl = d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-                    if (wrap.parentNode) {
-                      wrap.innerHTML = '<img class="media-thumb-img" src="' + posterUrl + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                    }
-                  }
-                })
-                .catch(function() {});
-
+              if (mObj.fallback) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + mObj.fallback + '" alt="' + mObj.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+              } else {
+                wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
+              }
+              
               movieThumbsElFb.appendChild(wrap);
             });
           }

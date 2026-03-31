@@ -1,6 +1,4 @@
 /* ── Twitter (X) Feed Implementation ─────────────────────────── */
-/* Refined X styling & direct X.com hyperlinking */
-
 import { CONFIG } from './widgets.js';
 
 (function () {
@@ -50,9 +48,7 @@ import { CONFIG } from './widgets.js';
                 // regex to replace domain with twitter.com
                 twitterLink = twitterLink.replace(/https?:\/\/[^\/]+\//, 'https://twitter.com/');
             }
-            // Ensure status links are correctly formatted
             if (!twitterLink.includes('/status/')) {
-                // If it's just a profile link, try to keep it profile link
                 twitterLink = `https://twitter.com/${USER}`;
             }
 
@@ -61,18 +57,23 @@ import { CONFIG } from './widgets.js';
             const desc = item.description || item.content || '';
             const videoMatch = desc.match(/<video[^>]*>[\s\S]*?<source[^>]+src="([^">]+)"/i) || desc.match(/<video[^>]+src="([^">]+)"/i);
             
+            const originBase = new URL(item.link).origin;
             if (videoMatch && videoMatch[1]) {
+                let vSrc = videoMatch[1];
+                if (vSrc.startsWith('/')) vSrc = originBase + vSrc;
                 mediaHtml = `
                     <div class="x-card-media" style="margin-top: 12px; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);">
-                        <video src="${videoMatch[1]}" autoplay loop muted playsinline style="max-width: 100%; max-height: 450px; object-fit: contain;"></video>
+                        <video src="${vSrc}" autoplay loop muted playsinline style="max-width: 100%; max-height: 450px; width: 100%; object-fit: contain; margin: 0 auto; display: block;"></video>
                     </div>
                 `;
             } else {
                 const imgMatch = desc.match(/<img[^>]*src="([^">]+)"/i);
                 if (imgMatch && imgMatch[1]) {
+                    let imgSrc = imgMatch[1];
+                    if (imgSrc.startsWith('/')) imgSrc = originBase + imgSrc;
                     mediaHtml = `
                         <div class="x-card-media" style="margin-top: 12px; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);">
-                            <img src="${imgMatch[1]}" alt="Post media" loading="lazy" style="max-width: 100%; max-height: 450px; object-fit: contain;">
+                            <img src="${imgSrc}" alt="Post media" loading="lazy" style="max-width: 100%; max-height: 450px; width: 100%; object-fit: contain; margin: 0 auto; display: block;">
                         </div>
                     `;
                 }
@@ -109,56 +110,34 @@ import { CONFIG } from './widgets.js';
     }
 
     function fetchTweets() {
-        // Try local API first (Personal API)
-        fetch('/api/twitter')
-            .then(r => {
-                if (!r.ok) throw new Error('No local API');
-                return r.json();
-            })
+        // Nitter RSS logic directly
+        const url = getProxyUrl(NITTER_INSTANCES[currentInstanceIdx]);
+        fetch(url)
+            .then(r => r.json())
             .then(data => {
-                // Adapt API v2 format to our renderer or handle separately
-                if (data && data.data) {
-                    const items = data.data.map(t => ({
-                        title: t.text,
-                        link: `https://twitter.com/${USER}/status/${t.id}`,
-                        pubDate: t.created_at,
-                        description: ''
-                    }));
-                    render(items);
+                if (data.status === 'ok') {
+                    localStorage.setItem('asad_twitter_cache_v2', JSON.stringify(data.items));
+                    render(data.items);
                 } else {
-                    throw new Error('Fallback to Nitter');
+                    throw new Error('RSS fail');
                 }
             })
             .catch(() => {
-                // FALLBACK: Nitter RSS
-                const url = getProxyUrl(NITTER_INSTANCES[currentInstanceIdx]);
-                fetch(url)
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.status === 'ok') {
-                            localStorage.setItem('asad_twitter_cache_v2', JSON.stringify(data.items));
-                            render(data.items);
-                        } else {
-                            throw new Error('RSS fail');
-                        }
-                    })
-                    .catch(() => {
-                        if (currentInstanceIdx < NITTER_INSTANCES.length - 1) {
-                            currentInstanceIdx++;
-                            fetchTweets();
-                        } else {
-                            const cached = localStorage.getItem('asad_twitter_cache_v2');
-                            if (cached) render(JSON.parse(cached));
-                            else {
-                                container.innerHTML = `
-                                    <div class="x-error-box" style="padding:20px;text-align:center;">
-                                        <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
-                                        <a href="https://twitter.com/${USER}" target="_blank" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
-                                    </div>
-                                `;
-                            }
-                        }
-                    });
+                if (currentInstanceIdx < NITTER_INSTANCES.length - 1) {
+                    currentInstanceIdx++;
+                    fetchTweets();
+                } else {
+                    const cached = localStorage.getItem('asad_twitter_cache_v2');
+                    if (cached) render(JSON.parse(cached));
+                    else {
+                        container.innerHTML = `
+                            <div class="x-error-box" style="padding:20px;text-align:center;">
+                                <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
+                                <a href="https://twitter.com/${USER}" target="_blank" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
+                            </div>
+                        `;
+                    }
+                }
             });
     }
 
