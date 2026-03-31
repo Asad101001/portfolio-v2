@@ -2242,23 +2242,11 @@ section::before {
 
 .footer-stack-icons i {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: drop-shadow(0 0 2px rgba(255,255,255,0.1));
-  animation: footer-float 4s ease-in-out infinite;
 }
-.footer-stack-icons i:nth-child(2) { animation-delay: 0.5s; }
-.footer-stack-icons i:nth-child(3) { animation-delay: 1s; }
-.footer-stack-icons i:nth-child(4) { animation-delay: 1.5s; }
-.footer-stack-icons i:nth-child(5) { animation-delay: 2s; }
 
 .footer-stack-icons i:hover {
   color: var(--cyan);
-  filter: drop-shadow(0 0 8px var(--cyan));
-  transform: translateY(-5px) scale(1.2);
-}
-
-@keyframes footer-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  transform: translateY(-2px);
 }
 
 /* ── Footballer Podium ── */

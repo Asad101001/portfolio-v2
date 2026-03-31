@@ -63,15 +63,22 @@ function _tvmazePoster(title) {
  * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
  */
 function _artistImage(name) {
-  // Use unavatar with spotify provider for actual artist portraits
-  var unavatarUrl = 'https://unavatar.io/spotify/' + encodeURIComponent(name);
-  
-  return fetch(unavatarUrl)
-    .then(function(r) { return r.ok ? unavatarUrl : null; })
-    .then(function(url) {
-      if (url) return url;
-      // Fallback to Last.fm artist image via unavatar
-      return 'https://unavatar.io/lastfm/' + encodeURIComponent(name);
+  // Try iTunes musicArtist first (most reliable for portraits)
+  return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
+        return d.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
+      }
+      // If no artist-specific image, try the song search as fallback (often has same art)
+      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=song&limit=1')
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(d2) {
+          if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {
+            return d2.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
+          }
+          return 'https://unavatar.io/lastfm/' + encodeURIComponent(name);
+        });
     })
     .catch(function() { 
       return 'https://unavatar.io/lastfm/' + encodeURIComponent(name); 
@@ -83,26 +90,20 @@ function _artistImage(name) {
  * TheSportsDB free tier + Wikipedia summary thumbnail.
  */
 function _sportsdbPlayer(name) {
-  return fetch(
-    'https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(name)
-  )
+  // Try TheSportsDB first
+  return fetch('https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
       var p = d && d.player && d.player[0];
-      return p ? (p.strThumb || p.strCutout || p.strRender || p.strFanart1 || null) : null;
-    })
-    .then(function(url) {
-      if (url) return url;
-      // Wikipedia API fallback — using Page Images prop for better 404/resolution handling
-      return fetch(
-        'https://en.wikipedia.org/api/rest_v1/page/summary/' +
-        encodeURIComponent(name.trim().replace(/ /g, '_'))
-      )
+      if (p && (p.strCutout || p.strThumb || p.strRender)) {
+        return p.strCutout || p.strThumb || p.strRender;
+      }
+      // Wikipedia Rest Summary fallback
+      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name.replace(/ /g, '_')))
         .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(d) {
-          return (d && d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null;
-        })
-        .catch(function() { return null; });
+        .then(function(d2) {
+          return (d2 && d2.thumbnail && d2.thumbnail.source) ? d2.thumbnail.source : null;
+        });
     })
     .catch(function() { return null; });
 }
@@ -1176,42 +1177,24 @@ function _starsHTML(starsStr) {
           }
         }
 
-        /* ── Movies ── */
-        if (watchlistEl) {
-          var mnames = data.movies && data.movies.length
-            ? data.movies.map(function(m) { return m.title || m; }).join(', ')
-            : '';
-          watchlistEl.textContent = mnames;
+        /* ── Movies (HARDCODED as requested) ── */
+        if (watchlistEl && CONFIG.big3.watchlist) {
+          var hardcodedMovies = CONFIG.big3.watchlist;
+          watchlistEl.textContent = hardcodedMovies.map(function(m) { return m.title; }).join(', ');
 
           var movieThumbsEl = document.getElementById('big3-movie-thumbs');
-          if (movieThumbsEl && data.movies) {
+          if (movieThumbsEl) {
             movieThumbsEl.innerHTML = '';
-            data.movies.forEach(function(m) {
+            hardcodedMovies.forEach(function(m) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
               wrap.title     = m.title;
-
-              if (m.poster) {
-                wrap.innerHTML = '<img class="media-thumb-img" src="' + m.poster + '" alt="' + m.title + '" loading="lazy" />';
+              
+              if (m.fallback) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + m.fallback + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
               } else {
-                // FIXED: iTunes movie search as fallback for upcoming movies
                 wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
-                fetch(
-                  'https://itunes.apple.com/search?term=' + encodeURIComponent(m.title) +
-                  '&media=movie&limit=1&country=US'
-                )
-                  .then(function(r) { return r.ok ? r.json() : null; })
-                  .then(function(d) {
-                    if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-                      var posterUrl = d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-                      if (wrap.parentNode) {
-                        wrap.innerHTML = '<img class="media-thumb-img" src="' + posterUrl + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                      }
-                    }
-                  })
-                  .catch(function() {});
               }
-
               movieThumbsEl.appendChild(wrap);
             });
           }
