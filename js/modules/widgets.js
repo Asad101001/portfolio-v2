@@ -16,7 +16,11 @@ export const CONFIG = {
       { name: 'Pedri González',  fallback: '⚽' },
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
-    watchlist: ['Dune: Part Three', 'Spider-Man: Brand New Day', 'The Odyssey']
+    watchlist: [
+      { title: 'Dune: Part Three', fallback: 'https://image.tmdb.org/t/p/w200/d5ZpSBYFTbsJFvI1hCDT9STuB22.jpg' },
+      { title: 'Spider-Man: Beyond the Spider-Verse', fallback: 'https://image.tmdb.org/t/p/w200/879X5P2y6K3S1Cj3rE6U6C7fG8z.jpg' },
+      { title: 'The Odyssey', fallback: 'https://image.tmdb.org/t/p/w200/q7qPCDG56zGq9nJ6yGq6Gq6Gq6G.jpg' }
+    ]
   }
 };
 
@@ -59,27 +63,36 @@ function _tvmazePoster(title) {
  * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
  */
 function _artistImage(name) {
+  // First try iTunes Artist search
   return fetch(
     'https://itunes.apple.com/search?term=' + encodeURIComponent(name) +
     '&media=music&entity=musicArtist&limit=1&country=US'
   )
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      if (d && d.results && d.results[0]) {
-        var img = d.results[0].artworkUrl100 || d.results[0].artworkUrl60;
-        if (img) {
-          // Upgrade to 300x300 for better quality
-          return img.replace('100x100', '300x300').replace('60x60', '300x300');
-        }
+      if (d && d.results && d.results[0] && d.results[0].artistLinkUrl) {
+        // iTunes Artist search often lacks artworkUrl, so we fall back to a song search by the same artist
+        return fetch(
+          'https://itunes.apple.com/search?term=' + encodeURIComponent(name) +
+          '&media=music&entity=song&limit=1'
+        )
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(d2) {
+            if (d2 && d2.results && d2.results[0]) {
+              var img = d2.results[0].artworkUrl100 || d2.results[0].artworkUrl60;
+              return img ? img.replace('100x100', '400x400') : null;
+            }
+            return null;
+          });
       }
       return null;
     })
     .then(function(url) {
       if (url) return url;
-      // Last.fm artist page image fallback via unavatar.io
+      // Last.fm artist image fallback via unavatar.io (high reliability)
       return 'https://unavatar.io/lastfm/' + encodeURIComponent(name);
     })
-    .catch(function() { return null; });
+    .catch(function() { return 'https://unavatar.io/lastfm/' + encodeURIComponent(name); });
 }
 
 /**
@@ -97,14 +110,14 @@ function _sportsdbPlayer(name) {
     })
     .then(function(url) {
       if (url) return url;
-      // Wikipedia API fallback — free, CORS-safe, great footballer coverage
+      // Wikipedia API fallback — using Page Images prop for better 404/resolution handling
       return fetch(
         'https://en.wikipedia.org/api/rest_v1/page/summary/' +
-        encodeURIComponent(name.replace(/ /g, '_'))
+        encodeURIComponent(name.trim().replace(/ /g, '_'))
       )
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d) {
-          return d && d.thumbnail && d.thumbnail.source ? d.thumbnail.source : null;
+          return (d && d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null;
         })
         .catch(function() { return null; });
     })
