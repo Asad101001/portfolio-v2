@@ -13,13 +13,13 @@ export const CONFIG = {
   big3: {
     players: [
       { name: 'Lamine Yamal',    fallback: '⚽' },
-      { name: 'Pedri González',  fallback: '⚽' },
+      { name: 'Pedri González',  fallback: '⚽', wikiQuery: 'Pedri' },
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: [
-      { title: 'Dune: Part Three', fallback: 'https://image.tmdb.org/t/p/w200/d5ZpSBYFTbsJFvI1hCDT9STuB22.jpg' },
-      { title: 'Spider-Man: Beyond the Spider-Verse', fallback: 'https://image.tmdb.org/t/p/w200/879X5P2y6K3S1Cj3rE6U6C7fG8z.jpg' },
-      { title: 'The Odyssey', fallback: 'https://image.tmdb.org/t/p/w200/q7qPCDG56zGq9nJ6yGq6Gq6Gq6G.jpg' }
+      { title: 'Dune: Part Three', fallback: 'https://upload.wikimedia.org/wikipedia/en/8/8e/Dune_Part_Two_poster.jpg' },
+      { title: 'Spider-Man: Beyond the Spider-Verse', fallback: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Spider-Man-_Across_the_Spider-Verse_poster.jpeg' },
+      { title: 'The Odyssey', fallback: 'https://upload.wikimedia.org/wikipedia/en/b/b8/The_Odyssey_%-_TV_miniseries_cover.JPG' }
     ]
   }
 };
@@ -63,25 +63,33 @@ function _tvmazePoster(title) {
  * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
  */
 function _artistImage(name) {
-  // Try iTunes musicArtist first (most reliable for portraits)
-  return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
+  // Try Wikipedia Rest Summary First (Often has better portrait shots for modern artists like Playboi Carti)
+  return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-        return d.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
-      }
-      // If no artist-specific image, try the song search as fallback (often has same art)
-      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=song&limit=1')
+      if (d && d.thumbnail && d.thumbnail.source) return d.thumbnail.source;
+      
+      // Fallback: iTunes musicArtist Entity
+      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
           if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {
             return d2.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
           }
-          return 'https://unavatar.io/lastfm/' + encodeURIComponent(name);
+          // Generic audioDB/iTunes song fallback if portrait still misses
+          return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=song&limit=1')
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(d3) {
+              if (d3 && d3.results && d3.results[0] && d3.results[0].artworkUrl100) {
+                return d3.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
+              }
+              // Absolute final fallback so it doesn't break UI layout (placeholder grey image)
+              return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
+            });
         });
     })
     .catch(function() { 
-      return 'https://unavatar.io/lastfm/' + encodeURIComponent(name); 
+      return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
     });
 }
 
@@ -89,7 +97,10 @@ function _artistImage(name) {
  * FIXED: Footballer headshot via TheSportsDB + Wikipedia API fallback.
  * TheSportsDB free tier + Wikipedia summary thumbnail.
  */
-function _sportsdbPlayer(name) {
+function _sportsdbPlayer(pObj) {
+  var name = typeof pObj === 'string' ? pObj : pObj.name;
+  var wikiQ = (typeof pObj === 'object' && pObj.wikiQuery) ? pObj.wikiQuery : name.replace(/ /g, '_');
+
   // Try TheSportsDB first
   return fetch('https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
@@ -99,7 +110,7 @@ function _sportsdbPlayer(name) {
         return p.strCutout || p.strThumb || p.strRender;
       }
       // Wikipedia Rest Summary fallback
-      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name.replace(/ /g, '_')))
+      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiQ))
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
           return (d2 && d2.thumbnail && d2.thumbnail.source) ? d2.thumbnail.source : null;
@@ -1035,8 +1046,8 @@ function _starsHTML(starsStr) {
         avatarEl.textContent = p.fallback || '⚽';
         podiumWrap.appendChild(avatarEl);
 
-        // FIXED: TheSportsDB + Wikipedia fallback
-        _sportsdbPlayer(p.name).then(function(imgUrl) {
+        // FIXED: TheSportsDB + Wikipedia fallback with direct object pass
+        _sportsdbPlayer(p).then(function(imgUrl) {
           if (imgUrl && avatarEl.parentNode) {
             var img = document.createElement('img');
             img.className = 'footballer-headshot-img';
@@ -1048,10 +1059,7 @@ function _starsHTML(starsStr) {
           }
         }).catch(function() {});
 
-        var medalBadge = document.createElement('div');
-        medalBadge.className   = 'podium-medal';
-        medalBadge.textContent = medalEmoji;
-        podiumWrap.appendChild(medalBadge);
+
 
         var nameLabel = document.createElement('span');
         nameLabel.className   = 'footballer-name-label';
