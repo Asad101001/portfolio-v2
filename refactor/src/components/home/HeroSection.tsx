@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail, CheckCircle2, Terminal as TerminalIcon, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTypewriter } from '../../hooks/useTypewriter';

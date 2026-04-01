@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import type { MouseEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Palette, Sun, Zap, Leaf } from 'lucide-react'
 import type { Theme } from '../../hooks/useTheme'
@@ -56,7 +57,7 @@ export default function Navbar({ activeTheme, setActiveTheme, rotateTheme }: Nav
           <div style={{ position: 'relative' }}>
             <button 
               onClick={rotateTheme}
-              onContextMenu={(e) => { e.preventDefault(); setIsThemeOpen(!isThemeOpen); }}
+              onContextMenu={(e: MouseEvent<HTMLButtonElement>) => { e.preventDefault(); setIsThemeOpen(!isThemeOpen); }}
               className="magnetic"
               style={{
                 background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',

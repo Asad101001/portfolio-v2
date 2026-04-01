@@ -53,7 +53,7 @@ export default function EducationSection() {
                       src={edu.logo} 
                       alt={edu.inst} 
                       className="w-full h-full object-cover filter grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" 
-                      onError={(e) => e.currentTarget.style.display = 'none'}
+                      onError={(e: any) => e.currentTarget.style.display = 'none'}
                     />
                  </div>
                  <p className="tl-inst">{edu.inst}</p>
