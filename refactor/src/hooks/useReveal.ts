@@ -10,6 +10,7 @@ export function useReveal() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          entry.target.classList.add('is-drawing');
           // Optionally unobserve after revealing
           // observer.unobserve(entry.target);
         }

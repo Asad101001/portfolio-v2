@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useTheme } from './hooks/useTheme';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import Background from './components/layout/Background';
 import Overlays from './components/layout/Overlays';
@@ -48,6 +49,7 @@ function AnimatedRoutes() {
 
 function App() {
   const { theme, setTheme, rotateTheme } = useTheme();
+  useSmoothScroll();
 
   useEffect(() => {
     document.body.classList.add('is-ready');

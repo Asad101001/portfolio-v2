@@ -9,6 +9,7 @@
 @import './styles/mobile.css';
 @import './styles/desktop.css';
 @import './styles/perf.css';
+@import "tailwindcss";
 
 @tailwind base;
 @tailwind components;

@@ -1,204 +1,139 @@
 import { motion } from 'framer-motion';
-import { 
-  ExternalLink, 
-  Github, 
-  Code2, 
-  BarChart3, 
-  Activity, 
-  Eye, 
-  Server
-} from 'lucide-react';
+import { Github, ExternalLink, Gavel, BarChart3, Activity, Eye, Cloud } from 'lucide-react';
+import { useReveal } from '../../hooks/useReveal';
+import ScrambleHeader from './ScrambleHeader';
 
 const projects = [
   {
-    id: 'legaleaseai',
-    title: 'LegalEaseAI',
-    desc: 'Upload contracts for rapid AI risk-rating. Provides plain Urdu explanations, a RAG-powered document chatbot, and downloadable PDF reports.',
-    link: 'https://legal-ease-ai-iota.vercel.app/',
-    repo: 'https://github.com/Asad101001/LegalEaseAI',
-    image: './images/projects/legalease.png',
-    icon: Code2,
-    color: 'hsl(161, 84%, 39%)',
-    tags: ['FastAPI', 'LangChain', 'FAISS', 'RAG']
+    title: "LegalEaseAI",
+    desc: "Upload contracts for rapid AI risk-rating. Provides plain Urdu explanations and a RAG-powered document chatbot.",
+    tech: ["Python", "LangChain", "FAISS", "FastAPI", "React"],
+    github: "https://github.com/Asad101001/LegalEaseAI",
+    demo: "https://legal-ease-ai-iota.vercel.app/",
+    icon: <Gavel size={20} />,
+    color: "#00ff41"
   },
   {
-    id: 'pollpulse',
-    title: 'PollPulse',
-    desc: 'Real-time polling platform built on AWS. Features a custom VPC with EC2 and RDS MySQL isolation. Delivers live data visualization via Chart.js.',
-    repo: 'https://github.com/Asad101001/pollpulse',
-    image: './images/projects/pollpulse.png',
-    icon: BarChart3,
-    color: 'hsl(271, 91%, 65%)',
-    tags: ['Node.js', 'AWS', 'MySQL', 'Chart.js']
+    title: "PollPulse",
+    desc: "Real-time polling platform built on AWS. Features a custom VPC with EC2 and RDS MySQL isolation.",
+    tech: ["Node.js", "Express", "AWS", "MySQL", "Chart.js"],
+    github: "https://github.com/Asad101001/pollpulse",
+    icon: <BarChart3 size={20} />,
+    color: "#a855f7"
   },
   {
-    id: 'devpulse',
-    title: 'DevPulse',
-    desc: 'A developer telemetry dashboard. Analyzes commit narratives to calculate cognitive load using Llama 3.3. Built with an industrial aesthetic.',
-    link: 'https://devpulse-app.onrender.com',
-    repo: 'https://github.com/Asad101001/devpulse',
-    image: './images/projects/devpulse.png',
-    icon: Activity,
-    color: 'hsl(54, 100%, 50%)',
-    tags: ['React', 'Express', 'Llama 3.3', 'MongoDB']
+    title: "DevPulse",
+    desc: "Developer telemetry dashboard analyzing commit narratives with Llama 3.3 to calculate cognitive load.",
+    tech: ["React", "Express", "MongoDB", "Groq AI", "Framer"],
+    github: "https://github.com/Asad101001/devpulse",
+    demo: "https://devpulse-app.onrender.com",
+    icon: <Activity size={20} />,
+    color: "#FFD600"
   },
   {
-    id: 'mogscope',
-    title: 'Mogscope',
-    desc: 'Facial analytics platform using face-api.js for landmarks. Combines ML insights with LLM-generated satirical analysis.',
-    link: 'https://mogscope.vercel.app/',
-    repo: 'https://github.com/Asad101001/mogscope',
-    image: './images/projects/mogscope.png',
-    icon: Eye,
-    color: 'hsl(231, 89%, 71%)',
-    tags: ['React', 'Three.js', 'TensorFlow', 'Groq']
+    title: "Mogscope",
+    desc: "Facial analytics platform using face-api.js for 68-point landmark detection and AI-satirical analysis.",
+    tech: ["React", "Threejs", "Tailwind", "TensorFlow", "Groq"],
+    github: "https://github.com/Asad101001/mogscope",
+    demo: "https://mogscope.vercel.app/",
+    icon: <Eye size={20} />,
+    color: "#6366f1"
   },
   {
-    id: 'aws-hosting',
-    title: 'AWS Static Website',
-    desc: 'Cloud hosting infrastructure project. Manual provisioning of Ubuntu EC2 instances with Nginx configuration and SSH hardening.',
-    repo: 'https://github.com/Asad101001/aws-static-website',
-    image: './images/projects/aws.png',
-    icon: Server,
-    color: 'hsl(35, 100%, 50%)',
-    tags: ['AWS', 'Nginx', 'Ubuntu', 'SSH']
+    title: "AWS Infrastructure",
+    desc: "Manual provisioning of Ubuntu EC2 instances with Nginx configuration and SSH hardening.",
+    tech: ["AWS", "Ubuntu", "Nginx", "Vanilla JS"],
+    github: "https://github.com/Asad101001/aws-static-website",
+    icon: <Cloud size={20} />,
+    color: "#FF9900"
   }
 ];
 
 export default function ProjectsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] as any
-      }
-    }
-  };
+  useReveal();
 
   return (
-    <section id="projects" className="py-24">
-      <div className="section-inner max-w-7xl mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="section-header flex justify-between items-end mb-12"
-        >
-          <div>
-            <p className="text-customCyan font-mono text-xs uppercase tracking-widest mb-2">Selected Work</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Projects</h2>
+    <section id="projects" className="py-24 px-6 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-end justify-between mb-12">
+          <div className="flex flex-col">
+            <p className="font-mono text-xs text-customCyan uppercase tracking-[0.3em] font-bold mb-2">Work</p>
+            <ScrambleHeader text="Projects" className="text-4xl md:text-5xl font-black tracking-tighter text-white" />
           </div>
-          <motion.a 
-            whileHover={{ x: 5 }}
-            href="https://github.com/Asad101001" 
+          <a 
+            href="https://github.com/Asad101001?tab=repositories" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-customTextMuted hover:text-white transition-colors font-mono text-xs mb-2"
+            className="hidden md:flex items-center gap-2 text-xs font-mono text-customCyan hover:text-white transition-colors uppercase tracking-widest font-bold pb-2"
           >
-            All Repositories ↗
-          </motion.a>
-        </motion.div>
+            All Repositories <Github size={14} />
+          </a>
+        </div>
 
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
-        >
-          {projects.map((project) => (
-            <motion.div 
-              key={project.id} 
-              variants={cardVariants}
-              whileHover={{ y: -10 }}
-              className={`project-card glass-card relative overflow-hidden group border border-white/5 bg-zinc-900/50 backdrop-blur-xl rounded-2xl transition-all duration-500`}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className={`glass-card group reveal overflow-hidden flex flex-col ${i === 4 ? 'lg:col-span-2 lg:mx-auto lg:max-w-2xl w-full' : ''}`}
             >
-              <div className="proj-img-wrap relative h-56 overflow-hidden border-b border-white/5">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="proj-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-0"
-                  onLoad={(e: any) => e.currentTarget.classList.remove('opacity-0')}
-                  onError={(e: any) => { e.currentTarget.classList.add('hidden'); e.currentTarget.nextElementSibling?.classList.remove('hidden'); }}
-                />
-                <div className="proj-img-placeholder hidden h-full w-full bg-zinc-900/50 flex items-center justify-center">
-                   <span className="text-[10px] font-mono font-bold text-white/10 uppercase tracking-widest">Image Data Offline</span>
+              {/* Project Image Placeholder */}
+              <div className="relative h-48 bg-white/5 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700">
+                  <div style={{ color: project.color }}>
+                    {project.icon}
+                  </div>
                 </div>
-                <div className="proj-img-overlay absolute inset-0 bg-gradient-to-t from-zinc-950/80 to-transparent"></div>
-                <div className="proj-badge absolute top-4 right-4 bg-customCyan/10 border border-customCyan/20 text-customCyan text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">
-                  Live Active
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
+                
+                <div className="absolute top-4 left-4 p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/10" style={{ color: project.color }}>
+                  {project.icon}
                 </div>
               </div>
 
-              <div className="proj-body p-8">
-                <div className="proj-head flex items-center gap-4 mb-6">
-                   <div 
-                     className="proj-icon p-3 rounded-xl" 
-                     style={{ background: `${project.color}20`, color: project.color }}
-                   >
-                     <project.icon size={24} />
-                   </div>
-                   <div className="flex flex-col">
-                     <h3 className="text-xl font-bold text-white group-hover:text-customCyan transition-colors">{project.title}</h3>
-                     <span className="text-[10px] font-mono text-customCyan/40 uppercase tracking-widest">System Integrated</span>
-                   </div>
-                </div>
+              <div className="p-6 flex flex-grow flex-col">
+                <h3 className="text-xl font-bold mb-2 group-hover:text-customCyan transition-colors">{project.title}</h3>
+                <p className="text-customTextMuted text-sm leading-relaxed mb-6 flex-grow">{project.desc}</p>
                 
-                <p className="text-sm text-customTextMuted leading-relaxed mb-8 h-12 line-clamp-2">
-                  {project.desc}
-                </p>
-                
-                <div className="proj-tags flex flex-wrap gap-2 mb-8">
-                  {project.tags.map(tag => (
-                     <span key={tag} className="px-3 py-1 rounded-md bg-white/5 border border-white/5 text-[10px] font-mono text-white/50 uppercase">
-                       {tag}
-                     </span>
+                {/* Tech Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tech.map(t => (
+                    <span 
+                      key={t}
+                      className="tag px-3 py-1 bg-white/5 border border-white/10 rounded font-mono text-[10px] text-white/40 group-hover:border-customCyan/30 group-hover:text-customCyan/80 transition-all cursor-default"
+                    >
+                      {t}
+                    </span>
                   ))}
                 </div>
 
-                <div className="proj-links flex gap-4 pt-6 border-t border-white/5 mt-auto">
-                  <motion.a 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.repo} 
+                <div className="flex items-center gap-4 mt-auto">
+                  <a 
+                    href={project.github} 
                     target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center gap-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
                   >
-                    <Github size={14} />
-                    Source
-                  </motion.a>
-                  {project.link && (
-                    <motion.a 
-                      whileHover={{ scale: 1.05, x: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      href={project.link} 
+                    <Github size={14} /> Code
+                  </a>
+                  {project.demo && (
+                    <a 
+                      href={project.demo} 
                       target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="flex items-center gap-2 text-xs font-bold text-customCyan"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-customCyan hover:text-white transition-colors"
                     >
-                      <ExternalLink size={14} />
-                      Launch Demo
-                    </motion.a>
+                      <ExternalLink size={14} /> Live Demo
+                    </a>
                   )}
                 </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
