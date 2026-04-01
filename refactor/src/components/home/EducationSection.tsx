@@ -5,21 +5,21 @@ const education = [
     year: '2025 – Present',
     degree: 'B.S Computer Science',
     inst: 'Department of Computer Science UBIT, University of Karachi',
-    logo: './images/institutions/ubit.jpg',
+    logo: '/images/institutions/ubit.jpg',
     color: 'var(--cyan)'
   },
   {
     year: '2023 – 2024',
     degree: 'Intermediate (Pre-Engineering)',
     inst: 'Govt. Degree Science/Commerce College, Gulshan Block 7',
-    logo: './images/institutions/college.jpg',
+    logo: '/images/institutions/college.jpg',
     color: '#a855f7'
   },
   {
     year: '2009 – 2022',
     degree: 'Matric (SSC)',
     inst: 'Karachi Public School',
-    logo: './images/institutions/kps.jpg',
+    logo: '/images/institutions/kps.jpg',
     color: '#f97316'
   }
 ];

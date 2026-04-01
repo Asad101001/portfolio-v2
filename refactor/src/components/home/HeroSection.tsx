@@ -234,10 +234,10 @@ export default function HeroSection() {
           <div className="rotating-widget py-4">
             <AnimatePresence mode="wait">
               {[
-                { label: 'Deep Work Mode', value: 'Enabled (Focus 100%)' },
-                { label: 'Current Favorite', value: 'Daughter of the Empire' },
-                { label: 'Watching Series', value: 'Severance' },
-                { label: 'Favorite Club', value: 'FC Barcelona' }
+                { label: 'Current Book', value: 'Checking Library...' },
+                { label: 'Last Watched', value: 'Checking Letterboxd...' },
+                { label: 'Watching Series', value: 'Checking Trakt...' },
+                { label: 'Watching Football', value: 'Final: BAR 0-2 MAL' }
               ].map((item, i) => i === activeSlot && (
                 <motion.div 
                   key={i} 

@@ -43,22 +43,22 @@ function Counter({ target, duration = 1400 }: { target: number; duration?: numbe
 const wipActivities = [
   { 
     title: 'LLM Pipeline v2', 
-    desc: 'Hybrid retrieval & RAG optimization', 
-    pct: '45%', 
+    desc: 'Improving RAG chunking strategy with hybrid retrieval', 
+    pct: '30%', 
     icon: '🧠', 
     clr: 'var(--cyan)'
   },
   { 
-    title: 'Cloud Specialization', 
-    desc: 'Deep diving into AWS serverless architecture', 
-    pct: '90%', 
+    title: 'Cloud Computing', 
+    desc: 'NED University - EC2, S3, VPC, RDS & cloud architecture deep dives', 
+    pct: '95%', 
     icon: '☁️', 
     clr: '#FF9900'
   },
   { 
-    title: 'GenAI Certifications', 
-    desc: 'Completing deeplearning.ai RAG modules', 
-    pct: '75%', 
+    title: 'HEC GenAI Cohort 2', 
+    desc: 'Working through RAG systems and AI ethics modules', 
+    pct: '85%', 
     icon: '🤖', 
     clr: '#a855f7'
   }
@@ -81,12 +81,13 @@ export default function AboutSection() {
           <div className="about-text glass-card reveal">
             <p>
               I'm a Computer Science student at UBIT, University of Karachi '28, driven to explore
-              every corner of CS before settling on a specialty. My journey has spanned Cloud Computing,
-              Networking, Web Dev, and most recently, the vast landscape of GenAI.
+              every corner of CS before settling on a specialty. So far I've covered Cloud Computing,
+              Networking, Web Dev, Data Science, Version Control, Project Management, Prompt Engineering,
+              and AI — with lots more ahead.
             </p>
             <p className="mt-4">
               I learn by building. Every project is a live experiment — from AWS VPC architecture to
-              RAG-powered LLM pipelines. My philosophy is simple: build broken things, understand why they broke,
+              RAG-powered LLM pipelines. My philosophy: build broken things, understand why they broke,
               then spend ages unbreaking them.
             </p>
             <div className="mt-8 flex gap-4">
@@ -96,9 +97,9 @@ export default function AboutSection() {
 
           <div className="about-stats-col">
             {[
-              { id: 'cnt-projects', target: 5, label: 'Projects', icon: <LineChart size={18} /> },
-              { id: 'cnt-certs', target: 8, label: 'Certifications', icon: <Award size={18} /> },
-              { id: 'cnt-tech', target: 25, label: 'Technologies', icon: <Cpu size={18} /> }
+              { id: 'cnt-projects', target: 4, label: 'Projects', icon: <LineChart size={18} /> },
+              { id: 'cnt-certs', target: 6, label: 'Certifications', icon: <Award size={18} /> },
+              { id: 'cnt-tech', target: 20, label: 'Technologies', icon: <Cpu size={18} /> }
             ].map((stat, i) => (
               <div 
                 key={stat.id} 
