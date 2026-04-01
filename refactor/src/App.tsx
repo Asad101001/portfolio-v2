@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useTheme } from './hooks/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -44,8 +45,14 @@ function AnimatedRoutes() {
   );
 }
 
+
 function App() {
   const { theme, setTheme, rotateTheme } = useTheme();
+
+  useEffect(() => {
+    document.body.classList.add('is-ready');
+    return () => document.body.classList.remove('is-ready');
+  }, []);
 
   return (
     <Router>

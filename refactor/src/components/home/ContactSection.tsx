@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useReveal } from '../../hooks/useReveal';
 import { 
   Github, 
