@@ -6,6 +6,8 @@ interface ActivityItem {
   img?: string;
   progress?: number;
   status?: string;
+  stars?: string;
+  sha?: string;
 }
 
 const CONFIG = {
@@ -14,57 +16,71 @@ const CONFIG = {
     lastfm: 'Asad991',
     github: 'Asad101001',
   },
+  repo: 'Asad101001/portfolio-v2',
   currently: {
     reading: '1984 George Orwell',
-    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking']
+    series: ['Severance', 'Succession', 'Better Call Saul', 'The Boys', 'Invincible', 'Shrinking']
   }
 };
 
 export function useActivityHub() {
   const [activities, setActivities] = useState<ActivityItem[]>([
-    { label: 'Current Book', value: 'Loading...' },
-    { label: 'Last Watched', value: 'Loading...' },
-    { label: 'Watching Series', value: 'Loading...' },
-    { label: 'Watching Football', value: 'Loading...' }
+    { label: 'Now Playing', value: 'Loading Last.fm...' },
+    { label: 'Latest Commit', value: 'Fetching GitHub...' },
+    { label: 'Watching', value: 'Syncing TVmaze...' },
+    { label: 'Coding Clock', value: 'Checking PKT...' }
   ]);
 
+  const updateActivity = (index: number, patch: Partial<ActivityItem>) => {
+    setActivities(prev => {
+      const next = [...prev];
+      next[index] = { ...next[index], ...patch };
+      return next;
+    });
+  };
+
   useEffect(() => {
-    // 1. Fetch Book (Open Library)
-    const fetchBook = async () => {
+    // 1. Fetch Music (Last.fm)
+    const fetchMusic = async () => {
       try {
-        const query = CONFIG.currently.reading;
-        const resp = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=1`);
+        const apiKey = 'eccfb681fcf620a63fcb300d526544ba';
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${CONFIG.usernames.lastfm}&api_key=${apiKey}&format=json&limit=1`;
+        const resp = await fetch(url);
         const data = await resp.json();
-        if (data.docs && data.docs.length) {
-          const doc = data.docs[0];
-          const title = doc.title + (doc.author_name ? ` — ${doc.author_name[0]}` : '');
-          const img = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg` : undefined;
-          updateActivity(0, { value: title, img });
+        if (data.recenttracks?.track?.[0]) {
+          const track = data.recenttracks.track[0];
+          const isNowPlaying = track['@attr']?.nowplaying === 'true';
+          updateActivity(0, { 
+            value: `${track.name} — ${track.artist['#text']}`,
+            status: isNowPlaying ? 'Now Playing 🎧' : 'Last Played',
+            img: track.image?.[2]?.['#text']
+          });
         }
       } catch (e) {
-        updateActivity(0, { value: CONFIG.currently.reading });
+        updateActivity(0, { value: 'Music offline' });
       }
     };
 
-    // 2. Fetch Movie (Letterboxd RSS via rss2json)
-    const fetchMovie = async () => {
+    // 2. Fetch GitHub (Latest Commit)
+    const fetchGitHub = async () => {
       try {
-        const LB_USER = CONFIG.usernames.letterboxd;
-        const RSS_URL = `https://api.rss2json.com/v1/api.json?rss_url=https://letterboxd.com/${LB_USER}/rss/`;
-        const resp = await fetch(RSS_URL);
+        const resp = await fetch(`https://api.github.com/repos/${CONFIG.repo}/commits/main`, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
         const data = await resp.json();
-        if (data.items && data.items.length) {
-          const latest = data.items[0];
-          const title = latest.title.replace(/\s*[-–]\s*★.*$/, '').split('...')[0].trim();
-          const img = latest.thumbnail || undefined;
-          updateActivity(1, { value: title, img });
+        if (data.sha) {
+          updateActivity(1, { 
+            value: data.commit.message.split('\n')[0],
+            sha: data.sha.slice(0, 7),
+            status: 'Verified Deployment'
+          });
         }
       } catch (e) {
-        updateActivity(1, { value: 'Inception' });
+        updateActivity(1, { value: 'Protocol offline' });
       }
     };
 
-    // 3. Fetch TV (Trakt / TVmaze Fallback)
+    // 3. Fetch TV (TVmaze)
     const fetchTV = async () => {
       const pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
       try {
@@ -73,8 +89,8 @@ export function useActivityHub() {
         if (data) {
           updateActivity(2, { 
             value: data.name, 
-            img: data.image?.medium,
-            status: 'Currently Watching' 
+            status: 'Currently Consuming',
+            img: data.image?.medium
           });
         }
       } catch (e) {
@@ -82,26 +98,28 @@ export function useActivityHub() {
       }
     };
 
-    // 4. Fetch Football (ESPN - simplified for now matching original's intent)
-    const fetchFootball = async () => {
-      updateActivity(3, { 
-        value: 'Final: BAR 0-2 MAL', 
-        status: 'Watching Football' 
-      });
+    // 4. Clock
+    const updateClock = () => {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const pkt = new Date(utc + 5 * 3600000);
+      const h = pkt.getHours();
+      const timeStr = pkt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      
+      const status = (h >= 2 && h < 10) ? 'Likely Dormant 🌙' : 'Fully Operational ⚡';
+      updateActivity(3, { value: `${timeStr} PKT`, status });
     };
 
-    const updateActivity = (index: number, patch: Partial<ActivityItem>) => {
-      setActivities(prev => {
-        const next = [...prev];
-        next[index] = { ...next[index], ...patch };
-        return next;
-      });
-    };
-
-    fetchBook();
-    fetchMovie();
+    fetchMusic();
+    fetchGitHub();
     fetchTV();
-    fetchFootball();
+    updateClock();
+    const interval = setInterval(() => {
+        fetchMusic();
+        updateClock();
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return activities;

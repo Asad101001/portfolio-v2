@@ -9,8 +9,7 @@ import CertsDrawer from './components/layout/CertsDrawer';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
-import ProjectAwsPage from './pages/ProjectAwsPage';
-import ProjectPrsPage from './pages/ProjectPrsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -19,8 +18,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/projects/aws" element={<ProjectAwsPage />} />
-        <Route path="/projects/prs" element={<ProjectPrsPage />} />
+        <Route path="/projects/:slug" element={<ProjectDetailPage />} />
         {/* Catch-all 404 */}
         <Route path="*" element={
           <motion.div 

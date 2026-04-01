@@ -1,7 +1,97 @@
+import { Github, ExternalLink, Gavel, BarChart3, Activity, Eye, Cloud, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Gavel, BarChart3, Activity, Eye, Cloud } from 'lucide-react';
 import { useReveal } from '../../hooks/useReveal';
+import { useTilt } from '../../hooks/useTilt';
 import ScrambleHeader from './ScrambleHeader';
+
+function ProjectCard({ project, index }: { project: any, index: number }) {
+  const tiltRef = useTilt<HTMLDivElement>();
+  
+  return (
+    <motion.div
+      ref={tiltRef}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className={`glass-card group reveal overflow-hidden flex flex-col ${index === 4 ? 'lg:col-span-2 lg:mx-auto lg:max-w-2xl w-full' : ''}`}
+    >
+      {/* Project Image */}
+      <div className="relative h-48 bg-white/5 overflow-hidden">
+        <img 
+          src={project.img} 
+          alt={project.title} 
+          className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-70 group-hover:scale-110 transition-all duration-700" 
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
+        <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700 pointer-events-none">
+          <div style={{ color: project.color }}>
+            {project.icon}
+          </div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
+        
+        <div className="absolute top-4 left-4 p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/10" style={{ color: project.color }}>
+          {project.icon}
+        </div>
+      </div>
+
+      {/* View More Details Bar */}
+      <Link 
+        to={`/projects/${project.title.toLowerCase().replace(/\s+/g, '')}`}
+        className="bg-white/5 py-4 px-6 border-b border-white/5 text-[10px] font-mono font-bold uppercase tracking-widest transition-all flex items-center justify-between group/bar"
+        style={{ color: project.color }}
+      >
+        <div className="flex items-center gap-2">
+          <Search size={12} className="group-hover/bar:scale-125 transition-transform" /> 
+          <span>Reveal Project Details</span>
+        </div>
+        <span className="opacity-0 group-hover/bar:opacity-100 transition-opacity">→</span>
+      </Link>
+
+      <div className="p-6 flex flex-grow flex-col">
+        <h3 className="text-xl font-bold mb-2 group-hover:text-customCyan transition-colors">{project.title}</h3>
+        <p className="text-customTextMuted text-sm leading-relaxed mb-6 flex-grow">{project.desc}</p>
+        
+        {/* Tech Tags */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tech.map((t: string) => (
+            <span 
+              key={t}
+              className="tag px-3 py-1 bg-white/5 border border-white/10 rounded font-mono text-[10px] text-white/40 group-hover:border-customCyan/30 group-hover:text-customCyan/80 transition-all cursor-default"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4 mt-auto">
+          <a 
+            href={project.github} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+          >
+            <Github size={14} /> Code
+          </a>
+          {project.demo && (
+            <a 
+              href={project.demo} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-customCyan hover:text-white transition-colors"
+            >
+              <ExternalLink size={14} /> Live Demo
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const projects = [
   {
@@ -11,7 +101,8 @@ const projects = [
     github: "https://github.com/Asad101001/LegalEaseAI",
     demo: "https://legal-ease-ai-iota.vercel.app/",
     icon: <Gavel size={20} />,
-    color: "#00ff41"
+    color: "#00ff41",
+    img: "/images/projects/legalease.png"
   },
   {
     title: "PollPulse",
@@ -19,7 +110,8 @@ const projects = [
     tech: ["Node.js", "Express", "AWS", "MySQL", "Chart.js"],
     github: "https://github.com/Asad101001/pollpulse",
     icon: <BarChart3 size={20} />,
-    color: "#a855f7"
+    color: "#a855f7",
+    img: "/images/projects/pollpulse.png"
   },
   {
     title: "DevPulse",
@@ -28,7 +120,8 @@ const projects = [
     github: "https://github.com/Asad101001/devpulse",
     demo: "https://devpulse-app.onrender.com",
     icon: <Activity size={20} />,
-    color: "#FFD600"
+    color: "#FFD600",
+    img: "/images/projects/devpulse.png"
   },
   {
     title: "Mogscope",
@@ -37,7 +130,8 @@ const projects = [
     github: "https://github.com/Asad101001/mogscope",
     demo: "https://mogscope.vercel.app/",
     icon: <Eye size={20} />,
-    color: "#6366f1"
+    color: "#6366f1",
+    img: "/images/projects/mogscope.png"
   },
   {
     title: "AWS Infrastructure",
@@ -45,7 +139,8 @@ const projects = [
     tech: ["AWS", "Ubuntu", "Nginx", "Vanilla JS"],
     github: "https://github.com/Asad101001/aws-static-website",
     icon: <Cloud size={20} />,
-    color: "#FF9900"
+    color: "#FF9900",
+    img: "/images/projects/aws.png"
   }
 ];
 
@@ -72,66 +167,7 @@ export default function ProjectsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`glass-card group reveal overflow-hidden flex flex-col ${i === 4 ? 'lg:col-span-2 lg:mx-auto lg:max-w-2xl w-full' : ''}`}
-            >
-              {/* Project Image Placeholder */}
-              <div className="relative h-48 bg-white/5 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700">
-                  <div style={{ color: project.color }}>
-                    {project.icon}
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
-                
-                <div className="absolute top-4 left-4 p-2 rounded-lg bg-black/40 backdrop-blur-md border border-white/10" style={{ color: project.color }}>
-                  {project.icon}
-                </div>
-              </div>
-
-              <div className="p-6 flex flex-grow flex-col">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-customCyan transition-colors">{project.title}</h3>
-                <p className="text-customTextMuted text-sm leading-relaxed mb-6 flex-grow">{project.desc}</p>
-                
-                {/* Tech Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map(t => (
-                    <span 
-                      key={t}
-                      className="tag px-3 py-1 bg-white/5 border border-white/10 rounded font-mono text-[10px] text-white/40 group-hover:border-customCyan/30 group-hover:text-customCyan/80 transition-all cursor-default"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-4 mt-auto">
-                  <a 
-                    href={project.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
-                  >
-                    <Github size={14} /> Code
-                  </a>
-                  {project.demo && (
-                    <a 
-                      href={project.demo} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-customCyan hover:text-white transition-colors"
-                    >
-                      <ExternalLink size={14} /> Live Demo
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>
       </div>

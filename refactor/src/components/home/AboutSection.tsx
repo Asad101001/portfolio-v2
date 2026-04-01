@@ -2,6 +2,41 @@ import { motion } from 'framer-motion';
 import { Target, Award, Code2, Cpu, Cloud, Brain, TrendingUp } from 'lucide-react';
 import GitHubHeatmap from './GitHubHeatmap';
 import ScrambleHeader from './ScrambleHeader';
+import { useTilt } from '../../hooks/useTilt';
+
+interface StatCardProps {
+  stat: {
+    label: string;
+    value: string;
+    icon: React.ReactNode;
+  };
+  index: number;
+  onClick?: () => void;
+}
+
+function StatCard({ stat, index, onClick }: StatCardProps) {
+  const tiltRef = useTilt<HTMLDivElement>();
+  
+  return (
+    <motion.div 
+      ref={tiltRef}
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className={`glass-card p-6 flex items-center justify-between group cursor-pointer ${onClick ? 'hover:border-customCyan/50' : ''}`}
+      onClick={onClick}
+    >
+      <div className="flex flex-col">
+        <span className="text-3xl font-black text-white group-hover:text-customCyan transition-colors">{stat.value}</span>
+        <span className="text-xs font-mono uppercase tracking-widest text-white/40 mt-1">{stat.label}</span>
+      </div>
+      <div className="p-3 bg-white/5 rounded-xl text-customCyan group-hover:bg-customCyan/10 transition-colors">
+        {stat.icon}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function AboutSection() {
   const stats = [
@@ -68,22 +103,15 @@ export default function AboutSection() {
           {/* Stats Column */}
           <div className="lg:col-span-4 flex flex-col gap-4">
             {stats.map((stat, i) => (
-              <motion.div 
-                key={stat.label}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="glass-card p-6 flex items-center justify-between group"
-              >
-                <div className="flex flex-col">
-                  <span className="text-3xl font-black text-white group-hover:text-customCyan transition-colors">{stat.value}</span>
-                  <span className="text-xs font-mono uppercase tracking-widest text-white/40 mt-1">{stat.label}</span>
-                </div>
-                <div className="p-3 bg-white/5 rounded-xl text-customCyan group-hover:bg-customCyan/10 transition-colors">
-                  {stat.icon}
-                </div>
-              </motion.div>
+              <StatCard 
+                key={stat.label} 
+                stat={stat} 
+                index={i} 
+                onClick={stat.label === 'Certifications' ? () => {
+                  const event = new CustomEvent('open-certs-drawer');
+                  window.dispatchEvent(event);
+                } : undefined}
+              />
             ))}
           </div>
         </div>
@@ -123,7 +151,7 @@ export default function AboutSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.2 }}
                     className="h-full shadow-[0_0_8px_currentColor]"
-                    style={{ backgroundColor: item.clr, color: item.clr }}
+                    style={{ backgroundColor: item.clr, color: item.clr } as React.CSSProperties}
                   />
                 </div>
               </div>

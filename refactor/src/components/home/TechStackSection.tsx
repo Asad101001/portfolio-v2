@@ -10,24 +10,26 @@ import {
   Layers, 
   Smartphone,
   Box,
-  Braces
+  Braces,
+  Coffee,
+  DatabaseZap
 } from 'lucide-react';
+import ScrambleHeader from './ScrambleHeader';
 
 const categories = [
-  { id: 'ALL', label: 'All' },
-  { id: 'LANGS', label: 'Languages' },
-  { id: 'WEB', label: 'Web Dev' },
-  { id: 'CLOUD', label: 'Cloud & Infra' },
-  { id: 'AI', label: 'AI / Data' },
-  { id: 'TOOLS', label: 'Tools' }
+  { id: 'ALL', label: 'All Modules' },
+  { id: 'LANGS', label: 'Systems & Core' },
+  { id: 'WEB', label: 'Web ecosystem' },
+  { id: 'CLOUD', label: 'Infra & Cloud' },
+  { id: 'AI', label: 'Intelligence' }
 ];
 
 const domains = [
   {
     id: 'langs',
     cat: 'LANGS',
-    label: 'Languages',
-    desc: 'Core logic & development primitives',
+    label: 'Core Languages',
+    desc: 'Systems-level logic and high-performance algorithms.',
     skills: [
       { name: 'Python', icon: Code2, color: '#3776AB' },
       { name: 'C++', icon: Box, color: '#00599C' },
@@ -39,68 +41,42 @@ const domains = [
   {
     id: 'web',
     cat: 'WEB',
-    label: 'Web Development',
-    desc: 'Frontend & backend ecosystem',
+    label: 'Modern Web',
+    desc: 'Scalable frontend architectures and robust backend services.',
     skills: [
-      { name: 'JS / TS', icon: Globe, color: '#F7DF1E' },
+      { name: 'TS / JS', icon: Globe, color: '#F7DF1E' },
       { name: 'React', icon: Layers, color: '#61DAFB' },
       { name: 'Tailwind', icon: Layers, color: '#06B6D4' },
       { name: 'Node.js', icon: Globe, color: '#339933' },
-      { name: 'HTML / CSS', icon: Globe, color: '#E34F26' }
+      { name: 'Next.js', icon: Globe, color: '#fff' }
     ]
   },
   {
     id: 'cloud',
     cat: 'CLOUD',
-    label: 'Cloud & Infrastructure',
-    desc: 'Scalable deployment & architecture',
+    label: 'Cloud & DevOps',
+    desc: 'Multi-cloud strategy, VPC networking, and containerization.',
     skills: [
-      { name: 'AWS', icon: Cloud, color: '#FF9900' },
+      { name: 'AWS Merged', icon: Cloud, color: '#FF9900', isMerged: true },
       { name: 'Docker', icon: Box, color: '#2496ED' },
-      { name: 'VPC', icon: Cloud, color: '#FF9900' },
-      { name: 'S3 / EC2', icon: Cloud, color: '#FF9900' }
+      { name: 'Nginx', icon: Terminal, color: '#009639' },
+      { name: 'PostgreSQL', icon: DatabaseZap, color: '#336791' }
     ]
   },
   {
     id: 'ai',
     cat: 'AI',
-    label: 'AI / Data Science',
-    desc: 'RAG systems & ML pipelines',
+    label: 'AI & Data',
+    desc: 'RAG pipelines, vector databases, and predictive modeling.',
     skills: [
       { name: 'FastAPI', icon: Smartphone, color: '#009688' },
-      { name: 'NumPy', icon: Cpu, color: '#013243' },
+      { name: 'PyTorch', icon: Cpu, color: '#EE4C2C' },
       { name: 'Pandas', icon: Database, color: '#150458' },
-      { name: 'PyTorch', icon: Cpu, color: '#EE4C2C' }
-    ]
-  },
-  {
-    id: 'tools',
-    cat: 'TOOLS',
-    label: 'Backend & Tools',
-    desc: 'Environment & workflow optimization',
-    skills: [
-      { name: 'SQL', icon: Database, color: '#4479A1' },
-      { name: 'Git', icon: Braces, color: '#F05032' },
-      { name: 'Linux', icon: Terminal, color: '#FCC624' },
+      { name: 'FAISS', icon: Database, color: '#00ff41' },
       { name: 'LangChain', icon: Braces, color: '#00ff41' }
     ]
   }
 ];
-
-function Coffee(props: any) {
-  return (
-    <svg 
-      {...props}
-      xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
-    >
-      <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
-      <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-      <line x1="6" y1="2" x2="6" y2="4" />
-      <line x1="10" y1="2" x2="10" y2="4" />
-      <line x1="14" y1="2" x2="14" y2="4" />
-    </svg>
-  );
-}
 
 export default function TechStackSection() {
   const [activeCat, setActiveCat] = useState('ALL');
@@ -112,25 +88,20 @@ export default function TechStackSection() {
   return (
     <section id="tech" className="py-24 relative overflow-hidden">
       <div className="section-inner max-w-7xl mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-header centered text-center mb-16"
-        >
-          <p className="text-customCyan font-mono text-xs uppercase tracking-widest mb-2">Arsenal</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">Tech Stack</h2>
-          <p className="text-customTextMuted max-w-2xl mx-auto">A versatile domain-driven technical foundation engineered for scale and performance.</p>
-        </motion.div>
+        <div className="section-header centered text-center mb-16">
+          <p className="text-customCyan font-mono text-xs uppercase tracking-[0.4em] mb-2 font-bold">Arsenal</p>
+          <ScrambleHeader text="Tech Stack" className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4" />
+          <p className="text-customTextMuted max-w-2xl mx-auto italic">A versatile domain-driven technical foundation engineered for scale and performance.</p>
+        </div>
 
-        {/* Categories Bar */}
+        {/* Categories Bar - Mono style to match parity */}
         <div className="arsenal-filter-bar flex flex-wrap justify-center gap-2 mb-12">
           {categories.map((cat) => (
             <motion.button
               key={cat.id}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-6 py-2 rounded-full font-mono text-[10px] uppercase tracking-widest font-bold transition-all border ${
+              className={`px-6 py-2 rounded-lg font-mono text-[10px] uppercase tracking-widest font-bold transition-all border ${
                 activeCat === cat.id 
                   ? 'bg-customCyan border-customCyan text-zinc-950 shadow-[0_0_20px_hsla(161,84%,39%,0.3)]' 
                   : 'bg-white/5 border-white/10 text-customTextMuted hover:border-white/20 hover:text-white'
@@ -145,39 +116,61 @@ export default function TechStackSection() {
         {/* Arsenal Grid */}
         <motion.div 
           layout
-          className="arsenal-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="arsenal-grid grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           <AnimatePresence mode="popLayout">
             {filteredDomains.map((domain) => (
               <motion.div 
                 key={domain.id} 
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="arsenal-domain glass-card flex flex-col p-8 bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-2xl group hover:border-customCyan/30 transition-colors"
               >
                 <div className="arsenal-domain-header mb-8">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-customCyan font-bold text-[10px] uppercase tracking-[0.2em]">{domain.label}</span>
-                    <span className="text-[8px] font-mono text-customTextMuted uppercase">{domain.skills.length} modules</span>
+                    <span className="text-customCyan font-black text-[10px] uppercase tracking-[0.25em]">{domain.label}</span>
+                    <span className="text-[9px] font-mono text-white/20 uppercase tracking-[0.1em]">{domain.skills.length} modules_active</span>
                   </div>
-                  <p className="text-white font-medium text-sm leading-relaxed">{domain.desc}</p>
+                  <p className="text-customTextMuted font-medium text-sm leading-relaxed">{domain.desc}</p>
                 </div>
                 
-                <div className="arsenal-skill-grid flex flex-wrap gap-2 mt-auto">
+                <div className="arsenal-skill-grid flex flex-wrap gap-2.5 mt-auto">
                   {domain.skills.map((skill, si) => (
-                    <motion.div 
-                      key={si}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      className="group/chip flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/20 transition-all cursor-default"
-                    >
-                      <skill.icon size={14} style={{ color: skill.color }} className="transition-transform group-hover/chip:rotate-12" />
-                      <span className="text-[10px] font-mono font-bold text-white/50 group-hover/chip:text-white transition-colors uppercase tracking-wider">
-                         {skill.name}
-                      </span>
-                    </motion.div>
+                    skill.isMerged ? (
+                      <motion.div 
+                        key={si}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-full mt-4 p-5 rounded-2xl bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20 group/merged hover:border-orange-500/50 transition-all flex flex-col gap-4 shadow-xl"
+                      >
+                         <div className="flex items-center gap-3">
+                            <Cloud size={24} className="text-orange-500" />
+                            <div className="flex flex-col">
+                               <span className="text-[12px] font-black text-white uppercase tracking-widest font-mono">AWS Infrastructure</span>
+                               <span className="text-[9px] font-mono text-orange-500/60 uppercase tracking-[0.2em] font-bold">Multi-Service Implementation</span>
+                            </div>
+                         </div>
+                         <div className="flex items-center gap-6 px-2 py-1 opacity-60 group-hover/merged:opacity-100 transition-opacity">
+                            <Cloud size={16} className="text-orange-400" title="EC2" />
+                            <Database size={16} className="text-orange-400" title="RDS" />
+                            <Box size={16} className="text-orange-400" title="S3" />
+                            <Layers size={16} className="text-orange-400" title="VPC" />
+                         </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div 
+                        key={si}
+                        whileHover={{ scale: 1.08, y: -2 }}
+                        className="group/chip flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/5 hover:border-customCyan/40 transition-all cursor-default shadow-lg"
+                      >
+                        <skill.icon size={15} style={{ color: skill.color }} className="transition-transform group-hover/chip:rotate-12 filter drop-shadow-[0_0_3px_currentColor]" />
+                        <span className="text-[11px] font-mono font-black text-white/40 group-hover/chip:text-white transition-colors uppercase tracking-widest">
+                           {skill.name}
+                        </span>
+                      </motion.div>
+                    )
                   ))}
                 </div>
               </motion.div>
@@ -187,13 +180,13 @@ export default function TechStackSection() {
 
         <motion.div 
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 0.5 }}
+          whileInView={{ opacity: 0.4 }}
           viewport={{ once: true }}
-          className="tech-footer mt-24 px-4 py-8 border-t border-white/5 text-[10px] font-mono uppercase tracking-[0.3em] font-bold flex flex-wrap gap-12 justify-center"
+          className="tech-footer mt-24 px-4 py-8 border-t border-white/5 text-[10px] font-mono uppercase tracking-[0.4em] font-black flex flex-wrap gap-12 justify-center"
         >
-           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)]"></span> Cloud Specialist</span>
-           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)]"></span> Data Pioneer</span>
-           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)]"></span> Core Systems</span>
+           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)] pulse-dot"></span> Cloud Specialist</span>
+           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)] pulse-dot"></span> Data Pioneer</span>
+           <span className="flex items-center gap-3 transition-colors hover:text-customCyan"><span className="w-2 h-2 rounded-full bg-customCyan shadow-[0_0_10px_var(--cyan)] pulse-dot"></span> Core Systems</span>
         </motion.div>
       </div>
     </section>

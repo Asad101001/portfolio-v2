@@ -1,161 +1,211 @@
-import { useReveal } from '../../hooks/useReveal';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Github, 
   Linkedin, 
-  MessageSquare, 
-  Instagram, 
-  Music, 
-  Disc, 
-  Zap, 
-  Gamepad2, 
-  StickyNote,
-  Send
+  Twitter, 
+  Instagram,
+  Music,
+  ExternalLink,
+  Send,
+  Star
 } from 'lucide-react';
+import { useReveal } from '../../hooks/useReveal';
+import { useSocialData } from '../../hooks/useSocialData';
+import { useVisitorXP } from '../../hooks/useVisitorXP';
+import ScrambleHeader from './ScrambleHeader';
 
 const socialChips = [
-  { name: 'GitHub', handle: '@Asad101001', icon: Github, href: 'https://github.com/Asad101001' },
-  { name: 'LinkedIn', handle: 'muhammadasadk', icon: Linkedin, href: 'https://linkedin.com/in/muhammadasadk' },
-  { name: 'Discord', handle: 'asad.k_11', icon: MessageSquare, href: 'https://discord.com/users/1390327957062418654' },
-  { name: 'Instagram', handle: '@muhammadasad.k_', icon: Instagram, href: 'https://instagram.com/muhammadasad.k_' }
+  { label: 'GitHub', handle: '@Asad101001', href: 'https://github.com/Asad101001', icon: Github, color: '#fff' },
+  { label: 'LinkedIn', handle: 'muhammadasadk', href: 'https://www.linkedin.com/in/muhammadasadk/', icon: Linkedin, color: '#0077b5' },
+  { label: 'Twitter', handle: '@As4d_41', href: 'https://twitter.com/As4d_41', icon: Twitter, color: '#1DA1F2' },
+  { label: 'Instagram', handle: '@muhammadasad.k_', href: 'https://www.instagram.com/muhammadasad.k_/', icon: Instagram, color: '#E1306C' }
 ];
 
 export default function ContactSection() {
   useReveal();
+  const xp = useVisitorXP();
+  const { movie, tv, track, players } = useSocialData();
+  
+  const [big3Index, setBig3Index] = useState(0);
 
-  return (
-    <section id="contact">
-      <div className="section-inner">
-        <div className="section-header centered">
-          <p className="label-xs">Connect</p>
-          <h2 className="section-title">Let's Be Internet Friends</h2>
-          <p className="section-sub">Catch me building stuff, posting takes, or listening to music. Slide in anywhere 👋</p>
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBig3Index(prev => (prev + 1) % 4);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const renderBig3Content = () => {
+    const data = [movie, tv, track, players][big3Index];
+    if (!data) return null;
+
+    const Icon = data.type === 'movie' ? '🎬' : data.type === 'tv' ? '📺' : data.type === 'music' ? '🎵' : '⚽';
+    const label = data.type === 'movie' ? 'Cinematic Archive' : data.type === 'tv' ? 'Stream Queue' : data.type === 'music' ? 'Frequency Sync' : 'The Beautiful Game';
+
+    return (
+      <motion.div
+        key={data.type}
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 1.05, y: -10 }}
+        className="flex flex-col items-center text-center py-4 w-full h-full justify-center px-4"
+      >
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-customCyan/10 blur-2xl rounded-full scale-150 opacity-20" aria-hidden="true" />
+          {data.img ? (
+            <img src={data.img} alt="" className="w-24 h-24 rounded-2xl object-cover border border-white/10 shadow-2xl relative z-10" />
+          ) : (
+            <div className="text-5xl relative z-10">{Icon}</div>
+          )}
+          {data.type === 'football' && (
+             <div className="flex -space-x-8 mt-2 relative z-10">
+                {players.data.map((p: any, i: number) => (
+                    <img key={i} src={p.img} alt={p.name} title={p.name} className="w-16 h-16 rounded-full border-2 border-zinc-950 bg-zinc-900 object-cover shadow-lg" />
+                ))}
+             </div>
+          )}
         </div>
 
-        {/* Social Chips Row */}
-        <div className="flex flex-wrap gap-4 justify-center mb-16">
-          {socialChips.map((chip, i) => (
-            <a 
-              key={i}
-              href={chip.href} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="social-card glass-card reveal p-5 flex items-center gap-4 group"
-              style={{ '--delay': `${i * 50}ms` } as React.CSSProperties}
+        <p className="text-[10px] font-mono text-customCyan uppercase tracking-[0.3em] mb-2 font-bold">{label}</p>
+        <h4 className="text-xl font-bold text-white mb-2 leading-tight max-w-[240px] truncate">{data.title}</h4>
+        
+        {data.subtitle && <p className="text-[10px] text-zinc-500 font-mono italic">{data.subtitle}</p>}
+        {data.stars && (
+            <div className="flex gap-1 mt-2">
+                {[...Array(5)].map((_, i) => (
+                    <Star 
+                        key={i} 
+                        size={10} 
+                        fill={i < data.stars!.length ? "#EAB308" : "none"} 
+                        stroke={i < data.stars!.length ? "#EAB308" : "rgba(255,255,255,0.1)"} 
+                    />
+                ))}
+            </div>
+        )}
+      </motion.div>
+    );
+  };
+
+  return (
+    <section id="contact" className="py-24 px-6 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="section-header text-center mb-16">
+          <p className="font-mono text-xs text-customCyan uppercase tracking-[0.3em] font-bold mb-2">Connect</p>
+          <ScrambleHeader text="Internet Friends" className="text-4xl md:text-5xl font-black tracking-tighter text-white" />
+          <p className="text-customTextMuted mt-4 max-w-lg mx-auto italic">Catch me building stuff, posting takes, or listening to music.</p>
+        </div>
+
+        {/* Social Chips */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24 reveal">
+          {socialChips.map((chip) => (
+            <motion.a
+              key={chip.label}
+              href={chip.href}
+              target="_blank"
+              rel="noopener"
+              whileHover={{ scale: 1.02, y: -4 }}
+              className="glass-card flex items-center gap-4 p-4 border border-white/5 rounded-xl group transition-all hover:bg-white/[0.02]"
             >
-              <div className="text-zinc-600 group-hover:text-customCyan transition-colors">
-                <chip.icon size={18} />
+              <div className="p-2.5 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
+                <chip.icon size={18} style={{ color: chip.color }} />
               </div>
               <div className="flex flex-col">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">{chip.name}</span>
-                  <span className="text-[11px] text-zinc-700 font-mono tracking-tight group-hover:text-customCyan/80 transition-colors">{chip.handle}</span>
+                <span className="text-[10px] font-mono font-black text-white/30 uppercase tracking-widest">{chip.label}</span>
+                <span className="text-xs font-bold text-white group-hover:text-customCyan transition-colors">{chip.handle}</span>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
 
-        {/* Desktop-only Social Grid (1x1x3 pattern) */}
-        <div className="social-cards-grid mt-12">
-          {/* Spotify Widget */}
-          <div className="spotify-widget glass-card reveal p-6">
-             <div className="spotify-widget-header flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <Music size={14} className="text-zinc-500" />
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Now Playing</span>
-                </div>
-                <div className="spotify-live-dot"></div>
-             </div>
-             
-             <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center animate-pulse">
-                   <Disc size={24} className="text-[#1DB954]" />
-                </div>
-                <div className="flex flex-col gap-1">
-                   <div className="text-sm font-bold text-white">Connecting...</div>
-                   <div className="text-xs text-zinc-600 font-mono">Syncing Spotify API</div>
-                </div>
-             </div>
-             
-             <div className="spotify-progress-wrap-expanded">
-               <div className="spotify-bar-expanded">
-                 <div className="spotify-bar-fill-expanded" style={{ width: '45%' }}></div>
-               </div>
-               <div className="flex justify-between mt-2 font-mono text-[9px] text-zinc-700">
-                  <span>01:12</span>
-                  <span>03:45</span>
-               </div>
-             </div>
-          </div>
-
-          {/* Last.fm Widget */}
-          <div className="lastfm-widget glass-card reveal p-6" style={{ '--delay': '100ms' } as React.CSSProperties}>
-             <div className="lastfm-widget-header flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Music size={14} className="text-zinc-500" />
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Weekly Artists</span>
-                </div>
-             </div>
-             <div className="lastfm-user font-mono text-[10px] text-zinc-600 mb-6 font-bold tracking-wider">@muhammadasadk</div>
-             
-             <div className="flex flex-col gap-3">
-                {[1,2,3].map(i => (
-                  <div key={i} className="flex items-center gap-3 p-2 rounded bg-white/[0.02] border border-white/5 opacity-50">
-                    <div className="w-8 h-8 rounded bg-zinc-900"></div>
-                    <div className="flex flex-col">
-                      <div className="w-20 h-2 bg-white/5 rounded"></div>
-                      <div className="w-12 h-1.5 bg-white/5 rounded mt-2"></div>
-                    </div>
-                  </div>
-                ))}
-             </div>
-          </div>
-
-          {/* XP Widget */}
-          <div className="xp-widget glass-card reveal p-6" style={{ '--delay': '200ms' } as React.CSSProperties}>
-             <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-2">
-                  <Zap size={14} className="text-zinc-500" />
-                  <span className="xp-label text-[10px] font-bold uppercase tracking-widest text-zinc-500">Visitor Experience</span>
-                </div>
-                <span className="xp-level font-mono text-[10px] font-bold">Lv. 01</span>
-             </div>
-             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden mb-2">
-                <div className="h-full bg-customCyan" style={{ width: '25%' }}></div>
-             </div>
-             <div className="flex justify-between text-[8px] font-mono text-zinc-700 uppercase font-bold">
-                <span>Visit #1</span>
-                <span>+25 XP</span>
-             </div>
-          </div>
-
-          {/* Game Widget */}
-          <div className="game-widget glass-card reveal p-6" style={{ '--delay': '300ms' } as React.CSSProperties}>
-            <div className="flex items-center gap-2 mb-3">
-              <Gamepad2 size={14} className="text-zinc-500" />
-              <span className="game-label text-[10px] font-bold uppercase tracking-widest text-zinc-500">Legacy Highscore</span>
+        {/* 3-Column Footer Grid for Parity */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 reveal items-stretch">
+          {/* Music Widget */}
+          <div className="md:col-span-4 glass-card p-6 rounded-2xl flex flex-col justify-between group h-full">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <Music size={16} className="text-[#1DB954]" />
+                <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-widest">Now Playing</span>
+              </div>
+              <span className="w-2 h-2 rounded-full bg-[#1DB954] shadow-[0_0_12px_#1DB954] pulse-dot"></span>
             </div>
-             <div id="game-score" className="text-3xl font-black font-mono">1,440</div>
-             <p className="text-[10px] text-zinc-700 font-bold uppercase tracking-widest mt-1">Flappy Cube (v1.0)</p>
+            
+            <div className="flex items-center gap-4 mb-8">
+              {track.img ? (
+                <img src={track.img} alt="" className="w-16 h-16 rounded-lg object-cover border border-white/10" />
+              ) : (
+                <div className="w-16 h-16 rounded-lg bg-white/5 flex items-center justify-center text-xl overflow-hidden animate-pulse">🎵</div>
+              )}
+              <div className="flex flex-col min-width-0">
+                <h4 className="text-sm font-black text-white line-clamp-1 mb-1">{track.title}</h4>
+                <p className="text-[10px] font-mono text-white/40 line-clamp-1 italic">{track.subtitle}</p>
+              </div>
+            </div>
+            
+            <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mt-auto">
+              <motion.div 
+                animate={{ width: ['20%', '80%', '40%', '90%', '60%'] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="h-full bg-[#1DB954]"
+              />
+            </div>
           </div>
 
-          {/* Dev Notes Widget */}
-          <div className="dev-notes-widget glass-card reveal p-6" style={{ '--delay': '400ms' } as React.CSSProperties}>
-             <div className="dev-notes-header flex items-center gap-2 mb-2">
-                <StickyNote size={14} className="text-zinc-500" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Internal Memo</span>
-             </div>
-             <p className="text-xs text-zinc-600 leading-relaxed italic">"Refactoring to high-fidelity React components. System visual parity complete."</p>
+          {/* Big 3 Rotator (Trakt/Letterboxd/etc.) */}
+          <div className="md:col-span-4 glass-card p-6 rounded-2xl min-h-[300px] flex flex-col items-center justify-between relative overflow-hidden bg-gradient-to-br from-white/[0.02] to-transparent">
+            {renderBig3Content()}
+            
+            <div className="flex justify-center gap-2 pb-2">
+              {[0, 1, 2, 3].map(i => (
+                <button 
+                  key={i} 
+                  onClick={() => setBig3Index(i)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${big3Index === i ? 'bg-customCyan w-6' : 'bg-white/10 hover:bg-white/20'}`} 
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Visitor XP */}
+          <div className="md:col-span-4 glass-card p-6 rounded-2xl flex flex-col justify-between h-full bg-black/40">
+            <div className="flex items-center justify-between mb-8">
+               <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-customCyan"></div>
+                 <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-widest">Protocol Stats</span>
+               </div>
+               <span className="px-2 py-0.5 rounded bg-customCyan/10 text-customCyan text-[9px] font-mono font-black border border-customCyan/20 tracking-tighter">LVL.{xp.level}</span>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex justify-between items-end">
+                <div className="flex flex-col">
+                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-tighter">Instance Visits</span>
+                    <span className="text-xl font-black text-white">{xp.visits} <span className="text-xs font-normal text-white/20">sessions</span></span>
+                </div>
+                <span className="text-[9px] font-mono text-customCyan font-bold uppercase">{xp.nextXP} XP → LVL.{xp.level + 1}</span>
+              </div>
+              <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden shadow-inner">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${xp.pct}%` }}
+                  transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="h-full bg-customCyan shadow-[0_0_15px_var(--cyan)]"
+                />
+              </div>
+            </div>
+
+            <div className="mt-12 flex items-center justify-center gap-3 pb-2 opacity-20 hover:opacity-50 transition-opacity">
+                <span className="text-[8px] font-mono uppercase tracking-[0.4em] font-black italic">Decentralized Presence</span>
+            </div>
           </div>
         </div>
 
-        {/* Global CTA */}
-        <div className="flex justify-center mt-24 reveal">
-          <a 
-            href="mailto:muhammadasadk42@gmail.com" 
-            className="btn-primary magnetic group"
-          >
-            <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            Ping Me &middot; muhammadasadk42@gmail.com
-          </a>
+        {/* Footer Note */}
+        <div className="mt-32 pt-12 border-t border-white/5 text-center reveal">
+           <a href="mailto:muhammadasadk42@gmail.com" className="inline-flex items-center gap-3 px-10 py-4 bg-white/5 border border-white/5 rounded-full text-xs font-mono font-black uppercase tracking-[0.2em] text-customTextMuted hover:text-white hover:border-customCyan/30 hover:bg-customCyan/5 transition-all hover:scale-105 group">
+             <Send size={14} className="text-customCyan group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+             Initiate Direct Connection
+           </a>
         </div>
       </div>
     </section>

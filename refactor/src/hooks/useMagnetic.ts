@@ -1,38 +1,69 @@
 import { useEffect, useRef } from 'react';
 
-export function useMagnetic() {
-  const ref = useRef<HTMLDivElement | HTMLAnchorElement | HTMLButtonElement>(null);
+/**
+ * useMagnetic Hook
+ * Uses linear interpolation (LERP) and requestAnimationFrame for high-fidelity 
+ * magnetic attraction. Matches original portfolio coefficients (0.18 factor).
+ */
+export function useMagnetic<T extends HTMLElement = HTMLDivElement>() {
+  const ref = useRef<T>(null);
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el || window.innerWidth < 768) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      const { left, top, width, height } = el.getBoundingClientRect();
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let animating = false;
 
-      const distanceX = clientX - centerX;
-      const distanceY = clientY - centerY;
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-      if (Math.abs(distanceX) < width && Math.abs(distanceY) < height) {
-        el.style.transform = `translate3d(${distanceX * 0.3}px, ${distanceY * 0.3}px, 0)`;
+    const animate = () => {
+      currentX = lerp(currentX, targetX, 0.18);
+      currentY = lerp(currentY, targetY, 0.18);
+      
+      el.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
+
+      if (Math.abs(currentX - targetX) > 0.01 || Math.abs(currentY - targetY) > 0.01) {
+        rafId.current = requestAnimationFrame(animate);
       } else {
-        el.style.transform = `translate3d(0, 0, 0)`;
+        animating = false;
+        rafId.current = null;
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Original factor 0.25 as seen in animations.js
+      targetX = (e.clientX - centerX) * 0.25;
+      targetY = (e.clientY - centerY) * 0.25;
+
+      if (!animating) {
+        animating = true;
+        rafId.current = requestAnimationFrame(animate);
       }
     };
 
     const handleMouseLeave = () => {
-      el.style.transform = `translate3d(0, 0, 0)`;
+      targetX = 0;
+      targetY = 0;
+      if (!animating) {
+        animating = true;
+        rafId.current = requestAnimationFrame(animate);
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    el.addEventListener('mousemove', handleMouseMove);
     el.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      el.removeEventListener('mousemove', handleMouseMove);
       el.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, []);
 

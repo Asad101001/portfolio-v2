@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReveal } from '../../hooks/useReveal';
-import { LineChart, Briefcase, Terminal as TerminalIcon } from 'lucide-react';
+import { LineChart, Briefcase, Terminal as TerminalIcon, Star } from 'lucide-react';
 import ScrambleHeader from './ScrambleHeader';
 
 const skillDist = [
-  { label: 'Actually Coding', pct: '25%', color: 'var(--cyan)' },
-  { label: 'Googling / AI Chat', pct: '95%', color: '#a855f7' },
-  { label: 'Reading Documentation', pct: '15%', color: '#3b82f6' },
-  { label: 'Fixing Build Errors', pct: '45%', color: '#f59e0b' },
-  { label: 'Resting / Thinking', pct: '60%', color: '#10b981' }
+  { label: 'Googling stuff', pct: '97%', color: '#f97316' },
+  { label: 'Reading docs', pct: '15%', color: '#a855f7' },
+  { label: 'Actual coding', pct: '61%', color: '#00ff41' },
+  { label: 'Debugging', pct: '40%', color: '#f87171' },
+  { label: 'It works locally', pct: '85%', color: '#22c55e' }
 ];
 
 const milestones = [
@@ -30,6 +30,19 @@ const milestones = [
     role: "Full-Stack Dev",
     period: "Aug '24 - Sep '24",
     desc: "Developed real-time polling system with DRF and WebSockets. Focused on low-latency data synchronization."
+  }
+];
+
+const testimonials = [
+  {
+    quote: "He once spent 3 hours debugging a missing semicolon. Growth.",
+    author: "Claude, probably",
+    stars: 4
+  },
+  {
+    quote: "Works perfectly. On my machine. Every time.",
+    author: "localhost:5000",
+    stars: 5
   }
 ];
 
@@ -61,7 +74,7 @@ export default function ExperienceSection() {
   };
 
   return (
-    <section id="experience" className="py-24 px-6">
+    <section id="experience" className="py-24 px-6 relative overflow-hidden">
       <div className="section-inner max-w-7xl mx-auto">
         <div className="section-header text-center mb-16">
           <p className="font-mono text-xs text-customCyan uppercase tracking-[0.3em] font-bold mb-2">Background</p>
@@ -81,7 +94,7 @@ export default function ExperienceSection() {
             <h3 className="text-xl font-bold text-white mb-2">{isDecrypting ? 'DECRYPTING...' : 'SECTOR_DATA_OFFLINE'}</h3>
             <p className="text-customTextMuted text-center max-w-sm">The experience logs are restricted or haven't been decrypted yet.</p>
             <span className="mt-8 px-6 py-2 border border-customCyan/30 rounded-full text-[10px] font-mono uppercase tracking-widest text-customCyan animate-pulse">
-              {isDecrypting ? 'Processing Protocol...' : 'Click to force decryption'}
+              {isDecrypting ? 'Processing Protocol...' : 'View Experience ▼'}
             </span>
           </div>
         )}
@@ -97,7 +110,7 @@ export default function ExperienceSection() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
                 {/* Skill Distribution Card */}
-                <div className="glass-card p-8">
+                <div className="glass-card p-8 bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-2xl">
                   <div className="flex items-center gap-3 mb-8">
                     <LineChart size={18} className="text-customCyan" />
                     <h3 className="font-mono text-xs uppercase tracking-widest font-bold">Actual Skill Distribution</h3>
@@ -106,8 +119,8 @@ export default function ExperienceSection() {
                   <div className="space-y-6">
                     {skillDist.map((skill, i) => (
                       <div key={i} className="flex flex-col gap-2">
-                        <div className="flex justify-between text-xs font-mono">
-                          <span className="text-white/40">{skill.label}</span>
+                        <div className="flex justify-between text-[11px] font-mono">
+                          <span className="text-white/60">{skill.label}</span>
                           <span style={{ color: skill.color }}>{skill.pct}</span>
                         </div>
                         <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
@@ -124,18 +137,35 @@ export default function ExperienceSection() {
                   </div>
 
                   <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/5">
-                    <div className="flex items-center gap-2 text-[10px] font-mono text-customCyan mb-2">
-                      <TerminalIcon size={12} />
-                      <span>METRIC_STATUS: ANOMALOUS</span>
+                    <div className="flex items-center gap-3 mb-4">
+                      <Star size={14} className="text-customCyan" />
+                      <h4 className="font-mono text-[10px] uppercase tracking-widest font-bold">Testimonials</h4>
                     </div>
-                    <p className="text-[11px] text-white/40 leading-relaxed italic">
-                      Data suggests high correlation between productive output and total hours spent debugging whitespace.
-                    </p>
+                    <div className="space-y-4">
+                      {testimonials.map((t, i) => (
+                        <div key={i} className="p-3 bg-white/[0.02] border border-white/5 rounded-lg group hover:border-white/10 transition-colors">
+                          <p className="text-[12px] text-customTextMuted italic mb-2 tracking-tight">"{t.quote}"</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-white/30">— {t.author}</span>
+                            <div className="flex gap-0.5">
+                              {[...Array(5)].map((_, si) => (
+                                <Star 
+                                  key={si} 
+                                  size={8} 
+                                  fill={si < t.stars ? "#f59e0b" : "none"} 
+                                  stroke={si < t.stars ? "#f59e0b" : "rgba(255,255,255,0.1)"} 
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Professional Milestones (Real Data) */}
-                <div className="glass-card p-8">
+                {/* Professional Milestones */}
+                <div className="glass-card p-8 bg-zinc-900/50 backdrop-blur-xl border border-white/5 rounded-2xl">
                   <div className="flex items-center gap-3 mb-8">
                     <Briefcase size={18} className="text-customCyan" />
                     <h3 className="font-mono text-xs uppercase tracking-widest font-bold">Core Projects & Milestones</h3>

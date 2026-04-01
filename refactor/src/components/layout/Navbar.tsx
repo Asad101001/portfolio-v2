@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { MouseEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Palette, Sun, Zap, Leaf } from 'lucide-react'
+import { useMagnetic } from '../../hooks/useMagnetic'
 import type { Theme } from '../../hooks/useTheme'
 
 const themes: { id: Theme; name: string; icon: React.ReactNode }[] = [
@@ -15,7 +16,8 @@ const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Experience', href: '#experience' },
-  { name: 'Tools', href: '#tech' },
+  { name: 'Certifications', href: '#certifications' },
+  { name: 'Arsenal', href: '#tech' },
   { name: 'Contact', href: '#contact' }
 ]
 
@@ -29,6 +31,9 @@ export default function Navbar({ activeTheme, setActiveTheme, rotateTheme }: Nav
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isThemeOpen, setIsThemeOpen] = useState(false)
+  
+  const themeBtnRef = useMagnetic<HTMLButtonElement>();
+  const ctaRef = useMagnetic<HTMLAnchorElement>();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -56,6 +61,7 @@ export default function Navbar({ activeTheme, setActiveTheme, rotateTheme }: Nav
           {/* Theme Toggle Wrapper */}
           <div style={{ position: 'relative' }}>
             <button 
+              ref={themeBtnRef}
               onClick={rotateTheme}
               onContextMenu={(e: MouseEvent<HTMLButtonElement>) => { e.preventDefault(); setIsThemeOpen(!isThemeOpen); }}
               className="magnetic"
@@ -74,7 +80,7 @@ export default function Navbar({ activeTheme, setActiveTheme, rotateTheme }: Nav
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   style={{
-                    position: 'absolute', right: 0, top: 'calc(100% + 10px)', width: '180px', background: '#0D0D0D', border: '1px solid rgba(16,185,129,0.12)', borderRadius: '4px', padding: '8px', boxShadow: '0 20px 40px rgba(0,0,0,0.8)'
+                    position: 'absolute', right: 0, top: 'calc(100% + 10px)', width: '180px', background: '#0D0D0D', border: '1px solid rgba(16,185,129,0.12)', borderRadius: '4px', padding: '8px', boxShadow: '0 20px 40px rgba(0,0,0,0.8)', zIndex: 100
                   }}
                 >
                   {themes.map((t) => (
@@ -98,7 +104,7 @@ export default function Navbar({ activeTheme, setActiveTheme, rotateTheme }: Nav
             </AnimatePresence>
           </div>
 
-          <a href="#projects" className="nav-cta hidden md:inline-flex">View Work</a>
+          <a ref={ctaRef} href="#projects" className="nav-cta hidden md:inline-flex">View Work</a>
 
           <div className="mobile-nav">
              <button 
