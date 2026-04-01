@@ -26,7 +26,7 @@ export function useTypewriter(
       setTypedText(currentPhrase.substring(0, typedText.length - 1));
       if (typedText === '') {
         setIsDeleting(false);
-        setPhraseIndex((prev) => (prev + 1) % phrases.length);
+        setPhraseIndex((prev: number) => (prev + 1) % phrases.length);
       }
     } else {
       setTypedText(currentPhrase.substring(0, typedText.length + 1));

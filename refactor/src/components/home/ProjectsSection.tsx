@@ -124,15 +124,15 @@ export default function ProjectsSection() {
               key={project.id} 
               variants={cardVariants}
               whileHover={{ y: -10 }}
-              className={`project-card glass-card relative overflow-hidden group border border-white/5 bg-zinc-900/50 backdrop-blur-xl rounded-2xl transition-all duration-500`}
+              className={`project-card glass-card relative overflow-hidden group border border-white/5 bg-zinc-900/50 backdrop-blur-xl rounded-md transition-all duration-500`}
             >
               <div className="proj-img-wrap relative h-56 overflow-hidden border-b border-white/5">
                 <img 
                   src={project.image} 
                   alt={project.title} 
                   className="proj-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-0"
-                  onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
-                  onError={(e) => { e.currentTarget.classList.add('hidden'); e.currentTarget.nextElementSibling?.classList.remove('hidden'); }}
+                  onLoad={(e: any) => e.currentTarget.classList.remove('opacity-0')}
+                  onError={(e: any) => { e.currentTarget.classList.add('hidden'); e.currentTarget.nextElementSibling?.classList.remove('hidden'); }}
                 />
                 <div className="proj-img-placeholder hidden h-full w-full bg-zinc-900/50 flex items-center justify-center">
                    <span className="text-[10px] font-mono font-bold text-white/10 uppercase tracking-widest">Image Data Offline</span>
