@@ -486,6 +486,13 @@ function _starsHTML(starsStr) {
     return 'esp.1';
   }
 
+  function formatTeam(team) {
+    if (!team) return '???';
+    var name = team.shortDisplayName || team.displayName || team.name || '';
+    if (name.length > 11) return team.abbreviation || name.slice(0, 3).toUpperCase();
+    return name;
+  }
+
   function setBarcaDisplay(data) {
     var barca        = data.barca;
     var opp          = data.opp;
@@ -510,39 +517,54 @@ function _starsHTML(starsStr) {
     var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.png';
     var oppLogo   = (opp.team && opp.team.logo) || 'https://a.espncdn.com/i/teamlogos/soccer/500/default.png';
 
-    function scorerHTML(list) {
-      if (!list || !list.length) return '';
-      var shown = list.slice(0, 3);
-      var extra = list.length > 3 ? ' +' + (list.length - 3) : '';
-      return '<div class="barca-scorers">' + shown.join(' · ') + extra + '</div>';
-    }
-
     var hostScorers = barcaIsHost ? barcaScorers : oppScorers;
     var awayScorers = barcaIsHost ? oppScorers   : barcaScorers;
-    var oppName     = (opp.team && (opp.team.abbreviation || opp.team.shortDisplayName)) || '---';
+    
+    var barcaName   = 'FC Barcelona';
+    var oppNameFull = (opp.team && formatTeam(opp.team)) || '---';
+    
+    var hostName = barcaIsHost ? barcaName : oppNameFull;
+    var awayName = !barcaIsHost ? barcaName : oppNameFull;
+
+    function scorerHTML(list) {
+      if (!list || !list.length) return '';
+      var shown = list.slice(0, 1); // Only 1 (as requested)
+      return '<div class="barca-scorers">' + shown[0] + '</div>';
+    }
 
     barcaItem.innerHTML =
-      '<div class="barca-scorecard-wrap">' +
+      '<div class="barca-scorecard-wrap ' + barcaOutcomeClass + '">' +
         '<div class="barca-layout-main">' +
           '<div class="barca-top-row">' +
              '<span class="rotating-label currently-into-label">Watching Football</span>' +
           '</div>' +
           '<div class="barca-content-split">' +
             '<div class="barca-identity">' +
-              '<img src="' + barcaLogo + '" class="barca-main-logo" alt="FCB">' +
+              '<div class="barca-logo-wrap">' +
+                '<img src="' + barcaLogo + '" class="barca-main-logo" alt="FCB">' +
+                '<span class="barca-mini-tag">Barça</span>' +
+              '</div>' +
               '<div class="barca-text-group">' +
                 '<span class="barca-pink-name">FC Barcelona</span>' +
-                '<span class="barca-mes-que">Més que un club</span>' +
+                '<div class="barca-slogan-wrap">' +
+                  '<span class="barca-mes-que">Més que un club</span>' +
+                '</div>' +
               '</div>' +
             '</div>' +
             '<div class="barca-score-col-right">' +
-              '<div class="score-row-mini ' + (barcaIsHost ? 'is-host ' + barcaOutcomeClass : '') + '">' +
-                '<span class="score-team-abbr">' + (barcaIsHost ? 'BAR' : oppName) + '</span>' +
+              '<div class="score-row-mini ' + (barcaIsHost ? 'is-host' : '') + '">' +
+                '<div class="score-team-info">' +
+                  (barcaIsHost ? '<span class="home-icon">🏠</span>' : '') +
+                  '<span class="score-team-abbr">' + hostName + '</span>' +
+                '</div>' +
                 '<span class="score-num">' + (barcaIsHost ? barca.score : opp.score) + '</span>' +
                 scorerHTML(hostScorers) +
               '</div>' +
-              '<div class="score-row-mini ' + (!barcaIsHost ? 'is-host ' + barcaOutcomeClass : '') + '">' +
-                '<span class="score-team-abbr">' + (!barcaIsHost ? 'BAR' : oppName) + '</span>' +
+              '<div class="score-row-mini ' + (!barcaIsHost ? 'is-host' : '') + '">' +
+                '<div class="score-team-info">' +
+                  (!barcaIsHost ? '<span class="home-icon">🏠</span>' : '') +
+                  '<span class="score-team-abbr">' + awayName + '</span>' +
+                '</div>' +
                 '<span class="score-num">' + (!barcaIsHost ? barca.score : opp.score) + '</span>' +
                 scorerHTML(awayScorers) +
               '</div>' +
