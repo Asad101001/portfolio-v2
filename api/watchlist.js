@@ -36,8 +36,15 @@ export default async function handler(req, res) {
   // TVmaze: free, no API key, CORS-safe, great show/series coverage
   async function getTVMazePoster(title) {
     try {
+      // Clean title: remove ' s3', ' Season 2', etc.
+      const clean = title.replace(/\s[sS]\d+.*/g, '')
+                         .replace(/\sSeason\s\d+.*/gi, '')
+                         .replace(/[:\-]/g, ' ')
+                         .replace(/\s+/g, ' ')
+                         .trim();
+
       const r = await fetch(
-        `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(title)}`
+        `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(clean)}`
       );
       if (r.ok) {
         const d = await r.json();
@@ -47,47 +54,69 @@ export default async function handler(req, res) {
     return null;
   }
 
-  // ── Fetch Trakt watchlists ──────────────────────────────────────────────────
+  // ── Fetch Simkl or Trakt ──────────────────────────────────────────────────
+  const SIMKL = process.env.SIMKL_CLIENT_ID;
+  const SIMKL_USER = process.env.SIMKL_USER_ID;
 
   try {
-    const [showsRes, moviesRes] = await Promise.all([
-      fetch(`https://api.trakt.tv/users/${USERNAME}/watchlist/shows?sort=added,asc`,  { headers }).catch(() => ({ ok: false })),
-      fetch(`https://api.trakt.tv/users/${USERNAME}/watchlist/movies?sort=added,asc`, { headers }).catch(() => ({ ok: false })),
-    ]);
+    let shows = [];
+    let movies = [];
 
-    let showsData = [];
-    let moviesData = [];
+    if (SIMKL && SIMKL_USER) {
+      // 1. Simkl Logic
+      const [simklWatching, simklPlan] = await Promise.all([
+        fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/tv/watching`, { headers: { 'simkl-api-client': SIMKL } }).then(r => r.ok ? r.json() : []),
+        fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/tv/plantowatch`, { headers: { 'simkl-api-client': SIMKL } }).then(r => r.ok ? r.json() : [])
+      ]);
 
-    if (showsRes.ok) {
-      try { showsData = await showsRes.json(); } catch (_) {}
+      const simklMovies = await fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/movies/plantowatch`, { headers: { 'simkl-api-client': SIMKL } }).then(r => r.ok ? r.json() : []);
+
+      // Merge and limit shows
+      const allSimklShows = [...simklWatching, ...simklPlan].slice(0, 3);
+      shows = await Promise.all(allSimklShows.map(async item => {
+        const s = item.show || {};
+        let poster = await getTMDBPoster(s.ids?.tmdb, 'tv');
+        if (!poster) poster = await getTVMazePoster(s.title);
+        return {
+          title: s.title,
+          poster,
+          progress: item.watched_episodes && item.total_episodes ? Math.round((item.watched_episodes / item.total_episodes) * 100) : null
+        };
+      }));
+
+      // Limit movies
+      movies = await Promise.all(simklMovies.slice(0, 3).map(async item => {
+        const m = item.movie || {};
+        const poster = await getTMDBPoster(m.ids?.tmdb, 'movie');
+        return { title: m.title, poster };
+      }));
+
+    } else if (TRAKT_CLIENT_ID) {
+      // 2. Trakt Logic (Existing)
+      const [showsRes, moviesRes] = await Promise.all([
+        fetch(`https://api.trakt.tv/users/${USERNAME}/watchlist/shows?sort=added,asc`,  { headers }).catch(() => ({ ok: false })),
+        fetch(`https://api.trakt.tv/users/${USERNAME}/watchlist/movies?sort=added,asc`, { headers }).catch(() => ({ ok: false })),
+      ]);
+
+      let showsData = [];
+      let moviesData = [];
+
+      if (showsRes.ok) try { showsData = await showsRes.json(); } catch (_) {}
+      if (moviesRes.ok) try { moviesData = await moviesRes.json(); } catch (_) {}
+
+      shows = await Promise.all((Array.isArray(showsData) ? showsData.slice(0, 3) : []).map(async item => {
+        const title = item?.show?.title || 'Unknown';
+        let poster  = await getTMDBPoster(item?.show?.ids?.tmdb, 'tv');
+        if (!poster) poster = await getTVMazePoster(title);
+        return { title, poster };
+      }));
+
+      movies = await Promise.all((Array.isArray(moviesData) ? moviesData.slice(0, 3) : []).map(async item => {
+        const title = item?.movie?.title || 'Unknown';
+        let poster = await getTMDBPoster(item?.movie?.ids?.tmdb, 'movie');
+        return { title, poster };
+      }));
     }
-    if (moviesRes.ok) {
-      try { moviesData = await moviesRes.json(); } catch (_) {}
-    }
-
-    // Shows: TMDB first, TVmaze fallback
-    const showsPromise = Array.isArray(showsData)
-      ? showsData.slice(0, 3).map(async item => {
-          const title = item?.show?.title || 'Unknown';
-          let poster  = await getTMDBPoster(item?.show?.ids?.tmdb, 'tv');
-          if (!poster) poster = await getTVMazePoster(title);
-          return { title, poster };
-        })
-      : [];
-
-    // Movies: TMDB first, then iTunes fallback for better coverage
-    const moviesPromise = Array.isArray(moviesData)
-      ? moviesData.slice(0, 3).map(async item => {
-          const title = item?.movie?.title || 'Unknown';
-          let poster = await getTMDBPoster(item?.movie?.ids?.tmdb, 'movie');
-          return { title, poster };
-        })
-      : [];
-
-    const [shows, movies] = await Promise.all([
-      Promise.all(showsPromise),
-      Promise.all(moviesPromise),
-    ]);
 
     res.status(200).json({ shows, movies });
   } catch (error) {

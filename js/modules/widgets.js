@@ -17,7 +17,7 @@ export const CONFIG = {
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: [
-      { title: 'Dune: Part Two' },
+      { title: 'Dune: Part Three' },
       { title: 'Spider-Man: Across the Spider-Verse' },
       { title: 'The Odyssey' }
     ],
@@ -38,31 +38,48 @@ export const CONFIG = {
  * Falls back to iTunes TV show search for better coverage.
  */
 function _tvmazePoster(title) {
-  // Clean title: remove season info like 'S03', 's3' etc.
-  var clean = title.replace(/\s[sS]\d+/g, '').replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
+  // 1. Clean title: remove EVERYTHING after ' s\d+' or ' Season \d+'
+  // We use split and then take the first part to be extra safe
+  var clean = title.replace(/\s[sS]\d+.*/g, '')
+                   .replace(/\sSeason\s\d+.*/gi, '')
+                   .replace(/[:\-]/g, ' ')
+                   .replace(/\s+/g, ' ')
+                   .trim();
 
-  return fetch('https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(clean))
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(d) {
-      return d && d.image ? (d.image.medium || d.image.original || null) : null;
-    })
-    .then(function(url) {
-      if (url) return url;
-      // iTunes TV fallback — free, CORS-safe, no key
-      return fetch(
-        'https://itunes.apple.com/search?term=' + encodeURIComponent(clean) +
-        '&media=tvShow&entity=tvSeason&limit=1'
-      )
-        .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(d) {
-          if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-            return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-          }
-          return null;
-        })
-        .catch(function() { return null; });
-    })
-    .catch(function() { return null; });
+  var search = function(term) {
+    return fetch('https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(term))
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(d) {
+        return d && d.image ? (d.image.medium || d.image.original || null) : null;
+      })
+      .then(function(url) {
+        if (url) return url;
+        // iTunes TV fallback — free, CORS-safe, no key
+        return fetch(
+          'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+          '&media=tvShow&entity=tvSeason&limit=1'
+        )
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(d) {
+            if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
+              return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+            }
+            return null;
+          })
+          .catch(function() { return null; });
+      })
+      .catch(function() { return null; });
+  };
+
+  return search(clean).then(function(res) {
+    if (res) return res;
+    // Fallback: If 3+ words, try first 2
+    var parts = clean.split(' ');
+    if (parts.length > 2) {
+      return search(parts.slice(0, 2).join(' '));
+    }
+    return null;
+  });
 }
 
 /**
@@ -393,8 +410,13 @@ function _starsHTML(starsStr) {
           var progressWrap = document.getElementById('tv-progress-wrap');
           var progressFill = document.getElementById('tv-progress-fill');
           if (progressWrap && progressFill) {
-            progressWrap.style.display = 'block';
-            progressFill.style.width   = data.watching ? '45%' : '100%';
+            if (data.progress != null) {
+              progressWrap.style.display = 'block';
+              progressFill.style.width   = data.progress + '%';
+            } else {
+              progressFill.style.width   = data.watching ? '45%' : '100%';
+              progressWrap.style.display = data.watching ? 'block' : 'none';
+            }
           }
 
           if (data.poster && tvPoster) {
@@ -1335,11 +1357,26 @@ function _starsHTML(starsStr) {
               wrap.title     = s.title;
 
               wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
-              _tvmazePoster(s.title).then(function(url) {
-                if (url && wrap.parentNode) {
-                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                }
-              });
+              
+              // 1. If API already provided a poster, use it directly!
+              if (s.poster) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+              } else {
+                // 2. Fallback: Search using robust cleaner
+                _tvmazePoster(s.title).then(function(url) {
+                  if (url && wrap.parentNode) {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                  }
+                });
+              }
+
+              // 3. New: Progress Bar for big three items
+              if (s.progress != null) {
+                var barCont = document.createElement('div');
+                barCont.className = 'media-thumb-progress-cont';
+                barCont.innerHTML = '<div class="media-thumb-progress-fill" style="width:' + s.progress + '%"></div>';
+                wrap.appendChild(barCont);
+              }
 
               seriesThumbsEl.appendChild(wrap);
             });
@@ -1375,8 +1412,8 @@ function _starsHTML(starsStr) {
 
         /* ── Series fallback — TVmaze + iTunes ── */
         if (seriesEl) {
-          var fallbackSeries = CONFIG.currently.series.slice(0, 3);
-          seriesEl.textContent = fallbackSeries.join(', ');
+          var fallbackSeries = CONFIG.big3.seriesWatchlist;
+          seriesEl.textContent = fallbackSeries.map(function(s) { return s.title; }).join(', ');
 
           var seriesThumbsElFb = document.getElementById('big3-series-thumbs');
           if (seriesThumbsElFb) {

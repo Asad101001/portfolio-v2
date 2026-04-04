@@ -385,6 +385,14 @@ document.head.appendChild(fizzStyle);
             });
           }
           card.classList.toggle('manual-expand');
+          e.stopPropagation(); // prevent global collapse
+        }
+      }, { passive: true });
+
+      // Global collapse when touching away
+      document.addEventListener('touchstart', (e) => {
+        if (!e.target.closest('.acard')) {
+          grid.querySelectorAll('.acard.manual-expand').forEach(c => c.classList.remove('manual-expand'));
         }
       }, { passive: true });
     }

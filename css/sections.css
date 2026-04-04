@@ -139,6 +139,15 @@
 .tl-logo { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
 .tl-inst { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
 
+@media (max-width: 480px) {
+  .timeline-item { gap: 12px; padding-left: 30px; }
+  .tl-dot { left: 4px; width: 14px; height: 14px; }
+  .timeline-item::before { left: 10px; }
+  .tl-card { padding: 16px 18px; }
+  .tl-degree { font-size: 0.95rem; }
+  .tl-inst { font-size: 0.78rem; }
+}
+
 /* ── Contact / Socials ────────────────────────────────────── */
 /* 5-item Social Grid (1x1x3 pattern) */
 .social-cards-grid { 

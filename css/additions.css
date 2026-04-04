@@ -369,6 +369,23 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
+/* New: Progress Bar for Thumbs */
+.media-thumb-progress-cont {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(0,0,0,0.5);
+  z-index: 5;
+}
+
+.media-thumb-progress-fill {
+  height: 100%;
+  background: var(--cyan);
+  box-shadow: 0 0 5px var(--cyan);
+}
 .media-thumb-img, .footballer-headshot-img, .artist-thumb-img {
   width: 100%;
   height: 100%;
@@ -1755,8 +1772,9 @@ section::before {
 
 .x-post-body {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
+    flex-direction: column; /* Changed to column to put media below text */
+    gap: 8px;
+    align-items: stretch;
 }
 
 .x-post-main {
@@ -1772,14 +1790,14 @@ section::before {
 
 .x-post-header {
     display: flex;
-    gap: 10px; /* Downsized */
-    margin-bottom: 4px; /* Downsized */
+    gap: 10px;
+    margin-bottom: 4px;
     align-items: flex-start;
 }
 
 .x-avatar {
-    width: 32px; /* Downsized */
-    height: 32px; /* Downsized */
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
@@ -1806,7 +1824,7 @@ section::before {
 }
 
 .x-display-name {
-    font-size: 0.8rem; /* Downsized */
+    font-size: 0.8rem;
     font-weight: 800;
     color: #fff;
     white-space: nowrap;
@@ -1815,7 +1833,7 @@ section::before {
 }
 
 .x-handle, .x-dot, .x-time {
-    font-size: 0.72rem; /* Downsized */
+    font-size: 0.72rem;
     color: var(--text-dim);
     white-space: nowrap;
 }
@@ -1844,21 +1862,23 @@ section::before {
 }
 
 .x-card-media { 
-    width: 68px;
-    height: 68px;
-    border-radius: 8px; 
+    width: 100%; /* Full width */
+    max-height: 320px; /* Cap height to prevent too much scroll */
+    border-radius: 12px; 
     overflow: hidden; 
-    border: 1px solid rgba(255,255,255,0.08); 
-    background: #000;
-    flex-shrink: 0;
-    margin-right: 2px;
+    margin-top: 8px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.x-card-media img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    display: block; 
+.x-card-media img, .x-card-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .x-post-actions {
@@ -1902,16 +1922,17 @@ section::before {
     justify-content: center;
     gap: 12px;
     padding: 9px !important;
-    min-width: 48px !important; /* Slightly wider to prevent cutoff */
-    max-width: 48px !important; /* Start as icon only */
+    min-width: 52px !important; /* Increased from 48px to prevent content cutoff */
+    max-width: 52px !important; /* Start as icon only */
     width: auto;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.acard.aws-merged:hover {
-    padding: 9px 12px !important;
+.acard.aws-merged:hover, .acard.aws-merged.manual-expand {
+    padding: 9px 15px !important;
     max-width: 800px !important; /* Allow massive growth */
+    min-width: 52px !important;
     z-index: 10;
 }
 
@@ -1920,14 +1941,16 @@ section::before {
     align-items: center;
     gap: 0px;
     overflow: hidden;
-    padding-left: 6px;
-    border-left: 1px solid rgba(255,255,255,0.15);
-    margin-left: 6px;
+    padding-left: 0;
+    border-left: 0 solid rgba(255,255,255,0);
+    margin-left: 0;
     transition: all 0.4s ease;
 }
 
-.acard.aws-merged:hover .aws-services {
-    /* natural growth */
+.acard.aws-merged:hover .aws-services, .acard.aws-merged.manual-expand .aws-services {
+    padding-left: 10px;
+    border-left: 1px solid rgba(255,255,255,0.22);
+    margin-left: 8px;
 }
 
 .aws-svc {

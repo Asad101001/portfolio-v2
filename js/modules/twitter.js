@@ -62,8 +62,8 @@ import { CONFIG } from './widgets.js';
                 let vSrc = videoMatch[1];
                 if (vSrc.startsWith('/')) vSrc = originBase + vSrc;
                 mediaHtml = `
-                    <div class="x-card-media" style="margin-top: 12px; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);">
-                        <video src="${vSrc}" autoplay loop muted playsinline style="max-width: 100%; max-height: 450px; width: 100%; object-fit: contain; margin: 0 auto; display: block;"></video>
+                    <div class="x-card-media">
+                        <video src="${vSrc}" controls autoplay loop muted playsinline></video>
                     </div>
                 `;
             } else {
@@ -72,8 +72,8 @@ import { CONFIG } from './widgets.js';
                     let imgSrc = imgMatch[1];
                     if (imgSrc.startsWith('/')) imgSrc = originBase + imgSrc;
                     mediaHtml = `
-                        <div class="x-card-media" style="margin-top: 12px; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);">
-                            <img src="${imgSrc}" alt="Post media" loading="lazy" style="max-width: 100%; max-height: 450px; width: 100%; object-fit: contain; margin: 0 auto; display: block;">
+                        <div class="x-card-media">
+                            <img src="${imgSrc}" alt="Post media" loading="lazy">
                         </div>
                     `;
                 }
