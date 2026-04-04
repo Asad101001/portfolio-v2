@@ -17,14 +17,14 @@ export const CONFIG = {
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: [
-      { title: 'Dune: Part Three' },
-      { title: 'Spider-Man: Across the Spider-Verse' },
-      { title: 'The Odyssey' }
+      { title: 'Dune: Part Three', poster: 'https://image.tmdb.org/t/p/original/8OAbx7S7uCqC35O5B6i4yZ6u6U.jpg' },
+      { title: 'The Odyssey', poster: 'https://image.tmdb.org/t/p/original/3S2WfX6W8AtRpxvDTcuBR_5.jpg' },
+      { title: 'Spider-Man: Brand New Day', poster: 'https://image.tmdb.org/t/p/original/spidey_concept.jpg' }
     ],
     seriesWatchlist: [
-      { title: 'Severance s3' },
-      { title: 'The Boys s5' },
-      { title: 'House of the Dragon s3' }
+      { title: 'Severance s3', poster: 'https://image.tmdb.org/t/p/original/qA97S9Y5IF79m9ojN9v7u96S9Py.jpg' },
+      { title: 'The Boys s5', poster: 'https://image.tmdb.org/t/p/original/7WsyChp6Y_yW_8AtRpxvDTcuBR_1.jpg' },
+      { title: 'House of the Dragon s3', poster: 'https://image.tmdb.org/t/p/original/z2Yp7oYp7Yp7Yp7Yp7Yp7Yp7Yp7Y.jpg' }
     ]
   }
 };
@@ -98,12 +98,20 @@ function timeAgo(dateStr) {
 
 
 /**
- * FIXED: Movie poster via iTunes Search API (no key required, CORS-safe)
+ * FIXED: Movie poster via Wikipedia Rest API (primary) + iTunes fallback.
+ * Wikipedia is excellent for finding high-quality "main" images for films.
  */
 function _moviePoster(title) {
-  // Clean title for better matching
-  const clean = title.replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
-  const search = function(term) {
+  var clean = title.replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
+  var wikiSlug = clean.replace(/ /g, '_');
+
+  var wikiFetch = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiSlug))
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) {
+      return (d && d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null;
+    });
+
+  var itunesFetch = function(term) {
     return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(term) + '&media=movie&limit=1')
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
@@ -111,30 +119,17 @@ function _moviePoster(title) {
           return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
         }
         return null;
-      })
-      .then(function(res) {
-        if (res) return res;
-        // Fallback: TMDB-like search via iTunes if movie search fails (sometimes entity is musicVideo for trailers)
-        return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(term) + '&limit=1')
-          .then(function(r) { return r.ok ? r.json() : null; })
-          .then(function(d) {
-            if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-              return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-            }
-            return null;
-          });
       });
   };
 
-  return search(clean).then(function(res) {
+  return wikiFetch.then(function(res) {
     if (res) return res;
-    // Fallback 1: Just first 2 words
-    const parts = clean.split(' ');
-    if (parts.length > 2) {
-      return search(parts.slice(0, 2).join(' '));
-    }
-    // Fallback 2: Just the title as is
-    return search(title);
+    return itunesFetch(clean).then(function(res2) {
+      if (res2) return res2;
+      var parts = clean.split(' ');
+      if (parts.length > 2) return itunesFetch(parts.slice(0, 2).join(' '));
+      return null;
+    });
   }).catch(function() { return null; });
 }
 
@@ -145,27 +140,27 @@ function _moviePoster(title) {
  * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
  */
 function _artistImage(name) {
-  // Try Wikipedia Rest Summary First (Often has better portrait shots for modern artists like Playboi Carti)
-  return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
+  // 1. Try TheAudioDB first (Excellent for dedicated artist portraits)
+  return fetch('https://www.theaudiodb.com/api/v1/json/2/search.php?s=' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      if (d && d.thumbnail && d.thumbnail.source) return d.thumbnail.source;
+      if (d && d.artists && d.artists[0] && d.artists[0].strArtistThumb) {
+        return d.artists[0].strArtistThumb;
+      }
       
-      // Fallback: iTunes musicArtist Entity
-      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
+      // 2. Wikipedia Rest Summary (Often has better portrait shots for modern artists)
+      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
-          if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {
-            return d2.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
-          }
-          // Generic audioDB/iTunes song fallback if portrait still misses
-          return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=song&limit=1')
+          if (d2 && d2.thumbnail && d2.thumbnail.source) return d2.thumbnail.source;
+          
+          // 3. Fallback: iTunes musicArtist Entity (Avoid collection art)
+          return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(d3) {
               if (d3 && d3.results && d3.results[0] && d3.results[0].artworkUrl100) {
-                return d3.results[0].artworkUrl100.replace('100x100bb', '400x400bb');
+                return d3.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
               }
-              // Absolute final fallback so it doesn't break UI layout (placeholder grey image)
               return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
             });
         });
@@ -627,36 +622,22 @@ function _starsHTML(starsStr) {
              '<span class="rotating-label currently-into-label">' + headerLabel + '</span>' +
              (timeframe ? '<span class="match-timeframe">' + timeframe + '</span>' : '') +
           '</div>' +
-          '<div class="barca-content-split">' +
-            '<div class="barca-identity">' +
-              '<div class="barca-logo-wrap">' +
-                '<img src="' + barcaLogo + '" class="barca-main-logo" alt="FCB">' +
-                '<span class="barca-mini-tag">Supporting</span>' +
+          '<div class="barca-score-col-right centered-scorecard">' +
+            '<div class="score-row-mini ' + (barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
+              '<div class="score-team-info">' +
+                '<img src="' + hostLogo + '" class="tiny-logo" alt="">' +
+                '<span class="score-team-abbr">' + hostName + ' <small class="host-tag">' + (barcaIsHost ? 'Supporting' : '(H)') + '</small></span>' +
               '</div>' +
-              '<div class="barca-text-group">' +
-                '<span class="barca-pink-name">FC Barcelona</span>' +
-                '<div class="barca-slogan-wrap">' +
-                  '<span class="barca-mes-que">Més que un club</span>' +
-                '</div>' +
-              '</div>' +
+              scorerAndRedHTML(hostScorers, hostRed) +
+              '<span class="score-num">' + hostScoreDisplay + '</span>' +
             '</div>' +
-            '<div class="barca-score-col-right">' +
-              '<div class="score-row-mini ' + (barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
-                '<div class="score-team-info">' +
-                  '<img src="' + hostLogo + '" class="tiny-logo" alt="">' +
-                  '<span class="score-team-abbr">' + hostName + ' <small class="host-tag">(H)</small></span>' +
-                '</div>' +
-                scorerAndRedHTML(hostScorers, hostRed) +
-                '<span class="score-num">' + hostScoreDisplay + '</span>' +
+            '<div class="score-row-mini ' + (!barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
+              '<div class="score-team-info">' +
+                '<img src="' + awayLogo + '" class="tiny-logo" alt="">' +
+                '<span class="score-team-abbr">' + awayName + ' <small class="host-tag">' + (!barcaIsHost ? 'Supporting' : '') + '</small></span>' +
               '</div>' +
-              '<div class="score-row-mini ' + (!barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
-                '<div class="score-team-info">' +
-                  '<img src="' + awayLogo + '" class="tiny-logo" alt="">' +
-                  '<span class="score-team-abbr">' + awayName + '</span>' +
-                '</div>' +
-                scorerAndRedHTML(awayScorers, awayRed) +
-                '<span class="score-num">' + awayScoreDisplay + '</span>' +
-              '</div>' +
+              scorerAndRedHTML(awayScorers, awayRed) +
+              '<span class="score-num">' + awayScoreDisplay + '</span>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -1326,11 +1307,8 @@ function _starsHTML(starsStr) {
         return r.json();
       })
       .then(function(data) {
-        if (!data || !data.shows || data.shows.length === 0) {
-          throw new Error('No series data from API');
-        }
+        if (!data) data = { shows: [], movies: [] };
 
-        /* ── Series ── */
         /* ── Series (HARDCODED + API) ── */
         if (seriesEl && CONFIG.big3.seriesWatchlist) {
           // CLONE to avoid permanent pollution of CONFIG if desired, but here we merge.
@@ -1397,11 +1375,16 @@ function _starsHTML(starsStr) {
               wrap.title     = m.title;
               
               wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
-              _moviePoster(m.title).then(function(url) {
-                if (url && wrap.parentNode) {
-                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                }
-              });
+              
+              if (m.poster) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + m.poster + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+              } else {
+                _moviePoster(m.title).then(function(url) {
+                  if (url && wrap.parentNode) {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                  }
+                });
+              }
 
               movieThumbsEl.appendChild(wrap);
             });
@@ -1409,28 +1392,29 @@ function _starsHTML(starsStr) {
         }
       })
       .catch(function() {
-
-        /* ── Series fallback — TVmaze + iTunes ── */
+        /* ── Series fallback ── */
         if (seriesEl) {
-          var fallbackSeries = CONFIG.big3.seriesWatchlist;
-          seriesEl.textContent = fallbackSeries.map(function(s) { return s.title; }).join(', ');
+          var fbS = CONFIG.big3.seriesWatchlist || [];
+          seriesEl.textContent = fbS.map(function(s) { return s.title; }).join(', ');
 
           var seriesThumbsElFb = document.getElementById('big3-series-thumbs');
           if (seriesThumbsElFb) {
             seriesThumbsElFb.innerHTML = '';
-            fallbackSeries.forEach(function(title) {
+            fbS.forEach(function(s) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
-              wrap.title     = title;
+              wrap.title     = s.title;
               wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
 
-              // FIXED: multi-source fallback
-              _tvmazePoster(title).then(function(posterUrl) {
-                if (posterUrl && wrap.parentNode) {
-                  wrap.innerHTML = '<img class="media-thumb-img" src="' + posterUrl + '" alt="' + title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                }
-              }).catch(function() {});
-
+              if (s.poster) {
+                wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" />';
+              } else {
+                _tvmazePoster(s.title).then(function(url) {
+                  if (url && wrap.parentNode) {
+                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" />';
+                  }
+                }).catch(function() {});
+              }
               seriesThumbsElFb.appendChild(wrap);
             });
           }

@@ -544,9 +544,19 @@
 }
 
 .barca-layout-main {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
+}
+
+.centered-scorecard {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .barca-content-split {
@@ -2518,6 +2528,63 @@ section::before {
   gap: 12px;
   height: 90px;
   margin-top: 10px;
+}
+
+/* ── Media Thumbs (Big Threes) ── */
+.media-thumbs-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+  min-height: 100px;
+}
+
+.media-thumb-card {
+  width: 70px;
+  height: 100px;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.media-thumb-card:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--cyan);
+  z-index: 10;
+}
+
+.media-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-thumb-emoji {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+.media-thumb-progress-cont {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0,0,0,0.3);
+}
+
+.media-thumb-progress-fill {
+  height: 100%;
+  background: var(--cyan);
+  box-shadow: 0 0 5px var(--cyan);
 }
 .footballer-card {
   display: flex;

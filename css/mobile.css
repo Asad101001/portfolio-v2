@@ -134,10 +134,16 @@
   .timeline-item:nth-child(3) { width: 85%; transform: translateX(20px); }
 
   /* ── Twitter Media (Mobile) ────────────────────────────── */
+  /* ── Twitter Media (Mobile) ────────────────────────────── */
   .x-card-media {
-    width: 62px;
-    height: 62px;
-    margin-right: 0;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 280px !important;
+    margin-top: 10px !important;
+    border-radius: 8px !important;
+  }
+  .x-card-media img, .x-card-media video {
+    border-radius: 8px !important;
   }
 
   /* ── Footer ───────────────────────────────────────────── */
@@ -174,6 +180,66 @@
   body.theme-industrial .hero-name {
     text-shadow: 2px 2px 0px #f97316 !important;
     font-size: 2.4rem !important;
+  }
+
+  /* ── Universal Theme & Glow Balancing ─────────────────── */
+  body.theme-cyberpunk .glass-card,
+  body.theme-cyberpunk .project-card {
+    box-shadow: 0 4px 15px rgba(0,243,255,0.15) !important;
+    border-width: 1px !important;
+  }
+  
+  body.theme-emerald .glass-card,
+  body.theme-emerald .project-card {
+    box-shadow: 0 4px 15px rgba(16,185,129,0.15) !important;
+  }
+
+  body.theme-sunset .hero-name {
+    font-size: 2.4rem !important;
+  }
+
+  /* ── Visitor XP & Widgets Audit ───────────────────────── */
+  .xp-widget {
+    padding: 12px 16px !important;
+  }
+  .xp-bar-wrap {
+    height: 6px !important;
+    background: rgba(255,255,255,0.05) !important;
+    border-radius: 3px !important;
+  }
+  .xp-header .xp-label {
+    font-size: 0.75rem !important;
+  }
+
+  .clock-widget {
+    flex-direction: row !important;
+    gap: 12px !important;
+    padding: 15px !important;
+  }
+  .clock-face {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  .clock-prime-time {
+    font-size: 1.1rem !important;
+  }
+
+  /* ── Big 3 Social Widget ──────────────────────────────── */
+  #big3-social-widget {
+    min-height: 160px !important;
+  }
+  #big3-social-widget .currently-into-item {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 10px !important;
+    padding: 15px 10px !important;
+  }
+  .media-thumbs-row, .artist-thumbs-row {
+    justify-content: center !important;
+  }
+  .footballer-headshots-row {
+    justify-content: center !important;
+    margin-bottom: 5px !important;
   }
 }
 
