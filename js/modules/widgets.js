@@ -576,7 +576,14 @@ function _starsHTML(starsStr) {
     var awayName = !barcaIsHost ? barcaName : oppNameFull;
 
     var timeframe = getMatchTimeframe(matchDate, state);
-    var headerLabel = (state === 'pre') ? 'Matchday' : 'Watching Football';
+    
+    // Header logic: Only say Matchday if it's TODAY
+    const dObj = new Date(matchDate);
+    const nObj = new Date();
+    const dS   = new Date(dObj.getFullYear(), dObj.getMonth(), dObj.getDate());
+    const nS   = new Date(nObj.getFullYear(), nObj.getMonth(), nObj.getDate());
+    const diff = Math.round((nS - dS) / (1000 * 60 * 60 * 24));
+    var headerLabel = (diff === 0) ? 'Matchday' : 'Watching Football';
 
     function scorerAndRedHTML(list, hasRed) {
       var scorers = '';
@@ -586,6 +593,10 @@ function _starsHTML(starsStr) {
       var red = hasRed ? '<span class="red-card-rect" title="Red Card"></span>' : '';
       return '<div class="score-meta-left">' + scorers + red + '</div>';
     }
+
+    // Pre-match digits as dashes
+    var hostScoreDisplay = (state === 'pre') ? '-' : (barcaIsHost ? barca.score : opp.score);
+    var awayScoreDisplay = (state === 'pre') ? '-' : (!barcaIsHost ? barca.score : opp.score);
 
     barcaItem.innerHTML =
       '<div class="barca-scorecard-wrap">' +
@@ -611,10 +622,10 @@ function _starsHTML(starsStr) {
               '<div class="score-row-mini ' + (barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
                 '<div class="score-team-info">' +
                   '<img src="' + hostLogo + '" class="tiny-logo" alt="">' +
-                  '<span class="score-team-abbr">' + hostName + '</span>' +
+                  '<span class="score-team-abbr">' + hostName + ' <small class="host-tag">(H)</small></span>' +
                 '</div>' +
                 scorerAndRedHTML(hostScorers, hostRed) +
-                '<span class="score-num">' + (barcaIsHost ? barca.score : opp.score) + '</span>' +
+                '<span class="score-num">' + hostScoreDisplay + '</span>' +
               '</div>' +
               '<div class="score-row-mini ' + (!barcaIsHost ? 'is-host ' + barcaRowClass : '') + '">' +
                 '<div class="score-team-info">' +
@@ -622,7 +633,7 @@ function _starsHTML(starsStr) {
                   '<span class="score-team-abbr">' + awayName + '</span>' +
                 '</div>' +
                 scorerAndRedHTML(awayScorers, awayRed) +
-                '<span class="score-num">' + (!barcaIsHost ? barca.score : opp.score) + '</span>' +
+                '<span class="score-num">' + awayScoreDisplay + '</span>' +
               '</div>' +
             '</div>' +
           '</div>' +

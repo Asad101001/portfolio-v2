@@ -849,13 +849,55 @@
   align-items: center;
   gap: 6px;
   font-size: 0.7rem;
-  opacity: 0.6;
+  opacity: 0.85; /* Increased for better readability */
   background: rgba(255, 255, 255, 0.03);
   padding: 4px 8px;
   border-radius: 4px;
   justify-content: space-between;
   border: 1px solid transparent;
   width: 100%;
+  transition: all 0.3s ease;
+}
+
+.host-tag {
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 3px;
+  border-radius: 2px;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.barca-live-badge {
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  background: #ff4d4d;
+  color: white;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
+  animation: barca-pulse 2s infinite ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.barca-live-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+}
+
+@keyframes barca-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 77, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 77, 77, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 77, 0.4); }
 }
 
 
