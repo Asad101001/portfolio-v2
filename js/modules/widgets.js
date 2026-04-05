@@ -140,7 +140,9 @@ function _moviePoster(title) {
  * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
  */
 function _artistImage(name) {
-  // 1. Try TheAudioDB first (Excellent for dedicated artist portraits)
+  var FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
+
+  // 1. Try TheAudioDB first (dedicated artist portraits)
   return fetch('https://www.theaudiodb.com/api/v1/json/2/search.php?s=' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
@@ -148,26 +150,26 @@ function _artistImage(name) {
         return d.artists[0].strArtistThumb;
       }
       
-      // 2. Wikipedia Rest Summary (Often has better portrait shots for modern artists)
-      return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
+      // 2. iTunes musicArtist search (fast, no key, good modern artist coverage)
+      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
-          if (d2 && d2.thumbnail && d2.thumbnail.source) return d2.thumbnail.source;
-          
-          // 3. Fallback: iTunes musicArtist Entity (Avoid collection art)
-          return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
+          if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {
+            return d2.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+          }
+
+          // 3. Wikipedia Rest Summary fallback
+          return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(d3) {
-              if (d3 && d3.results && d3.results[0] && d3.results[0].artworkUrl100) {
-                return d3.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-              }
-              return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
-            });
-        });
+              if (d3 && d3.thumbnail && d3.thumbnail.source) return d3.thumbnail.source;
+              return FALLBACK_SVG;
+            })
+            .catch(function() { return FALLBACK_SVG; });
+        })
+        .catch(function() { return FALLBACK_SVG; });
     })
-    .catch(function() { 
-      return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
-    });
+    .catch(function() { return FALLBACK_SVG; });
 }
 
 /**
@@ -484,13 +486,23 @@ function _starsHTML(starsStr) {
     return out;
   }
 
+  function _shortName(fullName) {
+    if (!fullName) return '';
+    // For names like "R. Lewandowski" keep as-is, otherwise take last word
+    var parts = fullName.split(' ');
+    if (parts.length === 1) return fullName;
+    // If first part is initial (single char or with dot), return as-is shortened
+    if (parts[0].length <= 2) return parts[parts.length - 1];
+    // Otherwise return just the last name
+    return parts[parts.length - 1];
+  }
+
   function fetchScorers(eventId, leagueSlug) {
     var url = 'https://site.api.espn.com/apis/site/v2/sports/soccer/' + leagueSlug + '/summary?event=' + eventId;
     return fetch(url)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(data){
         var scorerMap = {};
-        var redCardMap = {};
         var plays = data.scoringPlays || data.keyEvents || [];
         plays.forEach(function(play){
           var typeText = (play.type && play.type.text || play.type && play.type.name || '').toLowerCase();
@@ -499,22 +511,19 @@ function _starsHTML(starsStr) {
 
           if (typeText.indexOf('goal') !== -1) {
             var athlete = play.participants && play.participants[0] && play.participants[0].athlete;
-            var name = athlete && (athlete.shortName || athlete.displayName);
-            if (!name) return;
+            var rawName = athlete && (athlete.shortName || athlete.displayName);
+            if (!rawName) return;
+            var name = _shortName(rawName);
             var clock = play.clock && play.clock.displayValue || play.period && play.period.displayValue || '';
             var cleanClock = clock.replace(/'/g, '');
             var entry = name + (cleanClock ? ' ' + cleanClock + "'" : '');
             if (!scorerMap[teamId]) scorerMap[teamId] = [];
             if (scorerMap[teamId].indexOf(entry) === -1) scorerMap[teamId].push(entry);
           }
-          
-          if (typeText.indexOf('red card') !== -1) {
-            redCardMap[teamId] = true;
-          }
         });
-        return { scorers: scorerMap, redCards: redCardMap };
+        return { scorers: scorerMap };
       })
-      .catch(function(){ return { scorers: {}, redCards: {} }; });
+      .catch(function(){ return { scorers: {} }; });
   }
 
   function leagueSlugFromEvent(ev) {
@@ -561,18 +570,13 @@ function _starsHTML(starsStr) {
     var barcaIsHost  = data.barcaIsHost;
     var barcaScorers = data.barcaScorers || [];
     var oppScorers   = data.oppScorers   || [];
-    var barcaRed     = data.barcaRed;
-    var oppRed       = data.oppRed;
 
     var barcaScore = parseInt(barca.score) || 0;
     var oppScore   = parseInt(opp.score)   || 0;
     var emotion = '⚽';
-    var barcaRowClass = '';
     
     if (state === 'post') {
       emotion = barcaScore > oppScore ? '🎉' : barcaScore < oppScore ? '😢' : '😕';
-      if (barcaScore > oppScore) barcaRowClass = 'barca-win-tint-row';
-      else if (barcaScore < oppScore) barcaRowClass = 'barca-loss-tint-row';
     } else if (state === 'in') {
       emotion = '🔥';
     }
@@ -580,18 +584,9 @@ function _starsHTML(starsStr) {
     var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.png';
     var oppLogo   = (opp.team && opp.team.logo) || 'https://a.espncdn.com/i/teamlogos/soccer/500/default.png';
 
-    var hostScorers = barcaIsHost ? barcaScorers : oppScorers;
-    var awayScorers = barcaIsHost ? oppScorers   : barcaScorers;
-    var hostRed     = barcaIsHost ? barcaRed     : oppRed;
-    var awayRed     = barcaIsHost ? oppRed       : barcaRed;
-    var hostLogo    = barcaIsHost ? barcaLogo    : oppLogo;
-    var awayLogo    = !barcaIsHost ? barcaLogo    : oppLogo;
-    
     var barcaName   = 'FC Barcelona';
     var oppNameFull = (opp.team && formatTeam(opp.team)) || '---';
     
-    // Corrected Home/Away Labeling
-    // Row 1 (Top) is always the "Home" team in standard layout, or matches original host/guest slots
     // Row 1: Home Team, Row 2: Away Team
     var team1 = barcaIsHost ? barcaName : oppNameFull;
     var team2 = !barcaIsHost ? barcaName : oppNameFull;
@@ -600,7 +595,7 @@ function _starsHTML(starsStr) {
     var score1 = barcaIsHost ? barca.score : opp.score;
     var score2 = !barcaIsHost ? barca.score : opp.score;
     
-    // Scorer details (Standardized format: Name Minute')
+    // Show most recent scorer only (already short names from _shortName)
     var s1 = (barcaIsHost ? barcaScorers : oppScorers).slice(-1)[0] || '';
     var s2 = (!barcaIsHost ? barcaScorers : oppScorers).slice(-1)[0] || '';
     
@@ -614,9 +609,9 @@ function _starsHTML(starsStr) {
     const diff = Math.round((nS - dS) / (1000 * 60 * 60 * 24));
     var headerLabel = (diff === 0) ? 'Matchday' : 'Watching Football';
     
-    // Identity-based layout (Corrected Home/Away logic)
+    // Identity column layout: logo on top, name+slogan below
     barcaItem.innerHTML =
-      '<div class="barca-scorecard-wrap ' + barcaRowClass + '">' +
+      '<div class="barca-scorecard-wrap">' +
         '<div class="barca-top-row">' +
           '<span class="rotating-label currently-into-label">' + headerLabel + '</span>' +
           (state !== 'in' && timeframe ? '<span class="match-timeframe">' + timeframe + '</span>' : '') +
@@ -628,7 +623,7 @@ function _starsHTML(starsStr) {
               '<span class="barca-mini-tag">SUPPORTING</span>' +
             '</div>' +
             '<div class="barca-name-stack">' +
-               '<span class="barca-name-pink">' + barcaName + '</span>' +
+               '<span class="barca-name-pink">FC Barcelona</span>' +
                '<span class="barca-slogan-cyan">MÉS QUE UN CLUB</span>' +
             '</div>' +
           '</div>' +
@@ -716,9 +711,7 @@ function _starsHTML(starsStr) {
           date:         ev.date,
           barcaIsHost:  barca.homeAway === 'home',
           barcaScorers: (res.scorers && res.scorers[BARCA_ID]) || [],
-          oppScorers:   opp ? ((res.scorers && res.scorers[String(opp.team.id)]) || []) : [],
-          barcaRed:     (res.redCards && res.redCards[BARCA_ID]) || false,
-          oppRed:       opp ? ((res.redCards && res.redCards[String(opp.team.id)]) || false) : false
+          oppScorers:   opp ? ((res.scorers && res.scorers[String(opp.team.id)]) || []) : []
         });
       });
     }).catch(function(e){ console.warn('[Barca] fetch error:', e); });
@@ -1343,22 +1336,16 @@ function _starsHTML(starsStr) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
               wrap.title     = s.title;
-
               wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
-              
-              // 1. If API already provided a poster, use it directly!
-              if (s.poster) {
-                wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-              } else {
-                // 2. Fallback: Search using robust cleaner
-                _tvmazePoster(s.title).then(function(url) {
-                  if (url && wrap.parentNode) {
-                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                  }
-                });
-              }
 
-              // 3. New: Progress Bar for big three items
+              // Always fetch a fresh poster from TVmaze/iTunes (hardcoded TMDB links may be broken)
+              _tvmazePoster(s.title).then(function(url) {
+                if (url && wrap.parentNode) {
+                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                }
+              });
+
+              // Progress Bar
               if (s.progress != null) {
                 var barCont = document.createElement('div');
                 barCont.className = 'media-thumb-progress-cont';
@@ -1383,18 +1370,14 @@ function _starsHTML(starsStr) {
               var wrap = document.createElement('div');
               wrap.className = 'media-thumb-card';
               wrap.title     = m.title;
-              
               wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
-              
-              if (m.poster) {
-                wrap.innerHTML = '<img class="media-thumb-img" src="' + m.poster + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-              } else {
-                _moviePoster(m.title).then(function(url) {
-                  if (url && wrap.parentNode) {
-                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                  }
-                });
-              }
+
+              // Always fetch fresh poster via Wikipedia + iTunes (hardcoded TMDB links may be broken)
+              _moviePoster(m.title).then(function(url) {
+                if (url && wrap.parentNode) {
+                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+                }
+              });
 
               movieThumbsEl.appendChild(wrap);
             });

@@ -637,34 +637,39 @@
 
 .barca-identity-side {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  min-width: 160px;
+  gap: 6px;
+  min-width: 80px;
   flex-shrink: 0;
 }
 
 .barca-name-stack {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1px;
 }
 
 .barca-name-pink {
   color: #ff0055;
-  font-size: 0.88rem;
+  font-size: 0.7rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   text-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+  text-align: center;
+  white-space: nowrap;
 }
 
 .barca-slogan-cyan {
-  color: #00f2ff; /* Using the Emerald Cyan for the slogan */
-  font-size: 0.52rem;
+  color: #00f2ff;
+  font-size: 0.42rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   white-space: nowrap;
+  text-align: center;
 }
 
 .barca-score-rows-side {
@@ -778,25 +783,47 @@
 }
 
 /* Mobile Breakpoint for Barca Widget */
-@media (max-width: 480px) {
-  .barca-content-split {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (max-width: 520px) {
+  .barca-content-layout-hybrid {
+    flex-direction: row;
     gap: 8px;
+    align-items: flex-start;
   }
-  .barca-identity {
-    align-items: center;
+  .barca-identity-side {
+    min-width: 64px;
+    gap: 4px;
+  }
+  .barca-name-pink {
+    font-size: 0.58rem;
+  }
+  .barca-slogan-cyan {
+    font-size: 0.36rem;
+    letter-spacing: 0.04em;
+  }
+  .barca-score-rows-side {
+    flex: 1;
     min-width: 0;
+    overflow: hidden;
   }
-  .barca-slogan-wrap {
-    justify-content: center;
+  .score-row-mini {
+    font-size: 0.58rem;
+    padding: 3px 5px;
   }
-  .barca-score-col-right {
-    min-width: 100%;
+  .score-team-abbr {
+    font-size: 0.52rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
+  }
+  .score-row-scorer {
+    display: none; /* Hide scorer on very narrow screens */
   }
   .rotating-item.barca-slot {
-    min-height: 120px; /* More room for vertical stack */
+    min-height: 105px;
+  }
+  .barca-scorecard-wrap {
+    padding: 3px 4px;
   }
 }
 
@@ -881,37 +908,25 @@
   margin-right: 8px;
 }
 
-.red-card-rect {
-  width: 6px;
-  height: 8px;
-  background: #ef4444;
-  border-radius: 1px;
-  display: inline-block;
-  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
-}
 
-.barca-win-tint-row {
-  background: rgba(34, 197, 94, 0.1) !important;
-  border: 1px solid rgba(34, 197, 94, 0.2) !important;
-}
+/* Win/loss tints removed — no green/red background for results */
 
-.barca-loss-tint-row {
-  background: rgba(239, 68, 68, 0.1) !important;
-  border: 1px solid rgba(239, 68, 68, 0.2) !important;
-}
+
 
 .tiny-logo, .barca-main-logo {
-  width: 24px !important;
-  height: 24px !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
   object-fit: contain;
   filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
 }
 
 .barca-main-logo {
-  width: 32px !important;
-  height: 32px !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
 }
 
 .score-team-info {
