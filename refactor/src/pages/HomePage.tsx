@@ -8,7 +8,7 @@ import ContactSection from '../components/home/ContactSection'
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-24 w-full">
+    <>
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
@@ -16,6 +16,6 @@ export default function HomePage() {
       <TechStackSection />
       <EducationSection />
       <ContactSection />
-    </div>
+    </>
   )
 }
