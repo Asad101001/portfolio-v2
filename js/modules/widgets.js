@@ -33,6 +33,11 @@ export const CONFIG = {
    IMAGE / DATA UTILITY HELPERS — FIXED VERSION
    ══════════════════════════════════════════════════════════ */
 
+function _toHttpsUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  return url.replace(/^http:\/\//i, 'https://');
+}
+
 /**
  * TVmaze — free, no key, CORS-safe.
  * Falls back to iTunes TV show search for better coverage.
@@ -50,7 +55,7 @@ function _tvmazePoster(title) {
     return fetch('https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(term))
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
-        return d && d.image ? (d.image.medium || d.image.original || null) : null;
+        return d && d.image ? _toHttpsUrl(d.image.medium || d.image.original || null) : null;
       })
       .then(function(url) {
         if (url) return url;
@@ -62,7 +67,7 @@ function _tvmazePoster(title) {
           .then(function(r) { return r.ok ? r.json() : null; })
           .then(function(d) {
             if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-              return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+              return _toHttpsUrl(d.results[0].artworkUrl100.replace('100x100bb', '600x600bb'));
             }
             return null;
           })
@@ -108,7 +113,7 @@ function _moviePoster(title) {
   var wikiFetch = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiSlug))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      return (d && d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null;
+      return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null;
     });
 
   var itunesFetch = function(term) {
@@ -116,7 +121,7 @@ function _moviePoster(title) {
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
         if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-          return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+          return _toHttpsUrl(d.results[0].artworkUrl100.replace('100x100bb', '600x600bb'));
         }
         return null;
       });
@@ -162,7 +167,7 @@ function _artistImage(name) {
           return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(d3) {
-              if (d3 && d3.thumbnail && d3.thumbnail.source) return d3.thumbnail.source;
+              if (d3 && d3.thumbnail && d3.thumbnail.source) return _toHttpsUrl(d3.thumbnail.source);
               return FALLBACK_SVG;
             })
             .catch(function() { return FALLBACK_SVG; });
@@ -192,7 +197,7 @@ function _sportsdbPlayer(pObj) {
       return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiQ))
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
-          return (d2 && d2.thumbnail && d2.thumbnail.source) ? d2.thumbnail.source : null;
+          return (d2 && d2.thumbnail && d2.thumbnail.source) ? _toHttpsUrl(d2.thumbnail.source) : null;
         });
     })
     .catch(function() { return null; });
