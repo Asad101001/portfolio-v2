@@ -33,6 +33,11 @@ export const CONFIG = {
    IMAGE / DATA UTILITY HELPERS — FIXED VERSION
    ══════════════════════════════════════════════════════════ */
 
+function _toHttpsUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  return url.replace(/^http:\/\//i, 'https://');
+}
+
 /**
  * TVmaze — free, no key, CORS-safe.
  * Falls back to iTunes TV show search for better coverage.
@@ -50,7 +55,7 @@ function _tvmazePoster(title) {
     return fetch('https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(term))
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
-        return d && d.image ? (d.image.medium || d.image.original || null) : null;
+        return d && d.image ? _toHttpsUrl(d.image.medium || d.image.original || null) : null;
       })
       .then(function(url) {
         if (url) return url;
@@ -62,7 +67,7 @@ function _tvmazePoster(title) {
           .then(function(r) { return r.ok ? r.json() : null; })
           .then(function(d) {
             if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-              return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+              return _toHttpsUrl(d.results[0].artworkUrl100.replace('100x100bb', '600x600bb'));
             }
             return null;
           })
@@ -108,7 +113,7 @@ function _moviePoster(title) {
   var wikiFetch = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiSlug))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
-      return (d && d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null;
+      return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null;
     });
 
   var itunesFetch = function(term) {
@@ -116,7 +121,7 @@ function _moviePoster(title) {
       .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(d) {
         if (d && d.results && d.results[0] && d.results[0].artworkUrl100) {
-          return d.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+          return _toHttpsUrl(d.results[0].artworkUrl100.replace('100x100bb', '600x600bb'));
         }
         return null;
       });
@@ -162,7 +167,7 @@ function _artistImage(name) {
           return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(d3) {
-              if (d3 && d3.thumbnail && d3.thumbnail.source) return d3.thumbnail.source;
+              if (d3 && d3.thumbnail && d3.thumbnail.source) return _toHttpsUrl(d3.thumbnail.source);
               return FALLBACK_SVG;
             })
             .catch(function() { return FALLBACK_SVG; });
@@ -192,7 +197,7 @@ function _sportsdbPlayer(pObj) {
       return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiQ))
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
-          return (d2 && d2.thumbnail && d2.thumbnail.source) ? d2.thumbnail.source : null;
+          return (d2 && d2.thumbnail && d2.thumbnail.source) ? _toHttpsUrl(d2.thumbnail.source) : null;
         });
     })
     .catch(function() { return null; });
@@ -503,7 +508,9 @@ function _starsHTML(starsStr) {
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(data){
         var scorerMap = {};
+        var redCardMap = {};
         var plays = data.scoringPlays || data.keyEvents || [];
+
         plays.forEach(function(play){
           var typeText = (play.type && play.type.text || play.type && play.type.name || '').toLowerCase();
           var teamId = play.team && String(play.team.id || '');
@@ -520,10 +527,15 @@ function _starsHTML(starsStr) {
             if (!scorerMap[teamId]) scorerMap[teamId] = [];
             if (scorerMap[teamId].indexOf(entry) === -1) scorerMap[teamId].push(entry);
           }
+
+          if (typeText.indexOf('red') !== -1) {
+            redCardMap[teamId] = (redCardMap[teamId] || 0) + 1;
+          }
         });
-        return { scorers: scorerMap };
+
+        return { scorers: scorerMap, redCards: redCardMap };
       })
-      .catch(function(){ return { scorers: {} }; });
+      .catch(function(){ return { scorers: {}, redCards: {} }; });
   }
 
   function leagueSlugFromEvent(ev) {
@@ -561,6 +573,14 @@ function _starsHTML(starsStr) {
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
   }
 
+  function compactEventList(entries, limit) {
+    var list = Array.isArray(entries) ? entries.filter(Boolean) : [];
+    if (!list.length) return '';
+    if (list.length <= limit) return list.join(', ');
+    var overflow = list.length - limit;
+    return list.slice(0, limit).join(', ') + ' +' + overflow;
+  }
+
   function setBarcaDisplay(data) {
     var barca        = data.barca;
     var opp          = data.opp;
@@ -570,6 +590,8 @@ function _starsHTML(starsStr) {
     var barcaIsHost  = data.barcaIsHost;
     var barcaScorers = data.barcaScorers || [];
     var oppScorers   = data.oppScorers   || [];
+    var barcaRedCards = data.barcaRedCards || 0;
+    var oppRedCards   = data.oppRedCards   || 0;
 
     var barcaScore = parseInt(barca.score) || 0;
     var oppScore   = parseInt(opp.score)   || 0;
@@ -595,9 +617,10 @@ function _starsHTML(starsStr) {
     var score1 = barcaIsHost ? barca.score : opp.score;
     var score2 = !barcaIsHost ? barca.score : opp.score;
     
-    // Show most recent scorer only (already short names from _shortName)
-    var s1 = (barcaIsHost ? barcaScorers : oppScorers).slice(-1)[0] || '';
-    var s2 = (!barcaIsHost ? barcaScorers : oppScorers).slice(-1)[0] || '';
+    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 2);
+    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 2);
+    var red1 = barcaIsHost ? barcaRedCards : oppRedCards;
+    var red2 = !barcaIsHost ? barcaRedCards : oppRedCards;
     
     var timeframe = getMatchTimeframe(matchDate, state);
     if (state === 'in') timeframe = '';
@@ -634,6 +657,7 @@ function _starsHTML(starsStr) {
                 '<span class="score-team-abbr">' + team1 + ' <small class="host-tag">(H)</small></span>' +
               '</div>' +
               (s1 ? '<span class="score-row-scorer">' + s1 + '</span>' : '') +
+              (red1 ? '<span class="score-row-card" title="Red cards">🟥' + (red1 > 1 ? ' x' + red1 : '') + '</span>' : '') +
               '<span class="score-num">' + (state === 'pre' ? '-' : score1) + '</span>' +
             '</div>' +
             '<div class="score-row-mini">' +
@@ -642,6 +666,7 @@ function _starsHTML(starsStr) {
                 '<span class="score-team-abbr">' + team2 + '</span>' +
               '</div>' +
               (s2 ? '<span class="score-row-scorer">' + s2 + '</span>' : '') +
+              (red2 ? '<span class="score-row-card" title="Red cards">🟥' + (red2 > 1 ? ' x' + red2 : '') + '</span>' : '') +
               '<span class="score-num">' + (state === 'pre' ? '-' : score2) + '</span>' +
             '</div>' +
           '</div>' +
@@ -711,7 +736,9 @@ function _starsHTML(starsStr) {
           date:         ev.date,
           barcaIsHost:  barca.homeAway === 'home',
           barcaScorers: (res.scorers && res.scorers[BARCA_ID]) || [],
-          oppScorers:   opp ? ((res.scorers && res.scorers[String(opp.team.id)]) || []) : []
+          oppScorers:   opp ? ((res.scorers && res.scorers[String(opp.team.id)]) || []) : [],
+          barcaRedCards: (res.redCards && res.redCards[BARCA_ID]) || 0,
+          oppRedCards: opp ? ((res.redCards && res.redCards[String(opp.team.id)]) || 0) : 0
         });
       });
     }).catch(function(e){ console.warn('[Barca] fetch error:', e); });
@@ -1302,7 +1329,124 @@ function _starsHTML(starsStr) {
   }
   fetchArtists();
 
-  /* ── WATCHLIST (Trakt API) — TVmaze + iTunes fallback for series posters ── */
+  /* ── WATCHLIST (Dynamic provider API + local fallback) ── */
+  function mergeWatchlistItems(dynamicItems, fallbackItems) {
+    var out = [];
+    var seen = {};
+
+    (dynamicItems || []).forEach(function(item) {
+      var key = (item && item.title ? item.title : '').toLowerCase();
+      if (!key || seen[key]) return;
+      seen[key] = true;
+      out.push(item);
+    });
+
+    (fallbackItems || []).forEach(function(item) {
+      var normalized = typeof item === 'string' ? { title: item } : item;
+      var key = (normalized && normalized.title ? normalized.title : '').toLowerCase();
+      if (!key || seen[key]) return;
+      seen[key] = true;
+      out.push(normalized);
+    });
+
+    return out;
+  }
+
+  function compactTitles(items, maxVisible) {
+    var titles = (items || []).map(function(i) { return i && i.title; }).filter(Boolean);
+    if (!titles.length) return 'No items synced';
+    if (titles.length <= maxVisible) return titles.join(', ');
+    return titles.slice(0, maxVisible).join(', ') + ' +' + (titles.length - maxVisible);
+  }
+
+  function setPosterWithFallback(wrap, title, candidates, fallbackResolver) {
+    var queue = (candidates || []).filter(Boolean);
+    var tried = {};
+    var usedResolver = false;
+
+    function tryUrl(url) {
+      url = _toHttpsUrl(url);
+      if (!url || tried[url]) return tryNext();
+      tried[url] = true;
+
+      var img = document.createElement('img');
+      img.className = 'media-thumb-img';
+      img.src = url;
+      img.alt = title;
+      img.loading = 'lazy';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      img.onerror = function() { tryNext(); };
+      img.onload = function() {
+        if (!wrap.parentNode) return;
+        wrap.innerHTML = '';
+        wrap.appendChild(img);
+      };
+    }
+
+    function tryNext() {
+      if (!queue.length) {
+        if (usedResolver) return;
+        usedResolver = true;
+        fallbackResolver(title)
+          .then(function(url) { if (url) tryUrl(url); })
+          .catch(function() {});
+        return;
+      }
+      tryUrl(queue.shift());
+    }
+
+    tryNext();
+  }
+
+  function renderSeries(seriesItems) {
+    if (!seriesEl) return;
+
+    seriesEl.textContent = compactTitles(seriesItems, 4);
+
+    var seriesThumbsEl = document.getElementById('big3-series-thumbs');
+    if (!seriesThumbsEl) return;
+
+    seriesThumbsEl.innerHTML = '';
+    seriesItems.slice(0, 3).forEach(function(s) {
+      var wrap = document.createElement('div');
+      wrap.className = 'media-thumb-card';
+      wrap.title = s.title;
+      wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
+
+      setPosterWithFallback(wrap, s.title, [s.poster], _tvmazePoster);
+
+      if (s.progress != null) {
+        var barCont = document.createElement('div');
+        barCont.className = 'media-thumb-progress-cont';
+        barCont.innerHTML = '<div class="media-thumb-progress-fill" style="width:' + s.progress + '%"></div>';
+        wrap.appendChild(barCont);
+      }
+
+      seriesThumbsEl.appendChild(wrap);
+    });
+  }
+
+  function renderMovies(movieItems) {
+    if (!watchlistEl) return;
+
+    watchlistEl.textContent = compactTitles(movieItems, 4);
+
+    var movieThumbsEl = document.getElementById('big3-movie-thumbs');
+    if (!movieThumbsEl) return;
+
+    movieThumbsEl.innerHTML = '';
+    movieItems.slice(0, 3).forEach(function(m) {
+      var wrap = document.createElement('div');
+      wrap.className = 'media-thumb-card';
+      wrap.title = m.title;
+      wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
+
+      setPosterWithFallback(wrap, m.title, [m.poster, m.fallback], _moviePoster);
+
+      movieThumbsEl.appendChild(wrap);
+    });
+  }
+
   function fetchWatchlist() {
     fetch('/api/watchlist')
       .then(function(r) {
@@ -1310,133 +1454,17 @@ function _starsHTML(starsStr) {
         return r.json();
       })
       .then(function(data) {
-        if (!data) data = { shows: [], movies: [] };
+        if (!data) throw new Error('Empty payload');
 
-        /* ── Series (HARDCODED + API) ── */
-        if (seriesEl && CONFIG.big3.seriesWatchlist) {
-          // CLONE to avoid permanent pollution of CONFIG if desired, but here we merge.
-          var hardcodedSeries = [].concat(CONFIG.big3.seriesWatchlist);
-          var seriesTitles = hardcodedSeries.map(function(s) { return s.title; });
-          
-          if (data && data.shows && data.shows.length) {
-            data.shows.forEach(function(s) {
-              // Only add if not already present or if it's a different season variant
-              if (seriesTitles.indexOf(s.title) === -1) {
-                hardcodedSeries.push(s);
-              }
-            });
-          }
-          
-          seriesEl.textContent = hardcodedSeries.map(function(s) { return s.title; }).join(', ');
+        var mergedSeries = mergeWatchlistItems(data.shows, CONFIG.big3.seriesWatchlist || []);
+        var mergedMovies = mergeWatchlistItems(data.movies, CONFIG.big3.watchlist || []);
 
-          var seriesThumbsEl = document.getElementById('big3-series-thumbs');
-          if (seriesThumbsEl) {
-            seriesThumbsEl.innerHTML = '';
-            hardcodedSeries.forEach(function(s) {
-              var wrap = document.createElement('div');
-              wrap.className = 'media-thumb-card';
-              wrap.title     = s.title;
-              wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
-
-              // Always fetch a fresh poster from TVmaze/iTunes (hardcoded TMDB links may be broken)
-              _tvmazePoster(s.title).then(function(url) {
-                if (url && wrap.parentNode) {
-                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                }
-              });
-
-              // Progress Bar
-              if (s.progress != null) {
-                var barCont = document.createElement('div');
-                barCont.className = 'media-thumb-progress-cont';
-                barCont.innerHTML = '<div class="media-thumb-progress-fill" style="width:' + s.progress + '%"></div>';
-                wrap.appendChild(barCont);
-              }
-
-              seriesThumbsEl.appendChild(wrap);
-            });
-          }
-        }
-
-        /* ── Movies (HARDCODED as requested) ── */
-        if (watchlistEl && CONFIG.big3.watchlist) {
-          var hardcodedMovies = CONFIG.big3.watchlist;
-          watchlistEl.textContent = hardcodedMovies.map(function(m) { return m.title; }).join(', ');
-
-          var movieThumbsEl = document.getElementById('big3-movie-thumbs');
-          if (movieThumbsEl) {
-            movieThumbsEl.innerHTML = '';
-            hardcodedMovies.forEach(function(m) {
-              var wrap = document.createElement('div');
-              wrap.className = 'media-thumb-card';
-              wrap.title     = m.title;
-              wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
-
-              // Always fetch fresh poster via Wikipedia + iTunes (hardcoded TMDB links may be broken)
-              _moviePoster(m.title).then(function(url) {
-                if (url && wrap.parentNode) {
-                  wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-                }
-              });
-
-              movieThumbsEl.appendChild(wrap);
-            });
-          }
-        }
+        renderSeries(mergedSeries);
+        renderMovies(mergedMovies);
       })
       .catch(function() {
-        /* ── Series fallback ── */
-        if (seriesEl) {
-          var fbS = CONFIG.big3.seriesWatchlist || [];
-          seriesEl.textContent = fbS.map(function(s) { return s.title; }).join(', ');
-
-          var seriesThumbsElFb = document.getElementById('big3-series-thumbs');
-          if (seriesThumbsElFb) {
-            seriesThumbsElFb.innerHTML = '';
-            fbS.forEach(function(s) {
-              var wrap = document.createElement('div');
-              wrap.className = 'media-thumb-card';
-              wrap.title     = s.title;
-              wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
-
-              if (s.poster) {
-                wrap.innerHTML = '<img class="media-thumb-img" src="' + s.poster + '" alt="' + s.title + '" loading="lazy" />';
-              } else {
-                _tvmazePoster(s.title).then(function(url) {
-                  if (url && wrap.parentNode) {
-                    wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" />';
-                  }
-                }).catch(function() {});
-              }
-              seriesThumbsElFb.appendChild(wrap);
-            });
-          }
-        }
-
-        /* ── Movies fallback ── */
-        if (watchlistEl && CONFIG.big3.watchlist) {
-          var fallbackMovies = CONFIG.big3.watchlist;
-          watchlistEl.textContent = fallbackMovies.map(function(m) { return m.title || m; }).join(', ');
-
-          var movieThumbsElFb = document.getElementById('big3-movie-thumbs');
-          if (movieThumbsElFb) {
-            movieThumbsElFb.innerHTML = '';
-            fallbackMovies.forEach(function(m) {
-              var mObj = typeof m === 'string' ? { title: m } : m;
-              var wrap = document.createElement('div');
-              wrap.className = 'media-thumb-card';
-              wrap.title     = mObj.title;
-
-              if (mObj.fallback) {
-                wrap.innerHTML = '<img class="media-thumb-img" src="' + mObj.fallback + '" alt="' + mObj.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
-              } else {
-                wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
-              }
-              
-              movieThumbsElFb.appendChild(wrap);
-            });
-          }
-        }
+        renderSeries(CONFIG.big3.seriesWatchlist || []);
+        renderMovies(CONFIG.big3.watchlist || []);
       });
   }
   fetchWatchlist();
