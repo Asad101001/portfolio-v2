@@ -740,6 +740,15 @@
   animation: fade-in 0.3s ease;
 }
 
+.score-row-card {
+  font-size: 0.44rem;
+  color: #ff5d6c;
+  font-weight: 700;
+  margin-right: 6px;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(255, 93, 108, 0.45);
+}
+
 .home-icon {
   font-size: 0.5rem;
   opacity: 0.8;
