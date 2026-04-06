@@ -1354,44 +1354,6 @@ function _starsHTML(starsStr) {
     return titles.slice(0, maxVisible).join(', ') + ' +' + (titles.length - maxVisible);
   }
 
-  function setPosterWithFallback(wrap, title, candidates, fallbackResolver) {
-    var queue = (candidates || []).filter(Boolean);
-    var tried = {};
-    var usedResolver = false;
-
-    function tryUrl(url) {
-      if (!url || tried[url]) return tryNext();
-      tried[url] = true;
-
-      var img = document.createElement('img');
-      img.className = 'media-thumb-img';
-      img.src = url;
-      img.alt = title;
-      img.loading = 'lazy';
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-      img.onerror = function() { tryNext(); };
-      img.onload = function() {
-        if (!wrap.parentNode) return;
-        wrap.innerHTML = '';
-        wrap.appendChild(img);
-      };
-    }
-
-    function tryNext() {
-      if (!queue.length) {
-        if (usedResolver) return;
-        usedResolver = true;
-        fallbackResolver(title)
-          .then(function(url) { if (url) tryUrl(url); })
-          .catch(function() {});
-        return;
-      }
-      tryUrl(queue.shift());
-    }
-
-    tryNext();
-  }
-
   function renderSeries(seriesItems) {
     if (!seriesEl) return;
 
@@ -1407,7 +1369,13 @@ function _starsHTML(starsStr) {
       wrap.title = s.title;
       wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
 
-      setPosterWithFallback(wrap, s.title, [s.poster], _tvmazePoster);
+      var directPoster = s.poster || null;
+      var posterPromise = directPoster ? Promise.resolve(directPoster) : _tvmazePoster(s.title);
+      posterPromise.then(function(url) {
+        if (url && wrap.parentNode) {
+          wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+        }
+      }).catch(function() {});
 
       if (s.progress != null) {
         var barCont = document.createElement('div');
@@ -1435,7 +1403,13 @@ function _starsHTML(starsStr) {
       wrap.title = m.title;
       wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
 
-      setPosterWithFallback(wrap, m.title, [m.poster, m.fallback], _moviePoster);
+      var directPoster = m.poster || m.fallback || null;
+      var posterPromise = directPoster ? Promise.resolve(directPoster) : _moviePoster(m.title);
+      posterPromise.then(function(url) {
+        if (url && wrap.parentNode) {
+          wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+        }
+      }).catch(function() {});
 
       movieThumbsEl.appendChild(wrap);
     });
