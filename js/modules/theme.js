@@ -1,11 +1,11 @@
 /* ============================================================
    js/modules/theme.js
-   Dynamic Theme Engine
+   Dynamic Theme Engine — Navbar Integrated Version
    ============================================================ */
 'use strict';
 
 (function() {
-    const themes = ['cyberpunk', 'industrial', 'sunset', 'emerald'];
+    const themes = ['cyberpunk', 'industrial', 'sunset', 'emerald', 'professional'];
     let currentThemeIndex = 0;
 
     // Load saved theme
@@ -50,35 +50,32 @@
             document.body.classList.add(`theme-${theme}`);
         }
         
-        // Optional: Dispatch event for other components to react
+        // Dispatch event for other components to react
         window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme } }));
     }
 
-    // Create Toggle Button
+    // Initialize Toggles found in the Navbar (Branding Text)
     function initToggle() {
-        const btn = document.createElement('button');
-        btn.className = 'theme-toggle magnetic'; // Magnetic from animations.js
-        btn.setAttribute('aria-label', 'Toggle Theme');
-        btn.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-            </svg>
-        `;
+        const triggers = document.querySelectorAll('.theme-trigger');
+        
+        if (triggers.length === 0) {
+            console.warn('[Theme] No .theme-trigger elements found in DOM.');
+            return;
+        }
 
-        btn.addEventListener('click', rotateTheme);
-        document.body.appendChild(btn);
-
-        // Scroll Behavior: Hide on scroll down, show on up
-        let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                btn.classList.add('toggle-hidden');
-            } else {
-                btn.classList.remove('toggle-hidden');
-            }
-            lastScrollY = window.scrollY;
-        }, { passive: true });
+        triggers.forEach(el => {
+            el.style.cursor = 'pointer';
+            el.onclick = null; 
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                rotateTheme();
+            });
+        });
     }
 
+    // Re-run init when components are likely loaded
     window.addEventListener('DOMContentLoaded', initToggle);
+    
+    // Also listen for a custom event if using a component loader
+    window.addEventListener('componentsLoaded', initToggle);
 })();

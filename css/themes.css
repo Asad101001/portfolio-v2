@@ -2,6 +2,7 @@
 @import url('themes/sunset.css');
 @import url('themes/industrial.css');
 @import url('themes/emerald.css');
+@import url('themes/professional.css');
 
 :root {
     --hero-bg: url('../images/backgrounds/sunset-bg.png'); /* Default Sunset */
@@ -26,38 +27,53 @@ body.theme-emerald {
     --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16,185,129,0.08), transparent 40%);
 }
 
-/* Theme Toggle Button Styling */
-.theme-toggle {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 1000;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    color: var(--cyan);
+/* Brand / Theme Trigger Styling */
+.nav-brand-wrap {
     display: flex;
     align-items: center;
-    justify-content: center;
+}
+
+.theme-trigger {
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    transform: translateY(0);
-    opacity: 1;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: relative;
+    padding: 0.2rem 0;
 }
 
-.theme-toggle.toggle-hidden {
-    transform: translateY(100px) scale(0.8);
+.theme-trigger:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+.theme-trigger::after {
+    content: 'Click to Switch Theme';
+    position: absolute;
+    top: 130%;
+    left: 0;
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    white-space: nowrap;
     opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.2s ease;
     pointer-events: none;
+    background: var(--bg2);
+    padding: 4px 8px;
+    border: 1px solid var(--border);
 }
 
-.theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-    border-color: var(--cyan);
-    box-shadow: 0 0 15px var(--cyan);
+.theme-trigger:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Navbar Layout Fix */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .theme-toggle svg {

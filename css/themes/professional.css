@@ -1,0 +1,329 @@
+/* ── Vibrant Professional (Refined High-Contrast Light Mode) ──
+   Objective: High-Contrast Clarity with Energetic Branding Accents.
+   Priority: Pure White Foundations, Vibrant Brand Colors, Explict Readability.
+   ──────────────────────────────────────────────────────── */
+
+body.theme-professional {
+    /* 1. Pure Base Palette */
+    --bg:        #ffffff !important;
+    --bg2:       #f0f0f0 !important; /* Sharp light gray */
+    --surface:   #ffffff !important;
+    --border:    #000000 !important;
+    --border-h:  #000000 !important;
+    
+    /* 2. Absolute Typography */
+    --text:      #000000 !important;
+    --text-muted:#1a1a1a !important; /* Very dark gray for muted but readable text */
+    --text-dim:  #333333 !important;
+    
+    /* 3. Edgy Monochrome Accents */
+    --cyan:      #000000 !important; 
+    --lime:      #000000 !important; 
+    --purple:    #000000 !important; 
+    --orange:    #000000 !important; 
+    
+    /* 4. Effects */
+    --scanline-op: 0.02 !important; /* Very subtle scanline */
+    --grid-clr: rgba(0, 0, 0, 0.05) !important;
+    --spotlight-gradient: radial-gradient(800px circle at var(--x, 0px) var(--y, 0px), rgba(0, 0, 0, 0.03), transparent 70%) !important;
+
+    /* 5. Sharp Neo-Brutalist Radius & Shadows */
+    --radius:    0px !important;
+    --radius-lg: 0px !important;
+    --card-shadow: 6px 6px 0px #000000 !important;
+    --btn-shadow: 4px 4px 0px #000000 !important;
+}
+
+/* ────────────────────────────────────────────────────────
+   REFINED COMPONENT STYLING
+   ──────────────────────────────────────────────────────── */
+
+/* Force clean white background site-wide */
+body.theme-professional,
+body.theme-professional section,
+body.theme-professional main,
+body.theme-professional .project-body {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Edgy Monochrome Cards */
+body.theme-professional .glass-card,
+body.theme-professional .proj-card {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: var(--card-shadow) !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .glass-card:hover,
+body.theme-professional .proj-card:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 9px 9px 0px #000000 !important;
+    border-color: #000000 !important;
+}
+
+/* Branding & Navigation */
+body.theme-professional nav {
+    background: transparent !important;
+    border: none !important;
+}
+
+body.theme-professional .nav-inner {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0px #000000 !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .theme-trigger {
+    background: #000000 !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #ffffff !important;
+    padding: 2px 8px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-professional .nav-link {
+    color: #000000 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+body.theme-professional .nav-link:hover {
+    color: #ffffff !important;
+    background: #000000 !important;
+}
+
+/* Monochrome Widgets */
+body.theme-professional .spotify-widget,
+body.theme-professional .lastfm-widget,
+body.theme-professional .letterboxd-widget {
+    border: 2px solid #000000 !important;
+    border-left-width: 8px !important;
+    background: #ffffff !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* Tag & Pill High Contrast */
+body.theme-professional .tag-pill {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 700 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .status-pill {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    font-weight: 800 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .status-dot {
+    background: #000000 !important;
+    box-shadow: none !important;
+}
+
+/* Typography Clarity */
+body.theme-professional .hero-name {
+    color: #000000 !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    filter: none !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+}
+
+body.theme-professional .section-title {
+    color: #000000 !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.04em !important;
+}
+
+body.theme-professional .section-title::after {
+    background: #000000 !important;
+    height: 6px !important;
+    box-shadow: none !important;
+}
+
+/* Button Overrides */
+body.theme-professional .btn-primary,
+body.theme-professional .nav-cta {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-professional .btn-primary:hover,
+body.theme-professional .nav-cta:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 6px 6px 0px #000000 !important;
+}
+
+body.theme-professional .btn-secondary {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+}
+
+/* Footer Contrast */
+body.theme-professional .main-footer {
+    background: #ffffff !important;
+    border-top: 2px solid #000000 !important;
+    color: #000000 !important;
+    padding: 60px 20px !important;
+}
+
+/* Section Dot Nav */
+body.theme-professional .section-dot {
+    border-color: #000000 !important;
+    border-radius: 0px !important;
+    background: #ffffff !important;
+}
+
+body.theme-professional .section-dot.active {
+    background: #000000 !important;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Nuclear Contrast Fix: Force ALL text elements to black */
+body.theme-professional,
+body.theme-professional p,
+body.theme-professional span,
+body.theme-professional div,
+body.theme-professional li,
+body.theme-professional a,
+body.theme-professional h1,
+body.theme-professional h2,
+body.theme-professional h3,
+body.theme-professional h4,
+body.theme-professional h5,
+body.theme-professional h6,
+body.theme-professional label,
+body.theme-professional small,
+body.theme-professional strong,
+body.theme-professional em,
+body.theme-professional b,
+body.theme-professional i {
+    color: #000000 !important;
+    text-shadow: none !important;
+    -webkit-text-fill-color: #000000 !important;
+    mix-blend-mode: normal !important;
+}
+
+/* Force icons and SVGs to black where possible */
+body.theme-professional svg:not(.intro-cube-face svg) {
+    stroke: #000000 !important;
+}
+
+body.theme-professional .chip-svg {
+    fill: #000000 !important;
+}
+
+/* Light Terminal Overrides */
+body.theme-professional .interactive-terminal,
+body.theme-professional .terminal-bar,
+body.theme-professional .terminal-body {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    color: #000000 !important;
+}
+
+body.theme-professional .terminal-body::after {
+    display: none !important; /* Remove scanlines in terminal */
+}
+
+body.theme-professional .t-prompt {
+    color: #000000 !important;
+    font-weight: 900 !important;
+}
+
+body.theme-professional .t-cmd,
+body.theme-professional .t-out {
+    color: #000000 !important;
+}
+
+body.theme-professional .t-cursor {
+    color: #000000 !important;
+    background: #000000 !important;
+}
+
+/* Ensure no translucent text or background interference */
+body.theme-professional .glass-card,
+body.theme-professional .proj-card,
+body.theme-professional .nav-inner,
+body.theme-professional .stat-card,
+body.theme-professional .wip-card,
+body.theme-professional .hero-main,
+body.theme-professional .hero-side {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+
+body.theme-professional .section-header *,
+body.theme-professional .hero-grid *,
+body.theme-professional .about-grid *,
+body.theme-professional .projects-grid *,
+body.theme-professional .footer-grid * {
+    color: #000000 !important;
+}
+
+/* Widgets Readability */
+body.theme-professional .spotify-title,
+body.theme-professional .spotify-artist,
+body.theme-professional .lastfm-track,
+body.theme-professional .lastfm-artist,
+body.theme-professional .xp-label,
+body.theme-professional .xp-level,
+body.theme-professional .rotating-label,
+body.theme-professional .rotating-value {
+    color: #000000 !important;
+}
+
+body.theme-professional .hero-backdrop-overlay {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+body.theme-professional section {
+    background: #ffffff !important;
+}
+
+body.theme-professional .glass-card::before,
+body.theme-professional .hero-orb {
+    display: none !important;
+}
+
+body.theme-professional .wip-bar-wrap {
+    border: 1px solid #000000 !important;
+    background: #ffffff !important;
+}
+
+body.theme-professional .wip-bar {
+    background: #000000 !important;
+    box-shadow: none !important;
+}
+
+/* Hide CRT / Scanlines globally for Professional theme */
+body.theme-professional::after {
+    display: none !important;
+}
+
