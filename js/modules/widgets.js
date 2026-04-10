@@ -139,23 +139,18 @@ function _moviePoster(title) {
 }
 
 
-/**
- * FIXED: Artist image via iTunes Search API.
- * Replaces deprecated Deezer approach (CORS-blocked in browsers).
- * iTunes is fully CORS-safe, no API key, returns high-quality artwork.
- */
 function _artistImage(name) {
-  var FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23333"><rect width="100%" height="100%"/><text x="50" y="55" font-family="sans-serif" font-size="40" text-anchor="middle" fill="%23666">🎵</text></svg>';
+  if (!name) return Promise.resolve(null);
 
-  // 1. Try TheAudioDB first (dedicated artist portraits)
-  return fetch('https://www.theaudiodb.com/api/v1/json/2/search.php?s=' + encodeURIComponent(name))
+  const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23222"/><text x="50" y="55" font-family="sans-serif" font-size="30" text-anchor="middle" fill="%23444">🎵</text></svg>';
+
+  // 1. Try internal Spotify Search Proxy first (Best quality, high-fidelity)
+  return fetch('/api/search-artist?name=' + encodeURIComponent(name))
     .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(d) {
-      if (d && d.artists && d.artists[0] && d.artists[0].strArtistThumb) {
-        return d.artists[0].strArtistThumb;
-      }
-      
-      // 2. iTunes musicArtist search (fast, no key, good modern artist coverage)
+    .then(function(data) {
+      if (data && data.image) return data.image;
+
+      // 2. Fallback: iTunes search
       return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
         .then(function(r) { return r.ok ? r.json() : null; })
         .then(function(d2) {
@@ -163,11 +158,11 @@ function _artistImage(name) {
             return d2.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
           }
 
-          // 3. Wikipedia Rest Summary fallback
+          // 3. Last Fallback: Wikipedia
           return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
             .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(d3) {
-              if (d3 && d3.thumbnail && d3.thumbnail.source) return _toHttpsUrl(d3.thumbnail.source);
+            .then(function(wikiData) {
+              if (wikiData && wikiData.thumbnail && wikiData.thumbnail.source) return _toHttpsUrl(wikiData.thumbnail.source);
               return FALLBACK_SVG;
             })
             .catch(function() { return FALLBACK_SVG; });

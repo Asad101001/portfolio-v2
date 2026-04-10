@@ -140,9 +140,9 @@
 .tl-inst { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
 
 @media (max-width: 480px) {
-  .timeline-item { gap: 12px; padding-left: 30px; }
-  .tl-dot { left: 4px; width: 14px; height: 14px; }
-  .timeline-item::before { left: 10px; }
+  .timeline-item { gap: 15px; padding-left: 36px; }
+  .tl-dot { left: 0; width: 14px; height: 14px; top: 10px; }
+  .timeline-item::before { left: 6px; top: 24px; }
   .tl-card { padding: 16px 18px; }
   .tl-degree { font-size: 0.95rem; }
   .tl-inst { font-size: 0.78rem; }
