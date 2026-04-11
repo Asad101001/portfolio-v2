@@ -38,8 +38,7 @@ export default {
         legaleaseai: path.resolve(__dirname, 'projects/legaleaseai.html'),
         pollpulse: path.resolve(__dirname, 'projects/pollpulse.html'),
         devpulse: path.resolve(__dirname, 'projects/devpulse.html'),
-        mogscope: path.resolve(__dirname, 'projects/mogscope.html'),
-        aws: path.resolve(__dirname, 'projects/aws.html')
+        mogscope: path.resolve(__dirname, 'projects/mogscope.html')
       }
     }
   }
