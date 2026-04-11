@@ -34,3 +34,4 @@ portfolio-context.md
 scripts/
 dist/
 # /public/images/projects/ removed to allow deployment
+refactor/
