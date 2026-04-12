@@ -19,7 +19,7 @@ export const CONFIG = {
     watchlist: [
       { title: 'Dune: Part Three' },
       { title: 'The Odyssey' },
-      { title: 'Beyond the Spider-Verse' }
+      { title: 'Spiderman:Brand New Day' }
     ],
     seriesWatchlist: [
       { title: 'Severance' },
@@ -144,32 +144,31 @@ function _artistImage(name) {
 
   const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23222"/><text x="50" y="55" font-family="sans-serif" font-size="30" text-anchor="middle" fill="%23444">🎵</text></svg>';
 
-  // 1. Try internal Spotify Search Proxy first (Best quality, high-fidelity)
+  // 1. Try Spotify Search API (Best quality)
   return fetch('/api/search-artist?name=' + encodeURIComponent(name))
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(data) {
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
       if (data && data.image) return data.image;
-
-      // 2. Fallback: iTunes search
+      
+      // 2. Fallback: Search Spotify by artist name in a broader way or iTunes
       return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
-        .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(d2) {
+        .then(r => r.ok ? r.json() : null)
+        .then(d2 => {
           if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {
             return d2.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
           }
-
           // 3. Last Fallback: Wikipedia
           return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(name))
-            .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(wikiData) {
-              if (wikiData && wikiData.thumbnail && wikiData.thumbnail.source) return _toHttpsUrl(wikiData.thumbnail.source);
+            .then(r => r.ok ? r.json() : null)
+            .then(wikiData => {
+              if (wikiData && wikiData.thumbnail && wikiData.thumbnail.source) return wikiData.thumbnail.source;
               return FALLBACK_SVG;
             })
-            .catch(function() { return FALLBACK_SVG; });
+            .catch(() => FALLBACK_SVG);
         })
-        .catch(function() { return FALLBACK_SVG; });
+        .catch(() => FALLBACK_SVG);
     })
-    .catch(function() { return FALLBACK_SVG; });
+    .catch(() => FALLBACK_SVG);
 }
 
 /**
@@ -463,6 +462,8 @@ function _starsHTML(starsStr) {
     var from = d.toISOString().split('T')[0].replace(/-/g,'');
     return from + '-' + today;
   }
+
+
 
   function fetchESPN(league) {
     return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/' + league + '/scoreboard?dates=' + dateRange(28))
@@ -779,17 +780,34 @@ function _starsHTML(starsStr) {
       var ts = t.date && t.date.uts ? t.date.uts : null;
       var a  = document.createElement('a');
       a.className = 'lastfm-track'; a.href = t.url || '#'; a.target = '_blank'; a.rel = 'noopener noreferrer';
-      var imgHTML  = art
-        ? '<img class="lastfm-track-art" src="' + art + '" alt="" crossorigin="anonymous" loading="lazy" decoding="async" fetchpriority="low" />'
-        : '<div class="lastfm-track-art lastfm-track-art--empty">&#x1F3B5;</div>';
+      
+      var imgContainer = document.createElement('div');
+      imgContainer.className = 'lastfm-track-art-wrap';
+      
+      if (art) {
+        imgContainer.innerHTML = '<img class="lastfm-track-art" src="' + art + '" alt="" crossorigin="anonymous" loading="lazy" decoding="async" fetchpriority="low" />';
+      } else {
+        imgContainer.innerHTML = '<div class="lastfm-track-art lastfm-track-art--placeholder">🎵</div>';
+        // Fallback to Spotify API for artist picture
+        _artistImage(t.artist && t.artist['#text'] ? t.artist['#text'] : '').then(function(u) {
+          if (u && u.indexOf('data:image') === -1) {
+            imgContainer.innerHTML = '<img class="lastfm-track-art" src="' + u + '" alt="" crossorigin="anonymous" loading="lazy" />';
+          }
+        }).catch(function(){});
+      }
+
       var timeHTML = nowPlaying
         ? '<span class="lastfm-now-playing"><span class="lastfm-eq"><span></span><span></span><span></span><span></span></span>&nbsp;now</span>'
         : '<span class="lastfm-track-time">' + timeAgo(ts) + '</span>';
-      a.innerHTML = imgHTML +
-        '<div class="lastfm-track-info">' +
-          '<div class="lastfm-track-name">' + (t.name || '') + '</div>' +
-          '<div class="lastfm-track-artist">' + (t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div>' +
-        '</div>' + timeHTML;
+      
+      a.appendChild(imgContainer);
+      var info = document.createElement('div');
+      info.className = 'lastfm-track-info';
+      info.innerHTML = '<div class="lastfm-track-name">' + (t.name || '') + '</div>' +
+          '<div class="lastfm-track-artist">' + (t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div>';
+      a.appendChild(info);
+      a.insertAdjacentHTML('beforeend', timeHTML);
+
       container.appendChild(a);
     });
   }

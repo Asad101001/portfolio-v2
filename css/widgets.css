@@ -61,10 +61,13 @@
 .lastfm-widget-header { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--lastfm-br, rgba(213,16,7,0.1)); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .lastfm-user { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: var(--lastfm-clr, #D51007); font-size: 0.7rem; font-weight: 600; text-transform: none; letter-spacing: 0; }
 .lastfm-tracks { padding: 8px 0; overflow-y: visible; }
-.lastfm-track { display: flex; align-items: center; gap: 12px; padding: 10px 18px; transition: background 0.15s; text-decoration: none; color: inherit; border-radius: 4px; }
-.lastfm-track:hover { background: rgba(213,16,7,0.05); }
-.lastfm-track-art { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; background: rgba(255,255,255,0.04); flex-shrink: 0; border: 1px solid var(--border); }
-.lastfm-track-art--empty { display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.lastfm-track { display: flex; align-items: center; gap: 14px; padding: 12px 18px; text-decoration: none; color: inherit; transition: all 0.2s cubic-bezier(0.23,1,0.32,1); position: relative; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.lastfm-track:last-child { border-bottom: none; }
+.lastfm-track:hover { background: rgba(255,255,255,0.03); }
+.lastfm-track-art-wrap { width: 44px; height: 44px; flex-shrink: 0; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+.lastfm-track-art { width: 100%; height: 100%; object-fit: cover; }
+.lastfm-track-art--placeholder { font-size: 1.2rem; opacity: 0.5; }
+
 .lastfm-track-info { flex: 1; min-width: 0; }
 .lastfm-track-name { font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lastfm-track-artist { font-size: 0.71rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }

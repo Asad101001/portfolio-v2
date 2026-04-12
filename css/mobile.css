@@ -242,7 +242,21 @@
     justify-content: center !important;
     margin-bottom: 5px !important;
   }
+
+  /* ── Education Timeline (Mobile) ───────────────────────── */
+  .tl-inst-row {
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+  }
+  .tl-inst {
+      width: 100% !important;
+      font-size: 0.75rem !important;
+      line-height: 1.4 !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+  }
 }
+
 
 /* Extra small devices */
 @media (max-width: 480px) {

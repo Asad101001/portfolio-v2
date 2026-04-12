@@ -119,7 +119,19 @@ body.theme-professional .letterboxd-widget {
     background: #ffffff !important;
     box-shadow: var(--card-shadow) !important;
     border-radius: 0px !important;
+    color: var(--text) !important;
 }
+
+/* Expanded Spotify View for Professional */
+body.theme-professional .spotify-title-expanded { color: #000 !important; }
+body.theme-professional .spotify-artist-expanded { color: var(--text-muted) !important; }
+body.theme-professional .spotify-times-expanded { color: var(--text-dim) !important; }
+body.theme-professional .spotify-bar-expanded { background: #f1f5f9 !important; border: 1px solid #000 !important; }
+body.theme-professional .spotify-bar-fill-expanded { background: #000 !important; }
+body.theme-professional .spotify-controls-icon { color: #000 !important; }
+body.theme-professional .spotify-play-btn { background: #000 !important; color: #fff !important; border: 2px solid #000 !important; }
+body.theme-professional .spotify-play-btn.paused-state { background: #fff !important; color: #000 !important; }
+
 
 /* Tag & Pill High Contrast */
 body.theme-professional .tag-pill {
@@ -217,17 +229,21 @@ body.theme-professional .main-footer {
     padding: 60px 20px !important;
 }
 
-/* Section Dot Nav */
-body.theme-professional .section-dot {
-    border-color: #000000 !important;
+/* Section Dot Nav & Rotating Dots */
+body.theme-professional .section-dot,
+body.theme-professional .r-dot {
+    border: 2px solid #000000 !important;
     border-radius: 0px !important;
     background: #ffffff !important;
+    opacity: 1 !important;
 }
 
-body.theme-professional .section-dot.active {
+body.theme-professional .section-dot.active,
+body.theme-professional .r-dot.active {
     background: #000000 !important;
     box-shadow: 4px 4px 0px rgba(0,0,0,0.2) !important;
 }
+
 
 /* Restored Hierarchy & Text Overrides */
 body.theme-professional h1,
@@ -302,14 +318,22 @@ body.theme-professional .block.b2 { background: var(--lime) !important; }
 body.theme-professional .block.b3 { background: var(--purple) !important; }
 
 /* Light Terminal Overrides (Sharpened) */
-body.theme-professional .interactive-terminal,
-body.theme-professional .terminal-bar,
 body.theme-professional .terminal-body {
     background: #ffffff !important;
     border: 2px solid #000000 !important;
     color: var(--text) !important;
     border-radius: 0px !important;
 }
+
+body.theme-professional .t-dot {
+    border: 1px solid #000 !important;
+    opacity: 1 !important;
+}
+
+body.theme-professional .t-dot.t-red { background: #ff5f56 !important; }
+body.theme-professional .t-dot.t-yellow { background: #ffbd2e !important; }
+body.theme-professional .t-dot.t-green { background: #27c93f !important; }
+
 
 body.theme-professional .terminal-body::after {
     display: none !important; /* Remove scanlines in terminal */
@@ -366,6 +390,12 @@ body.theme-professional .xp-label { color: var(--text) !important; font-weight: 
 body.theme-professional .xp-level { background: #000 !important; color: #fff !important; }
 body.theme-professional .xp-bar-wrap { border: 3px solid #000 !important; background: #fff !important; height: 12px !important; }
 body.theme-professional .xp-bar-fill { background: var(--lime) !important; box-shadow: none !important; border-right: 2px solid #000 !important; }
+
+/* Clock Digit Visibility */
+body.theme-professional #clock-hour-text { fill: #000 !important; font-weight: 900 !important; }
+body.theme-professional .clock-prime-time { color: #000 !important; font-weight: 900 !important; }
+body.theme-professional .clock-sub { color: var(--text-muted) !important; font-weight: 700 !important; }
+
 
 /* Global Section Hierarchy */
 body.theme-professional section:nth-of-type(even) {
@@ -429,6 +459,18 @@ body.theme-professional #certs-panel {
     border-left: 10px solid #000 !important; /* Extremely bold neo-brutalist edge */
     color: var(--text) !important;
 }
+
+/* Timeline & Dots Visibility */
+body.theme-professional .tl-dot {
+    border: 3px solid #000 !important;
+    background: #fff !important;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1) !important;
+}
+
+body.theme-professional .timeline-item::before {
+    background: #000 !important;
+}
+
 
 body.theme-professional #certs-backdrop {
     background: rgba(255, 255, 255, 0.45) !important; /* Light wash instead of dark blur */
