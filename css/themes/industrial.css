@@ -12,6 +12,8 @@ body.theme-industrial {
     --text:      #ffffff;
     --text-muted:#a1a1aa;
     --text-dim:  #3f3f46;
+    --radius:    0px;
+    --radius-lg: 0px;
     --scanline-op: 0.25;
     --grid-clr: rgba(249, 115, 22, 0.2);
     --spotlight-gradient: radial-gradient(500px circle at var(--x, 0px) var(--y, 0px), rgba(249, 115, 22, 0.15), transparent 40%);
@@ -33,13 +35,8 @@ body.theme-industrial .social-platform-card.instagram { --p-clr: #f97316; }
 body.theme-industrial .glass-card {
     background: #080808;
     border-radius: 0;
-    border: 2px solid rgba(249, 115, 22, 0.3) !important;
-}
-
-body.theme-industrial .glass-card {
-    border-radius: 0;
-    border-width: 2px;
-    border-color: rgba(249, 115, 22, 0.3) !important;
+    border: 3px solid #f97316 !important;
+    box-shadow: 4px 4px 0px #f97316 !important;
 }
 
 body.theme-industrial .hero-name {
@@ -53,7 +50,24 @@ body.theme-industrial .status-pill {
     border-color: #f97316;
 }
 
-body.theme-industrial .btn-primary {
-    background: #f97316;
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+body.theme-industrial .btn-primary,
+body.theme-industrial .btn-secondary,
+body.theme-industrial .nav-cta,
+body.theme-industrial .nav-inner {
+    background: #f97316 !important;
+    color: #000 !important;
+    border: 3px solid #f97316 !important;
+    box-shadow: 3px 3px 0px #fff !important;
+    border-radius: 0px !important;
+}
+
+body.theme-industrial .btn-secondary {
+    background: #000 !important;
+    color: #f97316 !important;
+}
+
+body.theme-industrial .nav-inner {
+    background: #000 !important;
+    color: #fff !important;
+    box-shadow: 4px 4px 0px #f97316 !important;
 }

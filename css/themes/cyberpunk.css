@@ -8,8 +8,10 @@ body.theme-cyberpunk {
     --bg2:       #0d0216;
     --bg-img:    url('../images/cyberpunk_bg.png'); /* We will move the generated image here */
     --surface:   rgba(13, 2, 22, 0.90);
-    --border:    rgba(0, 255, 249, 0.45);
+    --border:    rgba(0, 255, 249, 0.7);
     --border-h:  #00fff9;
+    --radius:    0px;
+    --radius-lg: 0px;
     --text:      #e0ffff;
     --text-muted:#a6f6f6;
     --text-dim:  #5c8b8b;
@@ -38,10 +40,23 @@ body.theme-cyberpunk {
 }
 
 /* Cyberpunk specific HUD elements */
-body.theme-cyberpunk .glass-card {
-    background: rgba(10, 2, 18, 0.92);
-    border: 1.5px solid rgba(0, 255, 249, 0.2);
-    box-shadow: 0 0 20px rgba(0, 255, 249, 0.05), 0 30px 60px rgba(0,0,0,0.9);
+body.theme-cyberpunk .glass-card,
+body.theme-cyberpunk .nav-inner,
+body.theme-cyberpunk .stat-card,
+body.theme-cyberpunk .wip-card,
+body.theme-cyberpunk .proj-card {
+    background: rgba(10, 2, 18, 0.95) !important;
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 5px 5px 0px var(--cyan) !important;
+    border-radius: 0px !important;
+}
+
+body.theme-cyberpunk .btn-primary,
+body.theme-cyberpunk .btn-secondary,
+body.theme-cyberpunk .nav-cta {
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 3px 3px 0px var(--cyan) !important;
+    border-radius: 0px !important;
 }
 
 body.theme-cyberpunk .hero-name {

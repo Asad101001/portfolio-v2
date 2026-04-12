@@ -44,17 +44,17 @@
 
   /* ── Dismiss logic ──────────────────────────────────────── */
   function dismiss() {
+    if (!loader) return;
     loader.classList.add('hidden');
-    // Remove from DOM after transition ends
-    var t = setTimeout(function () { loader.remove(); }, 500);
-    loader.addEventListener('transitionend', function () {
+    const t = setTimeout(() => { if (loader) loader.remove(); }, 100);
+    loader.addEventListener('transitionend', () => {
       clearTimeout(t);
-      loader.remove();
+      if (loader) loader.remove();
     }, { once: true });
   }
 
   // Dismiss after page is ready (steady loading duration)
-  var minDuration = 300;
+  var minDuration = 10;
   var startTime   = Date.now();
 
   function tryDismiss() {
@@ -74,6 +74,6 @@
   }
 
   // Hard cap: 0.8s max
-  setTimeout(dismiss, 800);
+  setTimeout(dismiss, 100);
 
 })();

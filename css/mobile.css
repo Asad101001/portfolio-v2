@@ -15,9 +15,10 @@
   }
 
   /* ── Universal Card/Glow Scaling ─────────────────────────── */
+  /* Keep brutalist shadows on mobile */
   .glass-card, .acard, .project-card, .lastfm-widget, .spotify-widget {
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important;
-    filter: none !important; /* Toning down intense glows on mobile */
+    /* box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important; */
+    filter: none !important; 
   }
   
   .acard:hover { transform: none !important; } /* Stop hover jitter on touch */
@@ -161,8 +162,8 @@
   body.theme-industrial .glass-card, 
   body.theme-industrial .project-card,
   body.theme-industrial .arsenal-dom {
-    border-radius: 12px !important; /* Soften edges on mobile */
-    border-width: 1px !important;
+    border-radius: var(--radius) !important;
+    border-width: 2px !important;
   }
 
   body.theme-minimal {

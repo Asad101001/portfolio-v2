@@ -7,8 +7,10 @@ body.theme-sunset {
     --bg:        #080105;
     --bg2:       #15020c;
     --surface:   rgba(18, 4, 10, 0.95);
-    --border:    rgba(255, 0, 85, 0.4);
+    --border:    rgba(255, 0, 85, 0.7);
     --border-h:  #ff0055;
+    --radius:    0px;
+    --radius-lg: 0px;
     --text:      #ffccdd;
     --text-muted:#cc99aa;
     --text-dim:  #885566;
@@ -42,10 +44,23 @@ body.theme-sunset .social-platform-card.discord  { --p-clr: #ff00ff; }
 body.theme-sunset .social-platform-card.github   { --p-clr: #ffd700; }
 body.theme-sunset .social-platform-card.instagram { --p-clr: #ff0055; }
 
-body.theme-sunset .glass-card {
-    background: rgba(18, 5, 12, 0.88);
-    border-color: rgba(255, 0, 85, 0.2) !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 0, 85, 0.08);
+body.theme-sunset .glass-card,
+body.theme-sunset .nav-inner,
+body.theme-sunset .stat-card,
+body.theme-sunset .wip-card,
+body.theme-sunset .proj-card {
+    background: rgba(18, 5, 12, 0.95) !important;
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 5px 5px 0px var(--cyan) !important;
+    border-radius: 0px !important;
+}
+
+body.theme-sunset .btn-primary,
+body.theme-sunset .btn-secondary,
+body.theme-sunset .nav-cta {
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 3px 3px 0px var(--cyan) !important;
+    border-radius: 0px !important;
 }
 
 body.theme-sunset .hero-name {

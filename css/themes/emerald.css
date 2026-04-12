@@ -7,8 +7,10 @@ body.theme-emerald {
     --bg:        #010503;
     --bg2:       #02120a;
     --surface:   rgba(2, 8, 5, 0.96);
-    --border:    rgba(16, 185, 129, 0.4);
-    --border-h:  rgba(16, 185, 129, 0.7);
+    --border:    rgba(16, 185, 129, 0.7);
+    --border-h:  rgba(16, 185, 129, 0.9);
+    --radius:    0px;
+    --radius-lg: 0px;
     --text:      #e2e8f0;
     --text-muted:#80a090;
     --text-dim:  #2d4038;
@@ -24,10 +26,23 @@ body.theme-emerald {
     --spotify-br: rgba(16, 185, 129, 0.22);
     --spotify-bg: rgba(16, 185, 129, 0.15);
 }
-body.theme-emerald .glass-card {
-    background: rgba(2, 10, 6, 0.9);
-    border-color: rgba(16, 185, 129, 0.25) !important;
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(16, 185, 129, 0.05);
+body.theme-emerald .glass-card,
+body.theme-emerald .nav-inner,
+body.theme-emerald .stat-card,
+body.theme-emerald .wip-card,
+body.theme-emerald .proj-card {
+    background: rgba(2, 10, 6, 0.95) !important;
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 5px 5px 0px var(--cyan) !important;
+    border-radius: 0px !important;
+}
+
+body.theme-emerald .btn-primary,
+body.theme-emerald .btn-secondary,
+body.theme-emerald .nav-cta {
+    border: 3px solid var(--cyan) !important;
+    box-shadow: 3px 3px 0px var(--cyan) !important;
+    border-radius: 0px !important;
 }
 
 body.theme-emerald .hero-name {

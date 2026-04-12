@@ -32,10 +32,10 @@
 .glass-card {
   background: rgba(13,13,13,0.88);
   backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-  border: 1px solid rgba(16,185,129,0.1);
-  box-shadow: inset 0 1px 0 rgba(16,185,129,0.06), 0 0 40px rgba(16,185,129,0.04), 0 8px 32px rgba(0,0,0,0.6);
-  border-radius: 4px;
-  transition: border-color 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
   position: relative; overflow: hidden; contain: layout style;
 }
 .glass-card::before {
@@ -67,9 +67,9 @@ nav.nav-hidden { transform: translateY(-100px); opacity: 0; pointer-events: none
   max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
   justify-content: space-between; gap: 12px; padding: 10px 20px;
   background: rgba(5,5,5,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(16,185,129,0.12);
-  box-shadow: inset 0 1px 0 rgba(16,185,129,0.06), 0 0 30px rgba(16,185,129,0.04), 0 8px 32px rgba(0,0,0,0.6);
-  border-radius: 4px;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
 }
 .nav-brand { font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; }
 .nav-links { display: flex; align-items: center; gap: 4px; }
@@ -139,7 +139,7 @@ section { padding: 80px 16px; position: relative; content-visibility: auto; cont
 .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 4px; font-size: 0.9rem; font-weight: 700; color: #04060d; background: linear-gradient(135deg, var(--cyan), #0d9966); box-shadow: 0 0 18px rgba(16,185,129,0.35), 0 4px 20px rgba(16,185,129,0.2); transition: box-shadow 0.3s, transform 0.2s; position: relative; overflow: hidden; }
 .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent); transition: left 0.5s ease; }
 .btn-primary:hover::before { left: 100%; }
-.btn-primary:hover { box-shadow: 0 0 28px rgba(16,185,129,0.55), 0 8px 28px rgba(16,185,129,0.3); transform: translateY(-2px); }
+.btn-primary:hover { box-shadow: var(--btn-shadow); transform: translateY(-2px); }
 .btn-linkedin { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 4px; font-size: 0.9rem; font-weight: 700; color: #fff; background: linear-gradient(135deg, #0A66C2, #0052a3); box-shadow: 0 4px 20px rgba(10,102,194,0.28); transition: box-shadow 0.3s, transform 0.2s; position: relative; overflow: hidden; }
 .btn-linkedin::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); transition: left 0.5s ease; }
 .btn-linkedin:hover::before { left: 100%; }

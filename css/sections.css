@@ -19,8 +19,8 @@
 .working-on-pulse { display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; color: #22c55e; font-weight: 700; margin-left: auto; text-transform: lowercase; letter-spacing: 0.03em; }
 .working-on-pulse span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e; animation: pulse-dot 1.8s ease-in-out infinite; }
 .working-on-grid { display: flex; flex-direction: column; gap: 14px; }
-.wip-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); transition: border-color 0.2s, background 0.2s; }
-.wip-card:hover { border-color: rgba(16,185,129,0.18); background: rgba(255,255,255,0.035); }
+.wip-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); transition: border-color var(--transition), background var(--transition); }
+.wip-card:hover { border-color: var(--border-h); background: var(--surface); }
 .wip-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
 .wip-info { flex: 1; min-width: 0; }
 .wip-title { font-size: 0.82rem; font-weight: 700; color: var(--text); }
@@ -48,8 +48,8 @@
 .proj-live a:hover { text-decoration: underline; }
 .proj-desc  { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
 .proj-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag { padding: 4px 10px; border-radius: 2px; font-size: 0.7rem; font-weight: 600; background: rgba(16,185,129,0.07); color: var(--cyan); border: 1px solid rgba(16,185,129,0.18); transition: background 0.15s, box-shadow 0.15s; }
-.tag:hover { background: rgba(16,185,129,0.13); box-shadow: 0 0 8px rgba(16,185,129,0.18); filter: none !important; }
+.tag { padding: 4px 10px; border-radius: var(--radius); font-size: 0.7rem; font-weight: 600; background: rgba(16,185,129,0.07); color: var(--cyan); border: 1px solid var(--border); transition: background 0.15s, box-shadow 0.15s; }
+.tag:hover { background: rgba(16,185,129,0.13); box-shadow: var(--btn-shadow); filter: none !important; }
 .proj-links { display: flex; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border); }
 .proj-link-code, .proj-link-demo { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; transition: background 0.2s, color 0.2s; }
 .proj-link-code { color: var(--text-muted); border: 1px solid var(--border); }
