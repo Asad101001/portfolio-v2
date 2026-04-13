@@ -132,7 +132,7 @@
   margin-left: 0;
 }
 
-.tag:hover, .tag.active { 
+.tag:hover, .tag.active, .tag:active { 
   max-width: fit-content; /* Remove hard upper limit, rely on content */
   padding: 5px 12px;
   color: #fff;
@@ -152,7 +152,7 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-.tag:hover .tag-label, .tag.active .tag-label {
+.tag:hover .tag-label, .tag.active .tag-label, .tag:active .tag-label {
   max-width: fit-content;
   opacity: 1;
   margin-left: 8px;
@@ -1267,11 +1267,10 @@
   opacity: 1; 
   max-width: fit-content; 
 }
-@media (hover: hover) and (pointer: fine) {
-  .acard:hover .acard-name {
-    opacity: 1; 
-    max-width: fit-content; 
-  }
+.acard:hover .acard-name,
+.acard:active .acard-name {
+  opacity: 1; 
+  max-width: fit-content; 
 }
 
 

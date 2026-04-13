@@ -32,7 +32,7 @@
 
 /* ── Scroll Behaviour ───────────────────────────────────── */
 html {
-  /* scroll-behavior: smooth; -- REMOVED to avoid conflict with JS Lerp */
+  scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
 @media (prefers-reduced-motion: reduce) {

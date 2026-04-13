@@ -17,8 +17,13 @@
   /* ── Universal Card/Glow Scaling ─────────────────────────── */
   /* Keep brutalist shadows on mobile */
   .glass-card, .acard, .project-card, .lastfm-widget, .spotify-widget {
-    /* box-shadow: 0 8px 16px rgba(0,0,0,0.3) !important; */
     filter: none !important; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+  }
+  
+  .glass-card:active, .acard:active, .project-card:active {
+    transform: scale(0.98) translateY(0) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
   }
   
   .acard:hover { transform: none !important; } /* Stop hover jitter on touch */
@@ -111,6 +116,10 @@
     font-size: 0.72rem;
     line-height: 1.6;
     padding: 12px 16px;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 
   /* ── Animations ────────────────────────────────────────── */
@@ -121,12 +130,22 @@
 
   .reveal {
     transform: translateY(15px);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease !important;
     will-change: transform, opacity;
+  }
+  
+  .reveal.in-view {
+    transform: translateY(0);
+    opacity: 1;
   }
 
   /* ── Navigation ────────────────────────────────────────── */
   .nav-inner {
     padding: 8px 16px;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    background: rgba(10, 10, 15, 0.7) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   }
 
   /* ── Education Stagger (Ladder) ─────────────────────────── */
@@ -164,6 +183,12 @@
   body.theme-industrial .arsenal-dom {
     border-radius: var(--radius) !important;
     border-width: 2px !important;
+    box-shadow: 4px 4px 0px var(--orange) !important;
+  }
+  
+  body.theme-industrial .acard:active {
+    background: var(--orange) !important;
+    color: #000 !important;
   }
 
   body.theme-minimal {
