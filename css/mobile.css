@@ -108,8 +108,8 @@
 
   /* ── Terminal Overhaul ─────────────────────────────────── */
   .hero-side {
-    max-height: 300px;
-    overflow: hidden;
+    max-height: none;
+    height: auto;
   }
 
   .terminal-body {
@@ -148,10 +148,12 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   }
 
-  /* ── Education Stagger (Ladder) ─────────────────────────── */
-  .timeline-item:nth-child(1) { width: 95%; transform: translateX(0); }
-  .timeline-item:nth-child(2) { width: 90%; transform: translateX(10px); }
-  .timeline-item:nth-child(3) { width: 85%; transform: translateX(20px); }
+  /* ── Education Timeline (Mobile Fix) ─────────────────── */
+  .timeline-item { 
+    width: 100% !important; 
+    transform: none !important; 
+    padding-left: 32px !important;
+  }
 
   /* ── Twitter Media (Mobile) ────────────────────────────── */
   /* ── Twitter Media (Mobile) ────────────────────────────── */

@@ -1291,6 +1291,7 @@ function _starsHTML(starsStr) {
         var top3       = artistArr.slice(0, 3);
 
         if (top3 && top3.length) {
+          // 1. Render names text
           var names = top3.map(function(a, idx) {
             return (idx + 1) + '. ' + (a && a.name ? a.name : 'Unknown Artist');
           }).join(', ');
@@ -1299,39 +1300,37 @@ function _starsHTML(starsStr) {
           if (artistThumbsEl) {
             artistThumbsEl.innerHTML = '';
 
-            top3.forEach(function(a) {
-              if (!a) return;
-
+            // 2. Prepare cards and fetch images in parallel
+            var promises = top3.map(function(a) {
+              if (!a) return Promise.resolve(null);
+              
               var wrap = document.createElement('div');
               wrap.className = 'artist-thumb-card';
               wrap.title     = a.name;
 
-              var nameLabel = document.createElement('span');
-              nameLabel.className   = 'artist-thumb-name';
-              nameLabel.textContent = a.name && a.name.length > 10
-                ? a.name.substring(0, 9) + '\u2026'
-                : (a.name || '---');
-
-              // Emoji placeholder while fetch resolves
               var emojiEl = document.createElement('div');
               emojiEl.className   = 'artist-thumb-emoji';
               emojiEl.textContent = '\ud83c\udfb5';
               wrap.appendChild(emojiEl);
-              wrap.appendChild(nameLabel);
               artistThumbsEl.appendChild(wrap);
 
-              // FIXED: iTunes Search API (was Deezer — CORS-blocked in browsers)
-              _artistImage(a.name).then(function(imgUrl) {
-                if (imgUrl && emojiEl.parentNode) {
+              return _artistImage(a.name).then(function(imgUrl) {
+                return { wrap: wrap, emojiEl: emojiEl, imgUrl: imgUrl, name: a.name };
+              });
+            });
+
+            Promise.all(promises).then(function(results) {
+              results.forEach(function(res) {
+                if (res && res.imgUrl && res.emojiEl.parentNode) {
                   var img = document.createElement('img');
                   img.className = 'artist-thumb-img';
-                  img.src       = imgUrl;
-                  img.alt       = a.name;
+                  img.src       = res.imgUrl;
+                  img.alt       = res.name;
                   img.loading   = 'lazy';
                   img.onerror   = function() { this.style.display = 'none'; };
-                  emojiEl.parentNode.replaceChild(img, emojiEl);
+                  res.emojiEl.parentNode.replaceChild(img, res.emojiEl);
                 }
-              }).catch(function() {});
+              });
             });
           }
         }

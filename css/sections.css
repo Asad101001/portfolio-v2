@@ -127,12 +127,12 @@
 
 /* ── Education Timeline ───────────────────────────────────── */
 .timeline { display: flex; flex-direction: column; gap: 0; }
-.timeline-item { display: flex; gap: 20px; position: relative; padding-left: 36px; padding-bottom: 24px; }
+.timeline-item { display: flex; gap: 24px; position: relative; padding-left: 38px; padding-bottom: 32px; }
 .timeline-item:last-child { padding-bottom: 0; }
-.timeline-item::before { content: ''; position: absolute; left: 7px; top: 20px; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--border-h), transparent); }
+.timeline-item::before { content: ''; position: absolute; left: 7px; top: 28px; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--cyan), transparent); opacity: 0.3; }
 .timeline-item:last-child::before { display: none; }
-.tl-dot { position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--cyan); background: var(--bg); box-shadow: 0 0 10px rgba(16,185,129,0.3); }
-.tl-card { flex: 1; padding: 20px 24px; }
+.tl-dot { position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--cyan); background: var(--bg); box-shadow: 0 0 12px rgba(16,185,129,0.4); z-index: 2; }
+.tl-card { flex: 1; padding: 18px 22px; }
 .tl-year   { font-size: 0.72rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
 .tl-degree { font-size: 1.05rem; font-weight: 700; color: #fff; margin-top: 4px; }
 .tl-inst-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
@@ -140,12 +140,12 @@
 .tl-inst { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
 
 @media (max-width: 480px) {
-  .timeline-item { gap: 15px; padding-left: 36px; }
-  .tl-dot { left: 0; width: 14px; height: 14px; top: 10px; }
-  .timeline-item::before { left: 6px; top: 24px; }
-  .tl-card { padding: 16px 18px; }
-  .tl-degree { font-size: 0.95rem; }
-  .tl-inst { font-size: 0.78rem; }
+  .timeline-item { gap: 12px; padding-left: 32px; padding-bottom: 24px; }
+  .tl-dot { left: 0; width: 12px; height: 12px; top: 8px; }
+  .timeline-item::before { left: 5px; top: 24px; }
+  .tl-card { padding: 14px 16px; }
+  .tl-degree { font-size: 0.92rem; }
+  .tl-inst { font-size: 0.75rem; }
 }
 
 /* ── Contact / Socials ────────────────────────────────────── */
