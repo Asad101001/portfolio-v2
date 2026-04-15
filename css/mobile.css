@@ -107,20 +107,6 @@
   }
 
   /* ── Terminal Overhaul ─────────────────────────────────── */
-  .hero-side {
-    max-height: none;
-    height: auto;
-  }
-
-  .terminal-body {
-    font-size: 0.72rem;
-    line-height: 1.6;
-    padding: 12px 16px;
-    overflow-x: hidden;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    white-space: pre-wrap;
-  }
 
   /* ── Animations ────────────────────────────────────────── */
   /* Reduce stagger timing for snappier feel on touch */

@@ -18,8 +18,8 @@ export const CONFIG = {
     ],
     watchlist: [
       { title: 'Dune: Part Three' },
-      { title: 'The Odyssey' },
-      { title: 'Spiderman:Brand New Day' }
+      { title: 'The Odyssey (2026 film)' },
+      { title: 'Spider-Man: Brand New Day' }
     ],
     seriesWatchlist: [
       { title: 'The Wire' },
@@ -95,10 +95,12 @@ function timeAgo(dateStr) {
   var date = new Date(dateStr);
   if (isNaN(date.getTime())) return '';
   var diff = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (diff < 60)   return diff + 's ago';
+  if (diff < 60)    return diff + 's ago';
   if (diff < 3600)  return Math.floor(diff / 60) + 'm ago';
   if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-  return Math.floor(diff / 86400) + 'd ago';
+  if (diff < 86400 * 10) return Math.floor(diff / 86400) + 'd ago';
+  if (diff < 86400 * 30) return Math.floor(diff / (86400 * 7)) + 'w ago';
+  return Math.floor(diff / (86400 * 30)) + 'mo ago';
 }
 
 
@@ -129,6 +131,19 @@ function _moviePoster(title) {
 
   return wikiFetch.then(function(res) {
     if (res) return res;
+    
+    // Fallback 1: Try stripping anything in parentheses or after colon
+    var simpler = clean.replace(/\(.*\)/, '').replace(/:.*/, '').trim();
+    if (simpler && simpler !== clean) {
+       return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(simpler.replace(/ /g, '_')))
+         .then(function(r){ return r.ok ? r.json() : null; })
+         .then(function(d){ return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null; })
+         .then(function(resS) {
+            if (resS) return resS;
+            return itunesFetch(clean);
+         });
+    }
+
     return itunesFetch(clean).then(function(res2) {
       if (res2) return res2;
       var parts = clean.split(' ');
@@ -281,6 +296,10 @@ function _starsHTML(starsStr) {
               if (doc.cover_i) {
                 var url = 'https://covers.openlibrary.org/b/id/' + doc.cover_i + '-L.jpg';
                 readingCover.src = url;
+                readingCover.onerror = function() {
+                  readingCover.style.display = 'none';
+                  if (readingPlaceholder) readingPlaceholder.style.display = 'flex';
+                };
                 readingCover.style.display = 'block';
                 if (readingPlaceholder) readingPlaceholder.style.display = 'none';
               }
@@ -323,6 +342,10 @@ function _starsHTML(starsStr) {
           }
           if (url) {
             moviePoster.src = url;
+            moviePoster.onerror = function() {
+              moviePoster.style.display = 'none';
+              if (moviePlaceholder) moviePlaceholder.style.display = 'flex';
+            };
             moviePoster.style.display = 'block';
             if (moviePlaceholder) moviePlaceholder.style.display = 'none';
           }
@@ -361,7 +384,10 @@ function _starsHTML(starsStr) {
             }
           }
         })
-        .catch(function() {});
+        .catch(function(err) {
+          // Silently handle RSS errors to keep console clean
+          if (moviePlaceholder) moviePlaceholder.style.display = 'flex';
+        });
     }
     fetchMovie();
     setInterval(fetchMovie, 60000 * 15);
@@ -386,6 +412,10 @@ function _starsHTML(starsStr) {
               _tvmazePoster(pick).then(function(posterUrl) {
                 if (posterUrl && tvPoster) {
                   tvPoster.src = posterUrl;
+                  tvPoster.onerror = function() {
+                    tvPoster.style.display = 'none';
+                    if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+                  };
                   tvPoster.style.display = 'block';
                   if (tvPlaceholder) tvPlaceholder.style.display = 'none';
                 }
@@ -652,7 +682,7 @@ function _starsHTML(starsStr) {
             '<div class="score-row-mini is-home-row">' +
               '<div class="score-team-info">' +
                 '<img src="' + logo1 + '" class="tiny-logo" alt="">' +
-                '<span class="score-team-abbr">' + team1 + ' <small class="host-tag">(H)</small></span>' +
+                '<span class="score-team-abbr">' + team1 + ' <small class="host-tag" title="Home"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-top:-2px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></small></span>' +
               '</div>' +
               (s1 ? '<span class="score-row-scorer">' + s1 + '</span>' : '') +
               (red1 ? '<span class="score-row-card" title="Red cards">🟥' + (red1 > 1 ? ' x' + red1 : '') + '</span>' : '') +
@@ -762,7 +792,9 @@ function _starsHTML(starsStr) {
     if (diff < 60)    return 'just now';
     if (diff < 3600)  return Math.floor(diff / 60)  + 'm ago';
     if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
+    if (diff < 86400 * 10) return Math.floor(diff / 86400) + 'd ago';
+    if (diff < 86400 * 30) return Math.floor(diff / (86400 * 7)) + 'w ago';
+    return Math.floor(diff / (86400 * 30)) + 'mo ago';
   }
 
   function render(tracks) {
@@ -790,9 +822,7 @@ function _starsHTML(starsStr) {
         imgContainer.innerHTML = '<div class="lastfm-track-art lastfm-track-art--placeholder">🎵</div>';
         // Fallback to Spotify API for artist picture
         _artistImage(t.artist && t.artist['#text'] ? t.artist['#text'] : '').then(function(u) {
-          if (u && u.indexOf('data:image') === -1) {
-            imgContainer.innerHTML = '<img class="lastfm-track-art" src="' + u + '" alt="" crossorigin="anonymous" loading="lazy" />';
-          }
+            imgContainer.innerHTML = '<img class="lastfm-track-art" src="' + u + '" alt="" crossorigin="anonymous" loading="lazy" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100%\\\' height=\\\'100%\\\' fill=\\\'%23222\\\'/><text x=\\\'50\\\' y=\\\'55\\\' font-family=\\\'sans-serif\\\' font-size=\\\'30\\\' text-anchor=\\\'middle\\\' fill=\\\'%23444\\\' >🎵</text></svg>\'" />';
         }).catch(function(){});
       }
 
