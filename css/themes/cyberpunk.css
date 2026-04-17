@@ -49,6 +49,22 @@ body.theme-cyberpunk .proj-card {
     border: 3px solid var(--cyan) !important;
     box-shadow: 5px 5px 0px var(--cyan) !important;
     border-radius: 0px !important;
+    position: relative;
+}
+
+body.theme-cyberpunk .glass-card::after,
+body.theme-cyberpunk .nav-inner::after,
+body.theme-cyberpunk .stat-card::after,
+body.theme-cyberpunk .wip-card::after,
+body.theme-cyberpunk .proj-card::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    z-index: -1;
+    background: var(--cyan);
+    opacity: 0.3;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0'/%3E%3Crect width='1' height='1' x='2' y='0'/%3E%3Crect width='1' height='1' x='1' y='1'/%3E%3Crect width='1' height='1' x='3' y='1'/%3E%3Crect width='1' height='1' x='0' y='2'/%3E%3Crect width='1' height='1' x='2' y='2'/%3E%3Crect width='1' height='1' x='1' y='3'/%3E%3Crect width='1' height='1' x='3' y='3'/%3E%3C/svg%3E");
+    mask-size: 4px 4px;
 }
 
 body.theme-cyberpunk .btn-primary,

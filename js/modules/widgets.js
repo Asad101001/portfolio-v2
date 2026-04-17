@@ -17,9 +17,9 @@ export const CONFIG = {
       { name: 'Nuno Mendes',     fallback: '⚽' }
     ],
     watchlist: [
-      { title: 'Dune: Part Three' },
-      { title: 'The Odyssey (2026 film)' },
-      { title: 'Spider-Man: Brand New Day' }
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
+      { title: 'The Odyssey', searchQuery: 'The Odyssey (2026 film)' },
+      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man: Brand New Day' }
     ],
     seriesWatchlist: [
       { title: 'The Wire' },
@@ -1419,7 +1419,8 @@ function _starsHTML(starsStr) {
       wrap.innerHTML = '<div class="media-thumb-emoji">📺</div>';
 
       var directPoster = s.poster || null;
-      var posterPromise = directPoster ? Promise.resolve(directPoster) : _tvmazePoster(s.title);
+      var searchStr = s.searchQuery || s.title;
+      var posterPromise = directPoster ? Promise.resolve(directPoster) : _tvmazePoster(searchStr);
       posterPromise.then(function(url) {
         if (url && wrap.parentNode) {
           wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
@@ -1453,7 +1454,8 @@ function _starsHTML(starsStr) {
       wrap.innerHTML = '<div class="media-thumb-emoji">🎬</div>';
 
       var directPoster = m.poster || m.fallback || null;
-      var posterPromise = directPoster ? Promise.resolve(directPoster) : _moviePoster(m.title);
+      var searchStr = m.searchQuery || m.title;
+      var posterPromise = directPoster ? Promise.resolve(directPoster) : _moviePoster(searchStr);
       posterPromise.then(function(url) {
         if (url && wrap.parentNode) {
           wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';

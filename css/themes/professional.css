@@ -53,11 +53,26 @@ body.theme-professional .proj-card,
 body.theme-professional .stat-card,
 body.theme-professional .wip-card {
     background: #ffffff !important;
-    border: 2px solid #000000 !important;
+    border: none !important;
     box-shadow: var(--card-shadow) !important;
     backdrop-filter: none !important;
     border-radius: 0px !important;
-    padding: 24px !important; /* Improved internal separation */
+    padding: 24px !important;
+    position: relative;
+    z-index: 1;
+}
+
+body.theme-professional .glass-card::after,
+body.theme-professional .proj-card::after,
+body.theme-professional .stat-card::after,
+body.theme-professional .wip-card::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    background: #000;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0'/%3E%3Crect width='1' height='1' x='2' y='0'/%3E%3Crect width='1' height='1' x='1' y='1'/%3E%3Crect width='1' height='1' x='3' y='1'/%3E%3Crect width='1' height='1' x='0' y='2'/%3E%3Crect width='1' height='1' x='2' y='2'/%3E%3Crect width='1' height='1' x='1' y='3'/%3E%3Crect width='1' height='1' x='3' y='3'/%3E%3C/svg%3E");
+    mask-size: 4px 4px;
 }
 
 body.theme-professional .glass-card:hover,
@@ -371,7 +386,7 @@ body.theme-professional .wip-card,
 body.theme-professional .hero-main,
 body.theme-professional .hero-side {
     background: #ffffff !important;
-    border: 2px solid #000000 !important;
+    border: none !important;
 }
 
 /* Widgets Readability & Depth */
