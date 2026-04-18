@@ -11,9 +11,9 @@ body.theme-sunset {
     --border-h:  #ff0055;
     --radius:    0px;
     --radius-lg: 0px;
-    --text:      #ffccdd;
-    --text-muted:#cc99aa;
-    --text-dim:  #885566;
+    --text:      #ffffff;
+    --text-muted:#f0c2d3;
+    --text-dim:  #cc8ea3;
     --scanline-op: 0.08;
     --grid-clr: rgba(255, 0, 85, 0.25);
     --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255, 0, 85, 0.2), transparent 40%);

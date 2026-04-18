@@ -12,9 +12,9 @@ body.theme-cyberpunk {
     --border-h:  #00fff9;
     --radius:    0px;
     --radius-lg: 0px;
-    --text:      #e0ffff;
-    --text-muted:#a6f6f6;
-    --text-dim:  #5c8b8b;
+    --text:      #ffffff;
+    --text-muted:#c8ffff;
+    --text-dim:  #7ab3b3;
     --scanline-op: 0.15;
     --grid-clr: rgba(0, 255, 249, 0.1);
     --spotlight-gradient: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(0, 255, 249, 0.12), transparent 50%);

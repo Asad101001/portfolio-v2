@@ -11,9 +11,9 @@ body.theme-emerald {
     --border-h:  rgba(16, 185, 129, 0.9);
     --radius:    0px;
     --radius-lg: 0px;
-    --text:      #e2e8f0;
-    --text-muted:#80a090;
-    --text-dim:  #2d4038;
+    --text:      #ffffff;
+    --text-muted:#c0d5c8;
+    --text-dim:  #507a65;
     --scanline-op: 0;
     --grid-clr: rgba(16, 185, 129, 0.25);
     --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16, 185, 129, 0.15), transparent 40%);

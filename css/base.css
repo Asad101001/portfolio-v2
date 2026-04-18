@@ -34,6 +34,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  font-size: 17px; /* Bumped base size from 16px to 17px for improved global readability */
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
