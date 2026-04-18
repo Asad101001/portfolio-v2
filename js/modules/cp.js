@@ -7,7 +7,7 @@ const COMMANDS = [
     { id: 'contact', label: 'Jump to Contact', icon: '✉️', action: () => scrollTo('#contact') },
     { id: 'theme-cycle', label: 'Cycle Themes (4 Modes)', icon: '🎨', action: () => toggleTheme() },
     { id: 'resume', label: 'Download Resume', icon: '📄', action: () => window.open('./resume.pdf', '_blank') },
-    { id: 'email', label: 'Email Me', icon: '📨', action: () => window.location.href = 'mailto:muhammadasadk42@gmail.com' }
+    { id: 'email', label: 'Contact Me', icon: '📨', action: () => window.location.href = 'mailto:muhammadasadk42@gmail.com' }
 ];
 
 function toggleTheme() {

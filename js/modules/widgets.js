@@ -952,14 +952,17 @@ function _starsHTML(starsStr) {
 })();
 
 
-/* ── Coding Clock (PKT) ─────────────────────────────────── */
+/* ── Coding Clock (PKT) & Weather ───────────────────────── */
 (function () {
   var display  = document.getElementById('clock-display');
   var status   = document.getElementById('clock-status');
   var barsEl   = document.getElementById('clock-bars');
   var arc      = document.getElementById('clock-arc');
   var hourText = document.getElementById('clock-hour-text');
+  var currentTemp = '';
+  var currentIcon = '';
   if (!display) return;
+  
   var CIRC = 188.5;
   var zones = [
     { start: 0,  end: 6,  label: '🌙 Asleep (probably)',      color: '#a855f7' },
@@ -970,6 +973,31 @@ function _starsHTML(starsStr) {
     { start: 19, end: 22, label: '🎧 Side projects / music',   color: '#a855f7' },
     { start: 22, end: 24, label: '🌙 Late night hacking',      color: '#f97316' }
   ];
+
+  function getWeatherIcon(code) {
+    if (code === 0) return '☀️'; // Clear
+    if (code >= 1 && code <= 3) return '☁️'; // Cloudy
+    if (code === 45 || code === 48) return '🌫️'; // Fog
+    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return '🌧️'; // Rain
+    if ((code >= 71 && code <= 77) || code === 85 || code === 86) return '❄️'; // Snow
+    if (code >= 95 && code <= 99) return '⛈️'; // Thunderstorm
+    return '🌡️';
+  }
+
+  function fetchWeather() {
+    // Hardcoded to Karachi coords
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=24.8608&longitude=67.0104&current_weather=true')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.current_weather) {
+          currentTemp = Math.round(data.current_weather.temperature) + '°C';
+          currentIcon = getWeatherIcon(data.current_weather.weathercode);
+          tick(); // Update UI immediately
+        }
+      })
+      .catch(function(e) { console.warn('Weather fetch failed', e); });
+  }
+
   function tick() {
     var now  = new Date();
     var utc  = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -982,13 +1010,22 @@ function _starsHTML(starsStr) {
     if (arc) arc.style.strokeDashoffset = (CIRC * (1 - dayPct)).toFixed(2);
     if (hourText) hourText.textContent = h12;
     var zone = zones.find(function(z) { return h >= z.start && h < z.end; }) || zones[0];
-    if (status) status.textContent = zone.label;
+    
+    if (status) {
+        var weatherStr = currentTemp ? ' • ' + currentTemp + ' ' + currentIcon : '';
+        status.textContent = zone.label + weatherStr;
+    }
+    
     if (arc)    arc.style.stroke   = zone.color;
     if (barsEl) Array.prototype.forEach.call(barsEl.children, function(seg, i) {
       seg.classList.toggle('active', i <= Math.floor(h / 4));
     });
   }
-  tick(); setInterval(tick, 10000);
+  
+  tick(); 
+  setInterval(tick, 10000); // 10 sec tick
+  fetchWeather();
+  setInterval(fetchWeather, 30 * 60 * 1000); // Update weather every 30 mins
 })();
 
 

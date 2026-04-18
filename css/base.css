@@ -269,6 +269,8 @@ a { text-decoration: none; color: inherit; }
   mask-image: var(--pixel-noise), var(--dissolve-pattern);
   mask-size: 16px 16px, 100% 100%;
   mask-composite: intersect;
+  -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
+  -webkit-mask-size: 16px 16px, 100% 100%;
   -webkit-mask-composite: source-in;
   opacity: 0.6;
   pointer-events: none;

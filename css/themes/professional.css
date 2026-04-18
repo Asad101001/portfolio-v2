@@ -78,6 +78,8 @@ body.theme-professional .wip-card::after {
     mask-image: var(--pixel-noise), var(--dissolve-pattern);
     mask-size: 8px 8px, 100% 100%;
     mask-composite: intersect;
+    -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
+    -webkit-mask-size: 8px 8px, 100% 100%;
     -webkit-mask-composite: source-in;
     opacity: 0.55;
 }
