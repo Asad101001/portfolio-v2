@@ -20,7 +20,7 @@
 .commit-day[data-count="2"] { background: var(--github-bg2, rgba(16,185,129,0.3));  border-color: var(--github-br2, rgba(16,185,129,0.35)); }
 .commit-day[data-count="3"] { background: var(--github-bg3, rgba(16,185,129,0.5));  border-color: var(--github-br3, rgba(16,185,129,0.55)); box-shadow: 0 0 6px var(--github-gl, rgba(16,185,129,0.3)); }
 .commit-day[data-count="4"] { background: var(--github-bg4, rgba(16,185,129,0.75)); border-color: var(--github-br4, rgba(16,185,129,0.8));  box-shadow: 0 0 8px var(--github-gl, rgba(16,185,129,0.5)); }
-.commit-day-tooltip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: rgba(4,6,13,0.95); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.62rem; color: var(--text); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 20; font-family: 'JetBrains Mono', monospace; }
+.commit-day-tooltip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: rgba(4,6,13,0.95); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.62rem; color: #ffffff; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 20; font-family: 'JetBrains Mono', monospace; }
 .commit-day:hover .commit-day-tooltip { opacity: 1; }
 .commit-grid-footer { display: flex; align-items: center; justify-content: space-between; padding: 0 18px 14px; font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
 .commit-legend { display: flex; align-items: center; gap: 4px; }

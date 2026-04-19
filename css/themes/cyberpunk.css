@@ -62,9 +62,9 @@ body.theme-cyberpunk .proj-card::after {
     inset: -6px;
     z-index: -1;
     background: var(--cyan);
-    /* Thanos Snap: Glitched organic scattered pixel noise + dissolving gradient (Pic 1 Inspired) */
-    --pixel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='3' height='3' x='0' y='0'/%3E%3Crect width='1' height='1' x='5' y='1'/%3E%3Crect width='1' height='1' x='2' y='6'/%3E%3C/svg%3E");
-    --dissolve-pattern: radial-gradient(circle at top left, black 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 70%, transparent 100%);
+    /* Thanos Snap: Refined organic scattered noise */
+    --pixel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='2' height='2' x='0' y='0'/%3E%3Crect width='1' height='1' x='4' y='4'/%3E%3C/svg%3E");
+    --dissolve-pattern: radial-gradient(circle at top left, black 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
     
     mask-image: var(--pixel-noise), var(--dissolve-pattern);
     mask-size: 8px 8px, 100% 100%;
@@ -72,7 +72,7 @@ body.theme-cyberpunk .proj-card::after {
     -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
     -webkit-mask-size: 8px 8px, 100% 100%;
     -webkit-mask-composite: source-in;
-    opacity: 0.35;
+    opacity: 0.2; /* Subtler effect */
 }
 
 body.theme-cyberpunk .btn-primary,
