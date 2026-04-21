@@ -146,6 +146,11 @@ body.theme-professional .letterboxd-widget {
     color: var(--text) !important;
 }
 
+/* Star Visibility Override */
+body.theme-professional .star-empty { color: rgba(0, 0, 0, 0.22) !important; }
+body.theme-professional .star-filled { color: #ea580c !important; } /* Professional Orange */
+
+
 /* Expanded Spotify View for Professional */
 body.theme-professional .spotify-title-expanded { color: #000 !important; }
 body.theme-professional .spotify-artist-expanded { color: var(--text-muted) !important; }
