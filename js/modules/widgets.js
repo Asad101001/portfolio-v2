@@ -233,15 +233,15 @@ function _starsHTML(starsStr) {
   if (!starsStr) return '';
   var full = (starsStr.match(/★/g) || []).length;
   var half = starsStr.indexOf('½') !== -1;
-  var out  = '<span style="font-size:0.75rem;letter-spacing:1px;display:block;margin-top:2px;">';
+  var out  = '<span class="star-rating">';
   for (var i = 0; i < 5; i++) {
     if (i < full) {
-      out += '<span style="color:#f59e0b;">★</span>';
+      out += '<span class="star-filled">★</span>';
     } else if (i === full && half) {
-      out += '<span style="color:#f59e0b;font-size:0.65rem;vertical-align:middle;">½</span>';
+      out += '<span class="star-half">½</span>';
       half = false;
     } else {
-      out += '<span style="color:rgba(255,255,255,0.12);">★</span>';
+      out += '<span class="star-empty">★</span>';
     }
   }
   return out + '</span>';
