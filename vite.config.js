@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import { defineConfig } from 'vite';
+import { fileURLToPath } from 'url';
 
 /**
  * A basic Vite plugin to inline HTML files using <include src="./components/foo.html"></include>
@@ -24,7 +26,10 @@ function htmlIncludePlugin() {
   };
 }
 
-export default {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig({
   plugins: [htmlIncludePlugin()],
   server: {
     port: 5173
@@ -42,4 +47,4 @@ export default {
       }
     }
   }
-};
+});
