@@ -185,6 +185,23 @@ body.theme-professional .status-dot {
     box-shadow: none !important;
 }
 
+body.theme-professional .status-offline {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 0px !important;
+    font-weight: 950 !important;
+    padding: 3px 10px !important;
+    box-shadow: 3px 3px 0px #000 !important;
+    font-size: 0.65rem !important;
+}
+
+body.theme-professional .status-offline-dot {
+    background: #ffffff !important;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
+    border: 1px solid #000 !important;
+}
+
 /* Typography Hierarchy */
 body.theme-professional .hero-name {
     color: var(--text) !important;
@@ -249,6 +266,14 @@ body.theme-professional .btn-secondary:hover {
     background: var(--bg2) !important;
     transform: translate(-2px, -2px) !important;
     box-shadow: 5px 5px 0px #000 !important;
+}
+
+body.theme-professional .btn-offline {
+    background: #ffffff !important;
+    color: #ef4444 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 3px 3px 0px #ef4444 !important;
+    opacity: 0.6 !important;
 }
 
 /* Footer Contrast */

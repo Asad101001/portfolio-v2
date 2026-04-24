@@ -99,3 +99,18 @@ body.theme-cyberpunk .section-title::after {
     background: var(--cyan);
     box-shadow: 0 0 15px var(--cyan);
 }
+
+body.theme-cyberpunk .status-offline {
+    border: 2px solid #ff0055 !important;
+    background: rgba(255, 0, 85, 0.25) !important;
+    color: #ff0055 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.2) !important;
+    text-shadow: 0 0 8px rgba(255, 0, 85, 0.8) !important;
+    padding: 4px 14px !important;
+    letter-spacing: 0.15em !important;
+}
+
+body.theme-cyberpunk .status-offline-dot {
+    background: #ff0055 !important;
+    box-shadow: 0 0 12px #ff0055, 0 0 6px #ffffff !important;
+}
