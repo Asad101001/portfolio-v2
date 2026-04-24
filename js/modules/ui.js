@@ -307,9 +307,20 @@ document.head.appendChild(fizzStyle);
   staggerParents.forEach(p => Array.prototype.forEach.call(p.children, c => c.classList.add('s-child')));
   if (!window.IntersectionObserver) { document.querySelectorAll('.section-in, .reveal').forEach(s => s.classList.add('in-view', 'visible')); return; }
   var obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view', 'visible'); obs.unobserve(e.target); }});
+    entries.forEach(e => { 
+      if (e.isIntersecting) { 
+        e.target.classList.add('in-view', 'visible'); 
+        // If it's a parent container (like a project card), reveal acards inside with stagger
+        e.target.querySelectorAll('.acard').forEach((c, i) => {
+          if (!c.classList.contains('in-view')) {
+            setTimeout(() => c.classList.add('in-view'), i * 35);
+          }
+        });
+        obs.unobserve(e.target); 
+      }
+    });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-  document.querySelectorAll('.section-in, .reveal').forEach(s => obs.observe(s));
+  document.querySelectorAll('.section-in, .reveal, .proj-tags').forEach(s => obs.observe(s));
 })();
 
 /* ── Experience Accordion ── */

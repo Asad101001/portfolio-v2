@@ -99,49 +99,6 @@
   50%       { opacity: 1;   transform: scale(1.6); }
 }
 
-/* Projects Section Enhancements */
-/* --- Tech Tag Glow System --- */
-.tag { 
-  display: inline-flex; align-items: center; justify-content: flex-start;
-  font-size: 0.72rem; font-weight: 600; color: var(--text-dim); 
-  background: var(--surface); 
-  padding: 5px 10px; border-radius: var(--radius); 
-  border: 1px solid var(--border);
-  transition: all var(--transition);
-  font-family: 'JetBrains Mono', monospace;
-  cursor: default;
-  position: relative;
-  overflow: hidden;
-  width: fit-content;
-  max-width: 40px; /* Base icon-only constraint */
-  white-space: nowrap;
-  flex: none !important;
-}
-
-.tag svg {
-  width: 18px; height: 18px; flex-shrink: 0;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  filter: grayscale(0.7) brightness(0.9);
-}
-
-.tag-label {
-  display: inline-block;
-  max-width: 0; opacity: 0;
-  transition: max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, margin 0.3s ease;
-  overflow: hidden;
-  margin-left: 0;
-}
-
-.tag:hover, .tag.active, .tag:active { 
-  max-width: fit-content; /* Remove hard upper limit, rely on content */
-  padding: 5px 12px;
-  color: #fff;
-  background: var(--tech-bg, rgba(16, 185, 129, 0.12));
-  border-color: var(--tech-color, var(--cyan));
-  box-shadow: var(--btn-shadow);
-  transform: translateY(-2px);
-  z-index: 10;
-}
 
 /* Frosting Effect */
 .glass-card {
@@ -152,40 +109,6 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-.tag:hover .tag-label, .tag.active .tag-label, .tag:active .tag-label {
-  max-width: fit-content;
-  opacity: 1;
-  margin-left: 8px;
-}
-
-/* Tech Color Definitions */
-.tag[data-tech="Python"] { --tech-color: #3776AB; --tech-bg: rgba(55, 118, 171, 0.15); --tech-glow: rgba(55, 118, 171, 0.4); }
-.tag[data-tech="React"] { --tech-color: #61DAFB; --tech-bg: rgba(97, 218, 251, 0.15); --tech-glow: rgba(97, 218, 251, 0.4); }
-.tag[data-tech="Tailwind"] { --tech-color: #38B2AC; --tech-bg: rgba(56, 178, 172, 0.15); --tech-glow: rgba(56, 178, 172, 0.4); }
-.tag[data-tech="Node.js"] { --tech-color: #339933; --tech-bg: rgba(51, 153, 51, 0.15); --tech-glow: rgba(51, 153, 51, 0.4); }
-.tag[data-tech="Express"] { --tech-color: #ffffff; --tech-bg: rgba(255, 255, 255, 0.1); --tech-glow: rgba(255, 255, 255, 0.2); }
-.tag[data-tech="AWS"] { --tech-color: #FF9900; --tech-bg: rgba(255, 153, 0, 0.15); --tech-glow: rgba(255, 153, 0, 0.4); }
-.tag[data-tech="FastAPI"] { --tech-color: #009688; --tech-bg: rgba(0, 150, 136, 0.15); --tech-glow: rgba(0, 150, 136, 0.4); }
-.tag[data-tech="LangChain"] { --tech-color: #00ff41; --tech-bg: rgba(0, 255, 65, 0.15); --tech-glow: rgba(0, 255, 65, 0.4); }
-.tag[data-tech="FAISS"] { --tech-color: #00c3ff; --tech-bg: rgba(0, 195, 255, 0.15); --tech-glow: rgba(0, 195, 255, 0.4); }
-.tag[data-tech="Threejs"] { --tech-color: #ffffff; --tech-bg: rgba(255, 255, 255, 0.12); --tech-glow: rgba(255, 255, 255, 0.3); }
-.tag[data-tech="Groq"] { --tech-color: #f75049; --tech-bg: rgba(247, 80, 73, 0.15); --tech-glow: rgba(247, 80, 73, 0.4); }
-.tag[data-tech="TensorFlow"] { --tech-color: #FF6F00; --tech-bg: rgba(255, 111, 0, 0.15); --tech-glow: rgba(255, 111, 0, 0.4); }
-.tag[data-tech="Framer"] { --tech-color: #f500ff; --tech-bg: rgba(245, 0, 255, 0.15); --tech-glow: rgba(245, 0, 255, 0.4); }
-.tag[data-tech="MySQL"] { --tech-color: #4479A1; --tech-bg: rgba(68, 121, 161, 0.15); --tech-glow: rgba(68, 121, 161, 0.4); }
-.tag[data-tech="Chart.js"] { --tech-color: #ff6384; --tech-bg: rgba(255, 99, 132, 0.15); --tech-glow: rgba(255, 99, 132, 0.4); }
-.tag[data-tech="Ubuntu"] { --tech-color: #E95420; --tech-bg: rgba(233, 84, 32, 0.15); --tech-glow: rgba(233, 84, 32, 0.4); }
-.tag[data-tech="Nginx"] { --tech-color: #009639; --tech-bg: rgba(0, 150, 57, 0.15); --tech-glow: rgba(0, 150, 57, 0.4); }
-.tag[data-tech="RAG"] { --tech-color: #00ff41; --tech-bg: rgba(0, 255, 65, 0.15); --tech-glow: rgba(0, 255, 65, 0.4); }
-.tag[data-tech="Vanilla JS"] { --tech-color: #F7DF1E; --tech-bg: rgba(247, 223, 30, 0.15); --tech-glow: rgba(247, 223, 30, 0.4); }
-.tag[data-tech="Jupyter"] { --tech-color: #F37626; --tech-bg: rgba(243, 118, 38, 0.15); --tech-glow: rgba(243, 118, 38, 0.4); }
-.tag[data-tech="TensorFlow"] { --tech-color: #FF6F00; --tech-bg: rgba(255, 111, 0, 0.15); --tech-glow: rgba(255, 111, 0, 0.4); }
-.tag[data-tech="Groq"] { --tech-color: #f75049; --tech-bg: rgba(247, 80, 73, 0.15); --tech-glow: rgba(247, 80, 73, 0.4); }
-.tag[data-tech="Threejs"] { --tech-color: #ffffff; --tech-bg: rgba(255, 255, 255, 0.1); --tech-glow: rgba(255, 255, 255, 0.3); }
-.tag[data-tech="Framer"] { --tech-color: #f500ff; --tech-bg: rgba(245, 0, 255, 0.15); --tech-glow: rgba(245, 0, 255, 0.4); }
-.tag[data-tech="LangChain"] { --tech-color: #00ff41; --tech-bg: rgba(0, 255, 65, 0.1); --tech-glow: rgba(0, 255, 65, 0.3); }
-.tag[data-tech="FAISS"] { --tech-color: #00c3ff; --tech-bg: rgba(0, 195, 255, 0.1); --tech-glow: rgba(0, 195, 255, 0.3); }
-.tag[data-tech="FastAPI"] { --tech-color: #009688; --tech-bg: rgba(0, 150, 136, 0.15); --tech-glow: rgba(0, 150, 136, 0.4); }
 
 /* --- Simple Spotify Progress (Mobile Style) --- */
 .spotify-progress-wrap-expanded {
