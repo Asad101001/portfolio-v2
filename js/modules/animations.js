@@ -173,7 +173,7 @@
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(function() {
                 document.body.classList.remove('is-scrolling');
-            }, 100);
+            }, 150); // Increased from 100ms to 150ms for better inertia handling
         }, { passive: true });
     }
 
