@@ -279,7 +279,7 @@ body.theme-cyberpunk .btn-offline {
 /* Footer Contrast */
 body.theme-cyberpunk .main-footer {
     background: #000000 !important;
-    border-top: 2px solid #000000 !important;
+    border-top: 2px solid var(--cyan) !important;
     color: var(--cyan) !important;
     padding: 60px 20px !important;
 }
@@ -295,7 +295,8 @@ body.theme-cyberpunk .r-dot {
 
 body.theme-cyberpunk .section-dot.active,
 body.theme-cyberpunk .r-dot.active {
-    background: #000000 !important;
+    background: var(--cyan) !important;
+    color: #000000 !important;
     box-shadow: 4px 4px 0px rgba(255,255,255,0.2) !important;
 }
 
@@ -359,7 +360,7 @@ body.theme-cyberpunk .acard-icon,
 body.theme-cyberpunk .tag,
 body.theme-cyberpunk .cert-thumb,
 body.theme-cyberpunk .lastfm-track-art {
-    background: #000000 !important;
+    background: transparent !important;
     border: 2px solid var(--cyan) !important;
 }
 
@@ -449,8 +450,8 @@ body.theme-cyberpunk .xp-bar-wrap { border: 3px solid var(--cyan) !important; ba
 body.theme-cyberpunk .xp-bar-fill { background: var(--lime) !important; box-shadow: none !important; border-right: 2px solid var(--cyan) !important; }
 
 /* Clock Digit Visibility */
-body.theme-cyberpunk #clock-hour-text { fill: #000 !important; font-weight: 900 !important; }
-body.theme-cyberpunk .clock-prime-time { color: #000000 !important; font-weight: 900 !important; }
+body.theme-cyberpunk #clock-hour-text { fill: #ffffff !important; font-weight: 900 !important; }
+body.theme-cyberpunk .clock-prime-time { color: #ffffff !important; font-weight: 900 !important; }
 body.theme-cyberpunk .clock-sub { color: var(--text-muted) !important; font-weight: 700 !important; }
 
 
@@ -512,11 +513,11 @@ body.theme-cyberpunk::-webkit-scrollbar {
 }
 body.theme-cyberpunk::-webkit-scrollbar-track {
     background: #000000 !important;
-    border-left: 2px solid #000000 !important;
+    border-left: 2px solid var(--cyan) !important;
 }
 body.theme-cyberpunk::-webkit-scrollbar-thumb {
-    background: #000000 !important;
-    border: 2px solid #ffffff !important;
+    background: var(--cyan) !important;
+    border: 2px solid #000000 !important;
 }
 
 /* Certifications Drawer Refinement (Professional) */
@@ -539,7 +540,7 @@ body.theme-cyberpunk .timeline-item::before {
 
 
 body.theme-cyberpunk #certs-backdrop {
-    background: rgba(255, 255, 255, 0.45) !important; /* Light wash instead of dark blur */
+    background: rgba(0, 0, 0, 0.8) !important; /* Dark wash for night mode */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
 }

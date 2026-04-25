@@ -359,7 +359,7 @@ body.theme-professional .acard-icon,
 body.theme-professional .tag,
 body.theme-professional .cert-thumb,
 body.theme-professional .lastfm-track-art {
-    background: #ffffff !important;
+    background: transparent !important;
     border: 2px solid #000000 !important;
 }
 

@@ -279,7 +279,7 @@ body.theme-sunset .btn-offline {
 /* Footer Contrast */
 body.theme-sunset .main-footer {
     background: #080105 !important;
-    border-top: 2px solid #000000 !important;
+    border-top: 2px solid var(--cyan) !important;
     color: var(--cyan) !important;
     padding: 60px 20px !important;
 }
@@ -295,7 +295,8 @@ body.theme-sunset .r-dot {
 
 body.theme-sunset .section-dot.active,
 body.theme-sunset .r-dot.active {
-    background: #080105 !important;
+    background: var(--cyan) !important;
+    color: #080105 !important;
     box-shadow: 4px 4px 0px rgba(255,255,255,0.2) !important;
 }
 
@@ -359,7 +360,7 @@ body.theme-sunset .acard-icon,
 body.theme-sunset .tag,
 body.theme-sunset .cert-thumb,
 body.theme-sunset .lastfm-track-art {
-    background: #080105 !important;
+    background: transparent !important;
     border: 2px solid var(--cyan) !important;
 }
 
@@ -449,8 +450,8 @@ body.theme-sunset .xp-bar-wrap { border: 3px solid var(--cyan) !important; backg
 body.theme-sunset .xp-bar-fill { background: var(--lime) !important; box-shadow: none !important; border-right: 2px solid var(--cyan) !important; }
 
 /* Clock Digit Visibility */
-body.theme-sunset #clock-hour-text { fill: #000 !important; font-weight: 900 !important; }
-body.theme-sunset .clock-prime-time { color: #000000 !important; font-weight: 900 !important; }
+body.theme-sunset #clock-hour-text { fill: #ffffff !important; font-weight: 900 !important; }
+body.theme-sunset .clock-prime-time { color: #ffffff !important; font-weight: 900 !important; }
 body.theme-sunset .clock-sub { color: var(--text-muted) !important; font-weight: 700 !important; }
 
 
@@ -512,11 +513,11 @@ body.theme-sunset::-webkit-scrollbar {
 }
 body.theme-sunset::-webkit-scrollbar-track {
     background: #080105 !important;
-    border-left: 2px solid #000000 !important;
+    border-left: 2px solid var(--cyan) !important;
 }
 body.theme-sunset::-webkit-scrollbar-thumb {
-    background: #080105 !important;
-    border: 2px solid #ffffff !important;
+    background: var(--cyan) !important;
+    border: 2px solid #080105 !important;
 }
 
 /* Certifications Drawer Refinement (Professional) */
@@ -539,7 +540,7 @@ body.theme-sunset .timeline-item::before {
 
 
 body.theme-sunset #certs-backdrop {
-    background: rgba(255, 255, 255, 0.45) !important; /* Light wash instead of dark blur */
+    background: rgba(0, 0, 0, 0.8) !important; /* Dark wash for night mode */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
 }

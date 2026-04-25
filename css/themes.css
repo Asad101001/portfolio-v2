@@ -34,6 +34,7 @@
 
 .theme-trigger::after {
     content: 'Click to Switch Theme';
+    -webkit-text-fill-color: initial;
     position: absolute;
     top: 130%;
     left: 0;
