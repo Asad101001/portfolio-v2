@@ -51,16 +51,34 @@ body.theme-sunset .wip-card,
 body.theme-sunset .proj-card {
     background: rgba(18, 5, 12, 0.95) !important;
     border: 3px solid var(--cyan) !important;
-    box-shadow: 5px 5px 0px var(--cyan) !important;
     border-radius: 0px !important;
+    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+body.theme-sunset .glass-card:hover,
+body.theme-sunset .nav-inner:hover,
+body.theme-sunset .stat-card:hover,
+body.theme-sunset .wip-card:hover,
+body.theme-sunset .proj-card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 8px 8px 0px var(--lime) !important;
+    border-color: var(--lime) !important;
 }
 
 body.theme-sunset .btn-primary,
 body.theme-sunset .btn-secondary,
 body.theme-sunset .nav-cta {
     border: 3px solid var(--cyan) !important;
-    box-shadow: 3px 3px 0px var(--cyan) !important;
     border-radius: 0px !important;
+    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+body.theme-sunset .btn-primary:hover,
+body.theme-sunset .btn-secondary:hover,
+body.theme-sunset .nav-cta:hover {
+    box-shadow: 6px 6px 0px var(--lime) !important;
+    transform: translate(-3px, -3px) !important;
+    border-color: var(--lime) !important;
 }
 
 body.theme-sunset .hero-name {
@@ -68,5 +86,24 @@ body.theme-sunset .hero-name {
     -webkit-background-clip: text;
     background-clip: text;
     filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.5));
+}
+
+/* Custom Scrollbar for Sunset Theme */
+body.theme-sunset::-webkit-scrollbar {
+    width: 10px !important;
+}
+body.theme-sunset::-webkit-scrollbar-track {
+    background: var(--bg) !important;
+    border-left: 1px solid var(--grid-clr) !important;
+}
+body.theme-sunset::-webkit-scrollbar-thumb {
+    background: var(--bg2) !important;
+    border: 1px solid var(--cyan) !important;
+    box-shadow: inset 0 0 5px rgba(255, 0, 85, 0.3) !important;
+    border-radius: 0px !important;
+}
+body.theme-sunset::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 85, 0.1) !important;
+    box-shadow: inset 0 0 10px rgba(255, 0, 85, 0.6) !important;
 }
 

@@ -50,6 +50,17 @@ body.theme-cyberpunk .proj-card {
     box-shadow: 5px 5px 0px var(--cyan) !important;
     border-radius: 0px !important;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+body.theme-cyberpunk .glass-card:hover,
+body.theme-cyberpunk .nav-inner:hover,
+body.theme-cyberpunk .stat-card:hover,
+body.theme-cyberpunk .wip-card:hover,
+body.theme-cyberpunk .proj-card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 8px 8px 0px var(--purple) !important;
+    border-color: var(--purple) !important;
 }
 
 body.theme-cyberpunk .glass-card::after,
@@ -81,6 +92,15 @@ body.theme-cyberpunk .nav-cta {
     border: 3px solid var(--cyan) !important;
     box-shadow: 3px 3px 0px var(--cyan) !important;
     border-radius: 0px !important;
+    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+body.theme-cyberpunk .btn-primary:hover,
+body.theme-cyberpunk .btn-secondary:hover,
+body.theme-cyberpunk .nav-cta:hover {
+    box-shadow: 6px 6px 0px var(--purple) !important;
+    transform: translate(-3px, -3px) !important;
+    border-color: var(--purple) !important;
 }
 
 body.theme-cyberpunk .hero-name {
@@ -113,4 +133,23 @@ body.theme-cyberpunk .status-offline {
 body.theme-cyberpunk .status-offline-dot {
     background: #ff0055 !important;
     box-shadow: 0 0 12px #ff0055, 0 0 6px #ffffff !important;
+}
+
+/* Custom Scrollbar for Cyberpunk Theme */
+body.theme-cyberpunk::-webkit-scrollbar {
+    width: 10px !important;
+}
+body.theme-cyberpunk::-webkit-scrollbar-track {
+    background: var(--bg) !important;
+    border-left: 1px solid var(--grid-clr) !important;
+}
+body.theme-cyberpunk::-webkit-scrollbar-thumb {
+    background: var(--bg2) !important;
+    border: 1px solid var(--cyan) !important;
+    box-shadow: inset 0 0 5px rgba(0, 255, 249, 0.2) !important;
+    border-radius: 0px !important;
+}
+body.theme-cyberpunk::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 249, 0.1) !important;
+    box-shadow: inset 0 0 10px rgba(0, 255, 249, 0.6) !important;
 }
