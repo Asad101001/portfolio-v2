@@ -2630,10 +2630,10 @@ section::before {
 
 /* ── Mobile Theme Optimizations ─────────────────────────── */
 @media (max-width: 768px) {
-  .theme-sunset .ambient-glow, .theme-industrial .ambient-glow { opacity: 0.4; filter: blur(60px); }
-  .theme-cyberpunk .ambient-glow, .theme-emerald .ambient-glow { opacity: 0.3; filter: blur(50px); }
+  .theme-sunset .ambient-glow { opacity: 0.4; filter: blur(60px); }
+  .theme-cyberpunk .ambient-glow { opacity: 0.3; filter: blur(50px); }
   
-  .theme-sunset .glass-card, .theme-cyberpunk .glass-card, .theme-industrial .glass-card, .theme-emerald .glass-card {
+  .theme-sunset .glass-card, .theme-cyberpunk .glass-card {
     backdrop-filter: blur(10px);
     background: rgba(10, 10, 18, 0.7);
   }

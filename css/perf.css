@@ -206,12 +206,7 @@ html {
   ) !important;
 }
 
-/* ── 12. CRT scanline on body::after — remove on non-industrial ── */
-/* The body::after with background-size: 100% 3px repaints entire
-   viewport on scroll in some browsers. Disable by default. */
-body:not(.theme-industrial)::after {
-  display: none !important;
-}
+
 
 /* ── 13. Ambient glow — use opacity:0 not display:none so
    IntersectionObserver transition still works ─────────────── */

@@ -166,35 +166,13 @@
   }
 
   /* ── Theme-Specific Mobile Tweaks ─────────────────────── */
-  body.theme-industrial .glass-card, 
-  body.theme-industrial .project-card,
-  body.theme-industrial .arsenal-dom {
-    border-radius: var(--radius) !important;
-    border-width: 2px !important;
-    box-shadow: 4px 4px 0px var(--orange) !important;
-  }
-  
-  body.theme-industrial .acard:active {
-    background: var(--orange) !important;
-    color: #000 !important;
-  }
 
-  body.theme-minimal {
-    background: #fff !important;
-    color: #0f172a !important;
-  }
-  
-  body.theme-minimal .glass-card {
-    background: #fff !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04) !important;
-  }
 
-  /* Reduce Hero Name for Theme Industrial to avoid overlap */
-  body.theme-industrial .hero-name {
-    text-shadow: 2px 2px 0px #f97316 !important;
-    font-size: 2.4rem !important;
-  }
+
+  
+
+
+
 
   /* ── Universal Theme & Glow Balancing ─────────────────── */
   body.theme-cyberpunk .glass-card,
@@ -203,10 +181,7 @@
     border-width: 1px !important;
   }
   
-  body.theme-emerald .glass-card,
-  body.theme-emerald .project-card {
-    box-shadow: 0 4px 15px rgba(16,185,129,0.15) !important;
-  }
+
 
   body.theme-sunset .hero-name {
     font-size: 2.4rem !important;

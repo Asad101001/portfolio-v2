@@ -1,7 +1,5 @@
 @import url('themes/cyberpunk.css');
 @import url('themes/sunset.css');
-@import url('themes/industrial.css');
-@import url('themes/emerald.css');
 @import url('themes/professional.css');
 
 :root {
@@ -13,19 +11,7 @@
     --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%);
 }
 
-body.theme-industrial {
-    --hero-bg: url('../images/backgrounds/industrial-bg.png');
-    --hero-op: 0.35;
-    --hero-br: 0.55;
-    --spotlight-gradient: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(249,115,22,0.1), transparent 40%);
-}
 
-body.theme-emerald {
-    --hero-bg: url('../images/backgrounds/hero-bg.png');
-    --hero-op: 0.28;
-    --hero-br: 0.65;
-    --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(16,185,129,0.08), transparent 40%);
-}
 
 /* Brand / Theme Trigger Styling */
 .nav-brand-wrap {
