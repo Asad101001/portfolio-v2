@@ -266,6 +266,14 @@ body.is-scrolling * {
   -webkit-backdrop-filter: none !important;
 }
 
+body.is-scrolling *,
+body.is-scrolling *::before,
+body.is-scrolling *::after {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  filter: none !important;
+}
+
 .hero-backdrop {
   will-change: transform, opacity;
   border-radius: 24px;

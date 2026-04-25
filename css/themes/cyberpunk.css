@@ -50,7 +50,7 @@ body.theme-cyberpunk .proj-card {
     box-shadow: 5px 5px 0px var(--cyan) !important;
     border-radius: 0px !important;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
 }
 
 body.theme-cyberpunk .glass-card:hover,
@@ -72,18 +72,13 @@ body.theme-cyberpunk .proj-card::after {
     position: absolute;
     inset: -6px;
     z-index: -1;
-    background: var(--cyan);
-    /* Thanos Snap: Refined organic scattered noise */
     --pixel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='2' height='2' x='0' y='0'/%3E%3Crect width='1' height='1' x='4' y='4'/%3E%3C/svg%3E");
     --dissolve-pattern: radial-gradient(circle at top left, black 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
-    
-    mask-image: var(--pixel-noise), var(--dissolve-pattern);
-    mask-size: 8px 8px, 100% 100%;
-    mask-composite: intersect;
-    -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
-    -webkit-mask-size: 8px 8px, 100% 100%;
-    -webkit-mask-composite: source-in;
-    opacity: 0.2; /* Subtler effect */
+    background-color: var(--cyan);
+    background-image: var(--pixel-noise), var(--dissolve-pattern);
+    background-size: 8px 8px, 100% 100%;
+    background-blend-mode: overlay;
+    opacity: 0.15; /* Subtler effect, hardware friendly */
 }
 
 body.theme-cyberpunk .btn-primary,
@@ -92,7 +87,7 @@ body.theme-cyberpunk .nav-cta {
     border: 3px solid var(--cyan) !important;
     box-shadow: 3px 3px 0px var(--cyan) !important;
     border-radius: 0px !important;
-    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
 }
 
 body.theme-cyberpunk .btn-primary:hover,
@@ -107,8 +102,7 @@ body.theme-cyberpunk .hero-name {
     background: linear-gradient(90deg, #00fff9 0%, #bc13fe 50%, #ffb000 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 15px rgba(0, 255, 249, 0.4));
-    text-shadow: 0 0 8px rgba(0, 255, 249, 0.2);
+    text-shadow: 0 0 15px rgba(0, 255, 249, 0.4), 0 0 8px rgba(0, 255, 249, 0.2);
 }
 
 body.theme-cyberpunk .section-title::after {

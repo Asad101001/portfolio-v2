@@ -52,7 +52,7 @@ body.theme-sunset .proj-card {
     background: rgba(18, 5, 12, 0.95) !important;
     border: 3px solid var(--cyan) !important;
     border-radius: 0px !important;
-    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
 }
 
 body.theme-sunset .glass-card:hover,
@@ -70,7 +70,7 @@ body.theme-sunset .btn-secondary,
 body.theme-sunset .nav-cta {
     border: 3px solid var(--cyan) !important;
     border-radius: 0px !important;
-    transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
 }
 
 body.theme-sunset .btn-primary:hover,
@@ -85,7 +85,7 @@ body.theme-sunset .hero-name {
     background: linear-gradient(135deg, #ff0055 0%, #ffd700 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.5));
+    text-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
 }
 
 /* Custom Scrollbar for Sunset Theme */
