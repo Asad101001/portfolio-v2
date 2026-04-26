@@ -8,10 +8,27 @@
     --card-padding: 20px;
   }
 
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
   section {
     padding: 50px 18px;
     width: 100%;
     margin: 0;
+    overflow-x: hidden; /* Prevent horizontal leaks */
+  }
+
+  #section-dots {
+    display: none !important;
+  }
+
+  #back-to-top {
+    bottom: 30px !important;
+    right: 20px !important;
+    transform: scale(0.9) !important;
   }
 
   /* ── Universal Card/Glow Scaling ─────────────────────────── */
@@ -30,8 +47,9 @@
 
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
-    padding-top: 100px;
+    padding-top: 130px !important;
     min-height: auto;
+    overflow: hidden;
   }
 
   .hero-grid {
@@ -47,8 +65,9 @@
   }
 
   .hero-name {
-    font-size: 2.6rem !important;
-    margin-bottom: 10px;
+    font-size: 2.4rem !important;
+    margin-bottom: 12px;
+    line-height: 1.1;
   }
 
   .hero-desc {
@@ -73,7 +92,8 @@
   
   .rotating-item {
     min-height: 130px !important;
-    padding: 12px 16px !important;
+    padding: 16px 20px !important;
+    gap: 12px !important;
   }
 
   .barca-layout-main {
@@ -97,6 +117,17 @@
     max-width: 100% !important;
   }
 
+  .proj-links {
+    gap: 12px !important;
+    flex-wrap: wrap;
+  }
+
+  .proj-link-code, .proj-link-demo {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 14px !important;
+  }
+
   /* ── Social Cards ─────────────────────────────────────── */
   .social-cards-grid-v2 {
     grid-template-columns: 1fr !important;
@@ -106,7 +137,42 @@
     width: 100%;
   }
 
+  /* ── Certifications Drawer (Mobile Fix) ───────────────── */
+  #certs-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    transform: translateX(100%); /* Maintain transition logic */
+  }
+  
+  #certs-drawer.open #certs-panel {
+    transform: translateX(0) !important;
+  }
+
+  .certs-grid {
+    grid-template-columns: 1fr !important;
+    padding-bottom: 80px !important;
+  }
+
   /* ── Terminal Overhaul ─────────────────────────────────── */
+  .terminal-body {
+    padding: 12px 16px !important;
+    font-size: 0.72rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .terminal-meta {
+    font-size: 0.65rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* ── GitHub Activity (Mobile Fix) ─────────────────────── */
+  .commit-grid {
+    padding: 16px 12px !important;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
 
   /* ── Animations ────────────────────────────────────────── */
   /* Reduce stagger timing for snappier feel on touch */
@@ -165,6 +231,11 @@
     align-items: center;
   }
 
+  /* ── Ambient Glows (Mobile Hide) ──────────────────────── */
+  .ambient-glow {
+    display: none !important;
+  }
+
   /* ── Theme-Specific Mobile Tweaks ─────────────────────── */
 
 
@@ -185,6 +256,12 @@
 
   body.theme-sunset .hero-name {
     font-size: 2.4rem !important;
+  }
+
+  .focus-item {
+    padding: 12px 16px !important;
+    gap: 12px !important;
+    font-size: 0.78rem !important;
   }
 
   /* ── Visitor XP & Widgets Audit ───────────────────────── */
