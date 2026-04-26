@@ -158,9 +158,9 @@ body.theme-sunset .spotify-artist-expanded { color: var(--text-muted) !important
 body.theme-sunset .spotify-times-expanded { color: var(--text-dim) !important; }
 body.theme-sunset .spotify-bar-expanded { background: #f1f5f9 !important; border: 1px solid #000 !important; }
 body.theme-sunset .spotify-bar-fill-expanded { background: var(--cyan) !important; }
-body.theme-sunset .spotify-controls-icon { color: #000000 !important; }
+body.theme-sunset .spotify-controls-icon { color: var(--cyan) !important; }
 body.theme-sunset .spotify-play-btn { background: var(--cyan) !important; color: #000000 !important; border: 2px solid var(--cyan) !important; }
-body.theme-sunset .spotify-play-btn.paused-state { background: #080105 !important; color: #000000 !important; }
+body.theme-sunset .spotify-play-btn.paused-state { background: #080105 !important; color: var(--cyan) !important; border: 2px solid var(--cyan) !important; }
 
 
 /* Tag & Pill High Contrast */
