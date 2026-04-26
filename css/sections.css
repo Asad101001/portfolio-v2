@@ -180,6 +180,10 @@
 .timeline-item:nth-child(1) { padding-bottom: 64px; }
 .timeline-item:nth-child(2) { padding-bottom: 48px; }
 .timeline-item:nth-child(3) { padding-bottom: 0; }
+
+.timeline-item:nth-child(1) .tl-card { max-width: 100%; }
+.timeline-item:nth-child(2) .tl-card { max-width: 92%; }
+.timeline-item:nth-child(3) .tl-card { max-width: 84%; }
 .timeline-item::before { content: ''; position: absolute; left: 7px; top: 28px; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--cyan), transparent); opacity: 0.3; }
 .timeline-item:last-child::before { display: none; }
 .tl-dot { position: absolute; left: 0; top: 6px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--cyan); background: var(--bg); box-shadow: 0 0 12px rgba(16,185,129,0.4); z-index: 2; }
