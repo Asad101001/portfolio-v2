@@ -32,13 +32,18 @@ export default async function handler(req, res) {
   try {
     if (CLIENT_ID && CLIENT_SECRET && REFRESH_TOKEN) {
       const { access_token } = await getAccessToken();
-      const searchRes = await fetch(`${SEARCH_URL}?q=${encodeURIComponent(name)}&type=artist&limit=1`, {
+      const searchRes = await fetch(`${SEARCH_URL}?q=${encodeURIComponent(name)}&type=artist&limit=5&market=US`, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
 
       if (searchRes.ok) {
         const data = await searchRes.json();
-        const artist = data.artists?.items?.[0];
+        let items = data.artists?.items || [];
+        
+        // Sort by popularity descending to get the most prominent artist
+        items.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        
+        const artist = items[0];
         if (artist && artist.images && artist.images.length > 0) {
           return res.json({
             name:  artist.name,
@@ -53,13 +58,17 @@ export default async function handler(req, res) {
 
   // 2. Fallback to Deezer API
   try {
-    const dzRes = await fetch(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}`);
+    const dzRes = await fetch(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=5`);
     if (dzRes.ok) {
       const dzData = await dzRes.json();
-      if (dzData.data && dzData.data.length > 0 && dzData.data[0].picture_medium) {
+      let dzItems = dzData.data || [];
+      dzItems.sort((a, b) => (b.nb_fan || 0) - (a.nb_fan || 0));
+      
+      const artist = dzItems[0];
+      if (artist && artist.picture_medium) {
         return res.json({
-          name: dzData.data[0].name,
-          image: dzData.data[0].picture_medium
+          name: artist.name,
+          image: artist.picture_medium
         });
       }
     }
