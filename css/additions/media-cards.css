@@ -1,0 +1,353 @@
+﻿
+/* â”€â”€ Series Progress Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.tv-progress-container {
+    width: 100%;
+    margin-top: 6px;
+}
+.tv-progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    width: 100%;
+    overflow: hidden;
+}
+.tv-progress-fill {
+    height: 100%;
+    background: var(--cyan);
+    width: 0%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px var(--cyan);
+}
+
+/* â”€â”€ Player Headshots in Socials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.player-headshots-row {
+    display: flex;
+    gap: -8px;
+    margin-bottom: 12px;
+    padding: 4px;
+}
+.player-headshot-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    margin-right: -10px;
+    z-index: 1;
+}
+.player-headshot-thumb:hover {
+    transform: translateY(-5px) scale(1.1);
+    border-color: var(--cyan);
+    z-index: 10;
+}
+
+/* â”€â”€ Twitter Centering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.twitter-post-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.twitter-centering-wrap {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    margin: 15px 0;
+    min-height: 300px;
+}
+
+/* Force override Twitter's internal style if possible */
+.twitter-tweet {
+    margin: 0 auto !important;
+}
+
+.twitter-tweet-rendered {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* â”€â”€ Social Widget Refinements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.barca-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.player-headshots-row {
+    justify-content: center; /* Center player icons */
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FOOTBALLER CARDS â€” Big 3 section player display
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.footballer-slot {
+    display: flex !important;
+    flex-direction: row !important; /* Force row to match other items and prevent bending */
+    align-items: center;
+    text-align: left;
+    gap: 12px;
+}
+
+.footballer-headshots-row {
+    display: flex;
+    gap: -6px; /* Overlap slightly for compact look */
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.footballer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: default;
+}
+
+.footballer-headshot-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footballer-headshot-img:hover {
+    transform: translateY(-6px) scale(1.08);
+    border-color: var(--cyan);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+}
+
+.footballer-emoji-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+}
+
+.footballer-emoji-avatar:hover {
+    transform: translateY(-4px);
+}
+
+.footballer-name-label,
+.footballer-short-name {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   WEEKLY ARTISTS â€” Last.fm artist thumbnail cards
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.artist-thumbs-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.artist-thumb-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: default;
+}
+
+.artist-thumb-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-thumb-img:hover {
+    transform: translateY(-5px) scale(1.08);
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.25);
+}
+
+.artist-thumb-emoji {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(239, 68, 68, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.artist-thumb-name {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    max-width: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* â”€â”€ Twitter Feed (X) Refinement â”€â”€ */
+.twitter-centering-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100%;
+  padding: 4px;
+}
+.x-post-container {
+  width: 100% !important;
+  max-width: 440px !important;
+  margin: 0 auto 12px auto !important;
+}
+
+/* â”€â”€ Mobile Section Nav Fixes â”€â”€ */
+@media (max-width: 900px) {
+  #section-dots {
+    right: 14px !important; 
+    gap: 12px !important;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(10px);
+    padding: 12px 4px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 1000 !important;
+  }
+  .section-dot {
+    width: 14px !important;
+    height: 14px !important;
+    border-width: 2px !important;
+  }
+  .section-dot.nearby, .section-dot.active {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: rgba(16,185,129,0.18) !important;
+    border-color: var(--cyan) !important;
+  }
+  #back-to-top {
+    right: 56px !important; /* Move away from side nav */
+  }
+}
+
+@media (max-width: 480px) {
+  #section-dots {
+    right: 10px !important;
+    gap: 10px !important;
+    padding: 8px 3px;
+  }
+  .section-dot {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .section-dot.nearby, .section-dot.active {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+/* â”€â”€ Twitter Full-Width Media â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Replaces the old 68Ã—68 thumbnail side-layout.
+   Media now appears below the tweet text, full-width.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.x-full-media {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.25);
+  max-height: 320px;
+  display: block;
+}
+.x-full-media img,
+.x-full-media video {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+ 
+/* â”€â”€ Footballer Cards in Big 3 Social Widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   The generic .footballer-card got constrained to 38Ã—52 by the
+   .media-thumb-card rule. Override for the headshots row only.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.footballer-headshots-row .footballer-card {
+  width: 60px;
+  height: auto;
+  min-height: 60px;
+  background: transparent;
+  border: none;
+}
+.footballer-headshots-row .footballer-headshot-img {
+  width: 60px;
+  height: 60px;
+}
+.footballer-headshots-row .footballer-emoji-avatar {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 50%;
+  background: rgba(16,185,129,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+/* â”€â”€ Artist Thumb Cards in Big 3 Social Widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Same override â€” give artist thumbs proper square dimensions.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.artist-thumbs-row .artist-thumb-card {
+  width: 54px;
+  height: auto;
+  min-height: 54px;
+  background: transparent;
+  border: none;
+}
+.artist-thumbs-row .artist-thumb-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.artist-thumbs-row .artist-thumb-emoji {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}

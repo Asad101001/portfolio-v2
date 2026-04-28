@@ -1,0 +1,330 @@
+﻿/* â”€â”€ Twitter (X) - Real-time Feed Styled as X â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.twitter-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.x-post-container {
+    position: relative;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+}
+
+/* Twitter Sauce â”€â”€ Left Accent Bar */
+.x-post-container::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 15%; bottom: 15%;
+    width: 3px;
+    background: var(--cyan);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: scaleY(0.5);
+    border-radius: 0 4px 4px 0;
+}
+
+.x-post-container:hover::before {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.x-post-container:hover {
+    background: rgba(255,255,255,0.02);
+    box-shadow: inset 0 0 20px rgba(0,243,255,0.01);
+}
+
+.x-post-body {
+    display: flex;
+    flex-direction: column; /* Changed to column to put media below text */
+    gap: 8px;
+    align-items: stretch;
+}
+
+.x-post-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.x-post-container:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.x-post-container:last-child { border-bottom: none; }
+
+.x-post-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 4px;
+    align-items: flex-start;
+}
+
+.x-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #18181b;
+}
+
+.x-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.x-author-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.x-names {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.x-display-name {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.x-handle, .x-dot, .x-time {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+.x-rt-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-top: 2px;
+}
+
+.x-post-content {
+    padding-left: 0;
+    margin-bottom: 8px;
+    z-index: 2;
+}
+
+.x-post-text { 
+    font-size: 0.78rem; 
+    line-height: 1.4; 
+    color: #e7e9ea; 
+    margin: 2px 0 0; 
+}
+
+.x-card-media { 
+    width: 100%; /* Full width */
+    max-height: 320px; /* Cap height to prevent too much scroll */
+    border-radius: 12px; 
+    overflow: hidden; 
+    margin-top: 8px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.x-card-media img, .x-card-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.x-post-actions {
+    display: flex;
+    justify-content: space-between;
+    max-width: 380px;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+.x-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.x-action:hover { color: var(--cyan); }
+
+.x-post-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: block;
+}
+
+/* â”€â”€ Arsenal Icon Size Bump â”€â”€ */
+.acard-icon { width: 32px !important; height: 32px !important; padding: 0 !important; }
+.acard-icon i { font-size: 2rem !important; }
+
+/* â”€â”€ AWS Merged & Expandable â”€â”€ */
+.acard.aws-merged {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 9px !important;
+    min-width: 52px !important; /* Increased from 48px to prevent content cutoff */
+    max-width: 52px !important; /* Start as icon only */
+    width: auto;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.acard.aws-merged:hover, .acard.aws-merged.manual-expand {
+    padding: 9px 15px !important;
+    max-width: 800px !important; /* Allow massive growth */
+    min-width: 52px !important;
+    z-index: 10;
+}
+
+.aws-services {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    overflow: hidden;
+    padding-left: 0;
+    border-left: 0 solid rgba(255,255,255,0);
+    margin-left: 0;
+    transition: all 0.4s ease;
+}
+
+.acard.aws-merged:hover .aws-services, .acard.aws-merged.manual-expand .aws-services {
+    padding-left: 10px;
+    border-left: 1px solid rgba(255,255,255,0.22);
+    margin-left: 8px;
+}
+
+.aws-svc {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 900;
+    color: var(--svc-clr, #fff);
+    text-transform: uppercase;
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: inline-block;
+    padding: 0;
+    letter-spacing: -0.02em;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+    margin: 0;
+}
+
+.acard.aws-merged:hover .aws-svc {
+    max-width: 110px;
+    opacity: 1;
+    padding: 2px 6px;
+    margin: 0 3px;
+}
+
+.acard.aws-merged .acard-name {
+    margin-right: 0;
+}
+
+/* â”€â”€ Experience Accordion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+#experience-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: rgba(0,255,65,0.05);
+  border: 1px solid rgba(0,255,65,0.2);
+  border-radius: 4px;
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+  position: relative;
+  z-index: 1;
+}
+#experience-toggle:hover {
+  background: rgba(0,255,65,0.1);
+  border-color: rgba(0,255,65,0.45);
+  box-shadow: 0 0 20px rgba(0,255,65,0.12);
+  transform: translateY(-1px);
+}
+#experience-toggle.open {
+  background: rgba(0,255,65,0.08);
+  border-color: rgba(0,255,65,0.4);
+}
+.exp-toggle-arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  font-size: 0.75rem;
+}
+#experience-toggle.open .exp-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* Accordion collapse â€” hidden by default, revealed by JS class */
+#demo-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1);
+  margin-top: 0;
+}
+#demo-content.demo-content-open {
+  max-height: 1200px;
+  margin-top: 28px;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   VIEW TRANSITIONS â€” Smooth UI Morphing
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.certs-drawer { view-transition-name: certs-drawer; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MAGNETIC REFINEMENTS
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.magnetic, .social-platform-card, .proj-link-code, .proj-link-demo {
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.magnetic:hover, .social-platform-card:hover {
+  cursor: pointer;
+  z-index: 10;
+}

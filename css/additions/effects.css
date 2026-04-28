@@ -1,0 +1,207 @@
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CLOCK â€” when placed in hero grid (4th card)
+   Re-style as a clean identity-sized widget
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.clock-widget {
+  border-radius: 4px !important;
+  border: 1px solid rgba(168,85,247,0.15) !important;
+  background: rgba(8,8,20,0.7) !important;
+}
+.clock-widget:hover {
+  border-color: rgba(168,85,247,0.4) !important;
+  box-shadow: 0 0 30px rgba(168,85,247,0.15), 0 12px 40px rgba(0,0,0,0.5) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ENHANCED HOVER EFFECTS â€” glass cards, project cards, etc.
+   GPU-safe: only transform, opacity, box-shadow, border-color
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+/* Glass cards â€” much stronger lift + glow */
+.glass-card:hover {
+  border-color: rgba(16,185,129,0.45) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(16,185,129,0.2),
+    0 0 0 1px rgba(16,185,129,0.1),
+    0 0 60px rgba(16,185,129,0.2),
+    0 30px 80px -15px rgba(0,0,0,0.85) !important;
+  transform: translateY(-10px) scale(1.01) !important;
+}
+
+/* Project cards â€” Base 3D Tilt Offset */
+.project-card {
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(1.8deg) rotateY(-1.2deg);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+}
+
+.project-card:hover {
+  box-shadow:
+    0 0 0 2px rgba(16, 185, 129, 0.45),
+    0 0 90px rgba(16, 185, 129, 0.35),
+    0 45px 110px -20px rgba(0,0,0,0.95) !important;
+  transform: translateY(-10px) perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.025) !important;
+}
+
+/* Focus items */
+.focus-item:hover {
+  color: var(--text) !important;
+  border-color: rgba(16,185,129,0.6) !important;
+  background: rgba(16,185,129,0.12) !important;
+  transform: translateX(10px);
+  box-shadow: -5px 0 0 rgba(16,185,129,0.8), 0 0 30px rgba(16,185,129,0.15);
+}
+
+/* Timeline dots */
+.tl-dot {
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.timeline-item:hover .tl-dot {
+  box-shadow: 0 0 20px rgba(16,185,129,0.6);
+  transform: scale(1.3);
+}
+
+/* Staggered/Staircase Education Layout */
+@media (min-width: 768px) {
+  .timeline-item:nth-child(2) { transform: translateX(20px); }
+  .timeline-item:nth-child(3) { transform: translateX(40px); }
+}
+
+/* Commit day cells */
+.commit-day:hover {
+  transform: scale(1.6) !important;
+  box-shadow: 0 0 10px rgba(16,185,129,0.5);
+  z-index: 10;
+}
+
+/* Nav links */
+nav a:not(.nav-cta-cv) {
+  transition: color 0.2s, text-shadow 0.2s;
+}
+nav a:not(.nav-cta-cv):hover {
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(16,185,129,0.5);
+}
+
+/* â”€â”€ Nav â€” View CV button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.nav-cta-cv {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border-radius: 4px;
+  font-size: 0.82rem; font-weight: 700; color: #060a12;
+  background: linear-gradient(135deg, var(--cyan), #0d9966);
+  box-shadow: 0 0 18px rgba(16,185,129,0.35);
+  transition: box-shadow 0.3s, transform 0.25s, filter 0.25s;
+  white-space: nowrap; text-decoration: none;
+}
+.nav-cta-cv:hover {
+  box-shadow: 0 0 36px rgba(16,185,129,0.6);
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.08);
+}
+
+/* â”€â”€ Scroll Performance overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.section-in { content-visibility: visible !important; }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RELAXED LAYOUT â€” ghost watermarks, alternating offsets
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+#about, #projects, #demo, #tech, #education, #contact { position: relative; }
+#about::before    { content: '01'; }
+#projects::before { content: '02'; }
+#demo::before     { content: '03'; }
+#tech::before     { content: '04'; }
+#education::before{ content: '05'; }
+#contact::before  { content: '06'; }
+section::before {
+  position: absolute; right: 1.5rem; top: 1rem;
+  font-size: 7rem; font-weight: 900;
+  font-family: 'Space Grotesk', sans-serif;
+  color: rgba(16,185,129,0.025);
+  line-height: 1; pointer-events: none; z-index: 0; user-select: none;
+  letter-spacing: -0.04em;
+}
+
+/* Alternating section padding */
+#about .section-inner    { padding-left: 2vw; }
+#projects .section-inner { padding-right: 2vw; }
+#tech .section-inner     { padding-left: 1.5vw; }
+#contact .section-inner  { padding-right: 1.5vw; }
+
+/* label-xs stamp tilt */
+#about .label-xs, #projects .label-xs, #education .label-xs {
+  transform: rotate(-1deg); transform-origin: left; display: inline-flex;
+}
+
+/* Project cards rotation offsets removed in favor of 3D tilt */
+.project-card {
+  contain: paint; /* Performance optimization */
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.projects-grid .project-card:hover { 
+  transform: translateY(-8px) scale(1.02) !important; 
+}
+
+/* Hero cards subtle scatter */
+.hero-grid .glass-card:nth-child(3) { transform: rotate(0.4deg); }
+.hero-grid .glass-card:nth-child(4) { transform: rotate(-0.3deg); }
+.hero-grid .glass-card:nth-child(5) { transform: rotate(0.3deg); }
+.hero-grid .glass-card:nth-child(3):hover,
+.hero-grid .glass-card:nth-child(4):hover,
+.hero-grid .glass-card:nth-child(5):hover { transform: rotate(0deg) translateY(-5px) !important; }
+
+@media (max-width: 768px) {
+  #about .section-inner, #projects .section-inner,
+  #tech .section-inner, #contact .section-inner { padding-left: 0; padding-right: 0; }
+  section::before { font-size: 4rem; }
+  .projects-grid .project-card:nth-child(odd),
+  .projects-grid .project-card:nth-child(even) { transform: none; }
+  .social-layout { grid-template-columns: 1fr; min-height: auto; }
+  .social-left { border-right: none; border-bottom: 1px solid rgba(16,185,129,0.1); padding: 28px 24px; }
+  .social-cards-grid { grid-template-columns: 1fr; }
+  .spotify-art-wrap-expanded { max-width: 200px; }
+}
+
+/* â”€â”€ Scrum/Agile kanban icon fix â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* (chip SVG is correct in HTML â€” no CSS needed) */
+
+/* â”€â”€ Error popup styles (preserved from previous) â”€â”€â”€â”€â”€â”€â”€â”€ */
+.err-stack-body {
+  display: flex; flex-direction: column; gap: 0;
+  padding: 0 6px;
+}
+.err-stack-line {
+  display: flex; align-items: baseline; gap: 0;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(239,68,68,0.04);
+}
+.err-stack-line .ln {
+  min-width: 32px; text-align: right;
+  color: rgba(239,68,68,0.2); font-size: 0.65rem; padding-right: 14px;
+  flex-shrink: 0; user-select: none;
+}
+.err-stack-line .fn { color: rgba(239,68,68,0.55); }
+.err-stack-line .path {
+  color: rgba(239,68,68,0.28); font-size: 0.67rem; margin-left: 8px;
+}
+.err-stack-line.hl {
+  background: rgba(239,68,68,0.06); border-radius: 3px;
+  border-bottom-color: transparent; padding: 4px 6px; margin: 0 -6px;
+}
+.err-stack-line.hl .fn  { color: #ef4444; font-weight: 700; }
+.err-stack-line.hl .path { color: rgba(239,68,68,0.5); }
+.err-stack-line.hl .ln  { color: rgba(239,68,68,0.4); }
+.err-footer-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 32px 14px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: rgba(239,68,68,0.3);
+}
+.err-footer-bar .ef-code { font-weight: 800; font-size: 0.72rem; color: rgba(239,68,68,0.6); }
+.err-footer-bar .ef-hint { display: flex; align-items: center; gap: 6px; }
+.err-blink {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(239,68,68,0.6); box-shadow: 0 0 6px rgba(239,68,68,0.5);
+  animation: blink-dot 1.2s step-end infinite;
+}
+@keyframes blink-dot { 50% { opacity: 0; } }

@@ -1,0 +1,362 @@
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FUN FACTS â€” completely separate card/section
+   Applied via a wrapper div in HTML (see index.html patch)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.fun-facts-section {
+  /* Looks like its own glass-card panel */
+  background: rgba(10,10,18,0.6);
+  border: 1px solid rgba(168,85,247,0.12);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-top: 0; /* lives in its OWN hero grid cell */
+  position: relative;
+  overflow: hidden;
+}
+.fun-facts-section::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.25), transparent);
+}
+.fun-facts-section .card-label {
+  /* Reuse existing .card-label style, add purple tint */
+  color: rgba(168,85,247,0.7) !important;
+  margin-bottom: 10px;
+}
+.fun-fact-item {
+  transition: color 0.25s, border-color 0.25s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.fun-fact-item:hover {
+  color: var(--text) !important;
+  border-color: rgba(168,85,247,0.35) !important;
+  background: rgba(168,85,247,0.07) !important;
+  transform: translateX(4px);
+  box-shadow: -3px 0 0 rgba(168,85,247,0.4);
+}
+
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ARSENAL â€” Domain Intelligence Grid
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+#tech .section-inner {
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* Filter Bar */
+.arsenal-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 36px;
+  margin-top: 8px;
+}
+.af-btn {
+  padding: 6px 16px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.25s;
+}
+.af-btn:hover {
+  border-color: rgba(16,185,129,0.4);
+  color: var(--cyan);
+  background: rgba(16,185,129,0.05);
+}
+.af-btn.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(16,185,129,0.08);
+  box-shadow: 0 0 14px rgba(16,185,129,0.15);
+}
+
+/* Arsenal Grid â€” Narrowed for centering */
+.arsenal-grid {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Domain Block */
+.arsenal-domain {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  background: rgba(8,10,20,0.6);
+  overflow: hidden;
+  /* Scroll-reveal: starts hidden */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1),
+              border-color 0.3s, box-shadow 0.3s;
+  will-change: opacity, transform;
+  contain: layout paint;
+}
+.arsenal-domain.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.arsenal-domain.hidden-domain {
+  display: none;
+}
+.arsenal-domain:hover {
+  border-color: rgba(16,185,129,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+
+/* Domain Header */
+.arsenal-domain-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.adom-badge {
+  font-size: 0.6rem;
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.22);
+  color: var(--cyan);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.adom-desc {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.adom-count {
+  font-size: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255,255,255,0.15);
+  white-space: nowrap;
+}
+
+/* Arsenal Row â€” centered icons */
+.arsenal-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* Arsenal Card â€” icon only by default, expands on hover */
+.acard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 9px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.025);
+  /* Fixed initial width â€” transition to max-width to allow content-fit expansion */
+  width: auto;
+  min-width: 42px;
+  max-width: 42px;
+  padding: 9px 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: default;
+  position: relative;
+  transition: max-width 0.35s cubic-bezier(0.22,1,0.36,1),
+              padding 0.35s cubic-bezier(0.22,1,0.36,1),
+              gap 0.35s cubic-bezier(0.22,1,0.36,1),
+              border-color 0.22s,
+              background 0.22s,
+              box-shadow 0.22s,
+              transform 0.22s;
+  /* Scroll-reveal entrance */
+  opacity: 0;
+  transform: scale(0.88);
+}
+.acard.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .acard:hover {
+    max-width: fit-content; /* Fit exactly to content rather than 200px */
+    gap: 10px;
+    padding: 9px 12px;
+    border-color: var(--ac, rgba(16,185,129,0.45));
+    background: var(--ag, rgba(16,185,129,0.1));
+    box-shadow: 0 0 18px var(--ag, rgba(16,185,129,0.2)),
+                0 4px 16px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+  }
+}
+.acard.manual-expand {
+  max-width: fit-content;
+  gap: 10px;
+  padding: 9px 12px;
+  border-color: var(--ac, rgba(16,185,129,0.45));
+  background: var(--ag, rgba(16,185,129,0.1));
+  box-shadow: 0 0 18px var(--ag, rgba(16,185,129,0.2)),
+              0 4px 16px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .acard {
+    max-width: 42px !important;
+    min-width: 42px !important;
+    padding: 9px 0 !important;
+    gap: 0 !important;
+  }
+  .acard.manual-expand {
+    max-width: 180px !important;
+    padding: 9px 12px !important;
+    gap: 8px !important;
+  }
+}
+
+/* Icon */
+.acard-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ac, var(--cyan));
+  filter: drop-shadow(0 0 3px var(--ag, rgba(16,185,129,0.1)));
+  transition: filter 0.22s;
+}
+.acard:hover .acard-icon {
+  filter: drop-shadow(0 0 8px var(--ag, rgba(16,185,129,0.5)));
+}
+.acard-icon svg { width: 22px; height: 22px; display: block; }
+
+/* Name â€” hidden in collapsed state, shown in expanded */
+.acard-name {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  transition: opacity 0.18s ease 0.1s, max-width 0.35s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+}
+.acard.manual-expand .acard-name { 
+  opacity: 1; 
+  max-width: fit-content; 
+}
+.acard:hover .acard-name,
+.acard:active .acard-name {
+  opacity: 1; 
+  max-width: fit-content; 
+}
+
+
+/* Stats Footer */
+.arsenal-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 18px 32px;
+  background: rgba(8,10,20,0.5);
+  border: 1px solid rgba(16,185,129,0.08);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 400px;
+}
+.astat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.astat-n {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(16,185,129,0.4);
+}
+.astat-l {
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.astat-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255,255,255,0.07);
+}
+
+@media (max-width: 768px) {
+  .adom-desc { display: none; }
+  .arsenal-stats { gap: 18px; padding: 14px 20px; }
+}
+
+/* Organic Floating Animation */
+@keyframes skill-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(var(--x, 5px), var(--y, -5px)) rotate(1deg); }
+  50%  { transform: translate(calc(var(--x, 5px) * -1.2), calc(var(--y, -5px) * 0.8)) rotate(-1deg); }
+  75%  { transform: translate(calc(var(--x, 5px) * 0.5), calc(var(--y, -5px) * 1.5)) rotate(0.5deg); }
+}
+
+.floating-chip {
+  animation: skill-float 8s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform;
+  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1) !important;
+}
+
+.floating-chip:hover {
+  animation-play-state: paused;
+  z-index: 20;
+  transform: translateY(-8px) scale(1.15) rotate(0deg) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 22px var(--chip-color, var(--cyan)) !important;
+}
+
+/* Chip: collapsed by default, expand on hover â€” icon-color glow */
+.skill-chip {
+  isolation: isolate; z-index: 0;
+  overflow: hidden;
+  cursor: default;
+  will-change: transform; /* already on GPU */
+}
+.skill-chip:hover {
+  z-index: 2;
+  overflow: visible;
+  transform: translateY(-5px) scale(1.1) !important;
+  border-color: var(--chip-color, rgba(16,185,129,0.6)) !important;
+  background: var(--chip-bg, rgba(16,185,129,0.14)) !important;
+  box-shadow:
+    0 0 22px var(--chip-glow, rgba(16,185,129,0.28)),
+    0 0 8px var(--chip-glow, rgba(16,185,129,0.15)),
+    0 8px 24px rgba(0,0,0,0.5),
+    inset 0 0 12px rgba(255,255,255,0.04) !important;
+  color: #fff !important;
+}
+.skill-chip:hover .chip-label {
+  max-width: 160px !important;
+  opacity: 1 !important;
+}
+/* Remove pulsing animation â€” reduces jank */
+.skill-chip.pulsing { animation: none; }

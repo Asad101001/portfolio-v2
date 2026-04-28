@@ -1,0 +1,234 @@
+﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   GITHUB HEATMAP
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.github-widget { width: 100%; }
+#commit-grid {
+  display: flex; gap: 3px; padding: 16px 18px 12px;
+  overflow-x: auto; scrollbar-width: none;
+  justify-content: center;
+}
+
+/* Social Section Specifics */
+.social-platforms-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.social-platform-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+.social-platform-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 15px rgba(16, 185, 129, 0.1);
+}
+.social-platform-card .spc-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+.social-platform-card .spc-icon i { font-size: 1.3rem; }
+.social-platform-card:hover .spc-icon {
+  transform: scale(1.2);
+}
+.social-platform-card .spc-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  transition: color 0.3s;
+  letter-spacing: 0.02em;
+}
+.social-platform-card:hover .spc-label { color: #fff; }
+
+.social-ping-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 32px;
+  border-radius: 99px;
+  background: rgba(16, 185, 129, 0.06);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  margin-bottom: 48px;
+}
+/* LinkedIn Activity Widget Theming */
+.linkedin-activity-widget {
+  --li-clr: var(--p-clr, #0077b5);
+}
+.linkedin-activity-widget svg { fill: var(--li-clr) !important; }
+.linkedin-activity-widget .li-post-link { color: var(--li-clr) !important; }
+.linkedin-activity-widget .li-avatar-wrap { background: var(--li-clr) !important; }
+
+.social-ping-btn:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.5);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(16, 185, 129, 0.2);
+}
+.social-ping-btn svg { transition: transform 0.3s; }
+.social-ping-btn:hover svg { transform: rotate(15deg) scale(1.1); }
+
+/* Fixed 40% | 30% | 30% Balance */
+.social-cards-grid { 
+  display: grid; 
+  grid-template-columns: calc(40% - 13.3px) calc(30% - 13.3px) calc(30% - 13.3px); 
+  gap: 20px; 
+  align-items: stretch;
+}
+.social-cards-grid > div { min-width: 0; }
+
+.spotify-widget, .lastfm-widget { transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.xp-widget, .game-widget, .dev-notes-widget { transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* Polished Hover States for Right Column */
+.xp-widget:hover {
+  border-color: var(--cyan) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(16, 185, 129, 0.15);
+}
+.xp-widget:hover .xp-label { color: var(--cyan) !important; }
+
+.game-widget:hover {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.03) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(34, 197, 94, 0.15);
+}
+.game-widget:hover .game-label { color: #22c55e !important; }
+
+.dev-notes-widget:hover {
+  border-color: var(--purple) !important;
+  background: rgba(168, 85, 247, 0.03) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(168, 85, 247, 0.15);
+}
+
+@media (max-width: 1200px) {
+  .social-cards-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 950px) {
+  .social-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .spotify-widget, .lastfm-widget { grid-row: span 1; }
+  .xp-widget, .game-widget, .dev-notes-widget { grid-column: auto; }
+}
+@media (max-width: 768px) {
+  .social-cards-grid { grid-template-columns: 1fr; }
+  .social-platforms-row { gap: 8px; }
+  .social-platform-card { padding: 8px 12px; }
+}
+
+/* Full Last.fm scrobble layout */
+.lastfm-tracks .lastfm-track {
+  padding: 10px 18px;
+  gap: 12px;
+}
+.lastfm-tracks .lastfm-track-art {
+  width: 40px;
+  height: 40px;
+}
+.lastfm-tracks .lastfm-track-info {
+  display: flex;
+  flex-direction: column;
+}
+.lastfm-tracks .lastfm-track-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.lastfm-tracks .lastfm-track-artist {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.lastfm-tracks .lastfm-track-time {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* Platform Theme Colors & Specific Glows */
+.social-platform-card.github { --p-clr: #ffffff; }
+.social-platform-card.linkedin { --p-clr: #0077b5; }
+.social-platform-card.discord { --p-clr: #5865F2; }
+.social-platform-card.medium { --p-clr: #ffffff; }
+.social-platform-card.instagram { --p-clr: #E4405F; }
+.social-platform-card.spotify { --p-clr: #1DB954; }
+
+.social-platform-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  min-width: 140px;
+}
+
+.social-platform-card:hover {
+  border-color: var(--p-clr) !important;
+  transform: translateY(-5px);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.4),
+    0 0 15px var(--p-clr),
+    inset 0 0 10px rgba(255, 255, 255, 0.02) !important;
+}
+
+.social-platform-card:hover .spc-icon svg {
+  color: var(--p-clr) !important;
+}
+/* Only fill SVGs that are intended to be solid (Discord has fill, IG doesn't) */
+.social-platform-card.discord:hover .spc-icon svg {
+  fill: var(--p-clr);
+}
+
+/* Platform Chip Refinement */
+.social-platform-card .spc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+.social-platform-card .spc-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+}
+.social-platform-card .spc-handle {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  opacity: 0.7;
+}
+.social-platform-card:hover .spc-handle {
+  color: #fff;
+  opacity: 1;
+}
+
