@@ -166,7 +166,7 @@ function _artistImage(name) {
       if (data && data.image) return data.image;
       
       // 2. Fallback: Search Spotify by artist name in a broader way or iTunes
-      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=musicArtist&limit=1')
+      return fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(name) + '&entity=song&limit=1')
         .then(r => r.ok ? r.json() : null)
         .then(d2 => {
           if (d2 && d2.results && d2.results[0] && d2.results[0].artworkUrl100) {

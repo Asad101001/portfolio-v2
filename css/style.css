@@ -8,7 +8,7 @@
      css/sections.css    — about, projects, experience, tech, education, contact
      css/widgets.css     — github, clock, spotify, lastfm, xp, certs drawer, toast
      css/animations.css  — section reveal, responsive, keyframes
-     css/additions.css   — barrel file → additions/ (hero, currently-into, barca, arsenal, social, effects, twitter, media-cards, footer)
+     css/modules.css     — barrel file → modules/ (hero, currently-into, barca, arsenal, social, effects, twitter, media-cards, footer)
      css/perf.css        — PERFORMANCE OVERRIDES (must be last)
    ============================================================ */
 
@@ -18,7 +18,7 @@
 @import url('widgets.css');
 @import url('animations.css');
 @import url('themes.css');
-@import url('additions.css');
+@import url('modules.css');
 @import url('mobile.css');
 @import url('desktop.css');
 @import url('perf.css');

@@ -1,8 +1,8 @@
 /* ============================================================
-   css/additions.css — Barrel File
+   css/modules.css — Barrel File
    Imports all addition sub-modules in cascade order.
    
-   Sub-files (in css/additions/):
+   Sub-files (in css/modules/):
      hero.css           — hero orb, glass frosting, liquid glass, scramble, discord dot
      currently-into.css — currently-into items, rotation widget, media thumbs, rotating dots
      barca.css          — FC Barcelona scorecard, live badge, match UI
@@ -14,12 +14,12 @@
      footer.css         — footballer podium, media thumbs, building blocks, footer enrichment
    ============================================================ */
 
-@import url('additions/hero.css');
-@import url('additions/currently-into.css');
-@import url('additions/barca.css');
-@import url('additions/arsenal.css');
-@import url('additions/social.css');
-@import url('additions/effects.css');
-@import url('additions/twitter.css');
-@import url('additions/media-cards.css');
-@import url('additions/footer.css');
+@import url('modules/hero.css');
+@import url('modules/currently-into.css');
+@import url('modules/barca.css');
+@import url('modules/arsenal.css');
+@import url('modules/social.css');
+@import url('modules/effects.css');
+@import url('modules/twitter.css');
+@import url('modules/media-cards.css');
+@import url('modules/footer.css');
