@@ -1,0 +1,23 @@
+/* ── Glass Card ───────────────────────────────────────────── */
+.glass-card {
+  background: rgba(13,13,13,0.88);
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  position: relative; overflow: hidden; contain: layout style;
+}
+.glass-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--spotlight-gradient, radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%));
+  opacity: 0; transition: opacity 0.5s ease;
+  pointer-events: none; z-index: 0;
+}
+.glass-card:hover::before { opacity: 1; }
+.glass-card .proj-body, .glass-card .proj-head, .glass-card .proj-img-wrap, .glass-card > * { position: relative; z-index: 1; }
+.glass-card::after { display: none; }
+.glass-card:hover {
+  border-color: rgba(16,185,129,0.28); transform: translateY(-3px);
+  box-shadow: inset 0 1px 0 rgba(16,185,129,0.1), 0 0 40px rgba(16,185,129,0.07), 0 20px 50px -16px rgba(16,185,129,0.18), 0 8px 32px rgba(0,0,0,0.6);
+}

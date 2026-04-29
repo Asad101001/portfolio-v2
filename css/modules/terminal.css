@@ -1,0 +1,53 @@
+/* ── Interactive Terminal ─────────────────────────────────── */
+.interactive-terminal {
+    cursor: text;
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+    padding-bottom: 20px !important;
+}
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+#terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+}
+.t-cursor {
+    color: var(--cyan);
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+#terminal-history {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.terminal-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: #000; border-bottom: 1px solid rgba(34,197,94,0.1); }
+.t-dot { width: 10px; height: 10px; border-radius: 50%; opacity: 0.8; }
+.t-red { background: #ff5f56; box-shadow: 0 0 5px #ff5f56; } .t-yellow { background: #ffbd2e; box-shadow: 0 0 5px #ffbd2e; } .t-green { background: #27c93f; box-shadow: 0 0 5px #27c93f; }
+.t-title { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(34,197,94,0.4); text-transform: lowercase; }
+.terminal-body { 
+  padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 2; 
+  background: #000; position: relative;
+}
+/* Scanline effect */
+.terminal-body::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 3px 100%; pointer-events: none; z-index: 10;
+}
+.terminal-body .t-line { opacity: 0; transform: translateY(4px); transition: opacity 0.3s ease, transform 0.3s ease; position: relative; z-index: 1; text-shadow: 0 0 5px rgba(34,197,94,0.3); }
+.terminal-body .t-line.t-visible { opacity: 1; transform: translateY(0); }
+.t-prompt { color: #22c55e; margin-right: 6px; } .t-cmd { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.4); } .t-out { color: rgba(255,255,255,0.6); padding-left: 16px; font-size: 0.75rem; }
+.t-cursor { color: #22c55e; animation: blink 1s step-end infinite; box-shadow: 0 0 10px #22c55e; }

@@ -1,0 +1,42 @@
+/* ── Last.fm Widget ───────────────────────────────────────── */
+.lastfm-widget { border-radius: var(--radius); border: 1px solid var(--lastfm-br, rgba(213,16,7,0.2)); background: var(--lastfm-bg, rgba(213,16,7,0.02)); box-shadow: var(--card-shadow); overflow: hidden; }
+.lastfm-widget-header { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--lastfm-br, rgba(213,16,7,0.1)); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.lastfm-user { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: var(--lastfm-clr, #D51007); font-size: 0.7rem; font-weight: 600; text-transform: none; letter-spacing: 0; }
+.lastfm-tracks { padding: 8px 0; overflow-y: visible; }
+.lastfm-track { display: flex; align-items: center; gap: 14px; padding: 12px 18px; text-decoration: none; color: inherit; transition: all 0.2s cubic-bezier(0.23,1,0.32,1); position: relative; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.lastfm-track:last-child { border-bottom: none; }
+.lastfm-track:hover { background: rgba(255,255,255,0.03); }
+.lastfm-track-art-wrap { width: 44px; height: 44px; flex-shrink: 0; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+.lastfm-track-art { width: 100%; height: 100%; object-fit: cover; }
+.lastfm-track-art--placeholder { font-size: 1.2rem; opacity: 0.5; }
+
+.lastfm-track-info { flex: 1; min-width: 0; }
+.lastfm-track-name { font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lastfm-track-artist { font-size: 0.71rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.lastfm-track-time { font-size: 0.65rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; text-align: right; }
+.lastfm-now-playing { display: inline-flex; align-items: center; gap: 4px; font-size: 0.62rem; font-weight: 700; color: var(--lastfm-clr, #D51007); text-transform: uppercase; letter-spacing: 0.06em; }
+.lastfm-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.lastfm-eq span { display: inline-block; width: 2px; background: var(--lastfm-clr, #D51007); border-radius: 1px; animation: eq-bounce 0.8s ease-in-out infinite; }
+.lastfm-eq span:nth-child(1) { animation-delay: 0s;    height: 40%; }
+.lastfm-eq span:nth-child(2) { animation-delay: 0.15s; height: 80%; }
+.lastfm-eq span:nth-child(3) { animation-delay: 0.3s;  height: 60%; }
+.lastfm-eq span:nth-child(4) { animation-delay: 0.1s;  height: 90%; }
+@keyframes eq-bounce { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+.lastfm-loading { display: flex; align-items: center; gap: 12px; padding: 20px 18px; font-size: 0.78rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+.lastfm-bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 16px; }
+.lastfm-bars span { display: inline-block; width: 3px; background: #D51007; border-radius: 2px; opacity: 0.6; animation: eq-bounce 0.7s ease-in-out infinite; }
+.lastfm-bars span:nth-child(1) { animation-delay: 0s; }
+.lastfm-bars span:nth-child(2) { animation-delay: 0.18s; }
+.lastfm-bars span:nth-child(3) { animation-delay: 0.36s; }
+.lastfm-bars span:nth-child(4) { animation-delay: 0.12s; }
+.lastfm-error { padding: 16px 18px; font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+
+/* Unique Hover Personalities */
+.lastfm-widget:hover {
+    border-color: var(--lastfm-clr, #D51007) !important;
+    background: linear-gradient(180deg, var(--lastfm-bg, rgba(213, 16, 7, 0.05)) 0%, rgba(8, 11, 20, 0.9) 100%);
+    box-shadow: 0 0 30px var(--lastfm-bg, rgba(213, 16, 7, 0.15)), 0 12px 40px rgba(0, 0, 0, 0.6);
+    transform: translateY(-6px) scale(1.01);
+}
+.lastfm-widget:hover .lastfm-widget-header span { color: var(--lastfm-clr, #D51007) !important; transition: color 0.3s; }
+.lastfm-widget:hover .lastfm-user { color: var(--lastfm-clr, #D51007); }

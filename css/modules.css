@@ -12,6 +12,7 @@
      twitter.css        — twitter/X feed, arsenal icon overrides, AWS, experience accordion
      media-cards.css    — series progress, player headshots, footballer/artist cards
      footer.css         — footballer podium, media thumbs, building blocks, footer enrichment
+     ... plus individual widget modules
    ============================================================ */
 
 @import url('modules/hero.css');
@@ -23,3 +24,20 @@
 @import url('modules/twitter.css');
 @import url('modules/media-cards.css');
 @import url('modules/footer.css');
+@import url('modules/github-widget.css');
+@import url('modules/clock-widget.css');
+@import url('modules/lastfm-widget.css');
+@import url('modules/spotify-widget.css');
+@import url('modules/xp-widget.css');
+@import url('modules/certs-drawer.css');
+@import url('modules/dev-notes-widget.css');
+@import url('modules/about.css');
+@import url('modules/projects.css');
+@import url('modules/demo.css');
+@import url('modules/tech-marquee.css');
+@import url('modules/education-timeline.css');
+@import url('modules/nav.css');
+@import url('modules/cards.css');
+@import url('modules/layout.css');
+@import url('modules/buttons.css');
+@import url('modules/terminal.css');

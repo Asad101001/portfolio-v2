@@ -1,0 +1,15 @@
+/* ── Dev Notes Widget ──────────────────────────────────────── */
+.dev-notes-widget { 
+  display: flex; flex-direction: column; justify-content: space-between; 
+  border: 1px solid rgba(168,85,247,0.12) !important;
+}
+.dev-notes-widget .fun-fact-item {
+  padding: 8px 12px;
+  background: rgba(168,85,247,0.02);
+  border: 1px solid rgba(168,85,247,0.08);
+  font-size: 0.75rem;
+}
+.dev-notes-widget .fun-fact-item:hover {
+  background: rgba(168,85,247,0.05);
+  border-color: rgba(168,85,247,0.2);
+}

@@ -13,9 +13,6 @@
    ============================================================ */
 
 @import url('base.css');
-@import url('components.css');
-@import url('sections.css');
-@import url('widgets.css');
 @import url('animations.css');
 @import url('themes.css');
 @import url('modules.css');

@@ -1,0 +1,8 @@
+/* ── Visitor XP Widget ────────────────────────────────────── */
+.xp-widget { padding: 20px 24px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); box-shadow: var(--card-shadow); }
+.xp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.xp-label  { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.xp-level  { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 2px; background: rgba(16,185,129,0.08); color: var(--cyan); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; border: 1px solid rgba(16,185,129,0.2); }
+.xp-bar-wrap { width: 100%; height: 3px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden; margin-bottom: 10px; }
+.xp-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, rgba(16,185,129,0.6), rgba(16,185,129,0.95)); width: 0%; transition: width 1.4s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+.xp-meta { display: flex; justify-content: space-between; font-size: 0.67rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }

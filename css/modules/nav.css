@@ -1,0 +1,61 @@
+/* ── Navigation ───────────────────────────────────────────── */
+nav { position: fixed; top: 12px; left: 0; right: 0; z-index: 100; padding: 0 16px; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; will-change: transform; }
+nav.nav-hidden { transform: translateY(-100px); opacity: 0; pointer-events: none; }
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; padding: 10px 20px;
+  background: rgba(5,5,5,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+}
+.nav-brand { font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a { padding: 7px 14px; font-size: 0.82rem; color: var(--text-muted); border-radius: 10px; transition: color 0.2s, background 0.2s; font-weight: 500; }
+.nav-links a:hover { color: var(--text); background: var(--surface); }
+.nav-cta { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 4px; font-size: 0.85rem; font-weight: 800; color: #0d0d0d; background: linear-gradient(135deg, var(--lime), var(--cyan)); box-shadow: 0 0 20px rgba(173,255,47,0.4); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(173,255,47,0.5); animation: pulse-cta 2.5s infinite; }
+.nav-cta:hover { box-shadow: 0 0 35px rgba(173,255,47,0.6); transform: translateY(-2px) scale(1.02); }
+@keyframes pulse-cta { 0% { box-shadow: 0 0 15px rgba(173,255,47,0.4); } 50% { box-shadow: 0 0 25px rgba(173,255,47,0.6); } 100% { box-shadow: 0 0 15px rgba(173,255,47,0.4); } }
+.mobile-nav { display: none; position: relative; }
+.mobile-nav summary { list-style: none; padding: 8px; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; color: var(--text-muted); background: var(--surface); }
+.mobile-nav summary::-webkit-details-marker { display: none; }
+.mobile-dropdown { position: absolute; right: 0; top: calc(100% + 8px); background: #0D0D0D; border: 1px solid rgba(16,185,129,0.12); border-radius: 4px; padding: 8px; min-width: 180px; box-shadow: 0 0 30px rgba(16,185,129,0.05), 0 20px 40px rgba(0,0,0,0.8); }
+.mobile-dropdown a { display: block; padding: 10px 14px; font-size: 0.85rem; color: var(--text-muted); border-radius: 8px; transition: color 0.2s, background 0.2s; font-weight: 500; }
+.mobile-dropdown a:hover { color: var(--text); background: var(--surface); }
+@media (max-width:900px) { .nav-links { display: none; } .nav-cta { display: none; } .mobile-nav { display: block; } }
+
+/* ── Side Nav Dots ────────────────────────────────────────── */
+#section-dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.section-dot { width: 10px; height: 10px; border-radius: 2px; border: 1.5px solid rgba(16,185,129,0.15); background: rgba(16,185,129,0.04); cursor: pointer; display: flex; align-items: center; justify-content: center; color: transparent; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+.section-dot svg { width: 0; height: 0; stroke: currentColor; fill: none; stroke-width: 1.8; transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease; opacity: 0; }
+.section-dot.nearby, .section-dot.active { width: 36px; height: 36px; border-radius: 4px; background: rgba(5,5,5,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--text-dim); border-color: rgba(16,185,129,0.1); overflow: visible; }
+.section-dot.nearby svg, .section-dot.active svg { width: 15px; height: 15px; opacity: 1; }
+.section-dot.nearby:hover { color: var(--cyan); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.06); }
+.section-dot.active { color: var(--cyan); border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.1); box-shadow: 0 0 12px rgba(16,185,129,0.2); }
+.section-dot::after { content: attr(title); position: absolute; right: calc(100% + 8px); background: rgba(5,5,5,0.95); border: 1px solid rgba(16,185,129,0.15); padding: 4px 10px; border-radius: 2px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; backdrop-filter: blur(8px); font-family: 'JetBrains Mono', monospace; }
+.section-dot.nearby:hover::after, .section-dot.active::after { opacity: 1; }
+@media (max-width: 900px) { 
+  #section-dots { 
+    right: 8px;
+    gap: 7px;
+  } 
+  .section-dot.nearby, .section-dot.active { 
+    width: 28px; 
+    height: 28px;
+  }
+  .section-dot.nearby svg, .section-dot.active svg { 
+    width: 12px; 
+    height: 12px;
+  }
+  /* Hide tooltip labels on small screens */
+  .section-dot::after { display: none; }
+}
+@media (max-width: 480px) {
+  #section-dots {
+    right: 5px;
+    gap: 5px;
+  }
+  .section-dot { width: 7px; height: 7px; }
+  .section-dot.nearby, .section-dot.active { width: 22px; height: 22px; border-radius: 3px; }
+  .section-dot.nearby svg, .section-dot.active svg { width: 10px; height: 10px; }
+}

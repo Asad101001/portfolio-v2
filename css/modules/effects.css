@@ -1,7 +1,6 @@
-﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CLOCK â€” when placed in hero grid (4th card)
+/* ═══ CLOCK — when placed in hero grid (4th card)
    Re-style as a clean identity-sized widget
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ═════════════════════════════════════════════════════════════ */
 .clock-widget {
   border-radius: 4px !important;
   border: 1px solid rgba(168,85,247,0.15) !important;
@@ -13,12 +12,11 @@
   transform: translateY(-3px) !important;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   ENHANCED HOVER EFFECTS â€” glass cards, project cards, etc.
+/* ═══ ENHANCED HOVER EFFECTS — glass cards, project cards, etc.
    GPU-safe: only transform, opacity, box-shadow, border-color
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ═════════════════════════════════════════════════════════════ */
 
-/* Glass cards â€” much stronger lift + glow */
+/* Glass cards — much stronger lift + glow */
 .glass-card:hover {
   border-color: rgba(16,185,129,0.45) !important;
   box-shadow:
@@ -29,7 +27,7 @@
   transform: translateY(-10px) scale(1.01) !important;
 }
 
-/* Project cards â€” Base 3D Tilt Offset */
+/* Project cards — Base 3D Tilt Offset */
 .project-card {
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateX(1.8deg) rotateY(-1.2deg);
@@ -84,7 +82,7 @@ nav a:not(.nav-cta-cv):hover {
   text-shadow: 0 0 12px rgba(16,185,129,0.5);
 }
 
-/* â”€â”€ Nav â€” View CV button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Nav — View CV button ─────────────────────────────── */
 .nav-cta-cv {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 8px 18px; border-radius: 4px;
@@ -100,12 +98,11 @@ nav a:not(.nav-cta-cv):hover {
   filter: brightness(1.08);
 }
 
-/* â”€â”€ Scroll Performance overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Scroll Performance overrides ─────────────────────── */
 .section-in { content-visibility: visible !important; }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   RELAXED LAYOUT â€” ghost watermarks, alternating offsets
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══ RELAXED LAYOUT — ghost watermarks, alternating offsets
+   ═════════════════════════════════════════════════════════════ */
 #about, #projects, #demo, #tech, #education, #contact { position: relative; }
 #about::before    { content: '01'; }
 #projects::before { content: '02'; }
@@ -163,10 +160,10 @@ section::before {
   .spotify-art-wrap-expanded { max-width: 200px; }
 }
 
-/* â”€â”€ Scrum/Agile kanban icon fix â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-/* (chip SVG is correct in HTML â€” no CSS needed) */
+/* ── Scrum/Agile kanban icon fix ──────────────────────────── */
+/* (chip SVG is correct in HTML — no CSS needed) */
 
-/* â”€â”€ Error popup styles (preserved from previous) â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Error popup styles (preserved from previous) ──────── */
 .err-stack-body {
   display: flex; flex-direction: column; gap: 0;
   padding: 0 6px;
@@ -205,3 +202,70 @@ section::before {
   animation: blink-dot 1.2s step-end infinite;
 }
 @keyframes blink-dot { 50% { opacity: 0; } }
+
+/* ── Back to Top ──────────────────────────────────────────── */
+#back-to-top { position: fixed; bottom: 80px; right: 28px; z-index: 150; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: rgba(4,6,13,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.45); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s, border-color 0.2s; opacity: 0; transform: translateY(12px); pointer-events: none; }
+#back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+#back-to-top:hover { color: var(--cyan); border-color: rgba(16,185,129,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 24px rgba(16,185,129,0.2); }
+
+/* ── Toast ────────────────────────────────────────────────── */
+#toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 400; pointer-events: none; padding: 10px 20px; border-radius: 12px; background: rgba(4,6,13,0.92); border: 1px solid rgba(16,185,129,0.22); font-size: 0.82rem; font-weight: 600; color: var(--text); backdrop-filter: blur(16px); opacity: 0; transition: all 0.3s ease; white-space: nowrap; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Ripple ───────────────────────────────────────────────── */
+@keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.18); pointer-events: none; transform: scale(0); animation: ripple-anim 0.6s linear; }
+
+/* ── Section Divider ──────────────────────────────────────── */
+.section-divider { width: 100%; height: 1px; margin: 0; background: linear-gradient(to right, transparent 0%, rgba(16,185,129,0.15) 30%, rgba(173,255,47,0.1) 70%, transparent 100%); position: relative; }
+.section-divider::after { content: ''; position: absolute; left: 50%; top: -2px; transform: translateX(-50%); width: 100px; height: 5px; border-radius: 99px; background: radial-gradient(ellipse, rgba(16,185,129,0.3), transparent 70%); filter: blur(3px); }
+
+/* ── Ambient Section Glows ────────────────────────────────── */
+.ambient-glow { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0; transition: opacity 1.2s ease; }
+.ambient-glow.visible { opacity: 1; }
+#about    .ambient-glow { width: 400px; height: 400px; top: -100px; right: -100px; background: radial-gradient(circle, rgba(16,185,129,0.04), transparent 70%); }
+#projects .ambient-glow { width: 500px; height: 500px; bottom: -100px; left: -150px; background: radial-gradient(circle, rgba(168,85,247,0.04), transparent 70%); }
+#tech     .ambient-glow { width: 600px; height: 300px; top: 0; left: 50%; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(16,185,129,0.05), transparent 70%); }
+#education .ambient-glow { width: 400px; height: 400px; bottom: 0; right: -100px; background: radial-gradient(circle, rgba(34,197,94,0.03), transparent 70%); }
+#contact  .ambient-glow { width: 500px; height: 500px; top: -100px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(168,85,247,0.04), transparent 70%); }
+
+/* ── Star Ratings ─────────────────────────────────────────── */
+.star-rating {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    margin-top: 2px;
+}
+.star-filled, .star-half {
+    color: #f59e0b; /* Amber */
+}
+.star-half {
+    font-size: 0.65rem;
+    vertical-align: middle;
+}
+.star-empty {
+    color: rgba(255, 255, 255, 0.12);
+}
+
+/* -- Scrollbar ---------------------------------------------- */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-h, #10B981); }
+
+/* -- Space Background Canvas ------------------------------- */
+#bg-canvas {
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; will-change: transform;
+}
+
+/* -- Cursor Glow -------------------------------------------- */
+#cursor-glow {
+  position: fixed; width: 500px; height: 500px; border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(16,185,129,0.045) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen; will-change: transform;
+}
