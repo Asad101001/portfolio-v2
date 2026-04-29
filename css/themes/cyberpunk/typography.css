@@ -1,0 +1,74 @@
+/* ── Cyberpunk Typography Overrides ── */
+
+body.theme-cyberpunk .hero-name {
+    color: var(--text) !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    filter: none !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+}
+
+body.theme-cyberpunk .hero-desc {
+    color: var(--text-muted) !important;
+    max-width: 600px !important;
+    line-height: 1.6 !important;
+}
+
+body.theme-cyberpunk .section-title {
+    color: var(--text) !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.04em !important;
+}
+
+body.theme-cyberpunk .section-title::after {
+    background: var(--cyan) !important; /* Reintroduced color for brand accent */
+    height: 8px !important;
+    box-shadow: 4px 4px 0px var(--cyan) !important;
+}
+
+/* Restored Hierarchy & Text Overrides */
+body.theme-cyberpunk h1,
+body.theme-cyberpunk h2,
+body.theme-cyberpunk h3,
+body.theme-cyberpunk b,
+body.theme-cyberpunk strong {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-cyberpunk p,
+body.theme-cyberpunk li,
+body.theme-cyberpunk label,
+body.theme-cyberpunk span:not(.accent-text):not(.status-pill):not(.tag-label):not(.barca-name-pink):not(.barca-slogan-cyan):not(.star-filled):not(.star-half):not(.star-empty) {
+    color: var(--text-muted) !important;
+}
+
+body.theme-cyberpunk small,
+body.theme-cyberpunk .text-dim,
+body.theme-cyberpunk .footer-micro-meta {
+    color: var(--text-dim) !important;
+}
+
+body.theme-cyberpunk a {
+    color: var(--cyan) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+    font-weight: 700 !important;
+}
+
+body.theme-cyberpunk a:hover {
+    color: var(--text) !important;
+    background: var(--cyan) !important;
+    text-decoration: none !important;
+}
+
+/* Correct Readability for Small Meta Text */
+body.theme-cyberpunk .footer-micro-meta,
+body.theme-cyberpunk .project-meta-item,
+body.theme-cyberpunk .clock-time-label {
+    color: var(--text-muted) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+}

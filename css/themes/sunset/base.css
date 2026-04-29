@@ -1,0 +1,46 @@
+/* ── Sunset Base Resets ── */
+
+/* Force clean white background site-wide */
+body.theme-sunset,
+body.theme-sunset section,
+body.theme-sunset main,
+body.theme-sunset .project-body {
+    background: #080105 !important;
+    background-image: none !important;
+}
+
+/* Ensure no translucent text or background interference */
+body.theme-sunset .glass-card,
+body.theme-sunset .proj-card,
+body.theme-sunset .nav-inner,
+body.theme-sunset .stat-card,
+body.theme-sunset .wip-card,
+body.theme-sunset .hero-main,
+body.theme-sunset .hero-side {
+    background: #080105 !important;
+    border: none !important;
+}
+
+/* Global Section Hierarchy */
+body.theme-sunset section:nth-of-type(even) {
+    background: var(--bg2) !important; /* Subtle alternate section backgrounds */
+}
+
+body.theme-sunset .hero-backdrop-overlay {
+    background: #080105 !important;
+    background-image: none !important;
+}
+
+/* Remove all backdrops and blurs */
+body.theme-sunset *,
+body.theme-sunset *::before,
+body.theme-sunset *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+}
+
+/* Hide CRT / Scanlines globally for Professional theme */
+body.theme-sunset::after {
+    display: none !important;
+}

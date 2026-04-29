@@ -1,0 +1,46 @@
+/* ── Professional Base Resets ── */
+
+/* Force clean white background site-wide */
+body.theme-professional,
+body.theme-professional section,
+body.theme-professional main,
+body.theme-professional .project-body {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Ensure no translucent text or background interference */
+body.theme-professional .glass-card,
+body.theme-professional .proj-card,
+body.theme-professional .nav-inner,
+body.theme-professional .stat-card,
+body.theme-professional .wip-card,
+body.theme-professional .hero-main,
+body.theme-professional .hero-side {
+    background: #ffffff !important;
+    border: none !important;
+}
+
+/* Global Section Hierarchy */
+body.theme-professional section:nth-of-type(even) {
+    background: var(--bg2) !important; /* Subtle alternate section backgrounds */
+}
+
+body.theme-professional .hero-backdrop-overlay {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove all backdrops and blurs */
+body.theme-professional *,
+body.theme-professional *::before,
+body.theme-professional *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+}
+
+/* Hide CRT / Scanlines globally for Professional theme */
+body.theme-professional::after {
+    display: none !important;
+}

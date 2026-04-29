@@ -1,0 +1,89 @@
+/* ── Professional Widget Overrides ── */
+
+/* Vibrant Widgets */
+body.theme-professional .spotify-widget { border-left: 10px solid var(--lime) !important; border-top: 2px solid #000 !important; border-right: 2px solid #000 !important; border-bottom: 2px solid #000 !important; }
+body.theme-professional .lastfm-widget { border-left: 10px solid #D51007 !important; border-top: 2px solid #000 !important; border-right: 2px solid #000 !important; border-bottom: 2px solid #000 !important; }
+body.theme-professional .github-widget { border: 2px solid #000 !important; border-bottom-width: 8px !important; }
+body.theme-professional .clock-widget { border: 2px solid #000 !important; border-right-width: 8px !important; }
+
+body.theme-professional .spotify-widget,
+body.theme-professional .lastfm-widget,
+body.theme-professional .github-widget,
+body.theme-professional .clock-widget,
+body.theme-professional .letterboxd-widget {
+    background: #ffffff !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--text) !important;
+}
+
+/* Expanded Spotify View for Professional */
+body.theme-professional .spotify-title-expanded { color: #000 !important; }
+body.theme-professional .spotify-artist-expanded { color: var(--text-muted) !important; }
+body.theme-professional .spotify-times-expanded { color: var(--text-dim) !important; }
+body.theme-professional .spotify-bar-expanded { background: #f1f5f9 !important; border: 1px solid #000 !important; }
+body.theme-professional .spotify-bar-fill-expanded { background: #000 !important; }
+body.theme-professional .spotify-controls-icon { color: #000 !important; }
+body.theme-professional .spotify-play-btn { background: #000 !important; color: #fff !important; border: 2px solid #000 !important; }
+body.theme-professional .spotify-play-btn.paused-state { background: #fff !important; color: #000 !important; }
+
+/* Widgets Readability & Depth */
+body.theme-professional .spotify-title,
+body.theme-professional .lastfm-track-name {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional .spotify-artist,
+body.theme-professional .lastfm-track-artist,
+body.theme-professional .match-timeframe {
+    color: var(--text-dim) !important;
+    font-weight: 600 !important;
+}
+
+body.theme-professional .xp-label { color: var(--text) !important; font-weight: 800 !important; }
+body.theme-professional .xp-level { background: #000 !important; color: #fff !important; }
+body.theme-professional .xp-bar-wrap { border: 3px solid #000 !important; background: #fff !important; height: 12px !important; }
+body.theme-professional .xp-bar-fill { background: var(--lime) !important; box-shadow: none !important; border-right: 2px solid #000 !important; }
+
+/* Clock Digit Visibility */
+body.theme-professional #clock-hour-text { fill: #000 !important; font-weight: 900 !important; }
+body.theme-professional .clock-prime-time { color: #000 !important; font-weight: 900 !important; }
+body.theme-professional .clock-sub { color: var(--text-muted) !important; font-weight: 700 !important; }
+
+body.theme-professional .wip-bar-wrap {
+    border: 3px solid #000000 !important;
+    background: #ffffff !important;
+    height: 12px !important;
+}
+
+body.theme-professional .wip-bar {
+    background: var(--cyan) !important;
+    box-shadow: none !important;
+    border-right: 2px solid #000 !important;
+}
+
+/* GitHub Activity Heatmap visibility overrides */
+body.theme-professional .commit-day {
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+body.theme-professional .commit-day[data-count="0"] {
+    background: #f1f5f9 !important; /* Soft slate 100 */
+}
+body.theme-professional .commit-day[data-count="1"] { background: #dcfce7 !important; border-color: #86efac !important; }
+body.theme-professional .commit-day[data-count="2"] { background: #86efac !important; border-color: #4ade80 !important; }
+body.theme-professional .commit-day[data-count="3"] { background: #22c55e !important; border-color: #16a34a !important; }
+body.theme-professional .commit-day[data-count="4"] { background: #15803d !important; border-color: #14532d !important; }
+
+/* Tooltip Readability Fix */
+body.theme-professional .commit-day-tooltip {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    font-weight: 700 !important;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1) !important;
+}
+
+body.theme-professional .commit-legend-sq {
+    border: 1px solid rgba(0,0,0,0.2) !important;
+}

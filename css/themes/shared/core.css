@@ -1,0 +1,89 @@
+/* ── Shared Theme Variables & Triggers ── */
+
+:root {
+    --hero-bg: url('../images/backgrounds/sunset-bg.png'); /* Default Sunset */
+    --hero-op: 0.42;
+    --hero-br: 0.7;
+    --scanline-op: 0;
+    --grid-clr: rgba(255, 255, 255, 0.1);
+    --spotlight-gradient: radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%);
+}
+
+/* Brand / Theme Trigger Styling */
+.nav-brand-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.theme-trigger {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: relative;
+    padding: 0.2rem 0;
+}
+
+.theme-trigger:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+.theme-trigger::after {
+    content: 'Click to Switch Theme';
+    -webkit-text-fill-color: initial;
+    position: absolute;
+    top: 130%;
+    left: 0;
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    background: var(--bg2);
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+}
+
+.theme-trigger:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Navbar Layout Fix */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Tooltip */
+.theme-toggle::after {
+    content: 'Switch Theme';
+    position: absolute;
+    left: calc(100% + 12px);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(-10px);
+}
+
+.theme-toggle:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}

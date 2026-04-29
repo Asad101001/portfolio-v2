@@ -1,0 +1,197 @@
+/* ── Cyberpunk Component Overrides ── */
+
+/* Edgy Neo-Brutalist Cards */
+body.theme-cyberpunk .glass-card,
+body.theme-cyberpunk .proj-card,
+body.theme-cyberpunk .stat-card,
+body.theme-cyberpunk .wip-card {
+    background: #000000 !important;
+    border: none !important;
+    box-shadow: var(--card-shadow) !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+    padding: 24px !important;
+    position: relative;
+    z-index: 1;
+}
+
+body.theme-cyberpunk .glass-card::after,
+body.theme-cyberpunk .proj-card::after,
+body.theme-cyberpunk .stat-card::after,
+body.theme-cyberpunk .wip-card::after {
+    content: '';
+    position: absolute;
+    inset: -4px; /* Slightly larger for better border snap effect */
+    z-index: -1;
+    background: #000;
+    /* Thanos Snap: Cleaner, less intrusive pixel noise */
+    --pixel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='2' height='2' x='0' y='0'/%3E%3Crect width='2' height='2' x='8' y='8'/%3E%3C/svg%3E");
+    --dissolve-pattern: linear-gradient(to bottom right, black 0%, rgba(255,255,255,0.4) 60%, transparent 100%);
+    
+    mask-image: var(--pixel-noise), var(--dissolve-pattern);
+    mask-size: 16px 16px, 100% 100%;
+    mask-composite: intersect;
+    -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
+    -webkit-mask-size: 16px 16px, 100% 100%;
+    -webkit-mask-composite: source-in;
+    opacity: 0.25; /* Reduced opacity for subtlety */
+}
+
+body.theme-cyberpunk .glass-card:hover,
+body.theme-cyberpunk .proj-card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 8px 8px 0px var(--purple) !important;
+    border-color: var(--purple) !important;
+}
+
+/* Branding & Navigation */
+body.theme-cyberpunk nav {
+    background: transparent !important;
+    border: none !important;
+}
+
+body.theme-cyberpunk .nav-inner {
+    background: #000000 !important;
+    border: 2px solid var(--cyan) !important;
+    box-shadow: 4px 4px 0px var(--cyan) !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+}
+
+body.theme-cyberpunk .theme-trigger {
+    background: var(--cyan) !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #000000 !important;
+    padding: 2px 8px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-cyberpunk .nav-link {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+body.theme-cyberpunk .nav-link:hover {
+    color: #000000 !important;
+    background: var(--cyan) !important;
+    transform: skew(-5deg) !important;
+}
+
+/* Tag & Pill High Contrast */
+body.theme-cyberpunk .tag-pill {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 700 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-cyberpunk .status-pill {
+    background: #000000 !important;
+    color: var(--cyan) !important;
+    border: 2px solid var(--cyan) !important;
+    font-weight: 800 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-cyberpunk .status-dot {
+    background: #000000 !important;
+    box-shadow: none !important;
+}
+
+body.theme-cyberpunk .status-offline {
+    background: #ff0055 !important;
+    color: #ffffff !important;
+    border: 2px solid var(--cyan) !important;
+    border-radius: 0px !important;
+    font-weight: 950 !important;
+    padding: 3px 10px !important;
+    box-shadow: 3px 3px 0px var(--cyan) !important;
+    font-size: 0.65rem !important;
+}
+
+body.theme-cyberpunk .status-offline-dot {
+    background: #000000 !important;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
+    border: 1px solid #000 !important;
+}
+
+/* Button Refinement & Improved Separation */
+body.theme-cyberpunk .btn-primary,
+body.theme-cyberpunk .nav-cta {
+    background: #000000 !important;
+    color: var(--cyan) !important;
+    border: 2px solid var(--cyan) !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+body.theme-cyberpunk .btn-primary:hover,
+body.theme-cyberpunk .nav-cta:hover {
+    background: var(--purple) !important; /* Vibrant hover */
+    color: #ffffff !important;
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 6px 6px 0px var(--cyan) !important;
+}
+
+body.theme-cyberpunk .btn-secondary {
+    background: #000000 !important;
+    color: var(--cyan) !important;
+    border: 2px solid var(--cyan) !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+    transition: all 0.2s !important;
+}
+
+body.theme-cyberpunk .btn-secondary:hover {
+    background: var(--bg2) !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px var(--purple) !important;
+}
+
+body.theme-cyberpunk .btn-offline {
+    background: #000000 !important;
+    color: #ef4444 !important;
+    border: 2px solid var(--cyan) !important;
+    box-shadow: 3px 3px 0px #ef4444 !important;
+    opacity: 0.6 !important;
+}
+
+/* Section Dot Nav & Rotating Dots */
+body.theme-cyberpunk .section-dot,
+body.theme-cyberpunk .r-dot {
+    border: 2px solid var(--cyan) !important;
+    border-radius: 0px !important;
+    background: #000000 !important;
+    opacity: 1 !important;
+}
+
+body.theme-cyberpunk .section-dot.active,
+body.theme-cyberpunk .r-dot.active {
+    background: var(--cyan) !important;
+    color: #000000 !important;
+    box-shadow: 4px 4px 0px rgba(255,255,255,0.2) !important;
+}
+
+/* Strengthen Global Key Outlines */
+body.theme-cyberpunk .tag-pill,
+body.theme-cyberpunk .status-pill {
+    border-width: 3px !important; /* Stronger separation */
+}
+
+body.theme-cyberpunk .btn-secondary {
+    border-width: 3px !important;
+}
+
+body.theme-cyberpunk .nav-inner {
+    border-width: 3px !important;
+}

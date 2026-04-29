@@ -1,0 +1,31 @@
+/* ── Sunset Theme Variables ── */
+body.theme-sunset {
+    /* 1. Refined Base Palette */
+    --bg:        #080105 !important;
+    --bg2:       #15020c !important; /* Soft slate gray */
+    --surface:   #080105 !important;
+    --border:    var(--cyan) !important;
+    --border-h:  var(--cyan) !important;
+    
+    /* 2. Structured Typography Hierarchy */
+    --text:      #ffffff !important; /* Deep charcoal for primary focus */
+    --text-muted:#f0c2d3 !important; /* Slate 700 for descriptions */
+    --text-dim:  #cc8ea3 !important; /* Slate 500 for secondary meta data */
+    
+    /* 3. High-Contrast Vibrant Accents (Professional Edition) */
+    --cyan:      #ff0055 !important; /* Richer Sky Blue */
+    --lime:      #ffd700 !important; /* Deeper Lime */
+    --purple:    #ff00ff !important; /* Vibrant Violet */
+    --orange:    #ff8800 !important; /* Professional Orange */
+    
+    /* 4. Subtle Textural Effects */
+    --scanline-op: 0.015 !important;
+    --grid-clr: rgba(15, 23, 42, 0.04) !important;
+    --spotlight-gradient: radial-gradient(800px circle at var(--x, 0px) var(--y, 0px), rgba(15, 23, 42, 0.02), transparent 70%) !important;
+
+    /* 5. Refined Neo-Brutalist Geometry */
+    --radius:    0px !important;
+    --radius-lg: 0px !important;
+    --card-shadow: 5px 5px 0px var(--cyan) !important; /* Slightly tighter shadow */
+    --btn-shadow: 3px 3px 0px var(--cyan) !important;
+}

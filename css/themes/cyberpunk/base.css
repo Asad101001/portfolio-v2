@@ -1,0 +1,46 @@
+/* ── Cyberpunk Base Resets ── */
+
+/* Force clean white background site-wide */
+body.theme-cyberpunk,
+body.theme-cyberpunk section,
+body.theme-cyberpunk main,
+body.theme-cyberpunk .project-body {
+    background: #000000 !important;
+    background-image: none !important;
+}
+
+/* Ensure no translucent text or background interference */
+body.theme-cyberpunk .glass-card,
+body.theme-cyberpunk .proj-card,
+body.theme-cyberpunk .nav-inner,
+body.theme-cyberpunk .stat-card,
+body.theme-cyberpunk .wip-card,
+body.theme-cyberpunk .hero-main,
+body.theme-cyberpunk .hero-side {
+    background: #000000 !important;
+    border: none !important;
+}
+
+/* Global Section Hierarchy */
+body.theme-cyberpunk section:nth-of-type(even) {
+    background: var(--bg2) !important; /* Subtle alternate section backgrounds */
+}
+
+body.theme-cyberpunk .hero-backdrop-overlay {
+    background: #000000 !important;
+    background-image: none !important;
+}
+
+/* Remove all backdrops and blurs */
+body.theme-cyberpunk *,
+body.theme-cyberpunk *::before,
+body.theme-cyberpunk *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+}
+
+/* Hide CRT / Scanlines globally for Professional theme */
+body.theme-cyberpunk::after {
+    display: none !important;
+}

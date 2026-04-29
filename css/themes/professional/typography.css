@@ -1,0 +1,74 @@
+/* ── Professional Typography Overrides ── */
+
+body.theme-professional .hero-name {
+    color: var(--text) !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    filter: none !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.03em !important;
+}
+
+body.theme-professional .hero-desc {
+    color: var(--text-muted) !important;
+    max-width: 600px !important;
+    line-height: 1.6 !important;
+}
+
+body.theme-professional .section-title {
+    color: var(--text) !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.04em !important;
+}
+
+body.theme-professional .section-title::after {
+    background: var(--cyan) !important; /* Reintroduced color for brand accent */
+    height: 8px !important;
+    box-shadow: 4px 4px 0px #000 !important;
+}
+
+/* Restored Hierarchy & Text Overrides */
+body.theme-professional h1,
+body.theme-professional h2,
+body.theme-professional h3,
+body.theme-professional b,
+body.theme-professional strong {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional p,
+body.theme-professional li,
+body.theme-professional label,
+body.theme-professional span:not(.accent-text):not(.status-pill):not(.tag-label):not(.barca-name-pink):not(.barca-slogan-cyan):not(.star-filled):not(.star-half):not(.star-empty) {
+    color: var(--text-muted) !important;
+}
+
+body.theme-professional small,
+body.theme-professional .text-dim,
+body.theme-professional .footer-micro-meta {
+    color: var(--text-dim) !important;
+}
+
+body.theme-professional a {
+    color: var(--cyan) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+    font-weight: 700 !important;
+}
+
+body.theme-professional a:hover {
+    color: var(--text) !important;
+    background: var(--cyan) !important;
+    text-decoration: none !important;
+}
+
+/* Correct Readability for Small Meta Text */
+body.theme-professional .footer-micro-meta,
+body.theme-professional .project-meta-item,
+body.theme-professional .clock-time-label {
+    color: var(--text-muted) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+}

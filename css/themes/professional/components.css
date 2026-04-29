@@ -1,0 +1,196 @@
+/* ── Professional Component Overrides ── */
+
+/* Edgy Neo-Brutalist Cards */
+body.theme-professional .glass-card,
+body.theme-professional .proj-card,
+body.theme-professional .stat-card,
+body.theme-professional .wip-card {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: var(--card-shadow) !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+    padding: 24px !important;
+    position: relative;
+    z-index: 1;
+}
+
+body.theme-professional .glass-card::after,
+body.theme-professional .proj-card::after,
+body.theme-professional .stat-card::after,
+body.theme-professional .wip-card::after {
+    content: '';
+    position: absolute;
+    inset: -4px; /* Slightly larger for better border snap effect */
+    z-index: -1;
+    background: #000;
+    /* Thanos Snap: Cleaner, less intrusive pixel noise */
+    --pixel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='2' height='2' x='0' y='0'/%3E%3Crect width='2' height='2' x='8' y='8'/%3E%3C/svg%3E");
+    --dissolve-pattern: linear-gradient(to bottom right, black 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    
+    mask-image: var(--pixel-noise), var(--dissolve-pattern);
+    mask-size: 16px 16px, 100% 100%;
+    mask-composite: intersect;
+    -webkit-mask-image: var(--pixel-noise), var(--dissolve-pattern);
+    -webkit-mask-size: 16px 16px, 100% 100%;
+    -webkit-mask-composite: source-in;
+    opacity: 0.25; /* Reduced opacity for subtlety */
+}
+
+body.theme-professional .glass-card:hover,
+body.theme-professional .proj-card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 8px 8px 0px #000000 !important;
+    border-color: #000000 !important;
+}
+
+/* Branding & Navigation */
+body.theme-professional nav {
+    background: transparent !important;
+    border: none !important;
+}
+
+body.theme-professional .nav-inner {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 4px 4px 0px #000000 !important;
+    backdrop-filter: none !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .theme-trigger {
+    background: #000000 !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #ffffff !important;
+    padding: 2px 8px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-professional .nav-link {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+body.theme-professional .nav-link:hover {
+    color: #ffffff !important;
+    background: #000000 !important;
+    transform: skew(-5deg) !important;
+}
+
+/* Tag & Pill High Contrast */
+body.theme-professional .tag-pill {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 700 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .status-pill {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    font-weight: 800 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .status-dot {
+    background: #000000 !important;
+    box-shadow: none !important;
+}
+
+body.theme-professional .status-offline {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 0px !important;
+    font-weight: 950 !important;
+    padding: 3px 10px !important;
+    box-shadow: 3px 3px 0px #000 !important;
+    font-size: 0.65rem !important;
+}
+
+body.theme-professional .status-offline-dot {
+    background: #ffffff !important;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8) !important;
+    border: 1px solid #000 !important;
+}
+
+/* Button Refinement & Improved Separation */
+body.theme-professional .btn-primary,
+body.theme-professional .nav-cta {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 12px 24px !important;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+body.theme-professional .btn-primary:hover,
+body.theme-professional .nav-cta:hover {
+    background: var(--purple) !important; /* Vibrant hover */
+    color: #ffffff !important;
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 6px 6px 0px #000000 !important;
+}
+
+body.theme-professional .btn-secondary {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: var(--btn-shadow) !important;
+    border-radius: 0px !important;
+    transition: all 0.2s !important;
+}
+
+body.theme-professional .btn-secondary:hover {
+    background: var(--bg2) !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #000 !important;
+}
+
+body.theme-professional .btn-offline {
+    background: #ffffff !important;
+    color: #ef4444 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 3px 3px 0px #ef4444 !important;
+    opacity: 0.6 !important;
+}
+
+/* Section Dot Nav & Rotating Dots */
+body.theme-professional .section-dot,
+body.theme-professional .r-dot {
+    border: 2px solid #000000 !important;
+    border-radius: 0px !important;
+    background: #ffffff !important;
+    opacity: 1 !important;
+}
+
+body.theme-professional .section-dot.active,
+body.theme-professional .r-dot.active {
+    background: #000000 !important;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2) !important;
+}
+
+/* Strengthen Global Key Outlines */
+body.theme-professional .tag-pill,
+body.theme-professional .status-pill {
+    border-width: 3px !important; /* Stronger separation */
+}
+
+body.theme-professional .btn-secondary {
+    border-width: 3px !important;
+}
+
+body.theme-professional .nav-inner {
+    border-width: 3px !important;
+}

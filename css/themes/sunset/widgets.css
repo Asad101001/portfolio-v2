@@ -1,0 +1,89 @@
+/* ── Sunset Widget Overrides ── */
+
+/* Vibrant Widgets */
+body.theme-sunset .spotify-widget { border-left: 10px solid var(--lime) !important; border-top: 2px solid var(--cyan) !important; border-right: 2px solid var(--cyan) !important; border-bottom: 2px solid var(--cyan) !important; }
+body.theme-sunset .lastfm-widget { border-left: 10px solid #D51007 !important; border-top: 2px solid var(--cyan) !important; border-right: 2px solid var(--cyan) !important; border-bottom: 2px solid var(--cyan) !important; }
+body.theme-sunset .github-widget { border: 2px solid var(--cyan) !important; border-bottom-width: 8px !important; }
+body.theme-sunset .clock-widget { border: 2px solid var(--cyan) !important; border-right-width: 8px !important; }
+
+body.theme-sunset .spotify-widget,
+body.theme-sunset .lastfm-widget,
+body.theme-sunset .github-widget,
+body.theme-sunset .clock-widget,
+body.theme-sunset .letterboxd-widget {
+    background: #080105 !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--text) !important;
+}
+
+/* Expanded Spotify View for Professional */
+body.theme-sunset .spotify-title-expanded { color: #000000 !important; }
+body.theme-sunset .spotify-artist-expanded { color: var(--text-muted) !important; }
+body.theme-sunset .spotify-times-expanded { color: var(--text-dim) !important; }
+body.theme-sunset .spotify-bar-expanded { background: #f1f5f9 !important; border: 1px solid #000 !important; }
+body.theme-sunset .spotify-bar-fill-expanded { background: var(--cyan) !important; }
+body.theme-sunset .spotify-controls-icon { color: var(--cyan) !important; }
+body.theme-sunset .spotify-play-btn { background: var(--cyan) !important; color: #000000 !important; border: 2px solid var(--cyan) !important; }
+body.theme-sunset .spotify-play-btn.paused-state { background: #080105 !important; color: var(--cyan) !important; border: 2px solid var(--cyan) !important; }
+
+/* Widgets Readability & Depth */
+body.theme-sunset .spotify-title,
+body.theme-sunset .lastfm-track-name {
+    color: var(--text) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-sunset .spotify-artist,
+body.theme-sunset .lastfm-track-artist,
+body.theme-sunset .match-timeframe {
+    color: var(--text-dim) !important;
+    font-weight: 600 !important;
+}
+
+body.theme-sunset .xp-label { color: var(--text) !important; font-weight: 800 !important; }
+body.theme-sunset .xp-level { background: var(--cyan) !important; color: #000000 !important; }
+body.theme-sunset .xp-bar-wrap { border: 3px solid var(--cyan) !important; background: #080105 !important; height: 12px !important; }
+body.theme-sunset .xp-bar-fill { background: var(--lime) !important; box-shadow: none !important; border-right: 2px solid var(--cyan) !important; }
+
+/* Clock Digit Visibility */
+body.theme-sunset #clock-hour-text { fill: #ffffff !important; font-weight: 900 !important; }
+body.theme-sunset .clock-prime-time { color: #ffffff !important; font-weight: 900 !important; }
+body.theme-sunset .clock-sub { color: var(--text-muted) !important; font-weight: 700 !important; }
+
+body.theme-sunset .wip-bar-wrap {
+    border: 3px solid var(--cyan) !important;
+    background: #080105 !important;
+    height: 12px !important;
+}
+
+body.theme-sunset .wip-bar {
+    background: var(--cyan) !important;
+    box-shadow: none !important;
+    border-right: 2px solid var(--cyan) !important;
+}
+
+/* GitHub Activity Heatmap visibility overrides */
+body.theme-sunset .commit-day {
+    border: 1px solid rgba(255,255,255,0.15) !important;
+}
+body.theme-sunset .commit-day[data-count="0"] {
+    background: #f1f5f9 !important; /* Soft slate 100 */
+}
+body.theme-sunset .commit-day[data-count="1"] { background: #dcfce7 !important; border-color: #86efac !important; }
+body.theme-sunset .commit-day[data-count="2"] { background: #86efac !important; border-color: #4ade80 !important; }
+body.theme-sunset .commit-day[data-count="3"] { background: #22c55e !important; border-color: #16a34a !important; }
+body.theme-sunset .commit-day[data-count="4"] { background: #15803d !important; border-color: #14532d !important; }
+
+/* Tooltip Readability Fix */
+body.theme-sunset .commit-day-tooltip {
+    background: #080105 !important;
+    color: #ffffff !important;
+    border: 2px solid var(--cyan) !important;
+    font-weight: 700 !important;
+    box-shadow: 4px 4px 0px rgba(255,255,255,0.1) !important;
+}
+
+body.theme-sunset .commit-legend-sq {
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
