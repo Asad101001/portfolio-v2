@@ -1,4 +1,4 @@
-﻿/* â”€â”€ Twitter (X) - Real-time Feed Styled as X â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€ Twitter (X) - Real-time Feed Styled as X â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .twitter-feed {
     display: flex;
     flex-direction: column;
@@ -195,16 +195,16 @@
     justify-content: center;
     gap: 12px;
     padding: 9px !important;
-    min-width: 52px !important; /* Increased from 48px to prevent content cutoff */
-    max-width: 52px !important; /* Start as icon only */
+    min-width: 52px !important; 
+    max-width: 52px !important; 
     width: auto;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to prevent cropping */
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .acard.aws-merged:hover, .acard.aws-merged.manual-expand {
     padding: 9px 15px !important;
-    max-width: 800px !important; /* Allow massive growth */
+    max-width: 900px !important; 
     min-width: 52px !important;
     z-index: 10;
 }
@@ -245,10 +245,20 @@
 }
 
 .acard.aws-merged:hover .aws-svc {
-    max-width: 110px;
+    max-width: 150px;
     opacity: 1;
-    padding: 2px 6px;
-    margin: 0 3px;
+    padding: 2px 8px;
+    margin: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.svc-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: 0.8;
 }
 
 .acard.aws-merged .acard-name {

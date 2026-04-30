@@ -8,9 +8,9 @@ body.theme-cyberpunk {
     --border-h:  var(--cyan) !important;
     
     /* 2. Structured Typography Hierarchy */
-    --text:      #ffffff !important; /* Deep charcoal for primary focus */
-    --text-muted:#c8ffff !important; /* Slate 700 for descriptions */
-    --text-dim:  #7ab3b3 !important; /* Slate 500 for secondary meta data */
+    --text:      #ffffff !important; 
+    --text-muted:#e2ffff !important; 
+    --text-dim:  #a5d8d8 !important; 
     
     /* 3. High-Contrast Vibrant Accents (Professional Edition) */
     --cyan:      #00fff9 !important; /* Richer Sky Blue */

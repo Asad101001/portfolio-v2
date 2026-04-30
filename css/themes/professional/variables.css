@@ -8,9 +8,9 @@ body.theme-professional {
     --border-h:  #000000 !important;
     
     /* 2. Structured Typography Hierarchy */
-    --text:      #0f172a !important; /* Deep charcoal for primary focus */
-    --text-muted:#334155 !important; /* Slate 700 for descriptions */
-    --text-dim:  #64748b !important; /* Slate 500 for secondary meta data */
+    --text:      #0f172a !important; 
+    --text-muted:#1e293b !important; 
+    --text-dim:  #475569 !important; 
     
     /* 3. High-Contrast Vibrant Accents (Professional Edition) */
     --cyan:      #0284c7 !important; /* Richer Sky Blue */

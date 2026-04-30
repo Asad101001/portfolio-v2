@@ -169,6 +169,8 @@ body.theme-professional .btn-offline {
 /* Section Dot Nav & Rotating Dots */
 body.theme-professional .section-dot,
 body.theme-professional .r-dot {
+    width: 10px !important;
+    height: 10px !important;
     border: 2px solid #000000 !important;
     border-radius: 0px !important;
     background: #ffffff !important;
@@ -179,6 +181,7 @@ body.theme-professional .section-dot.active,
 body.theme-professional .r-dot.active {
     background: #000000 !important;
     box-shadow: 4px 4px 0px rgba(0,0,0,0.2) !important;
+    transform: scale(1.1) !important;
 }
 
 /* Strengthen Global Key Outlines */

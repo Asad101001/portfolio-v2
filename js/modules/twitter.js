@@ -1,5 +1,5 @@
 /* ── Twitter (X) Feed Implementation ─────────────────────────── */
-import { CONFIG } from './widgets.js';
+import { CONFIG, escHtml } from './widgets.js';
 
 (function () {
     const container = document.getElementById('twitter-feed');
@@ -40,7 +40,8 @@ import { CONFIG } from './widgets.js';
             const isRetweet = item.title.startsWith('RT by');
             
             // Clean content: remove HTML and the "RT by @user: " prefix
-            let cleanText = item.title.replace(/^RT by @[a-zA-Z0-9_]+: /, '').replace(/<[^>]*>/g, '').trim();
+            let rawText = item.title.replace(/^RT by @[a-zA-Z0-9_]+: /, '').replace(/<[^>]*>/g, '').trim();
+            let cleanText = escHtml(rawText);
             
             // Convert Nitter link to direct X/Twitter link
             let twitterLink = item.link;
@@ -133,7 +134,7 @@ import { CONFIG } from './widgets.js';
                         container.innerHTML = `
                             <div class="x-error-box" style="padding:20px;text-align:center;">
                                 <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
-                                <a href="https://twitter.com/${USER}" target="_blank" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
+                                <a href="https://twitter.com/${USER}" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
                             </div>
                         `;
                     }

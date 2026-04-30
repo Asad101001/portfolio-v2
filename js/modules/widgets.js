@@ -29,6 +29,19 @@ export const CONFIG = {
   }
 };
 
+/**
+ * Simple HTML escaping to prevent XSS.
+ */
+export function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /* ══════════════════════════════════════════════════════════
    IMAGE / DATA UTILITY HELPERS — FIXED VERSION
    ══════════════════════════════════════════════════════════ */
@@ -833,8 +846,8 @@ function _starsHTML(starsStr) {
       a.appendChild(imgContainer);
       var info = document.createElement('div');
       info.className = 'lastfm-track-info';
-      info.innerHTML = '<div class="lastfm-track-name">' + (t.name || '') + '</div>' +
-          '<div class="lastfm-track-artist">' + (t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div>';
+      info.innerHTML = '<div class="lastfm-track-name">' + escHtml(t.name || '') + '</div>' +
+          '<div class="lastfm-track-artist">' + escHtml(t.artist && t.artist['#text'] ? t.artist['#text'] : '') + '</div>';
       a.appendChild(info);
       a.insertAdjacentHTML('beforeend', timeHTML);
 
@@ -1090,8 +1103,8 @@ function _starsHTML(starsStr) {
     a.innerHTML =
       '<div class="spotify-art-wrap-expanded">' + artInner + '</div>' +
       '<div class="spotify-info-expanded">' +
-        '<div class="spotify-row-expanded"><div class="spotify-title-expanded">' + t.name + '</div>' + eqOrPause + '</div>' +
-        '<div class="spotify-artist-expanded">' + t.artist + '</div>' +
+        '<div class="spotify-row-expanded"><div class="spotify-title-expanded">' + escHtml(t.name) + '</div>' + eqOrPause + '</div>' +
+        '<div class="spotify-artist-expanded">' + escHtml(t.artist) + '</div>' +
       '</div>' +
       '<div class="spotify-progress-wrap-expanded">' +
         '<div class="spotify-times-expanded"><span>' + fmtTime(t.progress) + '</span><span>' + fmtTime(t.duration) + '</span></div>' +
