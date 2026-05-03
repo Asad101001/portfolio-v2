@@ -2,43 +2,45 @@
    CURRENTLY INTO — rotating items
    ============================================================ */
 .currently-into-item {
-  display: flex !important; flex-direction: row !important; align-items: center; gap: 14px;
-  padding: 10px 14px; border-radius: var(--radius);
+  display: flex !important; flex-direction: row !important; align-items: center; gap: 20px;
+  padding: 10px 18px; border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--border);
   transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
   min-height: 72px; 
 }
 .currently-into-item:hover {
-  border-color: rgba(16,185,129,0.3);
-  background: rgba(16,185,129,0.07);
-  box-shadow: 0 0 20px rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.4);
+  background: rgba(16,185,129,0.08);
+  box-shadow: 0 0 25px rgba(16,185,129,0.15);
 }
 .currently-into-thumb {
-  width: 44px; height: 62px; border-radius: 4px; object-fit: cover;
-  flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08);
-  display: none; background: rgba(255,255,255,0.04);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  width: 72px; height: 102px; border-radius: 6px; object-fit: cover;
+  flex-shrink: 0; border: 1px solid rgba(255,255,255,0.15);
+  display: none; background: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 .currently-into-thumb-placeholder {
-  width: 44px; height: 62px; border-radius: 4px;
-  background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.12);
+  width: 72px; height: 102px; border-radius: 6px;
+  background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; flex-shrink: 0;
+  font-size: 2rem; flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
-.currently-into-text { flex: 1; min-width: 0; }
+.currently-into-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .currently-into-label {
-  display: block; font-size: 0.6rem; font-weight: 700;
-  color: var(--cyan); text-transform: uppercase; letter-spacing: 0.1em;
+  display: block; font-size: 0.65rem; font-weight: 800;
+  color: var(--cyan); text-transform: uppercase; letter-spacing: 0.15em;
   font-family: 'JetBrains Mono', monospace; margin-bottom: 2px;
 }
 .currently-into-value {
-  font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
-  line-height: 1.25; display: block;
+  font-size: 1rem; font-weight: 600; color: #ffffff;
+  line-height: 1.3; display: block;
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 .movie-timeline-label {
-  font-size: 0.62rem; color: rgba(255,255,255,0.4);
-  font-weight: 400; padding-left: 2px;
+  font-size: 0.68rem; color: rgba(255,255,255,0.6);
+  font-weight: 500; padding-left: 2px;
 }
 
 /* Layout stabilization for rotating widgets */
@@ -55,7 +57,8 @@
   transform: translateY(10px);
   transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   pointer-events: none;
-  min-height: 85px; 
+  min-height: 145px; 
+  height: 145px;
   display: flex !important;
   flex-direction: row !important;
   align-items: center;

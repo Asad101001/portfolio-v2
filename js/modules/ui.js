@@ -251,12 +251,14 @@ document.head.appendChild(fizzStyle);
     var widget = document.getElementById(widgetId), dotsWrap = document.getElementById(dotsId);
     if (!widget || !dotsWrap) return;
     
-    var items = widget.querySelectorAll('.rotating-item'), dots = dotsWrap.querySelectorAll('.r-dot'), current = 0, timer, isAnim = false;
+    var items = widget.querySelectorAll('.rotating-item'), dots = dotsWrap.querySelectorAll('.r-dot'), current = 0, timer, animTimer;
     
     function show(idx) {
       if (idx === current) return;
       var inI = items[idx], outI = items[current];
       if (!inI || !outI) return;
+      
+      clearTimeout(animTimer);
       
       // Clean up any lingering states from previous animations
       items.forEach(item => {
@@ -272,7 +274,17 @@ document.head.appendChild(fizzStyle);
       // Start transition
       outI.classList.add('exit-up');
       outI.classList.remove('active');
-      inI.classList.add('active');
+      
+      // Tiny delay for the new item to enter makes it feel more "liquid"
+      animTimer = setTimeout(() => {
+        inI.classList.remove('exit-up'); // CRITICAL: prevent invisible content bug
+        inI.classList.add('active');
+      }, 40);
+
+      // Clean up the exit class after transition to reset state
+      setTimeout(() => {
+        if (!outI.classList.contains('active')) outI.classList.remove('exit-up');
+      }, 450);
 
       current = idx;
       
