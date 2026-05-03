@@ -30,8 +30,12 @@
         
         // Use View Transition if available for a smooth fade
         if (document.startViewTransition) {
-            document.startViewTransition(() => {
+            document.body.classList.add('theme-transitioning');
+            const transition = document.startViewTransition(() => {
                 applyTheme(nextTheme);
+            });
+            transition.finished.finally(() => {
+                document.body.classList.remove('theme-transitioning');
             });
         } else {
             applyTheme(nextTheme);

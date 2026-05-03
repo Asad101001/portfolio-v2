@@ -1,13 +1,13 @@
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CURRENTLY INTO â€” rotating items
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ============================================================
+   CURRENTLY INTO — rotating items
+   ============================================================ */
 .currently-into-item {
   display: flex !important; flex-direction: row !important; align-items: center; gap: 14px;
   padding: 10px 14px; border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--border);
   transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
-  min-height: 72px; /* Increased height for better fit */
+  min-height: 72px; 
 }
 .currently-into-item:hover {
   border-color: rgba(16,185,129,0.3);
@@ -41,104 +41,7 @@
   font-weight: 400; padding-left: 2px;
 }
 
-/* â”€â”€ Rotation animation â€” smooth, directional, with depth â”€ */
-/* ðŸ’» Enhanced Terminal Feel */
-.terminal-body {
-  position: relative;
-  background: rgba(4, 5, 10, 0.85);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.82rem;
-  overflow: hidden;
-}
-
-.terminal-body::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  z-index: 2;
-  background-size: 100% 2px, 3px 100%;
-  pointer-events: none;
-}
-
-.terminal-meta {
-  color: #666; font-size: 0.7rem; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;
-}
-
-.t-prompt { color: #50fa7b; margin-right: 8px; font-weight: bold; }
-.t-cmd { color: #f1fa8c; }
-.t-out { color: #f8f8f2; opacity: 0.9; }
-
-
-
-.project-card.coming-soon {
-  filter: grayscale(0.5); opacity: 0.85; border-style: dashed;
-}
-.project-card.coming-soon .proj-desc { font-style: italic; }
-
-/* Center the 5th project card in a 2-col grid */
-@media (min-width: 721px) {
-  .project-card.proj-center {
-    grid-column: 1 / -1;
-    justify-self: center;
-    max-width: 580px;
-    width: 100%;
-  }
-}
-
-/* Media Thumbs Row (The Big 3) */
-.media-thumbs-row, .footballer-headshots-row, .artist-thumbs-row {
-  display: flex !important;
-  gap: 8px !important;
-  flex-shrink: 0 !important;
-  margin-bottom: 8px;
-  justify-content: center;
-}
-.media-thumb-card, .footballer-card, .artist-thumb-card {
-  width: 38px;
-  height: 52px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* New: Progress Bar for Thumbs */
-.media-thumb-progress-cont {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(0,0,0,0.5);
-  z-index: 5;
-}
-
-.media-thumb-progress-fill {
-  height: 100%;
-  background: var(--cyan);
-  box-shadow: 0 0 5px var(--cyan);
-}
-.media-thumb-img, .footballer-headshot-img, .artist-thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.media-thumb-emoji, .footballer-emoji-avatar, .artist-thumb-emoji {
-  font-size: 1rem;
-}
-.footballer-name-label, .artist-thumb-name {
-  display: none !important; /* Hide labels inside the thumb row to save space */
-}
-
-/* â”€â”€ Layout stabilization for rotating widgets â”€â”€ */
+/* Layout stabilization for rotating widgets */
 .rotating-item {
   position: absolute;
   top: 0;
@@ -149,24 +52,21 @@
   background: var(--surface);
   border: 1px solid var(--border);
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity var(--transition), transform var(--transition);
+  transform: translateY(10px);
+  transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   pointer-events: none;
   min-height: 85px; 
-  display: flex !important; /* Ensure flex is used */
-  flex-direction: row !important; /* Override the column layout for most widgets */
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
   justify-content: flex-start !important;
   box-sizing: border-box;
+  will-change: transform, opacity;
 }
 
 .rotating-item.barca-slot {
-  flex-direction: column !important; /* Football needs column for its top label */
+  flex-direction: column !important;
   align-items: stretch !important;
-}
-
-.barca-top-row {
-  margin-bottom: 2px;
 }
 
 .rotating-item.active {
@@ -182,25 +82,45 @@
   position: absolute !important;
   top: 0; left: 0; right: 0;
   opacity: 0 !important;
-  transform: translateY(-14px) scale(0.97) !important;
-  filter: blur(2px);
+  transform: translateY(-20px) scale(0.95) !important;
+  filter: blur(4px);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Dots â€” match active item color */
-.rotating-dots { display: flex; gap: 12px; margin-bottom: 12px; }
+/* Dots — premium pill style */
+.rotating-dots { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  min-height: 12px;
+}
 .r-dot {
-  width: 6px; height: 6px; border-radius: 50%; border: none; cursor: pointer; padding: 0;
-  background: rgba(255,255,255,0.1);
-  transition: background 0.35s, width 0.35s cubic-bezier(0.22,1,0.36,1), transform 0.3s;
+  width: 6px; 
+  height: 6px; 
+  border-radius: 6px; 
+  border: none; 
+  cursor: pointer; 
+  padding: 0;
+  background: rgba(255,255,255,0.12);
+  transition: 
+    background 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  flex-shrink: 0;
+  box-sizing: border-box !important;
 }
 .r-dot.active {
   background: var(--cyan);
-  width: 6px;
-  transform: scale(1.3);
+  width: 22px;
+  box-shadow: 0 0 12px var(--cyan);
 }
-.r-dot:hover:not(.active) { background: rgba(255,255,255,0.3); transform: scale(1.3); }
+.r-dot:hover:not(.active) { 
+  background: rgba(255,255,255,0.3); 
+  transform: scale(1.2); 
+}
 
 /* Labels missing from currently-into override */
 .rotating-label { display: block; font-size: 0.6rem; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; margin-bottom: 2px; }

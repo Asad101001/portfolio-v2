@@ -254,17 +254,28 @@ document.head.appendChild(fizzStyle);
     var items = widget.querySelectorAll('.rotating-item'), dots = dotsWrap.querySelectorAll('.r-dot'), current = 0, timer, isAnim = false;
     
     function show(idx) {
-      if (isAnim || idx === current) return;
+      if (idx === current) return;
       var inI = items[idx], outI = items[current];
       if (!inI || !outI) return;
-      isAnim = true;
-      outI.classList.add('exit-up'); outI.classList.remove('active');
-      outI.addEventListener('transitionend', () => { outI.classList.remove('exit-up'); isAnim = false; }, { once: true });
-      setTimeout(() => inI.classList.add('active'), 100);
-      dots.forEach(d => d.classList.remove('active')); if (dots[idx]) dots[idx].classList.add('active');
+      
+      // Clean up any lingering states from previous animations
+      items.forEach(item => {
+        if (item !== inI && item !== outI) {
+          item.classList.remove('exit-up', 'active');
+        }
+      });
+
+      // Update dots immediately for snappiness
+      dots.forEach(d => d.classList.remove('active')); 
+      if (dots[idx]) dots[idx].classList.add('active');
+
+      // Start transition
+      outI.classList.add('exit-up');
+      outI.classList.remove('active');
+      inI.classList.add('active');
+
       current = idx;
       
-      // Special classes for Barca slot (index 3 in hero)
       if (widgetId === 'rotating-widget') {
          if (idx === 3) { dotsWrap.classList.add('barca-active'); widget.classList.add('football-active'); }
          else { dotsWrap.classList.remove('barca-active'); widget.classList.remove('football-active'); }

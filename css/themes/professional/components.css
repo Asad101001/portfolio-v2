@@ -169,19 +169,23 @@ body.theme-professional .btn-offline {
 /* Section Dot Nav & Rotating Dots */
 body.theme-professional .section-dot,
 body.theme-professional .r-dot {
-    width: 10px !important;
-    height: 10px !important;
-    border: 2px solid #000000 !important;
+    width: 8px !important;
+    height: 8px !important;
+    border: 1.5px solid #000000 !important;
     border-radius: 0px !important;
     background: #ffffff !important;
     opacity: 1 !important;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s !important;
+    box-shadow: none !important;
 }
 
 body.theme-professional .section-dot.active,
 body.theme-professional .r-dot.active {
     background: #000000 !important;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.2) !important;
-    transform: scale(1.1) !important;
+    width: 20px !important;
+    height: 8px !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
 /* Strengthen Global Key Outlines */
