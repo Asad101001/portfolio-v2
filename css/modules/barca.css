@@ -357,9 +357,6 @@
   .score-team-abbr {
     font-size: 0.52rem;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 70px;
   }
   .score-row-scorer {
     display: none; /* Hide scorer on very narrow screens */
