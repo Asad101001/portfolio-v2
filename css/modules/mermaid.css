@@ -1,0 +1,72 @@
+/* ── Mermaid Architecture Diagrams ────────────────────────── */
+.mermaid-container {
+  background: rgba(10,10,10,0.4) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg);
+  padding: 40px 20px;
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  transition: all 0.4s var(--transition);
+  position: relative;
+}
+
+.mermaid-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 70%);
+  pointer-events: none;
+}
+
+.mermaid-container:hover {
+  background: rgba(15,15,15,0.6) !important;
+  border-color: var(--border-h) !important;
+  box-shadow: 0 20px 50px -12px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+}
+
+.mermaid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+.mermaid svg {
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 400px;
+}
+
+/* Ensure node text is always readable */
+.mermaid .nodeLabel, 
+.mermaid .edgeLabel, 
+.mermaid .label, 
+.mermaid text {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em;
+}
+
+.mermaid .node rect, 
+.mermaid .node circle, 
+.mermaid .node polygon, 
+.mermaid .node path {
+  stroke-width: 2px !important;
+}
+
+/* Scrollbar styling for overflow */
+.mermaid-container::-webkit-scrollbar {
+  height: 4px;
+}
+.mermaid-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.mermaid-container::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}

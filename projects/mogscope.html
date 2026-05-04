@@ -68,7 +68,7 @@
                         Facial detection remains entirely secure — 100% of mathematical extraction occurs fully client-side via WebAssembly-compiled <code>@vladmandic/face-api</code> on React 18. Only the pure geometric numbers orchestrate Vercel Edge compute units running Groq's <code>llama-3.3-70b-versatile</code> for highly responsive, tone-strict satirical completions formatting.
                     </p>
 
-                    <div style="background: #0a0a0a; border: 1px solid rgba(99,102,241,0.4); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
+                    <div class="mermaid-container glass-card reveal">
                         <pre class="mermaid">
 graph LR
     subgraph Client [Browser Environment 🖥️]
@@ -128,12 +128,22 @@ graph LR
             </div>
         </div>
     </main>
-    <style>
-        .mermaid svg { width: 100% !important; max-width: 1000px !important; min-height: 450px !important; font-size: 16px !important; }
-    </style>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#1e293b', primaryBorderColor: '#6366f1', primaryTextColor: '#ffffff', textColor: '#ffffff', lineColor: '#6366f1', fontFamily: 'JetBrains Mono', fontSize: '18px' } });
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base', 
+            themeVariables: { 
+                primaryColor: 'rgba(99, 102, 241, 0.08)', 
+                primaryBorderColor: '#6366f1', 
+                primaryTextColor: '#fff', 
+                lineColor: '#6366f1', 
+                fontFamily: 'JetBrains Mono', 
+                fontSize: '16px',
+                tertiaryColor: '#121212',
+                mainBkg: 'rgba(99, 102, 241, 0.05)'
+            } 
+        });
     </script>
     <script type="module" src="../js/app.js"></script>
     <script type="module" src="../js/modules/loader.js"></script>
