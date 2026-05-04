@@ -1,7 +1,7 @@
 /* ── Shared Theme Variables & Triggers ── */
 
 :root {
-    --hero-bg: url('../images/backgrounds/sunset-bg.png'); /* Default Sunset */
+    --hero-bg: url('/images/backgrounds/sunset_bg.png'); /* Default Sunset */
     --hero-op: 0.42;
     --hero-br: 0.7;
     --scanline-op: 0;
