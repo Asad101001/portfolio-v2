@@ -82,22 +82,6 @@ nav a:not(.nav-cta-cv):hover {
   text-shadow: 0 0 12px rgba(16,185,129,0.5);
 }
 
-/* ── Nav — View CV button ─────────────────────────────── */
-.nav-cta-cv {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 18px; border-radius: 4px;
-  font-size: 0.82rem; font-weight: 700; color: #060a12;
-  background: linear-gradient(135deg, var(--cyan), #0d9966);
-  box-shadow: 0 0 18px rgba(16,185,129,0.35);
-  transition: box-shadow 0.3s, transform 0.25s, filter 0.25s;
-  white-space: nowrap; text-decoration: none;
-}
-.nav-cta-cv:hover {
-  box-shadow: 0 0 36px rgba(16,185,129,0.6);
-  transform: translateY(-2px) scale(1.03);
-  filter: brightness(1.08);
-}
-
 /* ── Scroll Performance overrides ─────────────────────── */
 .section-in { content-visibility: visible !important; }
 

@@ -136,11 +136,27 @@ body.theme-sunset .nav-cta {
 }
 
 body.theme-sunset .btn-primary:hover,
-body.theme-sunset .nav-cta:hover {
+body.theme-sunset .nav-cta:hover,
+body.theme-sunset .mobile-dropdown a:hover,
+body.theme-sunset .dropdown-cv-button:hover {
     background: var(--purple) !important; /* Vibrant hover */
     color: #ffffff !important;
     transform: translate(-3px, -3px) !important;
     box-shadow: 6px 6px 0px var(--cyan) !important;
+}
+
+body.theme-sunset .mobile-dropdown a,
+body.theme-sunset .dropdown-cv-button {
+    background: #000000 !important;
+    color: var(--cyan) !important;
+    border: 2px solid var(--cyan) !important;
+    box-shadow: 4px 4px 0px var(--cyan) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 10px 16px !important;
+    margin: 10px 0 !important;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
 }
 
 body.theme-sunset .btn-secondary {
