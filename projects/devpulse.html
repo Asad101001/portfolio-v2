@@ -68,7 +68,7 @@
                         A robust full-stack architecture powered by Express 5 orchestrating asynchronous Git integrations. It scales JSON metrics via authenticated GitHub Passport.js OAuth sessions and securely dumps persistent historic telemetry profiles directly into a Mongo cluster, visualizing seamlessly via React DOM.
                     </p>
 
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,214,0,0.15); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
+                    <div style="background: #0a0a0a; border: 1px solid rgba(255,214,0,0.4); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
                         <pre class="mermaid">
 sequenceDiagram
     participant UI as React UI 🖥️
@@ -126,9 +126,12 @@ sequenceDiagram
             </div>
         </div>
     </main>
+    <style>
+        .mermaid svg { width: 100% !important; max-width: 1000px !important; min-height: 450px !important; font-size: 16px !important; }
+    </style>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#111', primaryBorderColor: '#FFD600', primaryTextColor: '#fff', line: '#FFD600', fontFamily: 'JetBrains Mono' } });
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#1e293b', primaryBorderColor: '#FFD600', primaryTextColor: '#ffffff', textColor: '#ffffff', lineColor: '#FFD600', fontFamily: 'JetBrains Mono', fontSize: '18px' } });
     </script>
     <script type="module" src="../js/app.js"></script>
     <script type="module" src="../js/modules/loader.js"></script>

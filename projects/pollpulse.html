@@ -68,7 +68,7 @@
                         A robust multi-tier architecture hosted completely on AWS. It uses an EC2 web instance strictly decoupled from the managed RDS database environment, enforcing solid isolation principles. Real-time updates push seamlessly to connected clients via WebSockets, instantly populating Chart.js analytics graphs without refreshing.
                     </p>
                     
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(168,85,247,0.15); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
+                    <div style="background: #0a0a0a; border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; text-align: center;">
                         <pre class="mermaid">
 graph TD
     Client[Browser Client 🌐] -->|WebSocket/REST| EC2[AWS EC2 Node.js 💻]
@@ -118,9 +118,12 @@ graph TD
             </div>
         </div>
     </main>
+    <style>
+        .mermaid svg { width: 100% !important; max-width: 1000px !important; min-height: 450px !important; font-size: 16px !important; }
+    </style>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#222', primaryBorderColor: '#a855f7', primaryTextColor: '#fff', line: '#a855f7', fontFamily: 'JetBrains Mono' } });
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#1e293b', primaryBorderColor: '#a855f7', primaryTextColor: '#ffffff', textColor: '#ffffff', lineColor: '#a855f7', fontFamily: 'JetBrains Mono', fontSize: '18px' } });
     </script>
     <script type="module" src="../js/app.js"></script>
     <script type="module" src="../js/modules/loader.js"></script>
