@@ -8,16 +8,12 @@
     const themes = ['professional', 'sunset', 'cyberpunk'];
     let currentThemeIndex = 0;
 
-    // Always default to professional on fresh load
+    // Default to professional, but load from saved if available
     currentThemeIndex = 0;
-    
-    // (Optional) If you want to load from saved, uncomment below
-    /*
     const savedTheme = localStorage.getItem('asad_portfolio_theme');
     if (savedTheme && themes.includes(savedTheme)) {
         currentThemeIndex = themes.indexOf(savedTheme);
     }
-    */
     
     // Apply initial theme immediately to body
     if (currentThemeIndex !== -1) {

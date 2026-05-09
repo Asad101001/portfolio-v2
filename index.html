@@ -19,8 +19,14 @@
 </head>
 
 <body>
-
-
+    <script>
+        (function() {
+            const themes = ['professional', 'sunset', 'cyberpunk'];
+            const savedTheme = localStorage.getItem('asad_portfolio_theme');
+            const initialTheme = (savedTheme && themes.includes(savedTheme)) ? savedTheme : 'professional';
+            document.body.classList.add(`theme-${initialTheme}`);
+        })();
+    </script>
 
     <!-- Components -->
     <include src="/components/loading-screen.html"></include>
