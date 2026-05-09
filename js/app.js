@@ -33,8 +33,8 @@ window._scrollTasks = [];
 (function loop(timestamp) {
   // Enable smooth lerp on desktop for "behemoth level" premium smoothness
   if (!window._isMobile) {
-    // Smoother factor (0.065-0.075 is the sweet spot for "buttery" feel)
-    var factor = 0.068; 
+    // Smoother factor (0.045-0.055 for "enterprise apple" buttery feel)
+    var factor = 0.045; 
     var targetY = window._scrollY;
     var rawLerp = window._lerpY + (targetY - window._lerpY) * factor;
     // Snap to target if very close to avoid endless sub-pixel calculating

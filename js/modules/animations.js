@@ -33,8 +33,8 @@
             function lerp(a, b, t) { return a + (b - a) * t; }
 
             function animate() {
-                currentX = lerp(currentX, targetX, 0.18);
-                currentY = lerp(currentY, targetY, 0.18);
+                currentX = lerp(currentX, targetX, 0.10);
+                currentY = lerp(currentY, targetY, 0.10);
                 el.style.transform = 'translate3d(' + currentX.toFixed(2) + 'px,' + currentY.toFixed(2) + 'px,0)';
                 if (Math.abs(currentX - targetX) > 0.05 || Math.abs(currentY - targetY) > 0.05) {
                     requestAnimationFrame(animate);

@@ -186,6 +186,7 @@
 /* â”€â”€ Arsenal Icon Size Bump â”€â”€ */
 .acard-icon { width: 32px !important; height: 32px !important; padding: 0 !important; }
 .acard-icon i { font-size: 2rem !important; }
+.acard.aws-merged .acard-icon i { font-size: 1.6rem !important; } /* AWS logo is wide, scaled to fit the wider box */
 
 /* â”€â”€ AWS Merged & Expandable â”€â”€ */
 .acard.aws-merged {
@@ -195,8 +196,8 @@
     justify-content: center;
     gap: 12px;
     padding: 9px !important;
-    min-width: 52px !important; 
-    max-width: 52px !important; 
+    min-width: 72px !important; /* Made wider to fit the wide AWS logo */
+    max-width: 72px !important; 
     width: auto;
     overflow: visible; /* Changed from hidden to prevent cropping */
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -205,7 +206,7 @@
 .acard.aws-merged:hover, .acard.aws-merged.manual-expand {
     padding: 9px 15px !important;
     max-width: 900px !important; 
-    min-width: 52px !important;
+    min-width: 72px !important;
     z-index: 10;
 }
 
