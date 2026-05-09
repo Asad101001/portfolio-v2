@@ -173,11 +173,16 @@
   /* Fixed initial width â€” transition to max-width to allow content-fit expansion */
   width: auto;
   min-width: 42px;
-  max-width: 42px;
-  padding: 9px 0;
+  padding: 9px 10px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: default;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  outline: none;
   position: relative;
   transition: max-width 0.35s cubic-bezier(0.22,1,0.36,1),
               padding 0.35s cubic-bezier(0.22,1,0.36,1),
@@ -215,6 +220,19 @@
   box-shadow: 0 0 18px var(--ag, rgba(16,185,129,0.2)),
               0 4px 16px rgba(0,0,0,0.4);
   transform: translateY(-2px);
+}
+
+.acard:focus-visible {
+  max-width: fit-content;
+  gap: 10px;
+  padding: 9px 12px;
+  border-color: var(--ac, rgba(16,185,129,0.45));
+  background: var(--ag, rgba(16,185,129,0.1));
+  box-shadow: 0 0 18px var(--ag, rgba(16,185,129,0.2)),
+              0 4px 16px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+  outline: 2px solid var(--ac, var(--cyan));
+  outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
@@ -271,7 +289,8 @@
   max-width: fit-content; 
 }
 .acard:hover .acard-name,
-.acard:active .acard-name {
+.acard:active .acard-name,
+.acard:focus-visible .acard-name {
   opacity: 1 !important; 
   max-width: fit-content !important; 
 }
@@ -366,3 +385,84 @@
 }
 /* Remove pulsing animation â€” reduces jank */
 .skill-chip.pulsing { animation: none; }
+
+/* ── Arsenal Icon Size Bump ── */
+.acard-icon { width: 32px !important; height: 32px !important; padding: 0 !important; }
+.acard-icon i { font-size: 2rem !important; }
+.acard.aws-merged .acard-icon i { font-size: 1.6rem !important; } /* AWS logo is wide, scaled to fit the wider box */
+
+/* ── AWS Merged & Expandable ── */
+.acard.aws-merged {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 9px !important;
+    width: auto;
+    overflow: visible; /* Changed from hidden to prevent cropping */
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.acard.aws-merged:hover, .acard.aws-merged.manual-expand {
+    padding: 9px 15px !important;
+    max-width: 900px !important; 
+    min-width: 72px !important;
+    z-index: 10;
+}
+
+.aws-services {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    overflow: hidden;
+    padding-left: 0;
+    border-left: 0 solid rgba(255,255,255,0);
+    margin-left: 0;
+    transition: all 0.4s ease;
+}
+
+.acard.aws-merged:hover .aws-services, .acard.aws-merged.manual-expand .aws-services {
+    padding-left: 10px;
+    border-left: 1px solid rgba(255,255,255,0.22);
+    margin-left: 8px;
+}
+
+.aws-svc {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 900;
+    color: var(--svc-clr, #fff);
+    text-transform: uppercase;
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: inline-block;
+    padding: 0;
+    letter-spacing: -0.02em;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+    margin: 0;
+}
+
+.acard.aws-merged:hover .aws-svc {
+    max-width: 150px;
+    opacity: 1;
+    padding: 2px 8px;
+    margin: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.svc-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.acard.aws-merged .acard-name {
+    margin-right: 0;
+}

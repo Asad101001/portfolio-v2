@@ -25,10 +25,8 @@
 
 /* Also kill it on the nav — nav blur is fine since it's tiny surface area
    and position:fixed, so keep it. But kill on section cards. */
-.about-text,
 .wip-card,
 .tl-card,
-.cert-card,
 .lastfm-widget,
 .xp-widget,
 .glass-card:not(.hero-main):not(.hero-side):not(.nav-inner) {
