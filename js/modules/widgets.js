@@ -19,7 +19,7 @@ export const CONFIG = {
     watchlist: [
       { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
       { title: 'The Odyssey', searchQuery: 'The Odyssey (2026 film)' },
-      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man: Brand New Day' }
+      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man' }
     ],
     seriesWatchlist: [
       { title: 'The Wire' },
