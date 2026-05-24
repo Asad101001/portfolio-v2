@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Asaaniyat - Detail View</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
+        body { padding-top: 100px; }
+        .hero-backdrop, .ambient-glow { display: none !important; }
+        .submodule-return { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #10B981; text-decoration: none; padding: 10px 0; transition: transform 0.2s; }
+        .submodule-return:hover { transform: translateX(-5px); color: #34d399; }
+        .proj-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+        .proj-card { background: rgba(10, 10, 10, 0.4); border: 1px solid rgba(16, 185, 129, 0.1); border-radius: 12px; padding: 24px; }
+        @media (max-width: 768px) { .proj-content-grid { grid-template-columns: 1fr; } }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+        .feature-list li:before { content: '🌿'; color: #10B981; font-size: 0.9em; margin-top: 2px; }
+        .tech-list span { display: inline-block; padding: 4px 10px; border-radius: 4px; background: rgba(255,255,255,0.05); margin: 0 8px 8px 0; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* Compact Mermaid styling */
+        .mermaid-container {
+            max-width: 580px;
+            margin: 20px auto;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="project-body">
+    <div class="hero-backdrop" style="opacity: 0.15;">
+        <div class="hero-backdrop-inner" style="background-image: url('/images/projects/asaaniyat.png');"></div>
+    </div>
+    <div class="ambient-glow" style="position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, transparent 70%); opacity: 0.6;"></div>
+    <nav>
+        <div class="nav-inner" style="justify-content: space-between; padding: 12px 24px;">
+            <a href="/#projects" class="submodule-return">&larr; Return to Projects</a>
+        </div>
+    </nav>
+    <include src="/components/loading-screen.html"></include>
+    <main id="main-content" style="max-width: 1000px; margin: 0 auto; padding: 40px 20px; position: relative;">
+        <div class="glass-card reveal" style="padding: 40px; border-top: 2px solid #10B981;">
+            
+            <div style="text-align: center;">
+                <h1 class="section-title">Asaaniyat (عسانیت)</h1>
+                <p style="color: #10B981; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; margin-top: 8px;">Mobile-First Agentic AI Orchestrator</p>
+                
+                <!-- Showcase Grid containing actual application UI screenshots -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 40px;">
+                    <div class="glass-card" style="padding: 12px; text-align: center; border: 1px solid rgba(16, 185, 129, 0.15); background: rgba(10, 10, 10, 0.5);">
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #10B981; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📱 Mobile Application UI</p>
+                        <img src="/images/projects/asaaniyat-exact-ui.png" alt="Asaaniyat Mobile UI Screen" style="width:100%; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);">
+                    </div>
+                    <div class="glass-card" style="padding: 12px; text-align: center; border: 1px solid rgba(16, 185, 129, 0.15); background: rgba(10, 10, 10, 0.5);">
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #10B981; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🎨 Product Concept & Architecture</p>
+                        <img src="/images/projects/asaaniyat.png" alt="Asaaniyat Concept Poster" style="width:100%; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);">
+                    </div>
+                </div>
+            </div>
+
+            <div class="proj-content-grid">
+                <div class="proj-card">
+                    <h3 style="color: #10B981; margin-bottom: 16px;">The Idea</h3>
+                    <p style="color: var(--text-dim); line-height: 1.6;">
+                        A mobile-first orchestrator built for the **Google Antigravity Hackathon (Challenge 2)** designed to organize Pakistan's informal economy (handymen, electricians, plumbers). It bridges the gap between fragmented phone calls and digital efficiency, allowing tradespeople to be found and booked seamlessly through advanced AI agent orchestration.
+                    </p>
+                </div>
+                
+                <div class="proj-card">
+                    <h3 style="color: #10B981; margin-bottom: 16px;">System Capabilities</h3>
+                    <ul class="feature-list" style="color: var(--text-muted); font-size: 0.95rem;">
+                        <li><strong>Roman Urdu Voice Parsing:</strong> Transcribes and decodes natural spoken dialects into structured intents.</li>
+                        <li><strong>Geospatial Neighborhood Resolver:</strong> Converts informal location indicators into exact coordinates.</li>
+                        <li><strong>Light Mint Glassmorphism:</strong> Stunning, native-feeling mobile components styled with frosted-glass sheets.</li>
+                        <li><strong>Real-time Telemetry:</strong> An operations dashboard tracing each agent pipeline execution dynamically.</li>
+                    </ul>
+                </div>
+
+                <div class="proj-card" style="grid-column: 1 / -1;">
+                    <h3 style="color: #10B981; margin-bottom: 16px; text-align: center;">The 8-Agent AI Pipeline Flow</h3>
+                    <p style="color: var(--text-dim); margin-bottom: 16px; font-size: 0.95rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        Asaaniyat replaces simple, brittle wrappers with an advanced sequential AI pipeline. A centralized state manager tracks request transitions across eight specialized, decoupled micro-agents:
+                    </p>
+                    
+                    <!-- Centered and size-constrained Mermaid Container -->
+                    <div class="mermaid-container reveal">
+                        <pre class="mermaid">
+graph TD
+    Client[Client Voice/Text 🗣️] -->|API Request| Parser[1. IntentParser 🧠]
+    Parser -->|Service & Intent| Resolver[2. LocationResolver 🗺️]
+    Resolver -->|Coordinates| Discoverer[3. ProviderDiscoverer 🔍]
+    Discoverer -->|Provider Pool| Ranker[4. ProviderRanker 📊]
+    Ranker -->|Ranked Pros| Decision[5. DecisionMaker ⚖️]
+    Decision -->|Elected Provider| Pricing[6. DynamicPricing 💰]
+    Pricing -->|Final Quotation| Executor[7. BookingExecutor ⚙️]
+    Executor -->|Unique Booking ID| FollowUp[8. FollowUpManager 📡]
+    FollowUp -->|Surveys & FCM Triggers| Success[Success Confirmation 🎉]
+                        </pre>
+                    </div>
+
+                    <h4 style="color: #10B981; margin-bottom: 16px; font-size: 1.1rem; text-align: center; font-weight: 600; margin-top: 30px;">Core Application Technology Stack</h4>
+                    <div class="proj-tags" style="margin-bottom: 30px; justify-content: center;">
+                        <span class="acard" style="--ac:#61DAFB;--ag:rgba(97,218,251,0.2)">
+                            <span class="acard-icon"><i class="devicon-react-original colored"></i></span>
+                            <span class="acard-name">React Native (Expo 54)</span>
+                        </span>
+                        <span class="acard" style="--ac:#339933;--ag:rgba(51,153,51,0.2)">
+                            <span class="acard-icon"><i class="devicon-nodejs-plain colored"></i></span>
+                            <span class="acard-name">Node.js / Express</span>
+                        </span>
+                        <span class="acard" style="--ac:#47A248;--ag:rgba(71,162,72,0.2)">
+                            <span class="acard-icon"><i class="devicon-mongodb-plain colored"></i></span>
+                            <span class="acard-name">MongoDB Database</span>
+                        </span>
+                        <span class="acard" style="--ac:#F75049;--ag:rgba(247,80,73,0.2)">
+                            <span class="acard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot" style="width: 14px; height: 14px; vertical-align: middle;"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+                            <span class="acard-name">Llama 3.3 & Gemini AI</span>
+                        </span>
+                        <span class="acard" style="--ac:#f500ff;--ag:rgba(245,0,255,0.2)">
+                            <span class="acard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard" style="width: 14px; height: 14px; vertical-align: middle;"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
+                            <span class="acard-name">React / Vite Admin</span>
+                        </span>
+                    </div>
+
+                    <h4 style="color: #10B981; margin-bottom: 12px; font-size: 1rem;">Technical Achievements</h4>
+                    <ul class="feature-list" style="color: var(--text-muted); font-size: 0.95rem;">
+                        <li><strong>Multilingual Natural Language Extraction:</strong> Decodes and processes conversational speech transcripts in standard Urdu, Roman Urdu, and English into clean programmatic models without depending on static regexes.</li>
+                        <li><strong>Decoupled State Orchestrator:</strong> Shared transaction state context tracking, enabling sequential execution logs, performance telemetries, and automated transaction recovery.</li>
+                        <li><strong>Scalable Cloud Architecture:</strong> Backend microservices packaged via Docker and deployed dynamically to Google Cloud Run, backed by a production-grade MongoDB cloud database, with an administration control interface hosted on Vercel.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Launch and Demonstration Links Button Group -->
+            <div style="margin-top: 40px; text-align: center; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                <a href="https://github.com/Asad101001/AntigravityHackathon" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    GitHub Repository
+                </a>
+                <a href="https://github.com/Asad101001/AntigravityHackathon/releases" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background: linear-gradient(135deg, #10B981, #047857); border-color: #10B981; display: inline-flex; align-items: center; gap: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download Mobile APK
+                </a>
+                <a href="https://asaaniyat-admin.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-color: #3b82f6; display: inline-flex; align-items: center; gap: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    Live Operations Dashboard
+                </a>
+            </div>
+        </div>
+    </main>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base', 
+            themeVariables: { 
+                primaryColor: 'rgba(16, 185, 129, 0.08)', 
+                primaryBorderColor: '#10B981', 
+                primaryTextColor: '#fff', 
+                lineColor: '#10B981', 
+                fontFamily: 'JetBrains Mono', 
+                fontSize: '14px',
+                tertiaryColor: '#121212',
+                mainBkg: 'rgba(16, 185, 129, 0.05)'
+            } 
+        });
+    </script>
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/modules/loader.js"></script>
+    <script type="module" src="../js/modules/animations.js"></script>
+    <script type="module" src="../js/modules/ui.js"></script>
+    <script type="module" src="../js/modules/theme.js"></script>
+</body>
+</html>
