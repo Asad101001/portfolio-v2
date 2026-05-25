@@ -8,6 +8,13 @@ export const CONFIG = {
   },
   currently: {
     reading: '1984 George Orwell',
+    tv: {
+      title: 'Severance',
+      season: 2,
+      episode: 3,
+      watching: true,
+      lastWatched: '2026-05-24T18:30:00.000Z'
+    },
     series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking']
   },
   big3: {
@@ -413,38 +420,134 @@ function _starsHTML(starsStr) {
   var tvStatus      = document.getElementById('tv-tracking-status');
 
   if (tvTitle) {
+    function _renderTvFallback() {
+      var tvConf = CONFIG.currently.tv;
+      if (!tvConf || !tvConf.title) {
+        if (tvTitle && CONFIG.currently.series.length) {
+          var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
+          tvTitle.textContent = pick;
+          _tvmazePoster(pick).then(function(posterUrl) {
+            if (posterUrl && tvPoster) {
+              tvPoster.src = posterUrl;
+              tvPoster.onerror = function() {
+                tvPoster.style.display = 'none';
+                if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+              };
+              tvPoster.style.display = 'block';
+              if (tvPlaceholder) tvPlaceholder.style.display = 'none';
+            }
+          });
+        }
+        if (tvStatus) tvStatus.textContent = 'Currently Watching';
+        return;
+      }
+
+      // Format title and add smaller season/episode subtitle
+      if (tvTitle) tvTitle.textContent = tvConf.title;
+      
+      var metaEl = document.getElementById('tv-tracking-meta');
+      if (!metaEl) {
+        metaEl = document.createElement('div');
+        metaEl.id = 'tv-tracking-meta';
+        metaEl.style.fontSize = '0.75rem';
+        metaEl.style.opacity = '0.7';
+        metaEl.style.marginTop = '2px';
+        metaEl.style.color = 'var(--cyan)';
+        if (tvTitle && tvTitle.parentNode) {
+          tvTitle.parentNode.insertBefore(metaEl, tvTitle.nextSibling);
+        }
+      }
+      if (tvConf.season != null && tvConf.episode != null) {
+        metaEl.textContent = 'Season ' + tvConf.season + ' \u2022 Episode ' + tvConf.episode;
+        metaEl.style.display = 'block';
+      } else {
+        metaEl.style.display = 'none';
+      }
+
+      // Format status + timeago
+      if (tvStatus) {
+        var statusText = tvConf.watching ? 'Currently Watching' : 'Last Watched';
+        if (tvConf.lastWatched) {
+          statusText += ' \u2022 ' + timeAgo(tvConf.lastWatched);
+        }
+        tvStatus.textContent = statusText;
+      }
+
+      // Fetch from TVmaze (keyless, CORS-safe) for poster and season-based progress
+      var tvmazeUrl = 'https://api.tvmaze.com/singlesearch/shows?q=' + encodeURIComponent(tvConf.title) + '&embed=episodes';
+      fetch(tvmazeUrl)
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(showData) {
+          if (!showData) return;
+          
+          var imgUrl = showData.image ? (showData.image.medium || showData.image.original) : null;
+          if (imgUrl && tvPoster) {
+            tvPoster.src = imgUrl;
+            tvPoster.onerror = function() {
+              tvPoster.style.display = 'none';
+              if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+            };
+            tvPoster.style.display = 'block';
+            if (tvPlaceholder) tvPlaceholder.style.display = 'none';
+          }
+          
+          var episodes = (showData._embedded && showData._embedded.episodes) || [];
+          var seasonEpisodes = episodes.filter(function(e) { return e.season === tvConf.season; });
+          var progressWrap = document.getElementById('tv-progress-wrap');
+          var progressFill = document.getElementById('tv-progress-fill');
+          
+          if (progressWrap && progressFill) {
+            if (seasonEpisodes.length > 0 && tvConf.episode != null) {
+              var percent = Math.round((tvConf.episode / seasonEpisodes.length) * 100);
+              progressWrap.style.display = 'block';
+              progressFill.style.width = percent + '%';
+            } else {
+              progressWrap.style.display = 'none';
+            }
+          }
+        })
+        .catch(function() {
+          if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
+        });
+    }
+
     function fetchTV() {
       fetch('/api/current-show')
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (!data || data.watching === null || data.watching === undefined || !data.title) {
-            if (tvTitle && CONFIG.currently.series.length) {
-              var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
-              tvTitle.textContent = pick;
-              // Try to get a poster for the fallback show too
-              _tvmazePoster(pick).then(function(posterUrl) {
-                if (posterUrl && tvPoster) {
-                  tvPoster.src = posterUrl;
-                  tvPoster.onerror = function() {
-                    tvPoster.style.display = 'none';
-                    if (tvPlaceholder) tvPlaceholder.style.display = 'flex';
-                  };
-                  tvPoster.style.display = 'block';
-                  if (tvPlaceholder) tvPlaceholder.style.display = 'none';
-                }
-              });
-            }
-            if (tvStatus) tvStatus.textContent = 'Currently Watching';
+            _renderTvFallback();
             return;
           }
 
-          if (tvStatus) tvStatus.textContent = data.watching ? 'Currently Watching' : 'Last Watched';
-
-          var epStr = '';
-          if (data.season != null && data.episode != null) {
-            epStr = ' (S' + String(data.season).padStart(2, '0') + 'E' + String(data.episode).padStart(2, '0') + ')';
+          if (tvStatus) {
+            var statusText = data.watching ? 'Currently Watching' : 'Last Watched';
+            if (data.date) {
+              statusText += ' \u2022 ' + timeAgo(data.date);
+            }
+            tvStatus.textContent = statusText;
           }
-          if (tvTitle) tvTitle.textContent = data.title + epStr;
+
+          if (tvTitle) tvTitle.textContent = data.title;
+          
+          var metaEl = document.getElementById('tv-tracking-meta');
+          if (!metaEl) {
+            metaEl = document.createElement('div');
+            metaEl.id = 'tv-tracking-meta';
+            metaEl.style.fontSize = '0.75rem';
+            metaEl.style.opacity = '0.7';
+            metaEl.style.marginTop = '2px';
+            metaEl.style.color = 'var(--cyan)';
+            if (tvTitle && tvTitle.parentNode) {
+              tvTitle.parentNode.insertBefore(metaEl, tvTitle.nextSibling);
+            }
+          }
+          if (data.season != null && data.episode != null) {
+            metaEl.textContent = 'Season ' + data.season + ' \u2022 Episode ' + data.episode;
+            metaEl.style.display = 'block';
+          } else {
+            metaEl.style.display = 'none';
+          }
 
           var progressWrap = document.getElementById('tv-progress-wrap');
           var progressFill = document.getElementById('tv-progress-fill');
@@ -453,8 +556,7 @@ function _starsHTML(starsStr) {
               progressWrap.style.display = 'block';
               progressFill.style.width   = data.progress + '%';
             } else {
-              progressFill.style.width   = data.watching ? '45%' : '100%';
-              progressWrap.style.display = data.watching ? 'block' : 'none';
+              progressWrap.style.display = 'none';
             }
           }
 
@@ -463,7 +565,6 @@ function _starsHTML(starsStr) {
             tvPoster.style.display = 'block';
             if (tvPlaceholder) tvPlaceholder.style.display = 'none';
           } else if (data.title) {
-            // Client-side fallback with improved multi-source lookup
             _tvmazePoster(data.title).then(function(posterUrl) {
               if (posterUrl && tvPoster) {
                 tvPoster.src = posterUrl;
@@ -474,18 +575,7 @@ function _starsHTML(starsStr) {
           }
         })
         .catch(function() {
-          if (tvTitle && CONFIG.currently.series.length) {
-            var pick = CONFIG.currently.series[Math.floor(Math.random() * CONFIG.currently.series.length)];
-            tvTitle.textContent = pick;
-            _tvmazePoster(pick).then(function(posterUrl) {
-              if (posterUrl && tvPoster) {
-                tvPoster.src = posterUrl;
-                tvPoster.style.display = 'block';
-                if (tvPlaceholder) tvPlaceholder.style.display = 'none';
-              }
-            });
-          }
-          if (tvStatus) tvStatus.textContent = 'Currently Watching';
+          _renderTvFallback();
         });
     }
     fetchTV();

@@ -22,7 +22,11 @@ export default async function handler(req, res) {
     if (SIMKL && SIMKL_USER) {
       try {
         const simklRes = await fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/tv/watching`, {
-          headers: { 'Content-Type': 'application/json', 'simkl-api-client': SIMKL }
+          headers: {
+            'Content-Type': 'application/json',
+            'simkl-api-client': SIMKL,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          }
         });
         if (simklRes.ok) {
           const simklData = await simklRes.json();
@@ -35,7 +39,8 @@ export default async function handler(req, res) {
               show: { title: show.title, ids: { tmdb: show.ids ? show.ids.tmdb : null } },
               episode: { season: item.season, number: item.episode },
               watching: true,
-              progress: item.watched_episodes && item.total_episodes ? Math.round((item.watched_episodes / item.total_episodes) * 100) : null
+              progress: item.watched_episodes && item.total_episodes ? Math.round((item.watched_episodes / item.total_episodes) * 100) : null,
+              watched_at: item.last_watched_at || null
             };
             watching = true;
             progress = data.progress;
@@ -53,6 +58,7 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json',
             'trakt-api-version': '2',
             'trakt-api-key': TRAKT_CLIENT_ID,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
           },
         }
       );
@@ -60,7 +66,12 @@ export default async function handler(req, res) {
       if (response.status === 204) {
         // Fallback to last watched
         const historyRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history/episodes?limit=1`, {
-          headers: { 'Content-Type': 'application/json', 'trakt-api-version': '2', 'trakt-api-key': TRAKT_CLIENT_ID }
+          headers: {
+            'Content-Type': 'application/json',
+            'trakt-api-version': '2',
+            'trakt-api-key': TRAKT_CLIENT_ID,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          }
         });
         if (historyRes.ok) {
           const historyData = await historyRes.json();
@@ -87,18 +98,27 @@ export default async function handler(req, res) {
       episode: episode ? (episode.number || episode.episode) : null,
       tmdbId:  show.ids?.tmdb          || null,
       poster:  null,
-      progress: progress || null
+      progress: progress || null,
+      date:    data.watched_at || data.started_at || null
     };
 
     if (!formatted.title) return res.status(200).json({ watching: null });
 
-    // ── Poster enrichment logic ──────────────────────────────────────────────
+    // ── Poster & Progress enrichment logic ───────────────────────────────────
     if (formatted.tmdbId && TMDB_API_KEY) {
       try {
         const tmdbRes = await fetch(`https://api.themoviedb.org/3/tv/${formatted.tmdbId}?api_key=${TMDB_API_KEY}`);
         if (tmdbRes.ok) {
           const tmdbData = await tmdbRes.json();
           if (tmdbData.poster_path) formatted.poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
+          
+          // Compute real season-based progress if not already set by Simkl
+          if (!formatted.progress && tmdbData.seasons && formatted.season) {
+            const currentSeason = tmdbData.seasons.find(s => s.season_number === formatted.season);
+            if (currentSeason && currentSeason.episode_count) {
+              formatted.progress = Math.round((formatted.episode / currentSeason.episode_count) * 100);
+            }
+          }
         }
       } catch (_) {}
     }
