@@ -501,8 +501,25 @@ function _starsHTML(starsStr) {
               var percent = Math.round((tvConf.episode / seasonEpisodes.length) * 100);
               progressWrap.style.display = 'block';
               progressFill.style.width = percent + '%';
+              
+              var existingStamp = document.getElementById('tv-completed-stamp');
+              if (percent === 100) {
+                if (!existingStamp) {
+                  existingStamp = document.createElement('div');
+                  existingStamp.id = 'tv-completed-stamp';
+                  existingStamp.className = 'completed-stamp';
+                  existingStamp.textContent = 'COMPLETED';
+                  if (tvPoster && tvPoster.parentNode) {
+                    tvPoster.parentNode.appendChild(existingStamp);
+                  }
+                }
+              } else {
+                if (existingStamp) existingStamp.remove();
+              }
             } else {
               progressWrap.style.display = 'none';
+              var existingStamp = document.getElementById('tv-completed-stamp');
+              if (existingStamp) existingStamp.remove();
             }
           }
         })
@@ -555,8 +572,25 @@ function _starsHTML(starsStr) {
             if (data.progress != null) {
               progressWrap.style.display = 'block';
               progressFill.style.width   = data.progress + '%';
+              
+              var existingStamp = document.getElementById('tv-completed-stamp');
+              if (data.progress === 100) {
+                if (!existingStamp) {
+                  existingStamp = document.createElement('div');
+                  existingStamp.id = 'tv-completed-stamp';
+                  existingStamp.className = 'completed-stamp';
+                  existingStamp.textContent = 'COMPLETED';
+                  if (tvPoster && tvPoster.parentNode) {
+                    tvPoster.parentNode.appendChild(existingStamp);
+                  }
+                }
+              } else {
+                if (existingStamp) existingStamp.remove();
+              }
             } else {
               progressWrap.style.display = 'none';
+              var existingStamp = document.getElementById('tv-completed-stamp');
+              if (existingStamp) existingStamp.remove();
             }
           }
 
@@ -1563,7 +1597,17 @@ function _starsHTML(starsStr) {
       var posterPromise = directPoster ? Promise.resolve(directPoster) : _tvmazePoster(searchStr);
       posterPromise.then(function(url) {
         if (url && wrap.parentNode) {
-          wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + s.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+          var img = document.createElement('img');
+          img.className = 'media-thumb-img';
+          img.src = url;
+          img.alt = s.title;
+          img.loading = 'lazy';
+          img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+          
+          var emoji = wrap.querySelector('.media-thumb-emoji');
+          if (emoji) emoji.remove();
+          
+          wrap.insertBefore(img, wrap.firstChild);
         }
       }).catch(function() {});
 
@@ -1572,6 +1616,16 @@ function _starsHTML(starsStr) {
         barCont.className = 'media-thumb-progress-cont';
         barCont.innerHTML = '<div class="media-thumb-progress-fill" style="width:' + s.progress + '%"></div>';
         wrap.appendChild(barCont);
+
+        if (s.progress === 100) {
+          var stamp = document.createElement('div');
+          stamp.className = 'completed-stamp';
+          stamp.style.fontSize = '0.45rem';
+          stamp.style.padding = '3px 6px';
+          stamp.style.border = '2px double #ef4444';
+          stamp.textContent = 'COMPLETED';
+          wrap.appendChild(stamp);
+        }
       }
 
       seriesThumbsEl.appendChild(wrap);
@@ -1598,7 +1652,17 @@ function _starsHTML(starsStr) {
       var posterPromise = directPoster ? Promise.resolve(directPoster) : _moviePoster(searchStr);
       posterPromise.then(function(url) {
         if (url && wrap.parentNode) {
-          wrap.innerHTML = '<img class="media-thumb-img" src="' + url + '" alt="' + m.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />';
+          var img = document.createElement('img');
+          img.className = 'media-thumb-img';
+          img.src = url;
+          img.alt = m.title;
+          img.loading = 'lazy';
+          img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+          
+          var emoji = wrap.querySelector('.media-thumb-emoji');
+          if (emoji) emoji.remove();
+          
+          wrap.insertBefore(img, wrap.firstChild);
         }
       }).catch(function() {});
 
@@ -1607,17 +1671,17 @@ function _starsHTML(starsStr) {
   }
 
   function fetchWatchlist() {
-    fetch('/api/watchlist')
-      .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
+    fetch('/api/watchlist?source=trakt')
+      .then(function(r) { return r.ok ? r.json() : null; })
       .then(function(data) {
         if (!data) throw new Error('Empty payload');
-
-        var mergedSeries = mergeWatchlistItems(data.shows, CONFIG.big3.seriesWatchlist || []);
-        var mergedMovies = mergeWatchlistItems(data.movies, CONFIG.big3.watchlist || []);
-
+        
+        var shows = data.shows || [];
+        var movies = data.movies || [];
+        
+        var mergedSeries = mergeWatchlistItems(shows, CONFIG.big3.seriesWatchlist || []);
+        var mergedMovies = mergeWatchlistItems(movies, CONFIG.big3.watchlist || []);
+        
         renderSeries(mergedSeries);
         renderMovies(mergedMovies);
       })

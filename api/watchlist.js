@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate');
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=30');
 
   const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID;
   const TMDB_API_KEY = process.env.TMDB_API_KEY;
@@ -52,7 +52,8 @@ export default async function handler(req, res) {
     const headers = {
       'Content-Type': 'application/json',
       'trakt-api-version': '2',
-      'trakt-api-key': TRAKT_CLIENT_ID
+      'trakt-api-key': TRAKT_CLIENT_ID,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     };
 
     const [showsRes, moviesRes] = await Promise.all([
@@ -89,7 +90,10 @@ export default async function handler(req, res) {
   async function pullSimklData() {
     if (!SIMKL_CLIENT_ID || !SIMKL_USER_ID) return { shows: [], movies: [] };
 
-    const headers = { 'simkl-api-client': SIMKL_CLIENT_ID };
+    const headers = {
+      'simkl-api-client': SIMKL_CLIENT_ID,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    };
     const [simklWatching, simklPlan, simklMovies] = await Promise.all([
       fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
       fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/plantowatch`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
