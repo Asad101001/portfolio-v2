@@ -143,34 +143,83 @@ img { transition: opacity 0.3s ease; }
 /*  Completed Stamp & Slam Animation  */
 .completed-stamp {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-12deg);
-  border: 3px double #ef4444;
+  top: -10px;
+  left: -10px;
+  width: 48px;
+  height: 48px;
+  border: 3px double #ef4444; /* Gorgeous double ring just like postman stamp */
   border-radius: 50%;
   color: #ef4444;
   font-family: 'Courier New', Courier, monospace;
   font-weight: 900;
-  font-size: 0.65rem;
-  padding: 6px 10px;
+  font-size: 0.42rem;
   text-transform: uppercase;
-  background: rgba(13, 13, 13, 0.85);
+  background: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(2px);
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
-  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 15;
   pointer-events: none;
-  letter-spacing: 1px;
-  animation: stamp-slam 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  letter-spacing: 0.5px;
+  transform: rotate(-15deg);
+  animation: stamp-slam 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* Larger stamp for the main Hero TV card */
+.completed-stamp.hero-stamp {
+  width: 76px;
+  height: 76px;
+  top: -14px;
+  left: -14px;
+  font-size: 0.64rem;
+  border-width: 4px;
+  letter-spacing: 1px;
 }
 
 @keyframes stamp-slam {
   0% {
-    transform: translate(-50%, -50%) rotate(-45deg) scale(3);
+    transform: scale(3) rotate(-45deg);
     opacity: 0;
   }
   100% {
-    transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+    transform: scale(1) rotate(-15deg);
     opacity: 1;
   }
+}
+
+/* Dynamic Flowing Progress Bar */
+.media-thumb-progress-fill, #tv-progress-fill {
+  background: linear-gradient(
+    90deg,
+    #06b6d4 0%,
+    #22d3ee 25%,
+    #06b6d4 50%,
+    #22d3ee 75%,
+    #06b6d4 100%
+  ) !important;
+  background-size: 200% auto !important;
+  animation: progress-flow 2s linear infinite !important;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
+
+@keyframes progress-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Allow Completed Stamp to overflow the thumbnail card without being clipped */
+.media-thumb-card {
+  overflow: visible !important;
+}
+.media-thumb-img {
+  border-radius: 6px !important;
 }

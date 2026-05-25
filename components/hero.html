@@ -112,29 +112,29 @@
                         </div>
                     </div>
 
-                    <!-- Movie -->
-                    <div class="rotating-item currently-into-item" data-index="1">
-                        <img id="watching-poster" class="currently-into-thumb" src="" alt="Movie poster"
-                            style="display:none" />
-                        <div id="watching-placeholder" class="currently-into-thumb-placeholder">🎬</div>
-                        <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label">Last Watched</span>
-                            <span class="rotating-value currently-into-value" id="movie-title">Checking Letterboxd...</span>
-                        </div>
-                    </div>
-
                     <!-- TV Series Tracking (Trakt) -->
-                    <div class="rotating-item currently-into-item" data-index="2">
+                    <div class="rotating-item currently-into-item" data-index="1">
                         <img id="tv-tracking-poster" class="currently-into-thumb" src="" alt="TV Poster" style="display:none" />
                         <div id="tv-tracking-placeholder" class="currently-into-thumb-placeholder">📺</div>
                         <div class="currently-into-text">
-                            <span class="rotating-label currently-into-label" id="tv-tracking-status">Watching Series</span>
+                            <span class="rotating-label currently-into-label" id="tv-tracking-status">Currently Watching Series/TV Show</span>
                             <span class="rotating-value currently-into-value" id="tv-tracking-title">Checking Trakt...</span>
                             <div class="tv-progress-container" id="tv-progress-wrap" style="display:none; margin-top: 4px;">
                                 <div class="tv-progress-bar" style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; width: 100%;">
                                     <div id="tv-progress-fill" style="height: 100%; background: var(--cyan); width: 0%; border-radius: 2px; transition: width 0.5s ease;"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Movie -->
+                    <div class="rotating-item currently-into-item" data-index="2">
+                        <img id="watching-poster" class="currently-into-thumb" src="" alt="Movie poster"
+                            style="display:none" />
+                        <div id="watching-placeholder" class="currently-into-thumb-placeholder">🎬</div>
+                        <div class="currently-into-text">
+                            <span class="rotating-label currently-into-label" id="movie-tracking-status">Last Watched Film</span>
+                            <span class="rotating-value currently-into-value" id="movie-title">Checking Letterboxd...</span>
                         </div>
                     </div>
 

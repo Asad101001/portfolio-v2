@@ -26,7 +26,7 @@ export const CONFIG = {
     watchlist: [
       { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
       { title: 'The Odyssey', searchQuery: 'The Odyssey (2026 film)' },
-      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man' }
+      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man: Brand New Day' }
     ],
     seriesWatchlist: [
       { title: 'The Wire' },
@@ -129,6 +129,9 @@ function timeAgo(dateStr) {
  * Wikipedia is excellent for finding high-quality "main" images for films.
  */
 function _moviePoster(title) {
+  if (title === 'Spider-Man: Brand New Day' || title === 'Spider-Man') {
+    return Promise.resolve('https://image.tmdb.org/t/p/w500/iiJyK1ZBxtU0IQnnN9616VE407d.jpg');
+  }
   var clean = title.replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
   var wikiSlug = clean.replace(/ /g, '_');
 
@@ -438,7 +441,7 @@ function _starsHTML(starsStr) {
             }
           });
         }
-        if (tvStatus) tvStatus.textContent = 'Currently Watching';
+        if (tvStatus) tvStatus.textContent = 'Currently Watching Series/TV Show';
         return;
       }
 
@@ -466,7 +469,7 @@ function _starsHTML(starsStr) {
 
       // Format status + timeago
       if (tvStatus) {
-        var statusText = tvConf.watching ? 'Currently Watching' : 'Last Watched';
+        var statusText = tvConf.watching ? 'Currently Watching Series/TV Show' : 'Last Watched Series/TV Show';
         if (tvConf.lastWatched) {
           statusText += ' \u2022 ' + timeAgo(tvConf.lastWatched);
         }
@@ -507,7 +510,7 @@ function _starsHTML(starsStr) {
                 if (!existingStamp) {
                   existingStamp = document.createElement('div');
                   existingStamp.id = 'tv-completed-stamp';
-                  existingStamp.className = 'completed-stamp';
+                  existingStamp.className = 'completed-stamp hero-stamp';
                   existingStamp.textContent = 'COMPLETED';
                   if (tvPoster && tvPoster.parentNode) {
                     tvPoster.parentNode.appendChild(existingStamp);
@@ -538,7 +541,7 @@ function _starsHTML(starsStr) {
           }
 
           if (tvStatus) {
-            var statusText = data.watching ? 'Currently Watching' : 'Last Watched';
+            var statusText = data.watching ? 'Currently Watching Series/TV Show' : 'Last Watched Series/TV Show';
             if (data.date) {
               statusText += ' \u2022 ' + timeAgo(data.date);
             }
@@ -578,7 +581,7 @@ function _starsHTML(starsStr) {
                 if (!existingStamp) {
                   existingStamp = document.createElement('div');
                   existingStamp.id = 'tv-completed-stamp';
-                  existingStamp.className = 'completed-stamp';
+                  existingStamp.className = 'completed-stamp hero-stamp';
                   existingStamp.textContent = 'COMPLETED';
                   if (tvPoster && tvPoster.parentNode) {
                     tvPoster.parentNode.appendChild(existingStamp);
@@ -1620,9 +1623,6 @@ function _starsHTML(starsStr) {
         if (s.progress === 100) {
           var stamp = document.createElement('div');
           stamp.className = 'completed-stamp';
-          stamp.style.fontSize = '0.45rem';
-          stamp.style.padding = '3px 6px';
-          stamp.style.border = '2px double #ef4444';
           stamp.textContent = 'COMPLETED';
           wrap.appendChild(stamp);
         }
