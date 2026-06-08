@@ -1,0 +1,17 @@
+{
+  "name": "Muhammad Asad Khan",
+  "short_name": "Asad's Portfolio",
+  "description": "Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#00ff41",
+  "icons": [
+    {
+      "src": "/images/og-image.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

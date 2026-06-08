@@ -12,11 +12,39 @@
     <meta property="og:title" content="Asad's Portfolio" />
     <meta property="og:description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/og-image.png" />
+    <meta property="og:url" content="https://muhammadasad-portfolio.vercel.app/" />
+    <meta property="og:image" content="https://muhammadasad-portfolio.vercel.app/images/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Asad's Portfolio" />
     <meta name="twitter:description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
-    <meta name="twitter:image" content="/images/og-image.png" />
+    <meta name="twitter:image" content="https://muhammadasad-portfolio.vercel.app/images/og-image.png" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Vercel Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- JSON-LD Structured Data for Google Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Muhammad Asad Khan",
+      "url": "https://muhammadasad-portfolio.vercel.app/",
+      "image": "https://muhammadasad-portfolio.vercel.app/images/og-image.png",
+      "sameAs": [
+        "https://github.com/Asad101001",
+        "https://www.linkedin.com/in/muhammadasad101/"
+      ],
+      "jobTitle": "Computer Science Student & Software Engineer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "UBIT"
+      }
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -108,6 +136,17 @@
     <script type="module" src="./js/modules/desktop.js"></script>
     <script type="module" src="./js/modules/widgets.js"></script>
     <script type="module" src="./js/modules/twitter.js"></script>
-</body>
 
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('SW registered: ', registration);
+          }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+        });
+      }
+    </script>
+</body>
 </html>

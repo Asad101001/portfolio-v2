@@ -44,7 +44,8 @@ export default defineConfig({
         pollpulse: path.resolve(__dirname, 'projects/pollpulse.html'),
         devpulse: path.resolve(__dirname, 'projects/devpulse.html'),
         mogscope: path.resolve(__dirname, 'projects/mogscope.html'),
-        asaaniyat: path.resolve(__dirname, 'projects/asaaniyat.html')
+        asaaniyat: path.resolve(__dirname, 'projects/asaaniyat.html'),
+        demo: path.resolve(__dirname, 'demo.html')
       }
     }
   }
