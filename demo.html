@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Demo Presentation - Antigravity</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --cyan: #00ff41;
+            --bg-base: #050505;
+            --glass-bg: rgba(10, 10, 10, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--bg-base); 
+            color: #fff; 
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 65, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 195, 255, 0.03) 0%, transparent 50%);
+        }
+
+        /* Nav Header */
+        .demo-nav {
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.9), rgba(5,5,5,0));
+            z-index: 10;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .demo-back-btn {
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-weight: 600; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.85rem; 
+            color: var(--cyan); 
+            text-decoration: none; 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 10px 20px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 255, 65, 0.05);
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-back-btn:hover { 
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .demo-title-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .demo-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .demo-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Container & Media */
+        .demo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 80px 40px 40px;
+        }
+
+        .media-glass-wrapper {
+            position: relative;
+            max-width: 90vw;
+            max-height: 80vh;
+            border-radius: 16px;
+            padding: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.8), 
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: cinematicReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        .mac-controls {
+            display: flex;
+            gap: 8px;
+            position: absolute;
+            top: 20px;
+            left: 24px;
+            z-index: 2;
+        }
+
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .mac-dot.close { background: #ff5f56; border: 1px solid #e0443e; }
+        .mac-dot.min { background: #ffbd2e; border: 1px solid #dea123; }
+        .mac-dot.max { background: #27c93f; border: 1px solid #1aab29; }
+
+        @keyframes cinematicReveal {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .media-content-container {
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+            /* Padding top creates space for mac controls */
+            padding-top: 40px;
+            background: #0d0d0d;
+        }
+
+        .media-content {
+            display: block;
+            width: 100%;
+            max-height: calc(80vh - 64px);
+            object-fit: contain;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Loading State */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            z-index: 5;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 255, 65, 0.1);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .loader-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        /* Error */
+        .error-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            color: #ff5555;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 85, 85, 0.1);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 85, 85, 0.2);
+        }
+        
+        /* Grid Lines Background */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    
+    <nav class="demo-nav">
+        <a href="/#projects" class="demo-back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Back
+        </a>
+        <div class="demo-title-wrapper">
+            <div class="demo-subtitle">Live Presentation</div>
+            <div class="demo-title" id="demo-title-display">Project Showcase</div>
+        </div>
+        <div style="width: 105px;"></div> <!-- Spacer for flex alignment -->
+    </nav>
+
+    <div class="demo-container">
+        <div class="media-glass-wrapper" id="media-wrapper">
+            <div class="mac-controls">
+                <div class="mac-dot close"></div>
+                <div class="mac-dot min"></div>
+                <div class="mac-dot max"></div>
+            </div>
+            <div class="media-content-container">
+                <div class="loader" id="media-loader">
+                    <div class="spinner"></div>
+                    <div class="loader-text">INITIALIZING...</div>
+                </div>
+                <!-- Media will be injected here -->
+            </div>
+        </div>
+        <div class="error-message" id="error-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+            </svg>
+            <span>Media parameter missing or invalid.</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mediaParam = urlParams.get('v');
+            const projectParam = urlParams.get('p');
+            
+            const wrapper = document.querySelector('.media-content-container');
+            const errorMsg = document.getElementById('error-message');
+            const titleDisplay = document.getElementById('demo-title-display');
+            const loader = document.getElementById('media-loader');
+            const glassWrapper = document.getElementById('media-wrapper');
+
+            if (projectParam) {
+                titleDisplay.textContent = projectParam;
+            }
+
+            if (!mediaParam) {
+                glassWrapper.style.display = 'none';
+                errorMsg.style.display = 'flex';
+                return;
+            }
+
+            // Construct full path
+            const mediaPath = `/images/projects/${mediaParam}`;
+            const isVideo = mediaPath.match(/\.(mp4|webm)$/i);
+
+            if (isVideo) {
+                const video = document.createElement('video');
+                video.src = mediaPath;
+                video.className = 'media-content';
+                video.controls = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true; // Auto-play usually requires muted
+                
+                video.addEventListener('loadeddata', () => {
+                    loader.style.display = 'none';
+                });
+                
+                wrapper.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = mediaPath;
+                img.className = 'media-content';
+                img.alt = 'Project Demo';
+                
+                img.onload = () => {
+                    loader.style.display = 'none';
+                };
+                
+                wrapper.appendChild(img);
+            }
+        });
+    </script>
+</body>
+</html>
