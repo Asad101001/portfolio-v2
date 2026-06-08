@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>LegalEaseAI - Detail View</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x26A1;</text></svg>" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         .social-sidebar, .scroll-indicator, #experience-accordion { display: none !important; }
@@ -23,7 +24,7 @@
 </head>
 <body class="project-body">
     <div class="hero-backdrop" style="opacity: 0.15;">
-        <div class="hero-backdrop-inner" style="background-image: url('/images/projects/legalease.png');"></div>
+        <div class="hero-backdrop-inner" style="background-image: url('/images/projects/legaleaseai/legalease.png');"></div>
     </div>
     <div class="ambient-glow" style="position: fixed; inset: 0; z-index: -1; background: var(--spotlight-gradient); opacity: 0.6;"></div>
     <nav>
@@ -40,7 +41,7 @@
                 <p style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; margin-top: 8px;">اردو قانونی معاون — Urdu Legal Assistant</p>
                 
                 <div style="margin: 40px auto 0 auto; max-width: 800px;">
-                    <img src="/images/projects/legalease.png" alt="LegalEaseAI Interface" style="width:100%; border-radius:12px; border:1px solid rgba(0,255,65,0.2); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+                    <img src="/images/projects/legaleaseai/legalease.png" alt="LegalEaseAI Interface" style="width:100%; border-radius:12px; border:1px solid rgba(0,255,65,0.2); box-shadow:0 10px 30px rgba(0,0,0,0.5);">
                 </div>
             </div>
 
@@ -68,11 +69,11 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; align-items: start;">
                         <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(0,255,65,0.15); padding: 16px; border-radius: 12px;">
                             <p style="color: var(--cyan); margin-bottom: 16px; font-weight: 600; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">Urdu Retrieval-Augmented Generation (RAG) Chatbot</p>
-                            <img src="/images/projects/legalease-qa.png" alt="QA Chatbot Interface" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,65,0.2);">
+                            <img src="/images/projects/legaleaseai/legalease-qa.png" alt="QA Chatbot Interface" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,65,0.2);">
                         </div>
                         <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(0,255,65,0.15); padding: 16px; border-radius: 12px;">
                             <p style="color: var(--cyan); margin-bottom: 16px; font-weight: 600; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">Automated Contract Risk Audit Report Engine</p>
-                            <img src="/images/projects/legalease-report.png" alt="Risk Assessment Report Outline" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,65,0.2);">
+                            <img src="/images/projects/legaleaseai/legalease-report.png" alt="Risk Assessment Report Outline" style="width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,65,0.2);">
                         </div>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
                 <div class="proj-card" style="grid-column: 1 / -1;">
                     <h3 style="color: #00ff41; margin-bottom: 16px;">Technical Architecture</h3>
                     <div style="margin-bottom: 20px; text-align: center;">
-                        <img src="/images/projects/legalease-arch.png" alt="Architecture Diagram" onerror="this.style.display='none'" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="/images/projects/legaleaseai/legalease-arch.png" alt="Architecture Diagram" onerror="this.style.display='none'" style="max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
                     </div>
                     <p style="color: var(--text-dim); margin-bottom: 16px; font-size: 0.95rem;">
                         The backend extracts text via <code style="color: var(--cyan);">pdfplumber</code> and <code style="color: var(--cyan);">python-docx</code>, parses it using a LangChain <code style="color: var(--cyan);">RecursiveCharacterTextSplitter</code>, and indexes it with <code style="color: var(--cyan);">sentence-transformers</code> into a <code style="color: var(--cyan);">FAISS</code> vector space. It processes the text concurrently through Gemini/Groq APIs to generate Urdu insights and serve a RAG pipeline.
