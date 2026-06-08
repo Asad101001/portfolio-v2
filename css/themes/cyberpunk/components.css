@@ -50,13 +50,6 @@ body.theme-cyberpunk nav {
     border: none !important;
 }
 
-body.theme-cyberpunk .nav-inner {
-    background: #000000 !important;
-    border: 2px solid var(--cyan) !important;
-    box-shadow: 4px 4px 0px var(--cyan) !important;
-    backdrop-filter: none !important;
-    border-radius: 0px !important;
-}
 
 body.theme-cyberpunk .theme-trigger {
     background: var(--cyan) !important;
@@ -122,41 +115,6 @@ body.theme-cyberpunk .status-offline-dot {
 }
 
 /* Button Refinement & Improved Separation */
-body.theme-cyberpunk .btn-primary,
-body.theme-cyberpunk .nav-cta {
-    background: #000000 !important;
-    color: var(--cyan) !important;
-    border: 2px solid var(--cyan) !important;
-    box-shadow: var(--btn-shadow) !important;
-    border-radius: 0px !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    padding: 12px 24px !important;
-    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
-}
-
-body.theme-cyberpunk .btn-primary:hover,
-body.theme-cyberpunk .nav-cta:hover {
-    background: var(--purple) !important; /* Vibrant hover */
-    color: #ffffff !important;
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 6px 6px 0px var(--cyan) !important;
-}
-
-body.theme-cyberpunk .btn-secondary {
-    background: #000000 !important;
-    color: var(--cyan) !important;
-    border: 2px solid var(--cyan) !important;
-    box-shadow: var(--btn-shadow) !important;
-    border-radius: 0px !important;
-    transition: all 0.2s !important;
-}
-
-body.theme-cyberpunk .btn-secondary:hover {
-    background: var(--bg2) !important;
-    transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px var(--purple) !important;
-}
 
 body.theme-cyberpunk .btn-offline {
     background: #000000 !important;
@@ -188,10 +146,3 @@ body.theme-cyberpunk .status-pill {
     border-width: 3px !important; /* Stronger separation */
 }
 
-body.theme-cyberpunk .btn-secondary {
-    border-width: 3px !important;
-}
-
-body.theme-cyberpunk .nav-inner {
-    border-width: 3px !important;
-}

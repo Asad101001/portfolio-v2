@@ -50,13 +50,6 @@ body.theme-professional nav {
     border: none !important;
 }
 
-body.theme-professional .nav-inner {
-    background: #ffffff !important;
-    border: 2px solid #000000 !important;
-    box-shadow: 4px 4px 0px #000000 !important;
-    backdrop-filter: none !important;
-    border-radius: 0px !important;
-}
 
 body.theme-professional .theme-trigger {
     background: #000000 !important;
@@ -122,41 +115,6 @@ body.theme-professional .status-offline-dot {
 }
 
 /* Button Refinement & Improved Separation */
-body.theme-professional .btn-primary,
-body.theme-professional .nav-cta {
-    background: #000000 !important;
-    color: #ffffff !important;
-    border: 2px solid #000000 !important;
-    box-shadow: var(--btn-shadow) !important;
-    border-radius: 0px !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    padding: 12px 24px !important;
-    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1) !important;
-}
-
-body.theme-professional .btn-primary:hover,
-body.theme-professional .nav-cta:hover {
-    background: var(--purple) !important; /* Vibrant hover */
-    color: #ffffff !important;
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 6px 6px 0px #000000 !important;
-}
-
-body.theme-professional .btn-secondary {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: 2px solid #000000 !important;
-    box-shadow: var(--btn-shadow) !important;
-    border-radius: 0px !important;
-    transition: all 0.2s !important;
-}
-
-body.theme-professional .btn-secondary:hover {
-    background: var(--bg2) !important;
-    transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px #000 !important;
-}
 
 body.theme-professional .btn-offline {
     background: #ffffff !important;
@@ -194,10 +152,3 @@ body.theme-professional .status-pill {
     border-width: 3px !important; /* Stronger separation */
 }
 
-body.theme-professional .btn-secondary {
-    border-width: 3px !important;
-}
-
-body.theme-professional .nav-inner {
-    border-width: 3px !important;
-}
