@@ -280,3 +280,25 @@ body.is-scrolling *::after {
 .hero-backdrop-inner {
   will-change: transform;
 }
+
+/* ── 16. HIGH REFRESH RATE OPTIMIZATIONS (90Hz / 120Hz+) ────────
+   The (update: fast) media query targets devices capable of high
+   framerate rendering. We can elevate the experience for them.
+   ──────────────────────────────────────────────────────────── */
+@media (update: fast) {
+  /* Ultra-smooth transitions for hover states */
+  .glass-card, .project-card, .skill-chip, .tag {
+    transition-duration: 0.15s !important;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  }
+  
+  /* Enable hardware acceleration explicitly on moving parts */
+  .hero-backdrop, .hero-backdrop-inner, .magnetic, .glass-card:hover, .project-card:hover {
+    transform: translateZ(0); /* Force GPU compositing */
+  }
+
+  /* Reveal animations can be slightly faster and crisper */
+  .reveal {
+    transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  }
+}
