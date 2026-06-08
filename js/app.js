@@ -59,6 +59,12 @@ window._scrollTasks = [];
 
 /* ── DOM Ready Initializations ────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
+  // Easter Egg Console Message
+  const styleTitle = "font-size: 24px; font-weight: 800; color: #00ff41; background: #18181b; padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(0,255,65,0.3); font-family: monospace;";
+  const styleBody = "font-size: 14px; color: #a1a1aa; line-height: 1.6; font-family: monospace;";
+  console.log("%cSystem Initialized. // Muhammad Asad Khan", styleTitle);
+  console.log("%c\nHey fellow dev! Looking under the hood?\nThe source code is completely modular and built with Vanilla JS + Vite.\n\nLet's connect:\nLinkedIn: https://www.linkedin.com/in/muhammadasad101/\nGitHub:   https://github.com/Asad101001\n", styleBody);
+
   // Trigger SVG animations on scroll
   // Project SVG Drawing Trigger Task
   const projectObserver = new IntersectionObserver((entries) => {
