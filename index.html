@@ -138,13 +138,22 @@
     <script type="module" src="./js/modules/twitter.js"></script>
 
     <script>
-      if ('serviceWorker' in navigator) {
+      // Only register Service Worker in production (not on localhost)
+      if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').then(registration => {
             console.log('SW registered: ', registration);
           }).catch(registrationError => {
             console.log('SW registration failed: ', registrationError);
           });
+        });
+      } else if ('serviceWorker' in navigator) {
+        // Unregister existing SW in development to prevent Vite HMR caching issues
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+            console.log('Unregistered SW for local development.');
+          }
         });
       }
     </script>
