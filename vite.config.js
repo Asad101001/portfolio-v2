@@ -10,6 +10,11 @@ function htmlIncludePlugin() {
   return {
     name: 'html-include',
     enforce: 'pre',
+    handleHotUpdate({ file, server }) {
+      if (file.endsWith('.html') && file.includes('components')) {
+        server.ws.send({ type: 'full-reload', path: '*' });
+      }
+    },
     transformIndexHtml(html) {
       return html.replace(/<include\s+src="([^"]+)"><\/include>/g, (match, src) => {
         try {

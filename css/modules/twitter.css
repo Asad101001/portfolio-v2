@@ -200,19 +200,73 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s, color 0.2s;
   position: relative;
   z-index: 1;
+  /* Removed overflow: hidden so tape can extend past the button */
 }
+
+/* Top Crime Scene Tape - Draped over front */
+#experience-toggle::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: -30%;
+  width: 160%;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23ffcc00'/%3E%3Crect width='160' height='3' fill='%23111' y='0'/%3E%3Crect width='160' height='3' fill='%23111' y='29'/%3E%3Ctext x='80' y='23' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='18' fill='%23111' text-anchor='middle' letter-spacing='2'%3ECAUTION%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 160px 32px;
+  transform: rotate(-4deg);
+  z-index: 5;
+  pointer-events: none;
+  animation: tape-scroll-left 4s linear infinite;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+/* Bottom Crime Scene Tape - Passing behind button */
+#experience-toggle::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: -35%;
+  width: 170%;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23ffcc00'/%3E%3Crect width='200' height='3' fill='%23111' y='0'/%3E%3Crect width='200' height='3' fill='%23111' y='29'/%3E%3Ctext x='100' y='23' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='18' fill='%23111' text-anchor='middle' letter-spacing='2'%3EEXPERIENCE%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 200px 32px;
+  transform: rotate(3deg);
+  z-index: -1;
+  pointer-events: none;
+  animation: tape-scroll-right 5s linear infinite;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+@keyframes tape-scroll-left {
+  from { background-position: 0 0; }
+  to { background-position: -160px 0; }
+}
+@keyframes tape-scroll-right {
+  from { background-position: 0 0; }
+  to { background-position: 200px 0; }
+}
+
 #experience-toggle:hover {
-  background: rgba(0,255,65,0.1);
-  border-color: rgba(0,255,65,0.45);
-  box-shadow: 0 0 20px rgba(0,255,65,0.12);
+  background: rgba(255, 204, 0, 0.1);
+  border-color: rgba(255, 204, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+  color: #ffcc00;
   transform: translateY(-1px);
 }
+
 #experience-toggle.open {
-  background: rgba(0,255,65,0.08);
-  border-color: rgba(0,255,65,0.4);
+  background: rgba(255, 204, 0, 0.15);
+  border-color: rgba(255, 204, 0, 0.6);
+  color: #ffcc00;
 }
 .exp-toggle-arrow {
   display: inline-block;

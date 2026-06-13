@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    css/additions.css â€” FULL REPLACEMENT
    Contains all runtime visual additions:
    1. Hero 3D Micro-Orb
@@ -180,7 +180,7 @@
 }
 
 /* ── Hero ─────────────────────────────────────────────────── */
-#hero { min-height: 100vh; padding: 120px 16px 80px; display: flex; align-items: center; overflow: hidden; position: relative; z-index: 1; }
+#hero { min-height: 100vh; padding: 140px 24px 100px; display: flex; align-items: center; overflow: hidden; position: relative; z-index: 1; }
 
 /* Hero Backdrop Inner */
 .hero-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; will-change: transform, opacity; transform-origin: center top; transform: scale(calc(1 - var(--shrink, 0) * 0.15)); border-radius: calc(var(--shrink, 0) * 20px); opacity: calc(1 - var(--shrink, 0) * 1.2); transition: border-radius 0.15s linear; }
@@ -207,6 +207,26 @@
     linear-gradient(to bottom, transparent 0%, rgba(2, 2, 2, 0.3) 40%, rgba(2, 2, 2, 0.7) 78%, rgba(2, 2, 2, 0.95) 100%);
   background-size: 40px 40px, 40px 40px, 100% 100%;
   transition: background 0.6s ease;
+  z-index: 2;
+}
+
+.hero-backdrop-texture {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 26v8M26 30h8' stroke='rgba(255,255,255,0.12)' stroke-width='1' stroke-linecap='round'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-backdrop-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 /* Scroll Indicator */
@@ -219,16 +239,16 @@
 
 /* Hero Grid: 2-Col, 3-Row Layout */
 .hero-grid { 
-  max-width: 1100px; margin: 0 auto; 
+  max-width: 1250px; margin: 0 auto; 
   display: grid; 
   grid-template-columns: 1.15fr 0.85fr; 
   grid-template-rows: auto auto auto; 
-  gap: 18px; width: 100%; position: relative; z-index: 1; 
+  gap: 32px; width: 100%; position: relative; z-index: 1; 
 }
 
 .hero-main { 
   grid-column: 1; grid-row: 1 / span 2; 
-  padding: 40px; display: flex; flex-direction: column; gap: 16px; justify-content: center;
+  padding: 60px; display: flex; flex-direction: column; gap: 24px; justify-content: center;
   position: relative;
   background: rgba(13,13,13,0.85);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -268,9 +288,10 @@
 }
 
 /* Mapping to actual card order in hero.html */
-.hero-grid .glass-card:nth-child(3) { grid-column: 1; grid-row: 3; padding: 22px 32px; min-height: 140px; } /* Currently Into */
-.hero-grid .glass-card:nth-child(4) { grid-column: 2; grid-row: 2; padding: 22px; } /* Build Focus */
-.hero-grid .glass-card:nth-child(5) { grid-column: 2; grid-row: 3; padding: 22px; } /* Clock Widget */
+/* Reshuffled: Clock Widget (top right), Currently Into (bottom right), Build Focus (bottom left) */
+.hero-grid .glass-card:nth-child(3) { grid-column: 2; grid-row: 3; padding: 32px 40px; min-height: 160px; } /* Currently Into */
+.hero-grid .glass-card:nth-child(4) { grid-column: 1; grid-row: 3; padding: 32px; } /* Build Focus */
+.hero-grid .glass-card:nth-child(5) { grid-column: 2; grid-row: 2; padding: 32px; } /* Clock Widget */
 
 @media (max-width: 900px) { 
   .hero-grid { grid-template-columns: 1fr; grid-template-rows: auto; } 
@@ -279,20 +300,20 @@
   } 
 }
 
-.status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 2px; font-size: 0.72rem; font-weight: 600; color: var(--cyan); background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); width: fit-content; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
+.status-pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: var(--cyan); background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); width: fit-content; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: pulse-dot 2s ease-in-out infinite; }
 
-.hero-name { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: #fff; background: linear-gradient(135deg, #fff 0%, #e2e8f0 40%, #10B981 80%, #ADFF2F 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: name-gradient 6s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(16,185,129,0.22)); }
+.hero-name { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: #fff; background: linear-gradient(135deg, #fff 0%, #e2e8f0 40%, #10B981 80%, #ADFF2F 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: name-gradient 6s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(16,185,129,0.22)); }
 @keyframes name-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-.typewriter-wrap { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); min-height: 1.4em; }
+.typewriter-wrap { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--cyan); min-height: 1.4em; }
 .caret { color: var(--cyan); animation: blink 0.75s step-end infinite; }
 
-.hero-sub  { font-size: 1.05rem; font-weight: 600; color: var(--cyan); }
-.hero-desc { font-size: 0.9rem; color: var(--text-muted); }
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-.card-label { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
-.focus-list { display: flex; flex-direction: column; gap: 8px; }
-.focus-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 2px; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); background: rgba(16,185,129,0.03); border: 1px solid rgba(16,185,129,0.1); transition: color 0.2s, border-color 0.2s; }
+.hero-sub  { font-size: 1.2rem; font-weight: 600; color: var(--cyan); }
+.hero-desc { font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+.card-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+.focus-list { display: flex; flex-direction: column; gap: 12px; }
+.focus-item { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 4px; font-size: 0.95rem; font-weight: 500; color: var(--text-muted); background: rgba(16,185,129,0.03); border: 1px solid rgba(16,185,129,0.1); transition: color 0.2s, border-color 0.2s; }
 .focus-item:hover { color: var(--text); border-color: rgba(16,185,129,0.28); }
 .avail-text { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
 .avail-details { display: flex; flex-direction: column; gap: 6px; }
