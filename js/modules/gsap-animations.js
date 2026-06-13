@@ -36,14 +36,14 @@ function heroEntrance() {
     .from('.status-pill',         { opacity: 0, y: -14, duration: 0.45, ease: 'back.out(2)' }, '-=0.85')
     .from('.hero-name',           { opacity: 0, y: 36, duration: 0.7, skewY: 1.5 }, '-=0.35')
     .from('.typewriter-wrap',     { opacity: 0, y: 12, duration: 0.4 }, '-=0.3')
-    .from(['.hero-sub', '.hero-desc'], { opacity: 0, y: 18, stagger: 0.1, duration: 0.45 }, '-=0.25')
-    .from('.hero-actions > *',    { opacity: 0, scale: 0.9, y: 12, stagger: 0.08, duration: 0.45, ease: 'back.out(2)' }, '-=0.2');
+    .from(['.hero-sub', '.hero-desc'], { opacity: 0, y: 18, stagger: 0.1, duration: 0.45, clearProps: 'all' }, '-=0.25')
+    .from('.hero-actions > *',    { opacity: 0, scale: 0.9, y: 12, stagger: 0.08, duration: 0.45, ease: 'back.out(2)', clearProps: 'all' }, '-=0.2');
 
   if (!isMobile()) {
-    tl.from('.hero-side',         { opacity: 0, x: 40, duration: 0.7 }, 0.5)
-      .from('.hero-grid .glass-card:nth-child(n+3)', { opacity: 0, y: 28, stagger: 0.09, duration: 0.6 }, 0.8);
+    tl.from('.hero-side',         { opacity: 0, x: 40, duration: 0.7, clearProps: 'all' }, 0.5)
+      .from('.hero-grid .glass-card:nth-child(n+3)', { opacity: 0, y: 28, stagger: 0.09, duration: 0.6, clearProps: 'all' }, 0.8);
   } else {
-    tl.from('.hero-side', { opacity: 0, y: 24, duration: 0.6 }, 0.6);
+    tl.from('.hero-side', { opacity: 0, y: 24, duration: 0.6, clearProps: 'all' }, 0.6);
   }
 }
 
@@ -75,6 +75,7 @@ function scrollReveals() {
       stagger: 0.07,
       duration: 0.65,
       ease: 'power3.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: projectCards[0].closest('section') || projectCards[0].parentElement,
         start: 'top 85%',
@@ -90,6 +91,7 @@ function scrollReveals() {
       y: 22,
       duration: 0.6,
       ease: 'power3.out',
+      clearProps: 'all',
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     });
   });
@@ -103,6 +105,7 @@ function scrollReveals() {
       stagger: isMobile() ? 0.02 : 0.03,
       duration: 0.38,
       ease: 'back.out(1.4)',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: techItems[0].closest('section') || techItems[0].parentElement,
         start: 'top 82%',
@@ -121,6 +124,7 @@ function scrollReveals() {
       stagger: 0.1,
       duration: 0.55,
       ease: 'power3.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: expItems[0].closest('section') || expItems[0].parentElement,
         start: 'top 82%',
@@ -138,6 +142,7 @@ function scrollReveals() {
       stagger: 0.08,
       duration: 0.5,
       ease: 'back.out(1.5)',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: statCards[0].closest('section') || statCards[0].parentElement,
         start: 'top 85%',
@@ -155,6 +160,7 @@ function scrollReveals() {
       stagger: 0.09,
       duration: 0.55,
       ease: 'power3.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: eduCards[0].closest('section') || eduCards[0].parentElement,
         start: 'top 85%',
@@ -172,6 +178,7 @@ function scrollReveals() {
       stagger: 0.06,
       duration: 0.5,
       ease: 'power3.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: socialCards[0].closest('section') || socialCards[0].parentElement,
         start: 'top 85%',

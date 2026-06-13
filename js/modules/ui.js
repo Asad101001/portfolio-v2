@@ -382,12 +382,22 @@
       var f = b.getAttribute('data-filter');
       domains.forEach(d => {
         var k = d.getAttribute('data-domain');
+        if (d._hideTimer) clearTimeout(d._hideTimer);
+        if (d._showTimer) clearTimeout(d._showTimer);
+        
         if (f === 'all' || k === f) { 
           d.style.display = 'block'; 
-          setTimeout(() => d.classList.remove('hidden-domain'), 10); 
+          d._showTimer = setTimeout(() => {
+            d.classList.remove('hidden-domain');
+            // Re-trigger GSAP scroll trigger for elements that just became visible
+            if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+          }, 10); 
         } else { 
           d.classList.add('hidden-domain'); 
-          setTimeout(() => d.style.display = 'none', 300); 
+          d._hideTimer = setTimeout(() => {
+            d.style.display = 'none';
+            if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+          }, 300); 
         }
       });
     });
