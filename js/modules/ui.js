@@ -4,7 +4,7 @@
 // Ensure smoothTransition helper exists as a fallback
 // window.smoothTransition is handled by animations.js
 
-/* ── Shooting Stars ─────────────────────────────────────── */
+/* ── Shooting Stars (desktop only, low freq) ─────────────── */
 (function () {
   if (window._isMobile) return;
   function spawn() {
@@ -16,44 +16,12 @@
     document.body.appendChild(el);
     setTimeout(function () { el.remove(); }, 3000);
   }
-  setInterval(function () { 
-    if (Math.random() < 0.25 && !document.hidden) spawn(); 
-  }, 6000);
-  setTimeout(spawn, 2500);
-
-  /* New Fizz Effect */
-  function spawnFizz() {
-    if (document.hidden) return;
-    var f = document.createElement('div');
-    f.style.cssText = `
-      position: fixed;
-      width: ${2 + Math.random() * 4}px;
-      height: ${2 + Math.random() * 4}px;
-      background: var(--cyan);
-      opacity: 0.4;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      left: ${Math.random() * 100}vw;
-      bottom: -10px;
-      box-shadow: 0 0 10px var(--cyan);
-      animation: fizz-up ${6 + Math.random() * 6}s linear forwards;
-    `;
-    document.body.appendChild(f);
-    setTimeout(() => f.remove(), 12000);
-  }
-  setInterval(spawnFizz, 800);
+  // Only spawn occasionally — no performance impact
+  setInterval(function () {
+    if (Math.random() < 0.2 && !document.hidden) spawn();
+  }, 12000);
+  setTimeout(spawn, 3500);
 })();
-
-/* Add Fizz CSS to head */
-var fizzStyle = document.createElement('style');
-fizzStyle.textContent = `@keyframes fizz-up { 
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 0.4; }
-  50% { transform: translateY(-50vh) translateX(${Math.random() * 40 - 20}px); }
-  100% { transform: translateY(-110vh) translateX(${Math.random() * 60 - 30}px); opacity: 0; }
-}`;
-document.head.appendChild(fizzStyle);
 
 /* ── Global Mouse Tracking for Glows ────────────────────── */
 (function () {
@@ -324,26 +292,29 @@ document.head.appendChild(fizzStyle);
   }
 })();
 
-/* ── Section Reveal Stagger ───────────────────────────── */
+/* ── Section Reveal Stagger (section-in only — .reveal handled by GSAP) ── */
 (function () {
   var staggerParents = document.querySelectorAll('.projects-grid, .working-on-grid, .social-cards-grid, .demo-grid, .about-stats-col');
   staggerParents.forEach(p => Array.prototype.forEach.call(p.children, c => c.classList.add('s-child')));
-  if (!window.IntersectionObserver) { document.querySelectorAll('.section-in, .reveal').forEach(s => s.classList.add('in-view', 'visible')); return; }
+  if (!window.IntersectionObserver) {
+    document.querySelectorAll('.section-in').forEach(s => s.classList.add('in-view'));
+    return;
+  }
   var obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('in-view', 'visible'); 
-        // If it's a parent container (like a project card), reveal acards inside with stagger
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
         e.target.querySelectorAll('.acard').forEach((c, i) => {
           if (!c.classList.contains('in-view')) {
             setTimeout(() => c.classList.add('in-view'), i * 35);
           }
         });
-        obs.unobserve(e.target); 
+        obs.unobserve(e.target);
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-  document.querySelectorAll('.section-in, .reveal, .proj-tags').forEach(s => obs.observe(s));
+  // Only observe .section-in — GSAP handles .reveal
+  document.querySelectorAll('.section-in, .proj-tags').forEach(s => obs.observe(s));
 })();
 
 /* ── Experience Accordion ── */

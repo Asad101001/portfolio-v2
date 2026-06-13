@@ -226,49 +226,45 @@
 
 .hero-backdrop-overlay {
   position: absolute; inset: 0;
-  /* Fine dot grid */
+  /* Fine dot grid — compositor only */
   background-image:
-    radial-gradient(circle, rgba(16,185,129,0.18) 1px, transparent 1px),
-    radial-gradient(circle, rgba(168,85,247,0.06) 1px, transparent 1px);
+    radial-gradient(circle, rgba(16,185,129,0.15) 1px, transparent 1px),
+    radial-gradient(circle, rgba(168,85,247,0.05) 1px, transparent 1px);
   background-size: 28px 28px, 56px 56px;
   background-position: 0 0, 14px 14px;
-  /* Vignette + bottom fade */
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%, black 75%, transparent 100%),
-    radial-gradient(ellipse 85% 70% at 50% 40%, black 40%, transparent 100%);
-  mask-image:
-    linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%, black 75%, transparent 100%),
-    radial-gradient(ellipse 85% 70% at 50% 40%, black 40%, transparent 100%);
-  -webkit-mask-composite: intersect;
-  mask-composite: intersect;
-  transition: opacity 0.6s ease;
   z-index: 2;
   pointer-events: none;
+  opacity: 0.7;
 }
 
-/* Dark bottom gradient scrim */
-.hero-backdrop-overlay::after {
-  content: '';
+/* Dark scrim — separate layer, no mask-composite needed */
+.hero-backdrop-scrim {
   position: absolute; inset: 0;
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    transparent 40%,
-    rgba(2,2,2,0.55) 68%,
-    rgba(2,2,2,0.96) 100%
+    rgba(2,2,2,0)   0%,
+    rgba(2,2,2,0)   35%,
+    rgba(2,2,2,0.6) 70%,
+    rgba(2,2,2,0.97) 100%
   );
+  z-index: 3;
   pointer-events: none;
 }
 
 .hero-backdrop-texture {
   position: absolute; inset: 0;
-  /* Film grain */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   background-size: 180px 180px;
-  opacity: 0.045;
+  opacity: 0.04;
   mix-blend-mode: screen;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hero-backdrop-overlay { display: none; } /* Remove dot grid on mobile */
+  .hero-backdrop-texture  { display: none; } /* Remove grain on mobile */
+  .hero-orb { display: none !important; }    /* No blur orbs on mobile */
 }
 
 /* Scroll Indicator */

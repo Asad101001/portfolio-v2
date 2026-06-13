@@ -297,8 +297,5 @@ body.is-scrolling *::after {
     transform: translateZ(0); /* Force GPU compositing */
   }
 
-  /* Reveal animations can be slightly faster and crisper */
-  .reveal {
-    transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  }
+  /* Reveal animations handled by GSAP — no CSS transition override needed */
 }

@@ -132,13 +132,16 @@ img { transition: opacity 0.3s ease; }
   }
 }
 
-/* -- Reveal Animation  with extra fizz -------------------- */
-.reveal { 
-  opacity: 0; 
-  transform: translateY(15px) scale(0.98); 
-  transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1); 
+/* -- Reveal Animation — managed by GSAP (js/modules/gsap-animations.js) ---
+   CSS fallback for no-JS environments only. GSAP's disableCSSReveal()
+   injects a rule that resets these on boot so they don't conflict.
+*/
+.reveal {
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
 }
-.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+/* JS adds .visible once GSAP has animated it — used as a state marker */
+.reveal.visible { opacity: 1; transform: none; }
 
 /*  Completed Stamp & Slam Animation  */
 .completed-stamp {

@@ -172,18 +172,8 @@
   .stagger-item {
     --delay: 100ms !important;
   }
+  /* NOTE: .reveal is animated by GSAP — no CSS opacity/transform here */
 
-  .reveal {
-    transform: translateY(15px);
-    opacity: 0;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s ease !important;
-    will-change: transform, opacity;
-  }
-  
-  .reveal.in-view {
-    transform: translateY(0);
-    opacity: 1;
-  }
 
   /* ── Navigation ────────────────────────────────────────── */
   .nav-inner {
@@ -315,6 +305,31 @@
       line-height: 1.4 !important;
       white-space: normal !important;
       word-break: break-word !important;
+  }
+
+  /* ── Experience Toggle Tape — clip overflow on mobile ───── */
+  #experience-toggle {
+    overflow: visible !important;
+    margin-left: 20px !important; /* Offset so tape doesn't clip outside screen */
+  }
+  #experience-toggle::before,
+  #experience-toggle::after {
+    width: 130% !important;
+    left: -15% !important;
+  }
+
+  /* ── Hero grid all-single-col ────────────────────────────── */
+  .hero-main,
+  .hero-side,
+  .hero-grid .glass-card:nth-child(n) {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+  }
+
+  /* ── GSAP scroll progress bar ────────────────────────────── */
+  #gsap-scroll-bar {
+    height: 3px !important;
   }
 }
 
