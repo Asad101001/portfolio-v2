@@ -143,6 +143,36 @@ body.theme-cyberpunk .r-dot.active {
 /* Strengthen Global Key Outlines */
 body.theme-cyberpunk .tag-pill,
 body.theme-cyberpunk .status-pill {
-    border-width: 3px !important; /* Stronger separation */
+    border-width: 3px !important;
 }
 
+/* Mobile Bottom Nav — Cyberpunk theme */
+body.theme-cyberpunk .mobile-bottom-nav {
+    background: rgba(0, 0, 0, 0.9) !important;
+    border: 1px solid var(--cyan) !important;
+    border-radius: 0px !important;
+    box-shadow: 0 0 20px rgba(0, 255, 249, 0.15) !important;
+}
+body.theme-cyberpunk .mbn-item {
+    color: var(--text-muted) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    border-radius: 0 !important;
+}
+body.theme-cyberpunk .mbn-item:hover,
+body.theme-cyberpunk .mbn-item.active {
+    color: var(--cyan) !important;
+    background: rgba(0, 255, 249, 0.08) !important;
+}
+body.theme-cyberpunk .mbn-item.active::before {
+    background: var(--cyan) !important;
+    box-shadow: 0 0 12px var(--cyan) !important;
+    border-radius: 0 !important;
+}
+body.theme-cyberpunk .mbn-cta {
+    border: 1px solid var(--cyan) !important;
+    border-radius: 0 !important;
+    color: var(--cyan) !important;
+    box-shadow: 2px 2px 0px var(--cyan) !important;
+}

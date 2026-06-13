@@ -87,9 +87,27 @@
   if (window.IntersectionObserver) {
     sections.forEach(function (id, idx) {
       var el = document.getElementById(id);
-      if (el) new IntersectionObserver(e => { if (e[0].isIntersecting) updateDots(idx); }, { threshold: 0.3 }).observe(el);
+      if (el) new IntersectionObserver(e => {
+        if (e[0].isIntersecting) {
+          updateDots(idx);
+          // Also update mobile bottom nav active state
+          var mbnItems = document.querySelectorAll('.mbn-item:not(.mbn-cta)');
+          mbnItems.forEach(function(item, j) {
+            item.classList.toggle('active', j === idx);
+          });
+        }
+      }, { threshold: 0.3 }).observe(el);
     });
   }
+
+  // Close mobile nav on link click (scroll to section)
+  document.querySelectorAll('.mbn-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      // Small haptic-style visual feedback
+      this.style.transform = 'scale(0.92)';
+      setTimeout(() => { this.style.transform = ''; }, 150);
+    });
+  });
 
   window.addEventListener('keydown', function(e) {
     if (e.key === 'PageDown' || e.key === 'PageUp') {
@@ -97,7 +115,7 @@
       const scrollPos = window.scrollY;
       const sectionStarts = sections.map(id => {
         const el = document.getElementById(id);
-        return el ? el.offsetTop - 80 : 0; // subtract 80 for scroll-padding-top
+        return el ? el.offsetTop - 80 : 0;
       });
 
       let curIdx = 0;
@@ -109,14 +127,12 @@
       if (nextIdx >= 0 && nextIdx < sections.length) {
         const targetTop = sectionStarts[nextIdx];
         window.scrollTo({ top: targetTop, behavior: 'smooth' });
-        
-        // If PageDown and specifically targeting last section, ensure we can hit the bottom
         if (e.key === 'PageDown' && nextIdx === sections.length - 1) {
           setTimeout(() => {
             if (window.innerHeight + window.scrollY < document.body.offsetHeight - 50) {
               window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }
-          }, 400); // Wait for smooth scroll to near-completion
+          }, 400);
         }
       }
     }

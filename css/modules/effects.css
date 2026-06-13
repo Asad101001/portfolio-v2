@@ -191,10 +191,14 @@ section::before {
 #back-to-top { position: fixed; bottom: 80px; right: 28px; z-index: 150; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: rgba(4,6,13,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.45); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s, border-color 0.2s; opacity: 0; transform: translateY(12px); pointer-events: none; }
 #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
 #back-to-top:hover { color: var(--cyan); border-color: rgba(16,185,129,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 24px rgba(16,185,129,0.2); }
+@media (max-width: 768px) { #back-to-top { bottom: 100px; right: 16px; } }
+
 
 /* ── Toast ────────────────────────────────────────────────── */
 #toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 400; pointer-events: none; padding: 10px 20px; border-radius: 12px; background: rgba(4,6,13,0.92); border: 1px solid rgba(16,185,129,0.22); font-size: 0.82rem; font-weight: 600; color: var(--text); backdrop-filter: blur(16px); opacity: 0; transition: all 0.3s ease; white-space: nowrap; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (max-width: 768px) { #toast { bottom: 110px; } }
+
 
 /* ── Ripple ───────────────────────────────────────────────── */
 @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
