@@ -87,25 +87,40 @@
   if (window.IntersectionObserver) {
     sections.forEach(function (id, idx) {
       var el = document.getElementById(id);
-      if (el) new IntersectionObserver(e => {
-        if (e[0].isIntersecting) {
+      if (el) new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
           updateDots(idx);
-          // Also update mobile bottom nav active state
-          var mbnItems = document.querySelectorAll('.mbn-item:not(.mbn-cta)');
-          mbnItems.forEach(function(item, j) {
-            item.classList.toggle('active', j === idx);
+          // Update mobile bottom nav — map sub-sections to main nav items
+          var mbnItems = document.querySelectorAll('.mbn-item:not(.mbn-cta):not([href="#certifications"])');
+          var targetHref = '#' + id;
+          if (id === 'demo' || id === 'tech') targetHref = '#projects';
+          if (id === 'education') targetHref = '#about'; // or we can leave it unmapped, but this keeps the indicator active
+          
+          mbnItems.forEach(function(item) {
+            var href = item.getAttribute('href');
+            item.classList.toggle('active', href === targetHref);
           });
         }
-      }, { threshold: 0.3 }).observe(el);
+      }, { threshold: 0.35 }).observe(el);
     });
   }
 
-  // Close mobile nav on link click (scroll to section)
+  // Mobile bottom nav tap: spring bounce + vibration
   document.querySelectorAll('.mbn-item').forEach(function(item) {
-    item.addEventListener('click', function() {
-      // Small haptic-style visual feedback
-      this.style.transform = 'scale(0.92)';
-      setTimeout(() => { this.style.transform = ''; }, 150);
+    item.addEventListener('click', function(e) {
+      // Vibrate for haptic feedback (where supported)
+      if (navigator.vibrate) navigator.vibrate(8);
+      // Spring bounce via CSS transform
+      var el = this;
+      el.style.transition = 'transform 0.1s cubic-bezier(0.34,1.56,0.64,1)';
+      el.style.transform  = 'scale(0.82)';
+      setTimeout(function() {
+        el.style.transform = 'scale(1.08)';
+        setTimeout(function() {
+          el.style.transform = '';
+          el.style.transition = '';
+        }, 200);
+      }, 80);
     });
   });
 
@@ -191,7 +206,20 @@
   if (!drawer) return;
   function open()  { window.smoothTransition(() => { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; }); }
   function close() { window.smoothTransition(() => { drawer.classList.remove('open'); document.body.style.overflow = ''; }); }
-  document.querySelectorAll('a[href="#certifications"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); open(); }));
+  
+  // Toggle on certs click
+  document.querySelectorAll('a[href="#certifications"]').forEach(a => a.addEventListener('click', e => { 
+    e.preventDefault(); 
+    if (drawer.classList.contains('open')) close(); else open(); 
+  }));
+  
+  // Close on other nav links click
+  document.querySelectorAll('.nav-links a:not([href="#certifications"]), .mobile-bottom-nav a:not([href="#certifications"])').forEach(a => {
+    a.addEventListener('click', () => {
+      if (drawer.classList.contains('open')) close();
+    });
+  });
+
   if (backdrop) backdrop.addEventListener('click', close);
   if (closeBtn) closeBtn.addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
@@ -203,6 +231,12 @@
   if (navEl) {
     var lastHideY = 0;
     window._scrollTasks.push(() => {
+      // On mobile, the bottom nav is inside <nav> — never hide the nav shell
+      // The CSS hides .nav-inner on mobile, so we only need this on desktop
+      if (window.innerWidth <= 768) {
+        navEl.classList.remove('nav-hidden'); // keep visible so bottom nav shows
+        return;
+      }
       if (window._scrollY > 90 && window._scrollDir > 0 && window._scrollY - lastHideY > 8) navEl.classList.add('nav-hidden');
       else if (window._scrollDir < 0 || window._scrollY < 90) { navEl.classList.remove('nav-hidden'); lastHideY = window._scrollY; }
     });

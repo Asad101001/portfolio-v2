@@ -14,6 +14,14 @@
     position: relative;
   }
 
+  /* Professional theme is allowed to stay white on mobile */
+
+  /* Prevent `<nav>` from creating a containing block for `position: fixed` children */
+  nav {
+    will-change: auto !important;
+    transform: none !important;
+  }
+
   section {
     padding: 50px 18px;
     width: 100%;
@@ -26,7 +34,7 @@
   }
 
   #back-to-top {
-    bottom: 30px !important;
+    bottom: max(140px, calc(env(safe-area-inset-bottom) + 120px)) !important;
     right: 20px !important;
     transform: scale(0.9) !important;
   }
@@ -47,8 +55,9 @@
 
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
-    padding-top: 130px !important;
-    min-height: auto;
+    /* Top nav is hidden on mobile, so less padding needed */
+    padding-top: 60px !important;
+    min-height: 100dvh;
     overflow: hidden;
   }
 
@@ -59,9 +68,17 @@
   }
 
   .hero-main {
-    padding: 30px 20px !important;
+    padding: 32px 22px !important;
     text-align: center;
     align-items: center;
+    /* Force dark background — perf.css strips backdrop-filter */
+    background: rgba(13, 13, 13, 0.92) !important;
+  }
+
+  /* Ensure all hero glass cards keep dark bg on mobile */
+  .hero-grid .glass-card {
+    background: rgba(10, 10, 12, 0.9) !important;
+    border-color: rgba(16, 185, 129, 0.12) !important;
   }
 
   .hero-name {

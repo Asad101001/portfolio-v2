@@ -61,7 +61,8 @@ body::before {
 .hero-backdrop-inner,
 .hero-backdrop,
 #cursor-glow,
-#bg-canvas {
+#bg-canvas,
+#hero-ink-mask {
   will-change: transform;
 }
 
@@ -218,8 +219,11 @@ html {
    Kill all expensive filters and complex transitions.
    ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Disable all blur effects on mobile - huge battery/FPS win */
-  *, *::before, *::after {
+  /* Disable all blur effects on mobile - huge battery/FPS win
+     Exception: mobile-bottom-nav MUST keep its blur for glass effect */
+  *:not(.mobile-bottom-nav):not(#hero-ink-mask),
+  *:not(.mobile-bottom-nav)::before,
+  *:not(.mobile-bottom-nav)::after {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -231,11 +235,12 @@ html {
     will-change: auto !important;
   }
 
-  /* Simplify cards for mobile */
+  /* Simplify cards for mobile - keep background intact! */
   .glass-card, .project-card, .social-platform-card {
     transition: border-color 0.2s, background 0.2s !important;
     transform: none !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+    /* background preserved via mobile.css overrides */
   }
   
   /* Disable magnetic/tilt logic in CSS */
@@ -263,7 +268,8 @@ body.is-scrolling .hero-backdrop-texture {
   opacity: 0 !important;
 }
 
-body.is-scrolling *,
+/* Only wipe masks on non-hero elements during scroll to avoid erasing ink canvas */
+body.is-scrolling *:not(#hero-ink-mask):not(#hero-ink-mask *),
 body.is-scrolling *::before,
 body.is-scrolling *::after {
   /* Only remove masks — no pointer-event kill */

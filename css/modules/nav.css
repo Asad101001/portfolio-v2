@@ -1,6 +1,6 @@
 /* ============================================================
    css/modules/nav.css
-   Desktop pill nav + mobile bottom navigation bar
+   Desktop pill nav + iOS 26 Liquid Glass mobile bottom nav
    ============================================================ */
 
 /* ── Top Nav Shell ─────────────────────────────────────────── */
@@ -107,15 +107,9 @@ nav.nav-hidden {
   .nav-links { display: none; }
   .desktop-only { display: none !important; }
 }
-/* Show abbreviated links on tablet (601-900px) */
 @media (min-width: 601px) and (max-width: 900px) {
-  .nav-links {
-    display: flex;
-  }
-  .nav-links a {
-    padding: 5px 10px;
-    font-size: 0.77rem;
-  }
+  .nav-links { display: flex; }
+  .nav-links a { padding: 5px 10px; font-size: 0.77rem; }
 }
 
 /* ── Side Section Dots ─────────────────────────────────────── */
@@ -192,135 +186,243 @@ nav.nav-hidden {
 @media (max-width: 900px) {
   #section-dots { display: none !important; }
 }
-
 .project-body #section-dots { display: none !important; }
 
-/* ═══════════════════════════════════════════════════════════
-   MOBILE BOTTOM NAVIGATION BAR
-   Fixed to bottom of screen on ≤768px
-   Glass pill — matches top nav design language exactly
-   ═══════════════════════════════════════════════════════════ */
-.mobile-bottom-nav {
-  display: none; /* hidden by default, shown on mobile */
-}
 
+/* ═══════════════════════════════════════════════════════════════
+   iOS 26 LIQUID GLASS MOBILE BOTTOM NAV
+   The definitive Apple-inspired frosted glass pill navigation.
+   ═══════════════════════════════════════════════════════════════ */
+
+.mobile-bottom-nav {
+  display: none;
+}
 @media (max-width: 768px) {
-  /* Hide top nav pill on mobile — bottom bar takes over */
+
+  /* ── Hide top nav pill on mobile, theme trigger moved to hero name ── */
   .nav-inner {
-    /* Keep brand + very compact layout */
-    padding: 7px 16px;
-    border-radius: 999px;
+    display: none !important;
   }
 
-  /* Show bottom nav */
+  /* .nav-links and .nav-actions are hidden below */
+
+  /* ── The glass pill container ───────────────────────────── */
   .mobile-bottom-nav {
     display: flex;
     align-items: center;
     justify-content: space-around;
     position: fixed;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    z-index: 200;
-    padding: 8px 6px;
-    background: rgba(10, 10, 13, 0.72);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 22px;
+    bottom: max(16px, env(safe-area-inset-bottom, 16px));
+    left: 14px;
+    right: 14px;
+    z-index: 300;
+    padding: 6px 4px;
+    /* Multi-layer glass stack */
+    background:
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.10) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        rgba(255, 255, 255, 0.06) 100%
+      );
+    backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      0 -4px 32px rgba(0, 0, 0, 0.5),
-      0 8px 40px rgba(0, 0, 0, 0.6);
-    gap: 2px;
+      /* Ambient outer glow */
+      0 8px 40px rgba(0, 0, 0, 0.55),
+      0 2px 8px rgba(0, 0, 0, 0.35),
+      /* Inner glass highlight */
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+      /* Subtle inner shadow for depth */
+      inset 0 0 24px rgba(255, 255, 255, 0.02);
+    gap: 0;
+    /* Overflow so active pill can bleed */
+    overflow: visible;
+    /* Specular highlight as pseudo before */
+    isolation: isolate;
   }
 
+  /* Inner shine layer */
+  .mobile-bottom-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Grain texture overlay for premium feel */
+  .mobile-bottom-nav::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Each nav item ──────────────────────────────────────── */
   .mbn-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
-    padding: 7px 10px;
-    border-radius: 14px;
-    color: var(--text-muted);
-    transition: color 0.18s, background 0.18s;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 6px;
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.45);
     flex: 1;
     min-width: 0;
     text-decoration: none;
     position: relative;
+    z-index: 1;
+    /* Spring transition */
+    transition:
+      color 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
   }
+
+  .mbn-item:active {
+    transform: scale(0.88);
+  }
+
+  /* ── Icon ───────────────────────────────────────────────── */
   .mbn-item svg {
-    width: 19px; height: 19px;
-    stroke: currentColor; fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round; stroke-linejoin: round;
+    width: 22px; height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     flex-shrink: 0;
+    transition: stroke 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: block;
   }
+
+  /* ── Label ──────────────────────────────────────────────── */
   .mbn-item span {
-    font-size: 0.6rem;
+    font-size: 0.56rem;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
     text-align: center;
     font-family: 'Space Grotesk', sans-serif;
+    transition: color 0.22s ease, opacity 0.22s ease;
+    display: block;
+    line-height: 1;
   }
-  .mbn-item:hover,
+
+  /* ── ACTIVE STATE: Liquid Glass Pill ────────────────────── */
   .mbn-item.active {
-    color: var(--cyan);
-    background: rgba(16, 185, 129, 0.1);
+    color: var(--cyan, #10B981);
+    background: rgba(16, 185, 129, 0.15);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+      0 0 20px rgba(16, 185, 129, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.2);
   }
+
+  .mbn-item.active svg {
+    transform: scale(1.12) translateY(-1px);
+    stroke: var(--cyan, #10B981);
+    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+  }
+
+  .mbn-item.active span {
+    color: var(--cyan, #10B981);
+  }
+
+  /* Active indicator dot above icon */
   .mbn-item.active::before {
     content: '';
     position: absolute;
-    top: 0; left: 50%;
+    top: 4px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 20px; height: 2px;
-    border-radius: 0 0 2px 2px;
-    background: var(--cyan);
-    box-shadow: 0 0 8px var(--cyan);
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--cyan, #10B981);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+    opacity: 0.9;
   }
 
-  /* Resume CTA item — accent colored */
+  /* ── Resume CTA item: Accent glass pill ─────────────────── */
   .mbn-item.mbn-cta {
-    color: var(--cyan);
-    background: rgba(16, 185, 129, 0.08);
-    border: 1px solid rgba(16, 185, 129, 0.18);
-    border-radius: 14px;
+    color: var(--cyan, #10B981);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    border-radius: 18px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 16px rgba(16, 185, 129, 0.12);
+    padding: 8px 10px;
   }
-  .mbn-item.mbn-cta:hover {
-    background: rgba(16, 185, 129, 0.18);
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: 0 0 18px rgba(16, 185, 129, 0.2);
-    color: #fff;
+
+  .mbn-item.mbn-cta::before {
+    display: none;
   }
-  .mbn-item.mbn-cta::before { display: none; }
 
-  /* Ensure content doesn't get hidden behind bottom nav */
-  body { padding-bottom: 90px; }
+  .mbn-item.mbn-cta:active {
+    background: rgba(16, 185, 129, 0.22);
+    transform: scale(0.9);
+  }
 
-  /* Top nav stays minimal on mobile — just brand */
+  .mbn-item.mbn-cta svg {
+    stroke: var(--cyan, #10B981);
+  }
+
+  /* ── Safe area + content padding ───────────────────────── */
+  body {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ── Desktop leftovers: hide ────────────────────────────── */
   .nav-links { display: none !important; }
   .desktop-only { display: none !important; }
-  .mobile-nav { display: none !important; } /* kill old hamburger if any residue */
+  .mobile-nav { display: none !important; }
 }
 
-/* Extra-small screens — tighter bottom nav */
+/* ── Extra-small (≤380px): compact ──────────────────────── */
 @media (max-width: 380px) {
   .mobile-bottom-nav {
-    left: 8px;
-    right: 8px;
-    padding: 6px 2px;
+    left: 10px;
+    right: 10px;
+    padding: 5px 2px;
+    border-radius: 22px;
   }
   .mbn-item {
-    padding: 6px 6px;
+    padding: 7px 4px;
+    gap: 3px;
   }
   .mbn-item span {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
   }
   .mbn-item svg {
-    width: 17px; height: 17px;
+    width: 20px; height: 20px;
+  }
+  .mbn-item.mbn-cta {
+    padding: 7px 6px;
   }
 }

@@ -56,9 +56,8 @@
         window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme } }));
     }
 
-    // Initialize Toggles found in the Navbar (Branding Text)
     function initToggle() {
-        const triggers = document.querySelectorAll('.theme-trigger');
+        const triggers = document.querySelectorAll('.theme-trigger, .mobile-theme-trigger');
         
         if (triggers.length === 0) {
             console.warn('[Theme] No .theme-trigger elements found in DOM.');

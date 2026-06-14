@@ -73,7 +73,7 @@ body.is-ready nav {
   .social-cards-grid { grid-template-columns: 1fr; gap: 12px; }
   .social-right { margin-top: 32px; }
   .social-heading { font-size: 1.8rem; }
-  #back-to-top  { right: 16px; bottom: 72px; }
+  #back-to-top  { right: 16px; bottom: 140px; }
   .hero-orb { display: none; }
   .faller, .hero-spark { display: none; }
 }
@@ -91,7 +91,7 @@ body.is-ready nav {
 }
 @supports (padding: env(safe-area-inset-left)) {
   nav { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
-  #back-to-top  { bottom: max(72px, calc(env(safe-area-inset-bottom) + 52px)); }
+  #back-to-top  { bottom: max(140px, calc(env(safe-area-inset-bottom) + 120px)); }
 }
 @media (hover: none) {
   .glass-card:hover { transform: none; }
