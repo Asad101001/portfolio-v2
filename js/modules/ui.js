@@ -26,9 +26,18 @@
 /* â”€â”€ Global Mouse Tracking for Glows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   if (window._isMobile) return;
+  var ticking = false, mx = 0, my = 0;
   document.addEventListener('mousemove', function (e) {
-    document.documentElement.style.setProperty('--x', e.clientX + 'px');
-    document.documentElement.style.setProperty('--y', e.clientY + 'px');
+    mx = e.clientX;
+    my = e.clientY;
+    if (!ticking) {
+      requestAnimationFrame(function () {
+        document.documentElement.style.setProperty('--x', mx + 'px');
+        document.documentElement.style.setProperty('--y', my + 'px');
+        ticking = false;
+      });
+      ticking = true;
+    }
   }, { passive: true });
 })();
 

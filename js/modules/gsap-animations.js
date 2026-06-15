@@ -14,6 +14,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Global optimizations for smoothness
+gsap.defaults({
+  force3D: true,
+  ease: 'power3.out'
+});
+ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
 const isMobile = () => window._isMobile || window.innerWidth < 768;
 
 /* ─── Strip CSS reveal opacity so GSAP takes full control ──────── */
@@ -21,7 +27,7 @@ function disableCSSReveal() {
   // Inject a rule that resets .reveal opacity so GSAP starts clean
   const s = document.createElement('style');
   s.id = 'gsap-reveal-reset';
-  s.textContent = '.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }';
+  s.textContent = '.reveal { opacity: 1; transform: none; transition: none; }';
   document.head.appendChild(s);
 }
 
@@ -30,7 +36,7 @@ function heroEntrance() {
   // Guard — elements must exist
   if (!document.querySelector('.hero-name')) return;
 
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } });
 
   tl.from('.hero-backdrop-inner', { opacity: 0, scale: 1.06, duration: 1.2 })
     .from('.status-pill',         { opacity: 0, y: -14, duration: 0.45, ease: 'back.out(2)' }, '-=0.85')
@@ -59,6 +65,7 @@ function floatingOrbs() {
       repeat: -1,
       yoyo: true,
       delay: i * 1.8,
+      force3D: true
     });
   });
 }
@@ -106,6 +113,7 @@ function scrollReveals() {
       duration: 0.38,
       ease: 'back.out(1.4)',
       clearProps: 'all',
+      force3D: true,
       scrollTrigger: {
         trigger: techItems[0].closest('section') || techItems[0].parentElement,
         start: 'top 82%',
@@ -195,21 +203,26 @@ function heroParallax() {
   const cards = document.querySelectorAll('.hero-grid .glass-card');
   if (!hero || !cards.length) return;
 
+  // Use gsap.quickTo for maximum performance on high-frequency events like mousemove
+  const xSetters = Array.from(cards).map(c => gsap.quickTo(c, "x", { duration: 0.9, ease: "power2.out" }));
+  const ySetters = Array.from(cards).map(c => gsap.quickTo(c, "y", { duration: 0.9, ease: "power2.out" }));
+
   hero.addEventListener('mousemove', e => {
     const r = hero.getBoundingClientRect();
     const mx = (e.clientX - r.left - r.width  / 2) / r.width;
     const my = (e.clientY - r.top  - r.height / 2) / r.height;
-    gsap.to(cards, {
-      x: i => mx * (3 + i * 1.2),
-      y: i => my * (2.5 + i),
-      duration: 0.9,
-      ease: 'power2.out',
-      overwrite: 'auto',
+    
+    cards.forEach((_, i) => {
+      xSetters[i](mx * (3 + i * 1.2));
+      ySetters[i](my * (2.5 + i));
     });
   }, { passive: true });
 
   hero.addEventListener('mouseleave', () => {
-    gsap.to(cards, { x: 0, y: 0, duration: 1, ease: 'power3.out' });
+    cards.forEach((_, i) => {
+      xSetters[i](0);
+      ySetters[i](0);
+    });
   });
 }
 

@@ -57,11 +57,13 @@
     }
   }, { passive: true });
 
-  document.addEventListener('touchend', function(e) {
-    const card = e.target.closest('.glass-card');
-    if (card) {
-      card.style.transform = '';
-    }
-  }, { passive: true });
+  ['touchend', 'touchcancel'].forEach(evt => {
+    document.addEventListener(evt, function(e) {
+      const card = e.target.closest('.glass-card');
+      if (card) {
+        card.style.transform = '';
+      }
+    }, { passive: true });
+  });
 
 })();

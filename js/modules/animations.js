@@ -233,7 +233,7 @@
     }
 
     function initScrambleHeaders() {
-        const headers = document.querySelectorAll('.section-title, .card-label, .hero-name');
+        const headers = document.querySelectorAll('.section-title, .card-label');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !entry.target.hasAttribute('data-scrambled')) {
