@@ -27,29 +27,67 @@ nav.nav-hidden {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 9px 20px;
-  background: rgba(13, 13, 13, 0.65);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 7px 16px 7px 20px;
+  /* Glossy: enough dark base that text is readable, enough transparency for bg bleed */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(8, 8, 12, 0.72) 40%,
+    rgba(5, 5, 8, 0.82) 100%
+  );
+  backdrop-filter: blur(52px) saturate(200%) brightness(1.04);
+  -webkit-backdrop-filter: blur(52px) saturate(200%) brightness(1.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.20); /* specular top edge */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 8px 32px rgba(0, 0, 0, 0.55);
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),  /* inner top shine */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 4px 6px rgba(0, 0, 0, 0.12),
+    0 14px 44px rgba(0, 0, 0, 0.6);
   border-radius: 999px;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
+/* Specular gloss sweep across pill top */
+.nav-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.02) 35%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.nav-inner > * { position: relative; z-index: 1; }
 .nav-inner:hover {
-  background: rgba(20, 20, 20, 0.72);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(10, 10, 16, 0.78) 40%,
+    rgba(6, 6, 10, 0.88) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 4px 6px rgba(0, 0, 0, 0.14),
+    0 18px 50px rgba(0, 0, 0, 0.65);
 }
 
 /* ── Brand ─────────────────────────────────────────────────── */
 .nav-brand {
   font-weight: 700;
   font-size: 0.88rem;
-  color: var(--text);
+  color: #fff;
   white-space: nowrap;
   letter-spacing: -0.01em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
 }
 
 /* ── Nav Links ─────────────────────────────────────────────── */
@@ -61,19 +99,43 @@ nav.nav-hidden {
 .nav-links a {
   padding: 6px 13px;
   font-size: 0.81rem;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.82);
   border-radius: 999px;
-  transition: color 0.18s, background 0.18s;
-  font-weight: 500;
+  transition: color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  font-weight: 600;
   white-space: nowrap;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .nav-links a:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
 }
+/* Active: glowing pill indicator */
 .nav-links a.active {
   color: var(--cyan);
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow:
+    0 0 14px rgba(16, 185, 129, 0.2),
+    inset 0 1px 0 rgba(16, 185, 129, 0.15);
+}
+/* Glowing underline dot-bar beneath active link */
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--cyan, #10B981);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8), 0 0 18px rgba(16, 185, 129, 0.4);
+  animation: nav-active-bar 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes nav-active-bar {
+  from { width: 0; opacity: 0; }
+  to   { width: 60%; opacity: 1; }
 }
 
 /* ── Resume CTA ────────────────────────────────────────────── */
@@ -353,19 +415,25 @@ nav.nav-hidden {
     color: var(--cyan, #10B981);
   }
 
-  /* Active indicator dot above icon */
+  /* Active indicator: animated pill bar above icon */
   .mbn-item.active::before {
     content: '';
     position: absolute;
-    top: 4px;
+    top: 5px;
     left: 50%;
-    transform: translateX(-50%);
-    width: 18px;
-    height: 2px;
+    transform: translateX(-50%) scaleX(1);
+    width: 24px;
+    height: 3px;
     border-radius: 999px;
-    background: var(--cyan, #10B981);
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
-    opacity: 0.9;
+    background: linear-gradient(90deg, var(--cyan, #10B981), rgba(16, 185, 129, 0.6));
+    box-shadow:
+      0 0 10px rgba(16, 185, 129, 0.9),
+      0 0 22px rgba(16, 185, 129, 0.5);
+    animation: mbn-indicator-in 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes mbn-indicator-in {
+    from { width: 0; opacity: 0; transform: translateX(-50%) scaleX(0); }
+    to   { width: 24px; opacity: 1; transform: translateX(-50%) scaleX(1); }
   }
 
   /* ── Resume CTA item: Accent glass pill ─────────────────── */

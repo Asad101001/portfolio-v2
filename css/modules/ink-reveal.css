@@ -1,7 +1,8 @@
 /* ============================================================
    css/modules/ink-reveal.css
-   Mimo-style cursor ink-reveal — hidden layer & mask canvas
-   Desktop only. Mobile: completely disabled.
+   Cross-theme ink reveal — desktop mask + mobile ripple
+   Desktop: mask canvas reveals a styled "other theme" layer
+   Mobile:  touch ripples in accent colors
    ============================================================ */
 
 /* ── Canvas Mask ─────────────────────────────────────────────── */
@@ -12,7 +13,6 @@
   height: 100%;
   pointer-events: none;
   z-index: 5;
-  /* Canvas draws its own opaque fill; no CSS background needed */
 }
 
 /* Ensure hero grid + interactive content sits above the mask */
@@ -29,18 +29,18 @@
 /* ── Custom Cursor Ring ───────────────────────────────────────── */
 #hero-ink-ring {
   position: absolute;
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 1.5px solid rgba(16, 185, 129, 0.75);
+  border: 1.5px solid rgba(16, 185, 129, 0.7);
   background: radial-gradient(
     circle,
-    rgba(16, 185, 129, 0.06) 0%,
+    rgba(16, 185, 129, 0.05) 0%,
     transparent 70%
   );
   box-shadow:
-    0 0 16px rgba(16, 185, 129, 0.35),
-    inset 0 0 10px rgba(16, 185, 129, 0.08);
+    0 0 14px rgba(16, 185, 129, 0.3),
+    inset 0 0 8px rgba(16, 185, 129, 0.07);
   pointer-events: none;
   z-index: 10;
   opacity: 0;
@@ -48,18 +48,15 @@
   transition:
     opacity 0.3s ease,
     transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.2s ease;
 }
-
-/* Clicking shrink effect */
 #hero:active #hero-ink-ring {
-  transform: translate(-50%, -50%) scale(0.7) !important;
+  transform: translate(-50%, -50%) scale(0.65) !important;
   border-color: rgba(134, 239, 172, 0.9) !important;
   box-shadow: 0 0 28px rgba(134, 239, 172, 0.5) !important;
 }
 
-/* ── Hidden decorative layer ──────────────────────────────────── */
+/* ── Hidden reveal layer (behind the mask) ────────────────────── */
 #hero-ink-hidden {
   position: absolute;
   inset: 0;
@@ -77,110 +74,238 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 0;
   text-align: center;
-  padding: 48px 32px;
-  max-width: 820px;
   width: 100%;
+  height: 100%;
   position: relative;
 }
 
-/* ── ASCII block ──────────────────────────────────────────────── */
-.ink-ascii-wrap {
-  position: relative;
-}
-
-.ink-ascii {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: clamp(0.38rem, 0.8vw, 0.62rem);
-  line-height: 1.18;
-  white-space: pre;
-  letter-spacing: 0;
-  color: rgba(16, 185, 129, 0.65);
-  text-shadow:
-    0 0 18px rgba(16, 185, 129, 0.55),
-    0 0 36px rgba(16, 185, 129, 0.28),
-    0 0 72px rgba(16, 185, 129, 0.1);
-  display: block;
+/* ── Shared reveal bg ─────────────────────────────────────────── */
+.ink-reveal-bg {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
 }
 
-/* ── Terminal block ───────────────────────────────────────────── */
-.ink-terminal {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: clamp(0.68rem, 1.3vw, 0.9rem);
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-top: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: 6px;
-  padding: 18px 24px;
-  max-width: 480px;
-  width: 100%;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 0 40px rgba(0, 0, 0, 0.6);
-}
-
-.ink-t-row {
+/* ── Content wrapper ──────────────────────────────────────────── */
+.ink-reveal-content {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 5px 0;
-  line-height: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 48px 32px;
 }
 
-.ink-prompt {
-  color: #22c55e;
-  text-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
-  flex-shrink: 0;
+/* ═══════════════════════════════════════════════════════════════
+   SUNSET REVEALED LAYER (shown when Professional is active)
+   ═══════════════════════════════════════════════════════════════ */
+.ink-reveal-sunset .ink-reveal-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, #1a0010 0%, #080105 55%, #0d0005 100%);
+}
+.ink-reveal-sunset .ink-reveal-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,0,85,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255,0,255,0.12) 0%, transparent 45%),
+    radial-gradient(circle at 55% 55%, rgba(255,136,0,0.08) 0%, transparent 40%);
 }
 
-.ink-cmd {
-  color: rgba(255, 255, 255, 0.88);
-  letter-spacing: -0.01em;
-}
-
-.ink-out {
-  color: rgba(16, 185, 129, 0.8);
-  padding-left: 20px;
-}
-
-.ink-out-dim {
-  color: rgba(255, 255, 255, 0.28);
-  padding-left: 20px;
-}
-
-.ink-caret {
-  color: #22c55e;
-  text-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-  animation: ink-blink 1s step-end infinite;
-}
-
-@keyframes ink-blink {
-  50% { opacity: 0; }
-}
-
-/* ── Hint label ───────────────────────────────────────────────── */
-.ink-hint-label {
+.ink-reveal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 0;
+  border: 1px solid rgba(255,0,85,0.35);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.6rem;
-  color: rgba(16, 185, 129, 0.3);
-  letter-spacing: 0.15em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255,0,85,0.75);
+  background: rgba(255,0,85,0.06);
   text-transform: uppercase;
-  animation: ink-hint-pulse 2.5s ease-in-out infinite;
+}
+.ink-reveal-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #ff0055;
+  box-shadow: 0 0 8px #ff0055;
+  animation: rv-dot-pulse 1.4s ease-in-out infinite;
+}
+@keyframes rv-dot-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.5); }
 }
 
-@keyframes ink-hint-pulse {
+/* Giant name — sunset */
+.ink-reveal-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #ff0055;
+  text-shadow:
+    0 0 30px rgba(255,0,85,0.6),
+    0 0 80px rgba(255,0,85,0.3),
+    4px 4px 0 #ff00ff;
+  -webkit-text-stroke: 1px rgba(255,0,85,0.4);
+}
+.ink-reveal-name span {
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255,215,0,0.7), 3px 3px 0 #ff8800;
+}
+
+/* Tagline — sunset */
+.ink-reveal-tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: rgba(255,0,255,0.65);
+  text-transform: uppercase;
+}
+
+/* Tags — sunset */
+.ink-reveal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.ink-reveal-tags span {
+  padding: 4px 12px;
+  border: 1px solid rgba(255,0,85,0.3);
+  border-radius: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,215,0,0.8);
+  background: rgba(255,0,85,0.05);
+  text-transform: uppercase;
+}
+
+/* Stats grid — shared */
+.ink-reveal-grid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+.ink-reveal-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.ink-rv-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ff0055;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(255,0,85,0.5);
+}
+.ink-rv-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: rgba(255,0,255,0.5);
+  text-transform: uppercase;
+}
+
+/* Hint — sunset */
+.ink-reveal-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,0,85,0.3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: rv-hint-pulse 2.5s ease-in-out infinite;
+}
+@keyframes rv-hint-pulse {
   0%, 100% { opacity: 0.3; }
   50%       { opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PROFESSIONAL REVEALED LAYER (shown when Sunset/Cyberpunk is active)
+   ═══════════════════════════════════════════════════════════════ */
+.ink-reveal-professional .ink-reveal-bg {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 50%, #eff6ff 100%);
+}
+.ink-reveal-professional .ink-reveal-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(2,132,199,0.10) 0%, transparent 50%),
+    radial-gradient(circle at 75% 70%, rgba(124,58,237,0.07) 0%, transparent 45%);
+}
+
+.ink-rv-pro-badge {
+  border-color: rgba(2,132,199,0.3) !important;
+  color: rgba(2,132,199,0.75) !important;
+  background: rgba(2,132,199,0.06) !important;
+}
+.ink-rv-pro-dot {
+  background: #0284c7 !important;
+  box-shadow: 0 0 8px #0284c7 !important;
+}
+.ink-rv-pro-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 5rem) !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.03em !important;
+}
+.ink-rv-pro-tagline {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  color: #475569 !important;
+  text-transform: none !important;
+}
+.ink-rv-pro-tags span {
+  border-color: rgba(2,132,199,0.25) !important;
+  color: #0284c7 !important;
+  background: rgba(2,132,199,0.06) !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
+}
+.ink-rv-pro-num {
+  color: #0284c7 !important;
+  text-shadow: none !important;
+}
+.ink-rv-pro-lbl {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+}
+.ink-rv-pro-hint {
+  color: #cbd5e1 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: 0.06em !important;
+  text-transform: none !important;
 }
 
 /* ── Custom cursor: hide system cursor in hero area ──────────── */
 #hero {
   cursor: none;
 }
-
-/* Restore cursors for interactive descendants */
 #hero .hero-grid * { cursor: auto; }
 #hero a,
 #hero button,
@@ -191,7 +316,15 @@
   cursor: pointer;
 }
 
-/* ── Mobile / Touch: completely disabled ─────────────────────── */
+/* ── Desktop: hide mobile canvas ──────────────────────────────── */
+@media (min-width: 769px) {
+  #hero-mobile-ripple-canvas,
+  .mobile-ink-hint {
+    display: none !important;
+  }
+}
+
+/* ── Mobile / Touch: desktop ink disabled ─────────────────────── */
 @media (max-width: 768px), (hover: none), (hover: hover) and (pointer: coarse) {
   #hero-ink-mask,
   #hero-ink-hidden,

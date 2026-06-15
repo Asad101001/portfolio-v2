@@ -33,6 +33,11 @@
     display: none !important;
   }
 
+  /* Hide: causes overflow bug on mobile (position: relative with negative right) */
+  .scroll-indicator {
+    display: none !important;
+  }
+
   #back-to-top {
     bottom: max(140px, calc(env(safe-area-inset-bottom) + 120px)) !important;
     right: 20px !important;
@@ -56,21 +61,35 @@
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
     /* Top nav is hidden on mobile, so less padding needed */
-    padding-top: 60px !important;
+    padding: 48px 0 80px !important;
     min-height: 100dvh;
     overflow: hidden;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .hero-grid {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto !important;
-    gap: 16px;
+    gap: 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    /* Force alignment — prevent any desktop max-width from shrinking this */
+    align-self: stretch;
   }
 
   .hero-main {
-    padding: 32px 22px !important;
+    padding: 28px 20px !important;
     text-align: center;
     align-items: center;
+    width: 100% !important;
+    box-sizing: border-box !important;
     /* Force dark background — perf.css strips backdrop-filter */
     background: rgba(13, 13, 13, 0.92) !important;
   }
@@ -79,6 +98,8 @@
   .hero-grid .glass-card {
     background: rgba(10, 10, 12, 0.9) !important;
     border-color: rgba(16, 185, 129, 0.12) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .hero-name {
@@ -342,13 +363,54 @@
     grid-column: 1 !important;
     grid-row: auto !important;
     width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   /* ── GSAP scroll progress bar ────────────────────────────── */
   #gsap-scroll-bar {
     height: 3px !important;
   }
-}
+
+  /* ── Mobile Ink Reveal: Touch Ripple System ──────────────── */
+  #hero-mobile-ripple-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* Hint badge for mobile */
+  .mobile-ink-hint {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(8, 1, 5, 0.75);
+    border: 1px solid rgba(255, 0, 85, 0.2);
+    backdrop-filter: blur(12px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 0, 85, 0.7);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+    animation: mobile-hint-float 3s ease-in-out infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes mobile-hint-float {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
+    50%       { opacity: 1;   transform: translateX(-50%) translateY(-4px); }
+  }
+} /* end @media (max-width: 768px) */
 
 
 /* Extra small devices */

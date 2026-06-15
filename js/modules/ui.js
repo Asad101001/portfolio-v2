@@ -1,10 +1,10 @@
-/* All UI interactions — Section Nav, Keyboard, Arsenal Grid */
+/* All UI interactions â€” Section Nav, Keyboard, Arsenal Grid */
 'use strict';
 
 // Ensure smoothTransition helper exists as a fallback
 // window.smoothTransition is handled by animations.js
 
-/* ── Shooting Stars (desktop only, low freq) ─────────────── */
+/* â”€â”€ Shooting Stars (desktop only, low freq) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   if (window._isMobile) return;
   function spawn() {
@@ -16,14 +16,14 @@
     document.body.appendChild(el);
     setTimeout(function () { el.remove(); }, 3000);
   }
-  // Only spawn occasionally — no performance impact
+  // Only spawn occasionally â€” no performance impact
   setInterval(function () {
     if (Math.random() < 0.2 && !document.hidden) spawn();
   }, 12000);
   setTimeout(spawn, 3500);
 })();
 
-/* ── Global Mouse Tracking for Glows ────────────────────── */
+/* â”€â”€ Global Mouse Tracking for Glows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   if (window._isMobile) return;
   document.addEventListener('mousemove', function (e) {
@@ -32,7 +32,7 @@
   }, { passive: true });
 })();
 
-/* ── Cursor Glow (Follower) ─────────────────────────────── */
+/* â”€â”€ Cursor Glow (Follower) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   var el = document.getElementById('cursor-glow');
   if (!el || window._isMobile) return;
@@ -47,7 +47,7 @@
   window._scrollTasks.push(update);
 })();
 
-/* ── Sections & Navigation ─────────────────────────────── */
+/* â”€â”€ Sections & Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   var sections = ['hero','about','projects','demo','tech','education','contact'];
   var icons = {
@@ -84,33 +84,61 @@
     });
   }
 
-  if (window.IntersectionObserver) {
-    sections.forEach(function (id, idx) {
-      var el = document.getElementById(id);
-      if (el) new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) {
-          updateDots(idx);
-          // Update mobile bottom nav — map sub-sections to main nav items
-          var mbnItems = document.querySelectorAll('.mbn-item:not(.mbn-cta):not([href="#certifications"])');
-          var targetHref = '#' + id;
-          if (id === 'demo' || id === 'tech') targetHref = '#projects';
-          if (id === 'education') targetHref = '#about'; // or we can leave it unmapped, but this keeps the indicator active
-          
-          mbnItems.forEach(function(item) {
-            var href = item.getAttribute('href');
-            item.classList.toggle('active', href === targetHref);
-          });
-        }
-      }, { threshold: 0.35 }).observe(el);
+  /* â”€â”€ Scroll-position based active section (reliable) â”€â”€â”€â”€â”€â”€â”€ */
+  /* Finds the section whose top is closest above 35% viewport  */
+  var lastActiveIdx = -1;
+  function getActiveSectionIdx() {
+    var scrollTop = window.scrollY || window.pageYOffset;
+    var trigger = scrollTop + window.innerHeight * 0.35;
+    var best = 0;
+    for (var i = 0; i < sections.length; i++) {
+      var el = document.getElementById(sections[i]);
+      if (!el) continue;
+      var top = el.getBoundingClientRect().top + scrollTop;
+      if (top <= trigger) best = i;
+    }
+    return best;
+  }
+
+  function updateAllIndicators() {
+    var idx = getActiveSectionIdx();
+    if (idx === lastActiveIdx) return;
+    lastActiveIdx = idx;
+    var activeSection = sections[idx];
+
+    /* Desktop side dots */
+    updateDots(idx);
+
+    /* Desktop top-nav link highlights */
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      var href = (link.getAttribute('href') || '').replace('#','');
+      var matchId = activeSection;
+      if (activeSection === 'demo' || activeSection === 'tech') matchId = 'projects';
+      if (activeSection === 'education') matchId = 'about';
+      link.classList.toggle('active', href === matchId || href === 'certifications' ? false : href === matchId);
+    });
+
+    /* Mobile bottom nav */
+    var targetHref = '#' + activeSection;
+    if (activeSection === 'demo' || activeSection === 'tech') targetHref = '#projects';
+    if (activeSection === 'education') targetHref = '#about';
+    document.querySelectorAll('.mbn-item:not(.mbn-cta):not([href="#certifications"])').forEach(function(item) {
+      item.classList.toggle('active', item.getAttribute('href') === targetHref);
     });
   }
 
-  // Mobile bottom nav tap: spring bounce + vibration
+  /* Hook into the existing rAF scroll task loop */
+  if (window._scrollTasks) {
+    window._scrollTasks.push(updateAllIndicators);
+  } else {
+    window.addEventListener('scroll', updateAllIndicators, { passive: true });
+  }
+  setTimeout(updateAllIndicators, 300);
+
+  /* Mobile bottom nav tap: spring bounce + haptic */
   document.querySelectorAll('.mbn-item').forEach(function(item) {
     item.addEventListener('click', function(e) {
-      // Vibrate for haptic feedback (where supported)
       if (navigator.vibrate) navigator.vibrate(8);
-      // Spring bounce via CSS transform
       var el = this;
       el.style.transition = 'transform 0.1s cubic-bezier(0.34,1.56,0.64,1)';
       el.style.transform  = 'scale(0.82)';
@@ -132,23 +160,13 @@
         const el = document.getElementById(id);
         return el ? el.offsetTop - 80 : 0;
       });
-
       let curIdx = 0;
       for (let i = 0; i < sectionStarts.length; i++) {
         if (scrollPos >= sectionStarts[i] - 10) curIdx = i;
       }
-
       const nextIdx = (e.key === 'PageDown') ? curIdx + 1 : curIdx - 1;
       if (nextIdx >= 0 && nextIdx < sections.length) {
-        const targetTop = sectionStarts[nextIdx];
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
-        if (e.key === 'PageDown' && nextIdx === sections.length - 1) {
-          setTimeout(() => {
-            if (window.innerHeight + window.scrollY < document.body.offsetHeight - 50) {
-              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }
-          }, 400);
-        }
+        window.scrollTo({ top: sectionStarts[nextIdx], behavior: 'smooth' });
       }
     }
   });
@@ -175,7 +193,7 @@
   tick();
 })();
 
-/* ── Progressive Reveal & Counters ────────────────────────── */
+/* â”€â”€ Progressive Reveal & Counters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   document.querySelectorAll('.terminal-body .t-line').forEach((line, i) => {
     setTimeout(() => line.classList.add('t-visible'), 50 + i * 120);
@@ -200,7 +218,7 @@
   }
 })();
 
-/* ── Certifications Drawer ─────────────────────────────── */
+/* â”€â”€ Certifications Drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   var drawer = document.getElementById('certs-drawer'), backdrop = document.getElementById('certs-backdrop'), closeBtn = document.getElementById('certs-close');
   if (!drawer) return;
@@ -225,13 +243,13 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
 
-/* ── Nav & UI Interactions ─────────────────────────────── */
+/* â”€â”€ Nav & UI Interactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   var navEl = document.querySelector('nav');
   if (navEl) {
     var lastHideY = 0;
     window._scrollTasks.push(() => {
-      // On mobile, the bottom nav is inside <nav> — never hide the nav shell
+      // On mobile, the bottom nav is inside <nav> â€” never hide the nav shell
       // The CSS hides .nav-inner on mobile, so we only need this on desktop
       if (window.innerWidth <= 768) {
         navEl.classList.remove('nav-hidden'); // keep visible so bottom nav shows
@@ -263,7 +281,7 @@
   });
 })();
 
-/* ── Rotating Widget Logic ─────────────────────────────── */
+/* â”€â”€ Rotating Widget Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   function initRotation(widgetId, dotsId, interval) {
     var widget = document.getElementById(widgetId), dotsWrap = document.getElementById(dotsId);
@@ -324,14 +342,14 @@
   initRotation('big3-social-widget', 'big3-social-dots', 6000);
 })();
 
-/* ── Email & Utils ──────────────────────────────────────── */
+/* â”€â”€ Email & Utils â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 (function () {
   document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
     link.addEventListener('click', function (e) {
       if (e.ctrlKey || e.metaKey) return;
       e.preventDefault();
       var email = this.href.replace('mailto:', '');
-      navigator.clipboard.writeText(email).then(() => window.showToast('📧 Email copied to clipboard!'));
+      navigator.clipboard.writeText(email).then(() => window.showToast('ðŸ“§ Email copied to clipboard!'));
     });
   });
 
@@ -342,7 +360,7 @@
   }
 })();
 
-/* ── Section Reveal Stagger (section-in only — .reveal handled by GSAP) ── */
+/* â”€â”€ Section Reveal Stagger (section-in only â€” .reveal handled by GSAP) â”€â”€ */
 (function () {
   var staggerParents = document.querySelectorAll('.projects-grid, .working-on-grid, .social-cards-grid, .demo-grid, .about-stats-col');
   staggerParents.forEach(p => Array.prototype.forEach.call(p.children, c => c.classList.add('s-child')));
@@ -363,11 +381,11 @@
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
-  // Only observe .section-in — GSAP handles .reveal
+  // Only observe .section-in â€” GSAP handles .reveal
   document.querySelectorAll('.section-in, .proj-tags').forEach(s => obs.observe(s));
 })();
 
-/* ── Experience Accordion ── */
+/* â”€â”€ Experience Accordion â”€â”€ */
 (function() {
   var btn = document.getElementById('experience-toggle'), content = document.getElementById('demo-content'), popup = document.getElementById('error-popup'), tFill = document.getElementById('error-timer-fill');
   if (!btn || !content) return;
@@ -380,7 +398,7 @@
   }
   btn.addEventListener('click', () => {
     isOpen = !isOpen; btn.classList.toggle('open', isOpen); content.classList.toggle('demo-content-open', isOpen);
-    if (arrow) arrow.textContent = isOpen ? '▲' : '▼';
+    if (arrow) arrow.textContent = isOpen ? 'â–²' : 'â–¼';
     if (isOpen) {
       content.querySelectorAll('.demo-progress-fill').forEach(f => { f.style.transition = 'width 1.2s cubic-bezier(0.22, 1, 0.36, 1)'; f.style.width = f.getAttribute('data-w') || '0%'; });
       setTimeout(showPopup, 200);
