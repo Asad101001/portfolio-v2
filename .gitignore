@@ -37,3 +37,5 @@ dist/
 refactor/
 .vercel
 .env*
+temp_backup_images/
+

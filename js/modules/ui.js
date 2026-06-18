@@ -93,18 +93,27 @@
     });
   }
 
-  /* â”€â”€ Scroll-position based active section (reliable) â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Scroll-position based active section (reliable) ─────── */
   /* Finds the section whose top is closest above 35% viewport  */
   var lastActiveIdx = -1;
+  var sectionOffsets = [];
+  function updateSectionOffsets() {
+    var scrollTop = window.scrollY || window.pageYOffset;
+    sectionOffsets = sections.map(function(id) {
+      var el = document.getElementById(id);
+      return el ? el.getBoundingClientRect().top + scrollTop : 0;
+    });
+  }
+  window.addEventListener('resize', updateSectionOffsets, { passive: true });
+  window.addEventListener('load', updateSectionOffsets);
+  
   function getActiveSectionIdx() {
+    if (sectionOffsets.length === 0) updateSectionOffsets();
     var scrollTop = window.scrollY || window.pageYOffset;
     var trigger = scrollTop + window.innerHeight * 0.35;
     var best = 0;
-    for (var i = 0; i < sections.length; i++) {
-      var el = document.getElementById(sections[i]);
-      if (!el) continue;
-      var top = el.getBoundingClientRect().top + scrollTop;
-      if (top <= trigger) best = i;
+    for (var i = 0; i < sectionOffsets.length; i++) {
+      if (sectionOffsets[i] <= trigger) best = i;
     }
     return best;
   }

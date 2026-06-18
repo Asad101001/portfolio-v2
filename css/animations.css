@@ -143,6 +143,17 @@ img { transition: opacity 0.3s ease; }
 /* JS adds .visible once GSAP has animated it — used as a state marker */
 .reveal.visible { opacity: 1; transform: none; }
 
+/* Reveal on project subpages (no GSAP) */
+.project-body .reveal {
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.is-ready.project-body .reveal {
+  opacity: 1;
+  transform: none;
+}
+
 /*  Completed Stamp & Slam Animation  */
 .completed-stamp {
   position: absolute;

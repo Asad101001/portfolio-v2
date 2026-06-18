@@ -152,3 +152,19 @@ body.theme-professional .status-pill {
     border-width: 3px !important; /* Stronger separation */
 }
 
+/* Fix Invisible Elements from other themes */
+body.theme-professional .tv-progress-bar {
+    background: #e2e8f0 !important;
+}
+body.theme-professional #tv-progress-fill {
+    background: var(--cyan) !important;
+}
+body.theme-professional .li-live-dot {
+    background: var(--text-dim) !important;
+}
+body.theme-professional .commit-legend-sq {
+    border: 1px solid #cbd5e1 !important;
+}
+body.theme-professional .commit-legend-sq[style*="0.04"] {
+    background: #f1f5f9 !important;
+}

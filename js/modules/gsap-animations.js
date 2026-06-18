@@ -277,7 +277,7 @@ function scrollProgressBar() {
   // Lightweight RAF-based scroll tracker (not GSAP scrub — cheaper)
   let ticking = false;
   const update = () => {
-    const pct = Math.min(window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100, 100);
+    const pct = Math.min(window.scrollY / window._docH * 100, 100);
     bar.style.width = pct.toFixed(1) + '%';
     ticking = false;
   };

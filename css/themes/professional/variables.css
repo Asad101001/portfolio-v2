@@ -13,10 +13,10 @@ body.theme-professional {
     --text-dim:  #475569 !important; 
     
     /* 3. High-Contrast Vibrant Accents (Professional Edition) */
-    --cyan:      #0284c7 !important; /* Richer Sky Blue */
-    --lime:      #65a30d !important; /* Deeper Lime */
-    --purple:    #7c3aed !important; /* Vibrant Violet */
-    --orange:    #ea580c !important; /* Professional Orange */
+    --cyan:      #0369a1 !important; /* Richer Sky Blue, improved contrast */
+    --lime:      #4d7c0f !important; /* Deeper Lime, improved contrast */
+    --purple:    #6d28d9 !important; /* Vibrant Violet, improved contrast */
+    --orange:    #c2410c !important; /* Professional Orange, improved contrast */
     
     /* 4. Subtle Textural Effects */
     --scanline-op: 0.015 !important;
