@@ -255,12 +255,16 @@
 
     // Initialize
     window.addEventListener('DOMContentLoaded', function() {
-        initMagnetic();
-        initSpotlight();
-        initTilt();
-        initScrollAnimations();
-        initScrambleHeaders();
-        initLoadReveal();
+        initLoadReveal(); // Fire load reveal early
+        setTimeout(function() {
+            initMagnetic();
+            initSpotlight();
+        }, 50);
+        setTimeout(function() {
+            initTilt();
+            initScrollAnimations();
+            initScrambleHeaders();
+        }, 150);
     });
 
 })();

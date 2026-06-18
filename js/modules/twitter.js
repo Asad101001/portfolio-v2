@@ -87,7 +87,7 @@ import { CONFIG, escHtml } from './widgets.js';
             tweetEl.innerHTML = `
                 <div class="x-post-header">
                     <div class="x-avatar">
-                        <img src="https://unavatar.io/twitter/${USER}" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.webp'">
+                        <img src="https://unavatar.io/twitter/${USER}" alt="${USER} Twitter Avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.webp'">
                     </div>
                     <div class="x-author-info">
                         <div class="x-names">

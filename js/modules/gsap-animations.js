@@ -72,6 +72,9 @@ function floatingOrbs() {
 
 /* ─── Scroll Reveals (replaces IO `.visible` for .reveal elements) ─ */
 function scrollReveals() {
+  // Bypassing massive DOM query / ScrollTrigger setup on mobile
+  if (isMobile()) return;
+
   // Project cards
   const projectCards = document.querySelectorAll('.project-card');
   if (projectCards.length) {
@@ -302,23 +305,29 @@ function footerBlocks() {
 
 /* ─── Boot ───────────────────────────────────────────────────────── */
 function boot() {
+  // Critical for above-the-fold
   disableCSSReveal();
   heroEntrance();
   floatingOrbs();
-  scrollReveals();
-  heroParallax();
-  focusItemHover();
-  experienceToggle();
-  scrollProgressBar();
-  footerBlocks();
 
-  // Refresh ScrollTrigger after fonts / images load
-  window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+  // Defer below-the-fold scroll triggers to avoid large layout thrashing in one task
+  setTimeout(() => {
+    scrollReveals();
+    heroParallax();
+  }, 100);
+
+  setTimeout(() => {
+    focusItemHover();
+    experienceToggle();
+    scrollProgressBar();
+    footerBlocks();
+    ScrollTrigger.refresh();
+  }, 250);
 }
 
 // Wait for DOM + a small delay so the loading screen is gone
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 200));
+  document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 100));
 } else {
-  setTimeout(boot, 200);
+  setTimeout(boot, 100);
 }

@@ -101,6 +101,7 @@
   min-height: 12px;
 }
 .r-dot {
+  position: relative;
   width: 6px; 
   height: 6px; 
   border-radius: 6px; 
@@ -114,6 +115,15 @@
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   flex-shrink: 0;
   box-sizing: border-box !important;
+}
+.r-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
 }
 .r-dot.active {
   background: var(--cyan);

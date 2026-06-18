@@ -30,32 +30,42 @@ window._scrollTasks = [];
 })();
 
 /* ── Master rAF Loop ─────────────────────────────────────── */
-(function loop(timestamp) {
-  // Enable smooth lerp on desktop for "behemoth level" premium smoothness
-  if (!window._isMobile) {
-    // Smoother factor (0.045-0.055 for "enterprise apple" buttery feel)
+if (window._isMobile) {
+  // On mobile, native scrolling is fine; run tasks directly on scroll to save CPU
+  window.addEventListener('scroll', function(e) {
+    window._lerpY = window._scrollY;
+    var len = window._scrollTasks.length;
+    for (var i = 0; i < len; i++) {
+      try { window._scrollTasks[i](e.timeStamp); } catch (e) {}
+    }
+  }, { passive: true });
+  
+  // Run once on init
+  setTimeout(function() {
+    window._lerpY = window._scrollY;
+    var len = window._scrollTasks.length;
+    for (var i = 0; i < len; i++) {
+      try { window._scrollTasks[i](0); } catch (e) {}
+    }
+  }, 100);
+} else {
+  (function loop(timestamp) {
+    // Enable smooth lerp on desktop for "behemoth level" premium smoothness
     var factor = 0.045; 
     var targetY = window._scrollY;
     var rawLerp = window._lerpY + (targetY - window._lerpY) * factor;
     // Snap to target if very close to avoid endless sub-pixel calculating
     window._lerpY = Math.abs(targetY - rawLerp) < 0.1 ? targetY : rawLerp;
-  } else {
-    // Native scroll on mobile needs immediate value
-    window._lerpY = window._scrollY;
-  }
 
-  // Run scroll tasks
-  var len = window._scrollTasks.length;
-  for (var i = 0; i < len; i++) {
-    try {
-      window._scrollTasks[i](timestamp);
-    } catch (e) {
-      console.error('Scroll Task Error:', e);
+    // Run scroll tasks
+    var len = window._scrollTasks.length;
+    for (var i = 0; i < len; i++) {
+      try { window._scrollTasks[i](timestamp); } catch (err) { console.error('Scroll Task Error:', err); }
     }
-  }
 
-  requestAnimationFrame(loop);
-})(0);
+    requestAnimationFrame(loop);
+  })(0);
+}
 
 /* ── DOM Ready Initializations ────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
