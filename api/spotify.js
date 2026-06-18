@@ -1,12 +1,15 @@
 const CLIENT_ID     = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
+let REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
 
 const TOKEN_URL       = 'https://accounts.spotify.com/api/token';
 const NOW_PLAYING_URL = 'https://api.spotify.com/v1/me/player/currently-playing';
 const RECENT_URL      = 'https://api.spotify.com/v1/me/player/recently-played?limit=1';
 
 async function getAccessToken() {
+  if (!REFRESH_TOKEN) {
+    throw new Error('No refresh token available');
+  }
   const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
   const res = await fetch(TOKEN_URL, {
     method: 'POST',
@@ -19,7 +22,14 @@ async function getAccessToken() {
       refresh_token: REFRESH_TOKEN,
     }),
   });
-  return res.json();
+  const data = await res.json();
+  if (data.error === 'invalid_grant') {
+    REFRESH_TOKEN = null;
+    delete process.env.SPOTIFY_REFRESH_TOKEN;
+    console.error('Spotify Refresh Token expired (invalid_grant). Token discarded. Please re-authenticate.');
+    throw new Error('invalid_grant');
+  }
+  return data;
 }
 
 export default async function handler(req, res) {
