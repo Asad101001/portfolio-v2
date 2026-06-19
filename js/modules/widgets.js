@@ -129,10 +129,11 @@ function timeAgo(dateStr) {
  * Wikipedia is excellent for finding high-quality "main" images for films.
  */
 function _moviePoster(title) {
+  var rawSlug = title.replace(/ /g, '_');
   var clean = title.replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
   var wikiSlug = clean.replace(/ /g, '_');
 
-  var wikiFetch = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiSlug))
+  var wikiFetch = fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(rawSlug))
     .then(function(r) { return r.ok ? r.json() : null; })
     .then(function(d) {
       return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null;
@@ -151,25 +152,33 @@ function _moviePoster(title) {
 
   return wikiFetch.then(function(res) {
     if (res) return res;
-    
-    // Fallback 1: Try stripping anything in parentheses or after colon
-    var simpler = clean.replace(/\(.*\)/, '').replace(/:.*/, '').trim();
-    if (simpler && simpler !== clean) {
-       return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(simpler.replace(/ /g, '_')))
-         .then(function(r){ return r.ok ? r.json() : null; })
-         .then(function(d){ return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null; })
-         .then(function(resS) {
-            if (resS) return resS;
-            return itunesFetch(clean);
-         });
-    }
 
-    return itunesFetch(clean).then(function(res2) {
-      if (res2) return res2;
-      var parts = clean.split(' ');
-      if (parts.length > 2) return itunesFetch(parts.slice(0, 2).join(' '));
-      return null;
-    });
+    // Try cleaned wiki slug (stripped colons/dashes)
+    return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiSlug))
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(d) { return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null; })
+      .then(function(resC) {
+        if (resC) return resC;
+        
+        // Fallback 1: Try stripping anything in parentheses or after colon
+        var simpler = clean.replace(/\(.*\)/, '').replace(/:.*/, '').trim();
+        if (simpler && simpler !== clean) {
+           return fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(simpler.replace(/ /g, '_')))
+             .then(function(r){ return r.ok ? r.json() : null; })
+             .then(function(d){ return (d && d.thumbnail && d.thumbnail.source) ? _toHttpsUrl(d.thumbnail.source) : null; })
+             .then(function(resS) {
+                if (resS) return resS;
+                return itunesFetch(clean);
+             });
+        }
+
+        return itunesFetch(clean).then(function(res2) {
+          if (res2) return res2;
+          var parts = clean.split(' ');
+          if (parts.length > 2) return itunesFetch(parts.slice(0, 2).join(' '));
+          return null;
+        });
+      });
   }).catch(function() { return null; });
 }
 
@@ -959,7 +968,17 @@ function _starsHTML(starsStr) {
         imgContainer.innerHTML = '<div class="lastfm-track-art lastfm-track-art--placeholder">🎵</div>';
         // Fallback to Spotify API for artist picture
         _artistImage(t.artist && t.artist['#text'] ? t.artist['#text'] : '').then(function(u) {
-            imgContainer.innerHTML = '<img class="lastfm-track-art" src="' + u + '" alt="" crossorigin="anonymous" loading="lazy" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 100 100\\\'><rect width=\\\'100%\\\' height=\\\'100%\\\' fill=\\\'%23222\\\'/><text x=\\\'50\\\' y=\\\'55\\\' font-family=\\\'sans-serif\\\' font-size=\\\'30\\\' text-anchor=\\\'middle\\\' fill=\\\'%23444\\\' >🎵</text></svg>\'" />';
+            var img = document.createElement('img');
+            img.className = 'lastfm-track-art';
+            img.src = u;
+            img.alt = '';
+            img.crossOrigin = 'anonymous';
+            img.loading = 'lazy';
+            img.onerror = function() {
+              img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23222"/><text x="50" y="55" font-family="sans-serif" font-size="30" text-anchor="middle" fill="%23444">🎵</text></svg>';
+            };
+            imgContainer.innerHTML = '';
+            imgContainer.appendChild(img);
         }).catch(function(){});
       }
 

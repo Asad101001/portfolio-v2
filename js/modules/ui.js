@@ -47,13 +47,23 @@
   if (!el || window._isMobile) return;
   var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
   var cx = tx, cy = ty, moved = false;
-  document.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; moved = true; }, { passive: true });
+  var animating = false;
+  document.addEventListener('mousemove', function (e) {
+    tx = e.clientX; ty = e.clientY; moved = true;
+    if (!animating) {
+      animating = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
   function update() {
-    if (!moved) return;
     cx += (tx - cx) * 0.1; cy += (ty - cy) * 0.1;
     el.style.transform = 'translate3d(' + (cx - 250).toFixed(0) + 'px,' + (cy - 250).toFixed(0) + 'px,0)';
+    if (Math.abs(tx - cx) > 0.2 || Math.abs(ty - cy) > 0.2) {
+      requestAnimationFrame(update);
+    } else {
+      animating = false;
+    }
   }
-  window._scrollTasks.push(update);
 })();
 
 /* â”€â”€ Sections & Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */

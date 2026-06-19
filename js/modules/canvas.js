@@ -11,6 +11,10 @@
 (function () {
   var c = document.getElementById('bg-canvas');
   if (!c) return;
+  if (window._isMobile) {
+    c.style.display = 'none';
+    return;
+  }
   var ctx = c.getContext('2d', { alpha: false });
   var W, H, stars = [], dotCanvas, dotCtx;
   var NUM_STARS = window._isMobile ? 50 : 110; // Reduced count for perf
@@ -94,14 +98,28 @@
 
   var heroEl = document.getElementById('hero');
   window._heroVisible = true; // Default visible
+  var loopId = null;
+  function loop(timestamp) {
+    if (!window._heroVisible) {
+      loopId = null;
+      return;
+    }
+    draw(timestamp);
+    loopId = requestAnimationFrame(loop);
+  }
+
   if (heroEl && window.IntersectionObserver) {
     new IntersectionObserver(function (entries) {
+      var wasVisible = window._heroVisible;
       window._heroVisible = entries[0].isIntersecting;
+      if (window._heroVisible && !wasVisible && !loopId) {
+        loopId = requestAnimationFrame(loop);
+      }
     }, { threshold: 0, rootMargin: '200px 0px 200px 0px' }).observe(heroEl);
   }
 
-  // Register into master rAF loop
-  window._scrollTasks.push(draw);
+  // Start initial loop
+  loopId = requestAnimationFrame(loop);
 })();
 
 

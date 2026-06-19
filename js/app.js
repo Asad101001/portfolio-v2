@@ -49,6 +49,8 @@ if (window._isMobile) {
     }
   }, 100);
 } else {
+  var lastScrollY = -1;
+  var lastLerpY = -1;
   (function loop(timestamp) {
     // Enable smooth lerp on desktop for "behemoth level" premium smoothness
     var factor = 0.045; 
@@ -57,10 +59,14 @@ if (window._isMobile) {
     // Snap to target if very close to avoid endless sub-pixel calculating
     window._lerpY = Math.abs(targetY - rawLerp) < 0.1 ? targetY : rawLerp;
 
-    // Run scroll tasks
-    var len = window._scrollTasks.length;
-    for (var i = 0; i < len; i++) {
-      try { window._scrollTasks[i](timestamp); } catch (err) { console.error('Scroll Task Error:', err); }
+    if (window._scrollY !== lastScrollY || window._lerpY !== lastLerpY) {
+      // Run scroll tasks
+      var len = window._scrollTasks.length;
+      for (var i = 0; i < len; i++) {
+        try { window._scrollTasks[i](timestamp); } catch (err) { console.error('Scroll Task Error:', err); }
+      }
+      lastScrollY = window._scrollY;
+      lastLerpY = window._lerpY;
     }
 
     requestAnimationFrame(loop);

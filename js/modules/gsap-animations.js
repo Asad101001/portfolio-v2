@@ -323,6 +323,15 @@ function boot() {
     footerBlocks();
     ScrollTrigger.refresh();
   }, 250);
+
+  // Defer all third-party widget and feed API fetching to ~1.2s to clear the critical LCP path
+  setTimeout(() => {
+    import('./widgets.js')
+      .then(() => {
+        import('./twitter.js').catch(e => console.error('Deferred twitter feed error:', e));
+      })
+      .catch(e => console.error('Deferred widgets error:', e));
+  }, 1200);
 }
 
 // Wait for DOM + a small delay so the loading screen is gone
