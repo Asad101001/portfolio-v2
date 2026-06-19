@@ -2,8 +2,7 @@
    PORTFOLIO — css/base.css
    Reset, variables, fonts, loading screen, selection, links
    ============================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* Google Fonts are loaded asynchronously via HTML link tags in page heads to avoid render-blocking CSS chains */
 
 /* ── Reset & Box Sizing ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
