@@ -1,0 +1,11 @@
+# Muhammad Asad Portfolio
+
+> A high-fidelity, liquid-glass portfolio showcasing professional software engineering projects, technical skills, and certifications.
+
+## Project Details and Navigation
+- [Home Landing Page](https://muhammadasad-portfolio.vercel.app/): Interactive developer terminal, current status, build focus, and dynamic portfolio widgets.
+- [Asaaniyat Project](https://muhammadasad-portfolio.vercel.app/projects/asaaniyat.html): Localization and community platform focusing on ease-of-use and lightweight web tech.
+- [DevPulse Project](https://muhammadasad-portfolio.vercel.app/projects/devpulse.html): Development monitoring dashboard and real-time process monitoring.
+- [LegaleaseAI Project](https://muhammadasad-portfolio.vercel.app/projects/legaleaseai.html): AI legal assistant with document analysis and legal term translator features.
+- [MogScope Project](https://muhammadasad-portfolio.vercel.app/projects/mogscope.html): Scope and audio signal visualizer/analysis tool.
+- [PollPulse Project](https://muhammadasad-portfolio.vercel.app/projects/pollpulse.html): Real-time polling and statistics system utilizing WebSockets.

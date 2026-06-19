@@ -129,9 +129,6 @@ function timeAgo(dateStr) {
  * Wikipedia is excellent for finding high-quality "main" images for films.
  */
 function _moviePoster(title) {
-  if (title === 'Spider-Man: Brand New Day' || title === 'Spider-Man') {
-    return Promise.resolve('https://image.tmdb.org/t/p/w500/iiJyK1ZBxtU0IQnnN9616VE407d.webp');
-  }
   var clean = title.replace(/[:\-]/g, ' ').replace(/\s+/g, ' ').trim();
   var wikiSlug = clean.replace(/ /g, '_');
 
@@ -317,7 +314,7 @@ function _starsHTML(starsStr) {
             var doc = data.docs.find(function(d) { return d.cover_i; }) || data.docs[0];
             if (doc) {
               if (doc.cover_i) {
-                var url = 'https://covers.openlibrary.org/b/id/' + doc.cover_i + '-L.webp';
+                var url = 'https://covers.openlibrary.org/b/id/' + doc.cover_i + '-L.jpg';
                 readingCover.src = url;
                 readingCover.onerror = function() {
                   readingCover.style.display = 'none';
@@ -769,7 +766,7 @@ function _starsHTML(starsStr) {
       emotion = '🔥';
     }
 
-    var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.webp';
+    var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.png';
     var oppLogo   = (opp.team && opp.team.logo) || 'https://a.espncdn.com/i/teamlogos/soccer/500/default.webp';
 
     var barcaName   = 'FC Barcelona';

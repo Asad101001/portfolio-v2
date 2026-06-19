@@ -127,6 +127,16 @@ body.theme-professional .btn-offline {
 /* Section Dot Nav & Rotating Dots */
 body.theme-professional .section-dot,
 body.theme-professional .r-dot {
+    width: 24px !important;
+    height: 24px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body.theme-professional .section-dot::before,
+body.theme-professional .r-dot::before {
+    content: '';
     width: 8px !important;
     height: 8px !important;
     border: 1.5px solid #000000 !important;
@@ -137,11 +147,17 @@ body.theme-professional .r-dot {
     box-shadow: none !important;
 }
 
-body.theme-professional .section-dot.active,
-body.theme-professional .r-dot.active {
+body.theme-professional .section-dot.active::before,
+body.theme-professional .r-dot.active::before {
     background: #000000 !important;
     width: 20px !important;
     height: 8px !important;
+}
+
+body.theme-professional .section-dot.active,
+body.theme-professional .r-dot.active {
+    background: transparent !important;
+    border: none !important;
     transform: none !important;
     box-shadow: none !important;
 }
