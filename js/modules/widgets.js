@@ -186,7 +186,7 @@ function _moviePoster(title) {
 function _artistImage(name) {
   if (!name) return Promise.resolve(null);
 
-  const FALLBACK_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23222"/><text x="50" y="55" font-family="sans-serif" font-size="30" text-anchor="middle" fill="%23444">🎵</text></svg>';
+  const FALLBACK_SVG = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23222%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2255%22%20font-family%3D%22sans-serif%22%20font-size%3D%2230%22%20text-anchor%3D%22middle%22%20fill%3D%22%23444%22%3E%F0%9F%8E%B5%3C%2Ftext%3E%3C%2Fsvg%3E';
 
   // 1. Try Spotify Search API (Best quality)
   return fetch('/api/search-artist?name=' + encodeURIComponent(name))
@@ -975,7 +975,7 @@ function _starsHTML(starsStr) {
             img.crossOrigin = 'anonymous';
             img.loading = 'lazy';
             img.onerror = function() {
-              img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="%23222"/><text x="50" y="55" font-family="sans-serif" font-size="30" text-anchor="middle" fill="%23444">🎵</text></svg>';
+              img.src = 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23222%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2255%22%20font-family%3D%22sans-serif%22%20font-size%3D%2230%22%20text-anchor%3D%22middle%22%20fill%3D%22%23444%22%3E%F0%9F%8E%B5%3C%2Ftext%3E%3C%2Fsvg%3E';
             };
             imgContainer.innerHTML = '';
             imgContainer.appendChild(img);
