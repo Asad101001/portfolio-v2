@@ -10,6 +10,7 @@ import './modules/theme.js';
 import './modules/mobile.js';
 import './modules/desktop.js';
 import './modules/terminal.js';
+import './modules/webgl.js';
 
 
 // Lazy load GSAP animations after the page has fully loaded to eliminate render blocking
