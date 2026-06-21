@@ -148,20 +148,22 @@
             color: 0xffffff,
             transmission: 1.0,  // Glass-like transparency
             opacity: 1,
-            metalness: 0.2,
+            metalness: 0.1,
             roughness: 0.05,
-            ior: 2.5,           // Higher index of refraction for more dramatic distortion
-            thickness: 5.0,     // Volume thickness for deeper refraction
+            ior: 1.5,           // Index of refraction for glass
+            thickness: 2.0,     // Volume thickness for deeper refraction
             specularIntensity: 2.0,
             clearcoat: 1.0,
-            clearcoatRoughness: 0.1,
+            clearcoatRoughness: 0.05,
+            iridescence: 0.6,   // Liquid glass sheen
+            iridescenceIOR: 1.3,
             side: THREE.DoubleSide
         });
 
         const glassObject = new THREE.Mesh(objectGeometry, glassMaterial);
         
         // Position it closer and more centrally so it is clearly visible
-        glassObject.position.set(1.5, 0.5, 1.5);
+        glassObject.position.set(0, 0, 1.5);
         // Make sure it renders in front of the background plane
         glassObject.renderOrder = 1; 
         scene.add(glassObject);
@@ -236,10 +238,10 @@
 
             // Adjust position of 3D object on smaller screens
             if (window.innerWidth < 768) {
-                glassObject.position.set(0, 1.5, -2); // Move to top center
-                glassObject.scale.set(0.6, 0.6, 0.6);
+                glassObject.position.set(0, -0.8, 1); // Move lower on mobile
+                glassObject.scale.set(0.7, 0.7, 0.7);
             } else {
-                glassObject.position.set(1.5, 0.5, 1.5);
+                glassObject.position.set(1.5, 0, 1.5); // Right side on desktop
                 glassObject.scale.set(1, 1, 1);
             }
             

@@ -61,7 +61,7 @@
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
     /* Top nav is hidden on mobile, so less padding needed */
-    padding: 48px 0 80px !important;
+    padding: 48px 0 140px !important;
     min-height: 100dvh;
     overflow: hidden;
     width: 100% !important;
@@ -90,13 +90,16 @@
     align-items: center;
     width: 100% !important;
     box-sizing: border-box !important;
-    /* Force dark background — perf.css strips backdrop-filter */
-    background: rgba(13, 13, 13, 0.92) !important;
+    background: rgba(13, 13, 13, 0.4) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   }
 
-  /* Ensure all hero glass cards keep dark bg on mobile */
+  /* Ensure all hero glass cards keep some transparency on mobile */
   .hero-grid .glass-card {
-    background: rgba(10, 10, 12, 0.9) !important;
+    background: rgba(10, 10, 12, 0.4) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
     border-color: rgba(16, 185, 129, 0.12) !important;
     width: 100% !important;
     box-sizing: border-box !important;

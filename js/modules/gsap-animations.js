@@ -72,8 +72,7 @@ function floatingOrbs() {
 
 /* ─── Scroll Reveals (replaces IO `.visible` for .reveal elements) ─ */
 function scrollReveals() {
-  // Bypassing massive DOM query / ScrollTrigger setup on mobile
-  if (isMobile()) return;
+  // Bypassing massive DOM query / ScrollTrigger setup on mobile was here, but we now want it for haphazard entrance.
 
   // Project cards
   const projectCards = document.querySelectorAll('.project-card');

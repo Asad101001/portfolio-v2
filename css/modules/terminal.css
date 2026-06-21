@@ -114,3 +114,9 @@
 .t-cmd { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.4); } 
 .t-out { color: rgba(255,255,255,0.7); padding-left: 16px; font-size: 0.75rem; }
 
+@media (max-width: 768px) {
+  .interactive-terminal {
+    min-height: 200px;
+    height: auto;
+  }
+}
