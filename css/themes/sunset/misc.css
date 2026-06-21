@@ -47,10 +47,17 @@ body.theme-sunset .block.b1 { background: var(--cyan) !important; }
 body.theme-sunset .block.b2 { background: var(--lime) !important; }
 body.theme-sunset .block.b3 { background: var(--purple) !important; }
 
-/* Light Terminal Overrides (Sharpened) */
+body.theme-sunset .hero-side {
+    border: 2px solid var(--cyan) !important;
+}
+
+body.theme-sunset .terminal-bar {
+    border-bottom: 2px solid var(--cyan) !important;
+}
+
 body.theme-sunset .terminal-body {
     background: #080105 !important;
-    border: 2px solid var(--cyan) !important;
+    border: none !important;
     color: var(--text) !important;
     border-radius: 0px !important;
 }

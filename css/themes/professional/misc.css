@@ -47,10 +47,17 @@ body.theme-professional .block.b1 { background: var(--cyan) !important; }
 body.theme-professional .block.b2 { background: var(--lime) !important; }
 body.theme-professional .block.b3 { background: var(--purple) !important; }
 
-/* Light Terminal Overrides (Sharpened) */
+body.theme-professional .hero-side {
+    border: 2px solid #000000 !important;
+}
+
+body.theme-professional .terminal-bar {
+    border-bottom: 2px solid #000000 !important;
+}
+
 body.theme-professional .terminal-body {
     background: #ffffff !important;
-    border: 2px solid #000000 !important;
+    border: none !important;
     color: var(--text) !important;
     border-radius: 0px !important;
 }

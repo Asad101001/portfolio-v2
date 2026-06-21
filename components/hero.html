@@ -83,21 +83,30 @@
                     <span class="t-dot t-green"></span>
                     <span class="t-title">asad@2006 ~</span>
                 </div>
-                <div class="terminal-body">
-                    <div class="terminal-meta">Last login: Mon Mar 16 02:12:01 2026 from 192.168.1.1</div>
-                    <p class="t-line"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">whoami</span></p>
-                    <p class="t-line t-out">Muhammad Asad Khan</p>
-                    <p class="t-line"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">cat focus.txt</span></p>
-                    <p class="t-line t-out">Python &middot; OOP &middot; Data Science</p>
-                    <p class="t-line t-out">Cloud (AWS) &middot; AI &middot; RAG</p>
-                    <p class="t-line"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">echo $LOCATION</span></p>
-                    <p class="t-line t-out">Karachi, Pakistan 🇵🇰</p>
-                    <p class="t-line"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">git log -1 --oneline</span></p>
-                    <p class="t-line t-out" id="git-commit-line" style="opacity:0.6">fetching...</p>
-                    <p class="t-line t-out" style="color:var(--cyan)">🟢 Open to collabs &amp; internships</p>
-                    <p class="t-line"><span class="t-prompt">asad@2006:~$</span> <span class="t-cursor">&#x25AE;</span></p>
+                <div class="terminal-body interactive-terminal" id="terminal-body">
+                    <div id="terminal-history">
+                        <div class="terminal-meta">Last login: Mon Mar 16 02:12:01 2026 from 192.168.1.1</div>
+                        <p class="t-line t-visible"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">whoami</span></p>
+                        <p class="t-line t-out t-visible">Muhammad Asad Khan</p>
+                        <p class="t-line t-visible"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">cat focus.txt</span></p>
+                        <p class="t-line t-out t-visible">Python &middot; OOP &middot; Data Science</p>
+                        <p class="t-line t-out t-visible">Cloud (AWS) &middot; AI &middot; RAG</p>
+                        <p class="t-line t-visible"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">echo $LOCATION</span></p>
+                        <p class="t-line t-out t-visible">Karachi, Pakistan 🇵🇰</p>
+                        <p class="t-line t-visible"><span class="t-prompt">asad@2006:~$</span> <span class="t-cmd">git log -1 --oneline</span></p>
+                        <p class="t-line t-out t-visible" id="git-commit-line" style="opacity:0.6">fetching...</p>
+                        <p class="t-line t-out t-visible" style="color:var(--cyan)">🟢 Open to collabs &amp; internships</p>
+                    </div>
+                    <div class="terminal-input-row">
+                        <span class="t-prompt" id="terminal-prompt-prefix">asad@2006:~$</span>
+                        <div class="terminal-input-wrapper">
+                            <span class="t-autosuggest"></span>
+                            <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="Type 'help'..." />
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- Row 3 Left: Currently Into Card -->
             <div class="card currently-into-card glass-card reveal" style="--delay:200ms">

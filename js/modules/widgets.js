@@ -753,6 +753,24 @@ function _starsHTML(starsStr) {
     return list.slice(0, limit).join(', ') + ' +' + overflow;
   }
 
+  function getScoreValue(competitor) {
+    if (!competitor) return 0;
+    if (competitor.score === undefined || competitor.score === null) return 0;
+    if (typeof competitor.score === 'object') {
+      return competitor.score.value !== undefined ? competitor.score.value : (parseInt(competitor.score.displayValue) || 0);
+    }
+    return parseInt(competitor.score) || 0;
+  }
+
+  function getScoreDisplay(competitor) {
+    if (!competitor) return '-';
+    if (competitor.score === undefined || competitor.score === null) return '-';
+    if (typeof competitor.score === 'object') {
+      return competitor.score.displayValue !== undefined ? competitor.score.displayValue : (competitor.score.value !== undefined ? String(competitor.score.value) : '-');
+    }
+    return String(competitor.score);
+  }
+
   function setBarcaDisplay(data) {
     var barca        = data.barca;
     var opp          = data.opp;
@@ -765,8 +783,8 @@ function _starsHTML(starsStr) {
     var barcaRedCards = data.barcaRedCards || 0;
     var oppRedCards   = data.oppRedCards   || 0;
 
-    var barcaScore = parseInt(barca.score) || 0;
-    var oppScore   = parseInt(opp.score)   || 0;
+    var barcaScore = getScoreValue(barca);
+    var oppScore   = getScoreValue(opp);
     var emotion = '⚽';
     
     if (state === 'post') {
@@ -776,18 +794,20 @@ function _starsHTML(starsStr) {
     }
 
     var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.png';
-    var oppLogo   = (opp.team && opp.team.logo) || 'https://a.espncdn.com/i/teamlogos/soccer/500/default.webp';
+    var oppLogo   = (opp && opp.team && opp.team.logos && opp.team.logos[0] && opp.team.logos[0].href)
+                 || (opp && opp.team && opp.team.logo)
+                 || 'https://a.espncdn.com/i/teamlogos/soccer/500/default.webp';
 
     var barcaName   = 'FC Barcelona';
-    var oppNameFull = (opp.team && formatTeam(opp.team)) || '---';
+    var oppNameFull = (opp && opp.team && formatTeam(opp.team)) || '---';
     
     // Row 1: Home Team, Row 2: Away Team
     var team1 = barcaIsHost ? barcaName : oppNameFull;
     var team2 = !barcaIsHost ? barcaName : oppNameFull;
     var logo1 = barcaIsHost ? barcaLogo : oppLogo;
     var logo2 = !barcaIsHost ? barcaLogo : oppLogo;
-    var score1 = barcaIsHost ? barca.score : opp.score;
-    var score2 = !barcaIsHost ? barca.score : opp.score;
+    var score1 = barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
+    var score2 = !barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     
     var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 2);
     var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 2);
@@ -822,7 +842,7 @@ function _starsHTML(starsStr) {
             '<div class="barca-name-stack">' +
                '<span class="barca-name-pink">FC Barcelona</span>' +
                '<span class="barca-slogan-cyan">MÉS QUE UN CLUB</span>' +
-            '</div>' +
+             '</div>' +
           '</div>' +
           '<div class="barca-score-rows-side">' +
             '<div class="score-row-mini is-home-row">' +
@@ -874,27 +894,54 @@ function _starsHTML(starsStr) {
           .filter(function(r){ return r.status === 'fulfilled'; })
           .map(function(r){ return r.value; })
       );
-      if (!allEvents.length) {
-        return fetchESPNSchedule().then(function(evs){ return evs; });
+      
+      var scoreboardBarcaMatches = allEvents.filter(function(ev) {
+        return ev.competitions && ev.competitions[0] &&
+          ev.competitions[0].competitors &&
+          ev.competitions[0].competitors.some(function(c){ return String(c.team.id) === BARCA_ID; });
+      });
+
+      if (scoreboardBarcaMatches.length > 0) {
+        return scoreboardBarcaMatches;
+      } else {
+        return fetchESPNSchedule();
       }
-      return allEvents;
     }).then(function(events) {
       if (!events || !events.length) return;
+      
+      var now = new Date();
       var barcaMatches = events
         .filter(function(ev){
           return ev.competitions && ev.competitions[0] &&
             ev.competitions[0].competitors &&
             ev.competitions[0].competitors.some(function(c){ return String(c.team.id) === BARCA_ID; });
-        })
-        .sort(function(a, b){ return new Date(b.date) - new Date(a.date); });
+        });
 
       if (!barcaMatches.length) return;
 
-      var ev   = barcaMatches[0];
+      // Find if there is any live match
+      var liveMatch = barcaMatches.find(function(ev) {
+        var statusObj = ev.status || (ev.competitions && ev.competitions[0] && ev.competitions[0].status);
+        return statusObj && statusObj.type && statusObj.type.state === 'in';
+      });
+
+      var ev;
+      if (liveMatch) {
+        ev = liveMatch;
+      } else {
+        // Sort by how close they are to now (absolute difference in time)
+        barcaMatches.sort(function(a, b) {
+          return Math.abs(new Date(a.date) - now) - Math.abs(new Date(b.date) - now);
+        });
+        ev = barcaMatches[0];
+      }
+
       var comp = ev.competitions[0];
       var barca = comp.competitors.find(function(c){ return String(c.team.id) === BARCA_ID; });
       var opp   = comp.competitors.find(function(c){ return String(c.team.id) !== BARCA_ID; });
-      var state = ev.status.type.state;
+      
+      var statusObj = ev.status || comp.status;
+      var state = (statusObj && statusObj.type && statusObj.type.state) || 'pre';
       var slug  = leagueSlugFromEvent(ev);
 
       var scorerPromise = (state === 'post' || state === 'in')

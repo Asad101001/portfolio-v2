@@ -9,6 +9,8 @@ import './modules/ui.js';
 import './modules/theme.js';
 import './modules/mobile.js';
 import './modules/desktop.js';
+import './modules/terminal.js';
+
 
 // Lazy load GSAP animations after the page has fully loaded to eliminate render blocking
 // and keep the initial bundle size small (improves FCP and TBT on mobile/desktop).
