@@ -35,7 +35,7 @@
         canvas.style.left = '0';
         canvas.style.width = '100%';
         canvas.style.height = '100%';
-        canvas.style.zIndex = '0';
+        canvas.style.zIndex = '1';
         // Allow pointer events to pass through background, but if we want interactivity on 3D object we might need mouse tracking via raycaster.
         // For performance, we track mouse document-wide instead.
         canvas.style.pointerEvents = 'none'; 
@@ -141,26 +141,27 @@
 
         // ─── 3D Liquid Glass Object (Torus Knot) ───
         // We create an actual 3D object that refracts light
-        const objectGeometry = new THREE.TorusKnotGeometry(1.2, 0.4, 128, 64);
+        const objectGeometry = new THREE.TorusKnotGeometry(1.2, 0.4, 256, 64);
         
-        // Premium physical glass material
+        // Premium physical glass material (Liquid Glass look)
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
             transmission: 1.0,  // Glass-like transparency
             opacity: 1,
-            metalness: 0.1,
-            roughness: 0.1,
-            ior: 1.5,           // Index of refraction
-            thickness: 2.0,     // Volume thickness
-            specularIntensity: 1.0,
+            metalness: 0.2,
+            roughness: 0.05,
+            ior: 2.5,           // Higher index of refraction for more dramatic distortion
+            thickness: 5.0,     // Volume thickness for deeper refraction
+            specularIntensity: 2.0,
             clearcoat: 1.0,
-            clearcoatRoughness: 0.1
+            clearcoatRoughness: 0.1,
+            side: THREE.DoubleSide
         });
 
         const glassObject = new THREE.Mesh(objectGeometry, glassMaterial);
         
-        // Position it somewhere cool (right side, a bit behind the UI)
-        glassObject.position.set(3.5, 0, -2);
+        // Position it closer and more centrally so it is clearly visible
+        glassObject.position.set(1.5, 0.5, 1.5);
         // Make sure it renders in front of the background plane
         glassObject.renderOrder = 1; 
         scene.add(glassObject);
@@ -235,10 +236,10 @@
 
             // Adjust position of 3D object on smaller screens
             if (window.innerWidth < 768) {
-                glassObject.position.set(0, 2, -3); // Move to top center
+                glassObject.position.set(0, 1.5, -2); // Move to top center
                 glassObject.scale.set(0.6, 0.6, 0.6);
             } else {
-                glassObject.position.set(3.5, 0, -2);
+                glassObject.position.set(1.5, 0.5, 1.5);
                 glassObject.scale.set(1, 1, 1);
             }
             
@@ -336,8 +337,8 @@
             glassObject.quaternion.copy(glassBody.quaternion);
             
             // Add subtle floating effect to origin instead of the object directly
-            originBody.position.y = Math.sin(elapsedTime * 1.5) * 0.3;
-            originBody.position.x = window.innerWidth < 768 ? 0 : 3.5 + (targetX - 0.5) * 2;
+            originBody.position.y = Math.sin(elapsedTime * 1.5) * 0.3 + 0.5;
+            originBody.position.x = window.innerWidth < 768 ? 0 : 1.5 + (targetX - 0.5) * 2;
 
             // Update Background Shader Uniforms
             uniforms.u_time.value = elapsedTime;

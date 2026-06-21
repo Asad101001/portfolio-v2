@@ -341,82 +341,80 @@
                 </article>
 
                 <!-- DevPulse -->
-                <div style="grid-column: 1 / -1; display: flex; justify-content: center; width: 100%;">
-                    <article class="project-card glass-card reveal" style="max-width: 500px; width: 100%;">
-                        <div class="proj-img-wrap" style="background:linear-gradient(135deg,#FFD60018,#18181b)">
-                            <img src="/images/projects/devpulse/devpulse.webp" alt="DevPulse screenshot" class="proj-img" loading="lazy" decoding="async"
-                                onerror="this.style.display='none';var p=this.parentNode.querySelector('.proj-img-placeholder');if(p)p.style.display='flex'" />
-                            <div class="proj-img-placeholder" style="display:none">
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
-                                    fill="none" stroke="#FFD600" stroke-width="1.2" opacity="0.45">
-                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                <article class="project-card glass-card reveal">
+                    <div class="proj-img-wrap" style="background:linear-gradient(135deg,#FFD60018,#18181b)">
+                        <img src="/images/projects/devpulse/devpulse.webp" alt="DevPulse screenshot" class="proj-img" loading="lazy" decoding="async"
+                            onerror="this.style.display='none';var p=this.parentNode.querySelector('.proj-img-placeholder');if(p)p.style.display='flex'" />
+                        <div class="proj-img-placeholder" style="display:none">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                fill="none" stroke="#FFD600" stroke-width="1.2" opacity="0.45">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                            </svg>
+                        </div>
+                        <div class="proj-img-overlay"></div>
+                    </div>
+                    <a href="/projects/devpulse.html" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(90deg, rgba(255,214,0,0.15), transparent); padding: 8px 16px; border-bottom: 1px solid rgba(255,214,0,0.1); border-top: 1px solid rgba(255,214,0,0.05); color: #FFD600; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; display: flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; transition: background 0.3s;" onmouseover="this.style.background='linear-gradient(90deg, rgba(255,214,0,0.25), transparent)'" onmouseout="this.style.background='linear-gradient(90deg, rgba(255,214,0,0.15), transparent)'">
+                        <span style="font-size: 1rem;">🔍</span> View More Details
+                    </a>
+                    <div class="proj-body">
+                        <div class="proj-head">
+                            <div class="proj-icon"
+                                style="background:linear-gradient(135deg,#FFD60030,#FFD60010);color:#FFD600">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="draw-path" pathLength="1" d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="proj-title">DevPulse <span class="status-offline"><span class="status-offline-dot"></span> Offline</span></h3>
+                                <p class="proj-live"><a href="#" class="proj-link-offline">Offline</a></p>
+                            </div>
+                        </div>
+                        <p class="proj-desc">
+                            A developer telemetry dashboard. Analyzes commit narratives to calculate cognitive load using Llama 3.3. Built with a technical aesthetic using React, Express, and MongoDB Atlas.
+                        </p>
+                        <div class="proj-tags">
+                            <span class="acard" style="--ac:#61DAFB;--ag:rgba(97,218,251,0.2)">
+                                <span class="acard-icon"><i class="devicon-react-original colored"></i></span>
+                                <span class="acard-name">React</span>
+                            </span>
+                            <span class="acard" style="--ac:#ffffff;--ag:rgba(255,255,255,0.2)">
+                                <span class="acard-icon"><i class="devicon-express-original"></i></span>
+                                <span class="acard-name">Express 5</span>
+                            </span>
+                            <span class="acard" style="--ac:#f75049;--ag:rgba(247,80,73,0.2)">
+                                <span class="acard-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+                                <span class="acard-name">Llama 3.3</span>
+                            </span>
+                            <span class="acard" style="--ac:#47A248;--ag:rgba(71,162,72,0.2)">
+                                <span class="acard-icon"><i class="devicon-mongodb-plain colored"></i></span>
+                                <span class="acard-name">MongoDB</span>
+                            </span>
+                            <span class="acard" style="--ac:#3b82f6;--ag:rgba(59,130,246,0.2)">
+                                <span class="acard-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L18.5 7.5 12 10.2 5.5 7.5 12 4.8z"/></svg></span>
+                                <span class="acard-name">Recharts</span>
+                            </span>
+                        </div>
+                        <div class="proj-links">
+                            <a href="https://github.com/Asad101001/devpulse" target="_blank" rel="noopener noreferrer"
+                                class="proj-link-code">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                                    <path d="M9 18c-4.51 2-5-2-7-2" />
                                 </svg>
-                            </div>
-                            <div class="proj-img-overlay"></div>
+                                Code
+                            </a>
+                            <a href="#" class="proj-link-demo proj-link-offline">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 3h6v6" />
+                                    <path d="M10 14 21 3" />
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                </svg>
+                                Offline
+                            </a>
                         </div>
-                        <a href="/projects/devpulse.html" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(90deg, rgba(255,214,0,0.15), transparent); padding: 8px 16px; border-bottom: 1px solid rgba(255,214,0,0.1); border-top: 1px solid rgba(255,214,0,0.05); color: #FFD600; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; display: flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; transition: background 0.3s;" onmouseover="this.style.background='linear-gradient(90deg, rgba(255,214,0,0.25), transparent)'" onmouseout="this.style.background='linear-gradient(90deg, rgba(255,214,0,0.15), transparent)'">
-                            <span style="font-size: 1rem;">🔍</span> View More Details
-                        </a>
-                        <div class="proj-body">
-                            <div class="proj-head">
-                                <div class="proj-icon"
-                                    style="background:linear-gradient(135deg,#FFD60030,#FFD60010);color:#FFD600">
-                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="draw-path" pathLength="1" d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                                </div>
-                                <div>
-                                    <h3 class="proj-title">DevPulse <span class="status-offline"><span class="status-offline-dot"></span> Offline</span></h3>
-                                    <p class="proj-live"><a href="#" class="proj-link-offline">Offline</a></p>
-                                </div>
-                            </div>
-                            <p class="proj-desc">
-                                A developer telemetry dashboard. Analyzes commit narratives to calculate cognitive load using Llama 3.3. Built with a technical aesthetic using React, Express, and MongoDB Atlas.
-                            </p>
-                            <div class="proj-tags">
-                                <span class="acard" style="--ac:#61DAFB;--ag:rgba(97,218,251,0.2)">
-                                    <span class="acard-icon"><i class="devicon-react-original colored"></i></span>
-                                    <span class="acard-name">React</span>
-                                </span>
-                                <span class="acard" style="--ac:#ffffff;--ag:rgba(255,255,255,0.2)">
-                                    <span class="acard-icon"><i class="devicon-express-original"></i></span>
-                                    <span class="acard-name">Express 5</span>
-                                </span>
-                                <span class="acard" style="--ac:#f75049;--ag:rgba(247,80,73,0.2)">
-                                    <span class="acard-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
-                                    <span class="acard-name">Llama 3.3</span>
-                                </span>
-                                <span class="acard" style="--ac:#47A248;--ag:rgba(71,162,72,0.2)">
-                                    <span class="acard-icon"><i class="devicon-mongodb-plain colored"></i></span>
-                                    <span class="acard-name">MongoDB</span>
-                                </span>
-                                <span class="acard" style="--ac:#3b82f6;--ag:rgba(59,130,246,0.2)">
-                                    <span class="acard-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L18.5 7.5 12 10.2 5.5 7.5 12 4.8z"/></svg></span>
-                                    <span class="acard-name">Recharts</span>
-                                </span>
-                            </div>
-                            <div class="proj-links">
-                                <a href="https://github.com/Asad101001/devpulse" target="_blank" rel="noopener noreferrer"
-                                    class="proj-link-code">
-                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2">
-                                        <path
-                                            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                                        <path d="M9 18c-4.51 2-5-2-7-2" />
-                                    </svg>
-                                    Code
-                                </a>
-                                <a href="#" class="proj-link-demo proj-link-offline">
-                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M15 3h6v6" />
-                                        <path d="M10 14 21 3" />
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                    </svg>
-                                    Offline
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                    </div>
+                </article>
 
             </div>
         </div>

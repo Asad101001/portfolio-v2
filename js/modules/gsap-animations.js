@@ -78,19 +78,24 @@ function scrollReveals() {
   // Project cards
   const projectCards = document.querySelectorAll('.project-card');
   if (projectCards.length) {
-    gsap.from(projectCards, {
-      opacity: 0,
-      y: isMobile() ? 24 : 40,
-      scale: 0.97,
-      stagger: 0.07,
-      duration: 0.65,
-      ease: 'power3.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: projectCards[0].closest('section') || projectCards[0].parentElement,
-        start: 'top 85%',
-        once: true,
-      },
+    // Add random initial transforms for a haphazard falling effect
+    projectCards.forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: gsap.utils.random(50, 100),
+        x: gsap.utils.random(-30, 30),
+        rotation: gsap.utils.random(-8, 8),
+        scale: 0.9,
+        duration: 0.8,
+        delay: i * 0.1,
+        ease: 'back.out(1.5)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: card.closest('section') || card.parentElement,
+          start: 'top 85%',
+          once: true,
+        },
+      });
     });
   }
 
@@ -128,55 +133,65 @@ function scrollReveals() {
   // Experience / job cards
   const expItems = document.querySelectorAll('.job-card, .exp-item, .timeline-item');
   if (expItems.length) {
-    gsap.from(expItems, {
-      opacity: 0,
-      x: isMobile() ? 0 : -28,
-      y: isMobile() ? 18 : 0,
-      stagger: 0.1,
-      duration: 0.55,
-      ease: 'power3.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: expItems[0].closest('section') || expItems[0].parentElement,
-        start: 'top 82%',
-        once: true,
-      },
+    expItems.forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        x: gsap.utils.random(-25, 25),
+        y: gsap.utils.random(30, 60),
+        rotation: gsap.utils.random(-5, 5),
+        duration: 0.7,
+        delay: i * 0.1,
+        ease: 'back.out(1.5)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: card.closest('section') || card.parentElement,
+          start: 'top 85%',
+          once: true,
+        },
+      });
     });
   }
 
   // About stat cards
   const statCards = document.querySelectorAll('.about-stat-card');
   if (statCards.length) {
-    gsap.from(statCards, {
-      opacity: 0,
-      y: 20,
-      stagger: 0.08,
-      duration: 0.5,
-      ease: 'back.out(1.5)',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: statCards[0].closest('section') || statCards[0].parentElement,
-        start: 'top 85%',
-        once: true,
-      },
+    statCards.forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: gsap.utils.random(20, 50),
+        rotation: gsap.utils.random(-10, 10),
+        duration: 0.6,
+        delay: i * 0.1,
+        ease: 'back.out(1.8)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: card.closest('section') || card.parentElement,
+          start: 'top 85%',
+          once: true,
+        },
+      });
     });
   }
 
   // Education / cert cards
   const eduCards = document.querySelectorAll('.edu-card, .cert-card');
   if (eduCards.length) {
-    gsap.from(eduCards, {
-      opacity: 0,
-      y: 24,
-      stagger: 0.09,
-      duration: 0.55,
-      ease: 'power3.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: eduCards[0].closest('section') || eduCards[0].parentElement,
-        start: 'top 85%',
-        once: true,
-      },
+    eduCards.forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: gsap.utils.random(40, 80),
+        x: gsap.utils.random(-20, 20),
+        rotation: gsap.utils.random(-6, 6),
+        duration: 0.7,
+        delay: i * 0.1,
+        ease: 'back.out(1.5)',
+        clearProps: 'all',
+        scrollTrigger: {
+          trigger: card.closest('section') || card.parentElement,
+          start: 'top 85%',
+          once: true,
+        },
+      });
     });
   }
 
