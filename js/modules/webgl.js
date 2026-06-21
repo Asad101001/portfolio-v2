@@ -241,10 +241,81 @@
                 glassObject.position.set(3.5, 0, -2);
                 glassObject.scale.set(1, 1, 1);
             }
+            
+            // Sync physics body position
+            if (glassBody) {
+                glassBody.position.copy(glassObject.position);
+            }
         });
 
         // Trigger initial resize to set proper scale
         window.dispatchEvent(new Event('resize'));
+
+        // ─── Cannon.js Physics ───
+        const CANNON = await import('cannon-es');
+        
+        const world = new CANNON.World({
+            gravity: new CANNON.Vec3(0, 0, 0), // No gravity initially so it floats
+        });
+
+        // Add a sphere body for the glass object
+        const glassShape = new CANNON.Sphere(1.2);
+        const glassBody = new CANNON.Body({
+            mass: 1, // kg
+            position: new CANNON.Vec3(glassObject.position.x, glassObject.position.y, glassObject.position.z),
+            shape: glassShape,
+            angularDamping: 0.5, // Slow down spin over time
+            linearDamping: 0.1
+        });
+        world.addBody(glassBody);
+
+        // Add an invisible constraint/spring to keep it tethered to its origin point
+        const originBody = new CANNON.Body({
+            mass: 0, // Static
+            position: new CANNON.Vec3(glassObject.position.x, glassObject.position.y, glassObject.position.z)
+        });
+        world.addBody(originBody);
+
+        const spring = new CANNON.Spring(glassBody, originBody, {
+            localAnchorA: new CANNON.Vec3(0, 0, 0),
+            localAnchorB: new CANNON.Vec3(0, 0, 0),
+            restLength: 0,
+            stiffness: 50,
+            damping: 5,
+        });
+
+        world.addEventListener('postStep', () => {
+            spring.applyForce();
+        });
+
+        // Apply impulse on hover
+        document.addEventListener('mousemove', (e) => {
+            if (isHovering3D && glassBody) {
+                // Apply a small rotational impulse when hovering
+                glassBody.applyTorque(new CANNON.Vec3(
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10
+                ));
+            }
+        });
+
+        // Apply huge impulse on click
+        document.addEventListener('click', () => {
+            if (isHovering3D && glassBody) {
+                glassBody.applyImpulse(new CANNON.Vec3(
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 10,
+                    -5
+                ), new CANNON.Vec3(0, 0, 0));
+                
+                glassBody.applyTorque(new CANNON.Vec3(
+                    (Math.random() - 0.5) * 50,
+                    (Math.random() - 0.5) * 50,
+                    0
+                ));
+            }
+        });
 
         // ─── Render Loop ───
         const clock = new THREE.Clock();
@@ -255,7 +326,19 @@
             requestAnimationFrame(animate);
 
             const elapsedTime = clock.getElapsedTime();
+            const deltaTime = clock.getDelta();
             
+            // Step physics world
+            world.step(1 / 60, deltaTime, 3);
+            
+            // Sync Three.js mesh with Cannon.js body
+            glassObject.position.copy(glassBody.position);
+            glassObject.quaternion.copy(glassBody.quaternion);
+            
+            // Add subtle floating effect to origin instead of the object directly
+            originBody.position.y = Math.sin(elapsedTime * 1.5) * 0.3;
+            originBody.position.x = window.innerWidth < 768 ? 0 : 3.5 + (targetX - 0.5) * 2;
+
             // Update Background Shader Uniforms
             uniforms.u_time.value = elapsedTime;
             
@@ -263,29 +346,16 @@
             uniforms.u_mouse.value.x += (targetX - uniforms.u_mouse.value.x) * 0.05;
             uniforms.u_mouse.value.y += (targetY - uniforms.u_mouse.value.y) * 0.05;
 
-            // Handle 3D object hover states
+            // Handle 3D object hover scale states
             if (isHovering3D) {
                 hoverScale += (1.2 - hoverScale) * 0.1;
-                targetRotationSpeed = 0.05;
             } else {
                 hoverScale += (1.0 - hoverScale) * 0.1;
-                targetRotationSpeed = 0.01;
             }
             
             // Apply scale (accounting for base responsive scaling)
             const baseScale = window.innerWidth < 768 ? 0.6 : 1.0;
             glassObject.scale.set(baseScale * hoverScale, baseScale * hoverScale, baseScale * hoverScale);
-
-            currentRotationSpeed += (targetRotationSpeed - currentRotationSpeed) * 0.05;
-
-            // Rotate 3D Glass Object
-            glassObject.rotation.x += currentRotationSpeed * 0.5;
-            glassObject.rotation.y += currentRotationSpeed;
-            
-            // Add subtle floating effect
-            glassObject.position.y = Math.sin(elapsedTime * 1.5) * 0.3;
-            // Add subtle mouse parallax to 3D object
-            glassObject.position.x += ((3.5 + (targetX - 0.5) * 2) - glassObject.position.x) * 0.05;
 
             renderer.render(scene, camera);
         }
