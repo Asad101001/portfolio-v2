@@ -46,6 +46,13 @@ const iconMapping = {
   vscode: { source: 'devicon', name: 'vscode', color: '#007ACC', type: 'original' },
   jupyter: { source: 'devicon', name: 'jupyter', color: '#F37626', type: 'original' },
   bash: { source: 'devicon', name: 'bash', color: '#4EAA25', type: 'plain' },
+
+  // Frontend & GUI
+  react: { source: 'devicon', name: 'react', color: '#61DAFB', type: 'original' },
+  tailwindcss: { source: 'devicon', name: 'tailwindcss', color: '#06B6D4', type: 'original' },
+  threejs: { source: 'simpleicons', name: 'threedotjs', color: '#FFFFFF' },
+  dotnet: { source: 'devicon', name: 'dotnetcore', color: '#512BD4', type: 'original' },
+  raylib: { source: 'simpleicons', name: 'raylib', color: '#FFFFFF' },
 };
 
 async function fetchRawSvg(url) {
