@@ -97,7 +97,10 @@ window.addEventListener('DOMContentLoaded', () => {
   // Disabled hash scroll on load to keep default top-of-page behavior across reloads.
 });
 
-// Import and mount React Liquid Glass components asynchronously to avoid blocking the main thread
-import('./components/LiquidGlassHero.jsx').then(({ mountLiquidGlass }) => {
-  mountLiquidGlass();
-}).catch(err => console.error("Failed to load LiquidGlass wrapper", err));
+// NOTE: LiquidGlass mount is disabled — it breaks hero card styling by clearing
+// innerHTML and re-mounting in a React root, which kills GSAP bindings and
+// overwrites the dark glass background with a flat gray overlay.
+// The native CSS glass effect on .hero-main is the intended implementation.
+// import('./components/LiquidGlassHero.jsx').then(({ mountLiquidGlass }) => {
+//   mountLiquidGlass();
+// }).catch(err => console.error("Failed to load LiquidGlass wrapper", err));
