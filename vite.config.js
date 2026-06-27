@@ -3,6 +3,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
+import react from '@vitejs/plugin-react';
 
 /**
  * A basic Vite plugin to inline HTML files using <include src="./components/foo.html"></include>
@@ -37,6 +38,7 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [
+    react(),
     htmlIncludePlugin(),
     VitePWA({
       registerType: 'autoUpdate',

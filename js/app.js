@@ -96,3 +96,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Disabled hash scroll on load to keep default top-of-page behavior across reloads.
 });
+
+// Import and mount React Liquid Glass components asynchronously to avoid blocking the main thread
+import('./components/LiquidGlassHero.jsx').then(({ mountLiquidGlass }) => {
+  mountLiquidGlass();
+}).catch(err => console.error("Failed to load LiquidGlass wrapper", err));

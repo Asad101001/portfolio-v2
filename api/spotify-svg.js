@@ -197,7 +197,9 @@ export default async function handler(req, res) {
 
   <!-- Progress Bar -->
   <rect x="110" y="82" width="310" height="4" fill="#222222" rx="2" />
-  <rect x="110" y="82" width="${progressWidth}" height="4" fill="#1DB954" rx="2" />
+  <rect x="110" y="82" height="4" fill="#1DB954" rx="2">
+    <animate attributeName="width" from="${progressWidth}" to="310" dur="${Math.max((duration - progress) / 1000, 1)}s" fill="freeze" />
+  </rect>
 </svg>`;
   } else {
     // Offline or paused
