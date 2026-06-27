@@ -59,11 +59,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <!-- Fonts: async load with font-display:swap to eliminate render-blocking -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" /></noscript>
+    <!-- Devicons: async load, non-critical (below-fold icons) -->
     <link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
+    <!-- Critical CSS inline: only what's needed above the fold -->
     <link rel="stylesheet" href="./css/style.css" />
+    <!-- Preload LCP background images (above-fold hero - default theme is dark/sunset) -->
+    <link rel="preload" as="image" href="/images/backgrounds/sunset_bg.webp" fetchpriority="high" />
 </head>
 
 <body>

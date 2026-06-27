@@ -15,12 +15,37 @@ import './modules/lenis-setup.js';
 import './modules/swup-setup.js';
 
 
-// Lazy load GSAP animations after the page has fully loaded to eliminate render blocking
-// and keep the initial bundle size small (improves FCP and TBT on mobile/desktop).
+// Lazy load heavy non-critical modules after page load
+// widgets.js (76KB) and twitter.js (6.8KB) power below-fold content only
+// gsap-animations.js is also non-critical for initial paint
 window.addEventListener('load', () => {
-  setTimeout(() => {
+  // Small delay to let the browser go idle before loading heavy modules
+  const idleLoad = (fn) => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fn, { timeout: 2000 });
+    } else {
+      setTimeout(fn, 200);
+    }
+  };
+
+  idleLoad(() => {
     import('./modules/gsap-animations.js').catch(err => {
       console.error('GSAP dynamic import failed:', err);
     });
-  }, 100);
+  });
+
+  idleLoad(() => {
+    // widgets.js is the heaviest module (~77KB) — powers Spotify, GitHub, Weather, etc.
+    // These are all below-fold, so loading them after LCP is safe
+    import('./modules/widgets.js').catch(err => {
+      console.error('Widgets dynamic import failed:', err);
+    });
+  });
+
+  idleLoad(() => {
+    import('./modules/twitter.js').catch(err => {
+      console.error('Twitter dynamic import failed:', err);
+    });
+  });
 });
+

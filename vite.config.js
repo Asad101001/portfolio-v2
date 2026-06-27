@@ -71,6 +71,20 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false, // keep console for dev experience easter egg
+        drop_debugger: true,
+        passes: 2,
+      },
+      mangle: true,
+      format: {
+        comments: false,
+      }
+    },
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
@@ -81,6 +95,26 @@ export default defineConfig({
         mogscope: path.resolve(__dirname, 'projects/mogscope.html'),
         asaaniyat: path.resolve(__dirname, 'projects/asaaniyat.html'),
         demo: path.resolve(__dirname, 'demo.html')
+      },
+      output: {
+        // Code-split by module — keeps initial bundle minimal
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // Group vendor libs into their own chunk
+            if (id.includes('lenis') || id.includes('swup')) return 'vendor-scroll';
+            if (id.includes('gsap')) return 'vendor-gsap';
+            if (id.includes('react')) return 'vendor-react';
+            return 'vendor';
+          }
+          // Split our heavy modules into separate chunks
+          if (id.includes('widgets')) return 'widgets';
+          if (id.includes('twitter')) return 'twitter';
+          if (id.includes('terminal')) return 'terminal';
+          if (id.includes('webgl')) return 'webgl';
+        },
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       }
     }
   }

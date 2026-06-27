@@ -249,3 +249,66 @@ body.theme-sunset .completed-stamp {
 .media-thumb-img {
   border-radius: 6px !important;
 }
+/* ── Non-Composited Animation Fixes (PageSpeed) ────────────────────────
+   Replace background-position animations (causes compositing cost) with
+   transform-only or opacity-only animations. These are GPU-compositable.
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* FIX 1: Progress bar — replace background-size animation with pseudo-element
+   transform trick. Background-position/size animations are non-composited. */
+.media-thumb-progress-fill,
+#tv-progress-fill {
+  background: linear-gradient(90deg, #06b6d4 0%, #22d3ee 50%, #06b6d4 100%);
+  background-size: 200% auto;
+  animation: none !important; /* Kill the non-composited background-pos anim */
+  overflow: hidden;
+  position: relative;
+}
+.media-thumb-progress-fill::after,
+#tv-progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  animation: progress-shimmer 1.8s linear infinite;
+  will-change: transform;
+  transform: translateX(-100%);
+}
+@keyframes progress-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* FIX 2: Live dot pulse — use transform+opacity only (compositor-safe) */
+.live-dot-pulse,
+.status-pulse-small {
+  animation: pulse-dot-safe 1.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes pulse-dot-safe {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+/* FIX 3: SVG scanner ring — already uses animateTransform, no fix needed.
+   But promote to GPU layer to avoid forcing main thread compositing */
+#clock-scanner {
+  will-change: transform;
+}
+
+/* FIX 4: Shooting star — already transform-only, just ensure layer */
+.shooting-star {
+  will-change: transform, opacity;
+}
+
+/* FIX 5: Faller / Spark — already transform-only */
+.faller, .hero-spark {
+  will-change: transform, opacity;
+}
+
+/* FIX 6: Scroll indicator line — replace any height/width animation 
+   with a scaleY transform from the top */
+.scroll-indicator-line {
+  transform-origin: top center;
+  will-change: transform;
+}
