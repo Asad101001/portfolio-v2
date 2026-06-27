@@ -67,8 +67,11 @@
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
     <!-- Critical CSS inline: only what's needed above the fold -->
     <link rel="stylesheet" href="./css/style.css" />
-    <!-- Preload LCP background images (above-fold hero - default theme is dark/sunset) -->
+    <!-- Preload all 3 hero backgrounds — browser picks whichever theme is active -->
+    <!-- This breaks the HTML→CSS→image chain: images discoverable at HTML parse time -->
     <link rel="preload" as="image" href="/images/backgrounds/sunset_bg.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/backgrounds/hero-bg.webp" fetchpriority="low" />
+    <link rel="preload" as="image" href="/images/backgrounds/industrial_bg.webp" fetchpriority="low" />
 </head>
 
 <body>

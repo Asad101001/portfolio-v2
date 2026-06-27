@@ -41,6 +41,27 @@
         localStorage.setItem('asad_portfolio_theme', nextTheme);
     }
 
+    // Theme → hero background image map
+    const HERO_BG_MAP = {
+        sunset:       '/images/backgrounds/sunset_bg.webp',
+        cyberpunk:    '/images/backgrounds/hero-bg.webp',
+        professional: '/images/backgrounds/industrial_bg.webp',
+    };
+
+    function setHeroBg(theme) {
+        const img = document.getElementById('hero-bg-img');
+        if (!img) return;
+        const src = HERO_BG_MAP[theme] || HERO_BG_MAP.sunset;
+        // Only swap if different (avoid reload on same theme)
+        if (!img.src.endsWith(src.replace(/^\//, ''))) {
+            img.style.transition = 'opacity 0.4s ease';
+            img.style.opacity = '0';
+            const restore = () => { img.style.opacity = ''; img.removeEventListener('load', restore); };
+            img.addEventListener('load', restore);
+            img.src = src;
+        }
+    }
+
     function applyTheme(theme) {
         // Remove all theme classes
         themes.forEach(t => {
@@ -51,7 +72,10 @@
         if (theme !== 'default') {
             document.body.classList.add(`theme-${theme}`);
         }
-        
+
+        // Swap hero background image src (replaces old CSS variable approach)
+        setHeroBg(theme);
+
         // Dispatch event for other components to react
         window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme } }));
     }
@@ -75,7 +99,11 @@
     }
 
     // Re-run init when components are likely loaded
-    window.addEventListener('DOMContentLoaded', initToggle);
+    window.addEventListener('DOMContentLoaded', () => {
+        initToggle();
+        // Sync hero img src to saved theme on initial load
+        setHeroBg(themes[currentThemeIndex]);
+    });
     
     // Also listen for a custom event if using a component loader
     window.addEventListener('componentsLoaded', initToggle);

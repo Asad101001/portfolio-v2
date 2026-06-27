@@ -4,8 +4,18 @@
     ════════════════════════════════════════════ -->
     <section id="hero">
         <div class="hero-backdrop" id="hero-backdrop">
-            <!-- Background is now handled via CSS variable for theme-switching -->
-            <div class="hero-backdrop-inner" id="hero-bg-inner"></div>
+            <!-- ⚡ LCP FIX: real <img> so browser discovers it at HTML parse time,
+                 not after CSS download+parse. JS swaps src on theme change. -->
+            <img
+              id="hero-bg-img"
+              src="/images/backgrounds/sunset_bg.webp"
+              alt=""
+              aria-hidden="true"
+              fetchpriority="high"
+              decoding="async"
+              class="hero-backdrop-inner"
+              style="object-fit:cover;object-position:center;width:100%;height:100%;position:absolute;inset:0;"
+            />
             <div class="hero-backdrop-overlay"></div>
             <div class="hero-backdrop-scrim"></div>
             <div class="hero-backdrop-texture"></div>

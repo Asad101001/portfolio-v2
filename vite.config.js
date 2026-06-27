@@ -76,14 +76,14 @@ export default defineConfig({
       compress: {
         drop_console: false, // keep console for dev experience easter egg
         drop_debugger: true,
-        passes: 2,
+        passes: 1,
       },
       mangle: true,
       format: {
         comments: false,
       }
     },
-    cssCodeSplit: true,
+    cssCodeSplit: false, // false = single CSS bundle, avoids extra round-trips that hurt Speed Index
     chunkSizeWarningLimit: 500,
     rollupOptions: {
       input: {
@@ -103,7 +103,6 @@ export default defineConfig({
             // Group vendor libs into their own chunk
             if (id.includes('lenis') || id.includes('swup')) return 'vendor-scroll';
             if (id.includes('gsap')) return 'vendor-gsap';
-            if (id.includes('react')) return 'vendor-react';
             return 'vendor';
           }
           // Split our heavy modules into separate chunks
