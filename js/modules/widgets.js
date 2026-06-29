@@ -388,43 +388,17 @@ function _starsHTML(starsStr) {
         try { return Promise.resolve(JSON.parse(cache)); } catch(e) {}
       }
 
-      // Strategy 1: rss2json.com (most reliable when quota not hit)
-      var jsonUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' +
-                    encodeURIComponent(rssUrl) + '&_t=' + Date.now();
-
-      return fetch(jsonUrl)
+      // Strategy 1: allorigins.win CORS proxy — parses raw RSS XML ourselves
+      return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
         .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(data) {
-          if (data && data.items && data.items.length) {
-            var item = data.items[0];
-            // rss2json sometimes omits thumbnail; fall back to scraping description
-            var thumb = item.thumbnail || '';
-            if (!thumb) {
-              var src = (item.description || '') + (item.content || '');
-              var m   = src.match(/src=["']([^"']+)["']/i);
-              if (m) thumb = m[1];
-            }
-            var result = { title: item.title, pubDate: item.pubDate || item.pubdate, thumbnail: thumb };
-            sessionStorage.setItem('asad_lb_cache', JSON.stringify(result));
-            return result;
-          }
-          return null;
+        .then(function(d) {
+          if (!d || !d.contents) return null;
+          var parsed = _parseLbRssXml(d.contents);
+          if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
+          return parsed;
         })
         .catch(function() { return null; })
-        // Strategy 2: allorigins.win CORS proxy — parses raw RSS XML ourselves
-        .then(function(res) {
-          if (res) return res;
-          return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
-            .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(d) {
-              if (!d || !d.contents) return null;
-              var parsed = _parseLbRssXml(d.contents);
-              if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
-              return parsed;
-            })
-            .catch(function() { return null; });
-        })
-        // Strategy 3: corsproxy.io fallback
+        // Strategy 2: corsproxy.io fallback
         .then(function(res) {
           if (res) return res;
           return fetch('https://corsproxy.io/?' + encodeURIComponent(rssUrl))
@@ -434,6 +408,30 @@ function _starsHTML(starsStr) {
               var parsed = _parseLbRssXml(xml);
               if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
               return parsed;
+            })
+            .catch(function() { return null; });
+        })
+        // Strategy 3: rss2json.com (fallback when others fail)
+        .then(function(res) {
+          if (res) return res;
+          var jsonUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' +
+                        encodeURIComponent(rssUrl) + '&_t=' + Date.now();
+          return fetch(jsonUrl)
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(data) {
+              if (data && data.items && data.items.length) {
+                var item = data.items[0];
+                var thumb = item.thumbnail || '';
+                if (!thumb) {
+                  var src = (item.description || '') + (item.content || '');
+                  var m   = src.match(/src=["']([^"']+)["']/i);
+                  if (m) thumb = m[1];
+                }
+                var result = { title: item.title, pubDate: item.pubDate || item.pubdate, thumbnail: thumb };
+                sessionStorage.setItem('asad_lb_cache', JSON.stringify(result));
+                return result;
+              }
+              return null;
             })
             .catch(function() { return null; });
         });
