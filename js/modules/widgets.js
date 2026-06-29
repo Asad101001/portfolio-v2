@@ -388,20 +388,33 @@ function _starsHTML(starsStr) {
         try { return Promise.resolve(JSON.parse(cache)); } catch(e) {}
       }
 
-      // Strategy 1: allorigins.win CORS proxy — parses raw RSS XML ourselves
-      return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
-        .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(d) {
-          if (!d || !d.contents) return null;
-          var parsed = _parseLbRssXml(d.contents);
+      // Strategy 1: Local Vercel Serverless Function (Most Reliable)
+      return fetch('/api/letterboxd?user=' + encodeURIComponent(LB_USER))
+        .then(function(r) { return r.ok ? r.text() : null; })
+        .then(function(xml) {
+          if (!xml) return null;
+          var parsed = _parseLbRssXml(xml);
           if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
           return parsed;
         })
         .catch(function() { return null; })
-        // Strategy 2: corsproxy.io fallback
+        // Strategy 2: codetabs.com CORS proxy (Reliable public proxy)
         .then(function(res) {
           if (res) return res;
-          return fetch('https://corsproxy.io/?' + encodeURIComponent(rssUrl))
+          return fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(rssUrl))
+            .then(function(r) { return r.ok ? r.text() : null; })
+            .then(function(xml) {
+              if (!xml) return null;
+              var parsed = _parseLbRssXml(xml);
+              if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
+              return parsed;
+            })
+            .catch(function() { return null; });
+        })
+        // Strategy 3: allorigins.win RAW proxy
+        .then(function(res) {
+          if (res) return res;
+          return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl))
             .then(function(r) { return r.ok ? r.text() : null; })
             .then(function(xml) {
               if (!xml) return null;

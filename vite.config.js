@@ -70,6 +70,7 @@ export default defineConfig({
     port: 5173
   },
   build: {
+    modulePreload: false,
     outDir: 'dist',
     minify: 'terser',
     terserOptions: {
