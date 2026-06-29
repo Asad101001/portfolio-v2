@@ -14,11 +14,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Global optimizations for smoothness
+// ── High-refresh-rate + Performance Global Settings ─────────────────
 gsap.defaults({
   force3D: true,
   ease: 'power3.out'
 });
+
+// Unlock 120Hz/144Hz: GSAP's ticker auto-matches display refresh rate
+gsap.ticker.fps(144);
+gsap.ticker.lagSmoothing(0); // Prevents frame-skip compensation that causes jank
+
 ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
 const isMobile = () => window._isMobile || window.innerWidth < 768;
 
@@ -350,7 +355,7 @@ function boot() {
 
 // Wait for DOM + a small delay so the loading screen is gone
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 100));
+  document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 50));
 } else {
-  setTimeout(boot, 100);
+  setTimeout(boot, 50);
 }

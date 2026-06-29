@@ -1,46 +1,47 @@
 /* ══════════════════════════════════════════════════════════
    js/modules/lenis-setup.js
-   Initializes Lenis for smooth scrolling and connects it to GSAP.
+   Lenis smooth scroll — optimized for 120Hz+ displays
    ══════════════════════════════════════════════════════════ */
 import Lenis from 'lenis';
 
 export function initLenis() {
-    // Initialize Lenis with optimal settings for premium feel
+    // Detect if device supports high refresh rate (120Hz+)
+    // We use a shorter duration to prevent scroll feeling "floaty" at 120Hz
+    const highHz = window.matchMedia('(min-resolution: 120dpi)').matches ||
+                   (typeof screen !== 'undefined' && screen.deviceXDPI > 110);
+
     const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom ease out
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 2,
+        // 0.9 feels crisp at 120Hz; slightly longer at 60Hz is still smooth
+        duration: highHz ? 0.9 : 1.1,
+        // Expo ease-out: fast start, smooth deceleration — ideal for HFR
+        easing: (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+        smoothTouch: false,   // Native iOS/Android momentum is already better
+        touchMultiplier: 1.8, // Slightly reduced for more control on touch
+        wheelMultiplier: 1,
         infinite: false,
     });
 
-    // Synchronize Lenis with GSAP ScrollTrigger if GSAP is available globally
-    if (window.ScrollTrigger) {
-        lenis.on('scroll', window.ScrollTrigger.update);
+    // ── GSAP Ticker Integration (preferred path) ──────────────────────
+    // This is the most important part: Lenis MUST drive via GSAP ticker
+    // so both systems share a single rAF and never fight each other.
+    const tickerFn = (time) => lenis.raf(time * 1000);
 
-        window.gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-        });
+    if (typeof gsap !== 'undefined') {
+        // Set GSAP ticker to highest possible fps for 120Hz screens
+        gsap.ticker.fps(144); // cap at 144fps; will naturally throttle at display Hz
+        gsap.ticker.lagSmoothing(0); // CRITICAL: prevents GSAP from skipping frames
+        gsap.ticker.add(tickerFn);
 
-        window.gsap.ticker.lagSmoothing(0);
+        // Keep ScrollTrigger in sync with Lenis scroll position
+        lenis.on('scroll', ScrollTrigger.update);
     } else {
-        // Fallback requestAnimationFrame loop if GSAP isn't loaded yet
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        // Fallback: plain rAF loop when GSAP hasn't loaded yet
+        const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
         requestAnimationFrame(raf);
     }
 
-    // Expose lenis to window for other scripts (like navigation) to use
+    // Expose for other modules (nav anchor scrolling, etc.)
     window.lenis = lenis;
-
-    console.log('Lenis smooth scrolling initialized.');
 }
 
-// Call on load
 initLenis();

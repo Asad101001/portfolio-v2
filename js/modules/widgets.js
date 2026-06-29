@@ -354,30 +354,118 @@ function _starsHTML(starsStr) {
 
   if (moviePoster) {
     var LB_USER = CONFIG.usernames.letterboxd;
-    var RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://letterboxd.com/' + LB_USER + '/rss/&_t=' + Date.now();
+
+    /**
+     * Parse Letterboxd RSS XML string directly (no third-party JSON API dependency).
+     */
+    function _parseLbRssXml(xmlStr) {
+      try {
+        var parser = new DOMParser();
+        var doc    = parser.parseFromString(xmlStr, 'text/xml');
+        var items  = doc.querySelectorAll('item');
+        if (!items || !items.length) return null;
+        var item = items[0];
+        var title       = item.querySelector('title')    ? item.querySelector('title').textContent    : '';
+        var pubDate     = item.querySelector('pubDate')  ? item.querySelector('pubDate').textContent  : '';
+        var description = item.querySelector('description') ? item.querySelector('description').textContent : '';
+        // Extract thumbnail from <description> HTML
+        var imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
+        var thumbnail = imgMatch ? imgMatch[1] : '';
+        return { title: title, pubDate: pubDate, thumbnail: thumbnail, description: description };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /**
+     * Try multiple RSS fetch strategies in order.
+     * Returns a Promise resolving to { title, pubDate, thumbnail } or null.
+     */
+    function _fetchLbRss() {
+      var rssUrl  = 'https://letterboxd.com/' + LB_USER + '/rss/';
+      var cache   = sessionStorage.getItem('asad_lb_cache');
+      if (cache) {
+        try { return Promise.resolve(JSON.parse(cache)); } catch(e) {}
+      }
+
+      // Strategy 1: rss2json.com (most reliable when quota not hit)
+      var jsonUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' +
+                    encodeURIComponent(rssUrl) + '&_t=' + Date.now();
+
+      return fetch(jsonUrl)
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(data) {
+          if (data && data.items && data.items.length) {
+            var item = data.items[0];
+            // rss2json sometimes omits thumbnail; fall back to scraping description
+            var thumb = item.thumbnail || '';
+            if (!thumb) {
+              var src = (item.description || '') + (item.content || '');
+              var m   = src.match(/src=["']([^"']+)["']/i);
+              if (m) thumb = m[1];
+            }
+            var result = { title: item.title, pubDate: item.pubDate || item.pubdate, thumbnail: thumb };
+            sessionStorage.setItem('asad_lb_cache', JSON.stringify(result));
+            return result;
+          }
+          return null;
+        })
+        .catch(function() { return null; })
+        // Strategy 2: allorigins.win CORS proxy — parses raw RSS XML ourselves
+        .then(function(res) {
+          if (res) return res;
+          return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(d) {
+              if (!d || !d.contents) return null;
+              var parsed = _parseLbRssXml(d.contents);
+              if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
+              return parsed;
+            })
+            .catch(function() { return null; });
+        })
+        // Strategy 3: corsproxy.io fallback
+        .then(function(res) {
+          if (res) return res;
+          return fetch('https://corsproxy.io/?' + encodeURIComponent(rssUrl))
+            .then(function(r) { return r.ok ? r.text() : null; })
+            .then(function(xml) {
+              if (!xml) return null;
+              var parsed = _parseLbRssXml(xml);
+              if (parsed) sessionStorage.setItem('asad_lb_cache', JSON.stringify(parsed));
+              return parsed;
+            })
+            .catch(function() { return null; });
+        });
+    }
 
     function fetchMovie() {
-      fetch(RSS_URL)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (!data || !data.items || !data.items.length) throw new Error('No items');
-          var latest = data.items[0];
+      _fetchLbRss()
+        .then(function(latest) {
+          if (!latest) throw new Error('No items');
 
           var url = latest.thumbnail || '';
-          if (!url) {
-            var source = (latest.description || '') + (latest.content || '');
-            var match  = source.match(/src="([^"]+)"/);
-            url = match ? match[1] : '';
+          if (!url && latest.description) {
+            var m = latest.description.match(/src=["']([^"']+)["']/i);
+            if (m) url = m[1];
           }
-          if (url) {
-            moviePoster.src = url;
-            moviePoster.onerror = function() {
-              moviePoster.style.display = 'none';
-              if (moviePlaceholder) moviePlaceholder.style.display = 'flex';
-            };
-            moviePoster.style.display = 'block';
-            if (moviePlaceholder) moviePlaceholder.style.display = 'none';
-          }
+
+          // Try to get a better poster via iTunes if thumbnail is missing/small
+          var posterPromise = url
+            ? Promise.resolve(url)
+            : (latest.title ? _moviePoster(_parseLetterboxd(latest.title).title) : Promise.resolve(null));
+
+          posterPromise.then(function(finalUrl) {
+            if (finalUrl) {
+              moviePoster.src = finalUrl;
+              moviePoster.onerror = function() {
+                moviePoster.style.display = 'none';
+                if (moviePlaceholder) moviePlaceholder.style.display = 'flex';
+              };
+              moviePoster.style.display = 'block';
+              if (moviePlaceholder) moviePlaceholder.style.display = 'none';
+            }
+          });
 
           if (movieTitle && latest.title) {
             var parsed = _parseLetterboxd(latest.title);
@@ -393,29 +481,25 @@ function _starsHTML(starsStr) {
             }
             starsEl.innerHTML = _starsHTML(parsed.starsStr);
 
-            // Add timeline (time ago) next to stars
-            const pubDate = latest.pubDate || latest.pubdate || latest.date_published || latest.published;
+            var pubDate = latest.pubDate;
             if (pubDate) {
-              let timeEl = document.getElementById('movie-logged-time');
+              var timeEl = document.getElementById('movie-logged-time');
               if (!timeEl) {
                 timeEl = document.createElement('span');
                 timeEl.id = 'movie-logged-time';
                 timeEl.className = 'movie-timeline-label';
-                // Find a container to append to (parsed.starsStr is stars)
-                if (starsEl) {
-                  starsEl.appendChild(timeEl);
-                }
+                if (starsEl) starsEl.appendChild(timeEl);
               }
               timeEl.textContent = ' \u2022 ' + timeAgo(pubDate);
-              // Ensure starsEl layout is flex or similar to keep them on same line
               starsEl.style.display = 'inline-flex';
               starsEl.style.alignItems = 'center';
             }
           }
         })
-        .catch(function(err) {
-          // Silently handle RSS errors to keep console clean
+        .catch(function() {
           if (moviePlaceholder) moviePlaceholder.style.display = 'flex';
+          // Show the title at minimum from config if everything fails
+          if (movieTitle) movieTitle.textContent = 'Visit Letterboxd';
         });
     }
     fetchMovie();

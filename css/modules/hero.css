@@ -341,8 +341,9 @@
 .status-pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: var(--cyan); background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); width: fit-content; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: pulse-dot 2s ease-in-out infinite; }
 
-.hero-name { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: #fff; background: linear-gradient(135deg, #fff 0%, #e2e8f0 40%, #10B981 80%, #ADFF2F 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: name-gradient 6s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(16,185,129,0.22)); }
-@keyframes name-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+/* GPU-composited gradient: use filter:hue-rotate instead of background-position to avoid CPU repaint */
+.hero-name { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: #fff; background: linear-gradient(135deg, #fff 0%, #e2e8f0 40%, #10B981 80%, #ADFF2F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; will-change: filter; animation: name-gradient 6s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(16,185,129,0.22)); }
+@keyframes name-gradient { 0%, 100% { filter: drop-shadow(0 0 18px rgba(16,185,129,0.22)) hue-rotate(0deg); } 50% { filter: drop-shadow(0 0 22px rgba(16,185,129,0.35)) hue-rotate(15deg); } }
 .typewriter-wrap { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--cyan); min-height: 1.4em; }
 .caret { color: var(--cyan); animation: blink 0.75s step-end infinite; }
 

@@ -246,13 +246,14 @@
   mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
+/* GPU-composited: use transform:translateX instead of background-position to avoid CPU repaint */
 @keyframes tape-scroll-left {
-  from { background-position: 0 0; }
-  to { background-position: -160px 0; }
+  from { transform: rotate(-4deg) translateX(0); }
+  to { transform: rotate(-4deg) translateX(-160px); }
 }
 @keyframes tape-scroll-right {
-  from { background-position: 0 0; }
-  to { background-position: 200px 0; }
+  from { transform: rotate(3deg) translateX(0); }
+  to { transform: rotate(3deg) translateX(200px); }
 }
 
 #experience-toggle:hover {

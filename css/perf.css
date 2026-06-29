@@ -314,3 +314,30 @@ body.is-scrolling *::after {
 
   /* Reveal animations handled by GSAP — no CSS transition override needed */
 }
+
+/* ── 17. CONTENT-VISIBILITY: skip paint on off-screen sections ────
+   This is the single highest-impact paint optimization available.
+   The browser completely skips painting and layout for sections
+   below the fold until they enter the viewport.
+   contain-intrinsic-size prevents layout shift when sections
+   are skipped (browser reserves space for them).
+   ──────────────────────────────────────────────────────────── */
+#about    { content-visibility: auto; contain-intrinsic-size: 0 600px; }
+#projects { content-visibility: auto; contain-intrinsic-size: 0 800px; }
+#demo     { content-visibility: auto; contain-intrinsic-size: 0 500px; }
+#tech     { content-visibility: auto; contain-intrinsic-size: 0 600px; }
+#edu      { content-visibility: auto; contain-intrinsic-size: 0 500px; }
+#contact  { content-visibility: auto; contain-intrinsic-size: 0 400px; }
+
+/* Hero is above fold — NEVER hide it */
+#hero { content-visibility: visible !important; }
+
+/* Mobile: same treatment but smaller reserved heights */
+@media (max-width: 768px) {
+  #about    { contain-intrinsic-size: 0 400px; }
+  #projects { contain-intrinsic-size: 0 600px; }
+  #demo     { contain-intrinsic-size: 0 400px; }
+  #tech     { contain-intrinsic-size: 0 500px; }
+  #edu      { contain-intrinsic-size: 0 400px; }
+  #contact  { contain-intrinsic-size: 0 300px; }
+}
