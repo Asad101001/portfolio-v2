@@ -98,21 +98,42 @@
 .t-title { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(34,197,94,0.4); text-transform: lowercase; }
 
 .terminal-body { 
-  padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.8; 
-  background: #000; position: relative;
+  padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.7; 
+  background: #050505; position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.05);
 }
-/* Scanline effect */
+/* Enhanced Scanline & CRT effect */
 .terminal-body::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  background-size: 100% 3px, 3px 100%; pointer-events: none; z-index: 10;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 65, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 10;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
 }
-.terminal-body .t-line { opacity: 0; transform: translateY(4px); transition: opacity 0.3s ease, transform 0.3s ease; position: relative; z-index: 1; text-shadow: 0 0 5px rgba(34,197,94,0.3); }
+.terminal-body .t-line { opacity: 0; transform: translateY(4px); transition: opacity 0.3s ease, transform 0.3s ease; position: relative; z-index: 1; text-shadow: 0 0 2px rgba(0,255,65,0.4); margin-bottom: 2px; }
 .terminal-body .t-line.t-visible { opacity: 1; transform: translateY(0); }
-.t-prompt { color: #22c55e; margin-right: 6px; } 
-.t-prompt-game { color: #a855f7; margin-right: 6px; }
-.t-cmd { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.4); } 
-.t-out { color: rgba(255,255,255,0.7); padding-left: 16px; font-size: 0.75rem; }
+.t-prompt { color: #00ff41; margin-right: 8px; font-weight: 600; text-shadow: 0 0 5px rgba(0,255,65,0.5); } 
+.t-prompt-game { color: #a855f7; margin-right: 8px; font-weight: 600; text-shadow: 0 0 5px rgba(168,85,247,0.5); }
+.t-cmd { color: #ffffff; font-weight: 500; text-shadow: 0 0 3px rgba(255,255,255,0.6); } 
+.t-out { color: #a7f3d0; padding-left: 16px; font-size: 0.8rem; font-weight: 400; text-shadow: 0 0 2px rgba(167,243,208,0.3); }
+
+/* Make terminal input match the new high contrast */
+#terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    caret-color: #00ff41;
+    text-shadow: 0 0 3px rgba(255,255,255,0.6);
+}
 
 @media (max-width: 768px) {
   .interactive-terminal {

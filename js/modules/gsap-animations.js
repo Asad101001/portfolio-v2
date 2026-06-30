@@ -322,6 +322,57 @@ function footerBlocks() {
   });
 }
 
+/* ─── SVG Line Drawing Animation ───────────────────────────────────── */
+function svgDrawAnimation() {
+  if (isMobile()) return; // skip expensive drawing on mobile
+  
+  // Select paths and shapes that have a stroke
+  const selectors = [
+    '.hero-actions a svg path', '.hero-actions a svg rect', '.hero-actions a svg circle',
+    '.focus-item svg path', '.focus-item svg ellipse',
+    '.acard-icon svg path', '.acard-icon svg polyline', '.acard-icon svg rect', '.acard-icon svg circle',
+    '.project-card svg path', '.project-card svg rect', '.project-card svg circle',
+    '.social-card svg path', '.social-card svg rect', '.social-card svg circle',
+    '.social-platform-card svg path', '.social-platform-card svg rect', '.social-platform-card svg circle'
+  ];
+  
+  const shapes = document.querySelectorAll(selectors.join(', '));
+  
+  shapes.forEach((shape) => {
+    // Only animate if there's a visible stroke or if it's explicitly stroked by currentColor
+    const hasStroke = shape.getAttribute('stroke') || window.getComputedStyle(shape).stroke !== 'none';
+    const isClock = shape.id === 'clock-arc' || shape.id === 'clock-scanner';
+    
+    if (hasStroke && !isClock) {
+      // Get the total length of the path/shape
+      let length = 0;
+      if (shape.getTotalLength) {
+        length = shape.getTotalLength();
+      } else {
+        length = 100; // Fallback for shapes that don't support getTotalLength in some browsers
+      }
+      
+      // Set up initial state for drawing
+      gsap.set(shape, {
+        strokeDasharray: length + 5,
+        strokeDashoffset: length + 5
+      });
+      
+      // Animate to 0
+      gsap.to(shape, {
+        strokeDashoffset: 0,
+        duration: gsap.utils.random(1.2, 2.0),
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: shape.closest('section') || shape,
+          start: 'top 85%',
+          once: true
+        }
+      });
+    }
+  });
+}
+
 /* ─── Boot ───────────────────────────────────────────────────────── */
 function boot() {
   // Critical for above-the-fold
@@ -333,6 +384,7 @@ function boot() {
   setTimeout(() => {
     scrollReveals();
     heroParallax();
+    svgDrawAnimation();
   }, 100);
 
   setTimeout(() => {
