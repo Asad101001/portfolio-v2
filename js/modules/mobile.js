@@ -22,48 +22,24 @@
       }
     });
 
-    /* Pull to Refresh Logic (Native Feel) */
+    /* Pull to Refresh Logic (Native Feel) — higher threshold to avoid accidental triggers */
     let touchStart = 0;
     document.addEventListener('touchstart', (e) => {
       if (window._scrollY === 0) touchStart = e.touches[0].clientY;
     }, { passive: true });
 
     document.addEventListener('touchmove', (e) => {
-      if (touchStart > 0 && e.touches[0].clientY - touchStart > 180 && window._scrollY === 0) {
+      if (touchStart > 0 && e.touches[0].clientY - touchStart > 300 && window._scrollY === 0) {
         window.location.reload();
         touchStart = 0;
       }
     }, { passive: true });
   }
 
-  // Stagger Ladder for Education on Mobile
-  if (window._isMobile) {
-    const ladderItems = document.querySelectorAll('.timeline-item');
-    ladderItems.forEach((item, idx) => {
-      if (idx % 2 !== 0) {
-        item.style.paddingLeft = '55px'; // Offset downward steps
-        const card = item.querySelector('.tl-card');
-        if (card) card.style.maxWidth = '92%'; // Chop right side
-      }
-    });
-  }
+  // Education timeline items get proper mobile layout via CSS only
+  // (removed JS padding hack that caused asymmetric layouts)
 
-  // Handle subtle touch feedback on cards (active state)
-  document.addEventListener('touchstart', function(e) {
-    const card = e.target.closest('.glass-card');
-    if (card) {
-      card.style.transform = 'scale(0.98)';
-      card.style.transition = 'transform 0.1s ease';
-    }
-  }, { passive: true });
-
-  ['touchend', 'touchcancel'].forEach(evt => {
-    document.addEventListener(evt, function(e) {
-      const card = e.target.closest('.glass-card');
-      if (card) {
-        card.style.transform = '';
-      }
-    }, { passive: true });
-  });
+  // Touch feedback is handled purely via CSS :active states in mobile.css
+  // (removed JS touch listeners that conflicted with perf.css transform: none)
 
 })();

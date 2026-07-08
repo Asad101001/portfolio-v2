@@ -23,7 +23,7 @@
   }
 
   section {
-    padding: 70px 16px; /* Increased vertical breathing room */
+    padding: 70px 16px 100px; /* Extra bottom padding to clear fixed bottom nav */
     width: 100%;
     margin: 0;
     overflow-x: hidden; /* Prevent horizontal leaks */
@@ -39,9 +39,11 @@
   }
 
   #back-to-top {
-    bottom: max(140px, calc(env(safe-area-inset-bottom) + 120px)) !important;
-    right: 20px !important;
-    transform: scale(0.9) !important;
+    bottom: max(160px, calc(env(safe-area-inset-bottom) + 140px)) !important;
+    right: 16px !important;
+    transform: scale(0.85) !important;
+    width: 38px !important;
+    height: 38px !important;
   }
 
   /* ── Universal Card/Glow Scaling ─────────────────────────── */
@@ -61,7 +63,8 @@
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
     /* Top nav is hidden on mobile, so less padding needed */
-    padding: 48px 0 140px !important;
+    padding: 48px 0 120px !important;
+    padding-bottom: max(120px, calc(env(safe-area-inset-bottom) + 100px)) !important;
     min-height: 100dvh;
     overflow: hidden;
     width: 100% !important;
@@ -315,6 +318,41 @@
     font-size: 1.1rem !important;
   }
 
+  .clock-sub {
+    font-size: 0.7rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* ── Tech Stack Filters — horizontal scroll on mobile ───── */
+  .arsenal-filters,
+  .tech-filters,
+  .filter-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px !important;
+    padding-bottom: 8px !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .arsenal-filters::-webkit-scrollbar,
+  .tech-filters::-webkit-scrollbar,
+  .filter-row::-webkit-scrollbar {
+    display: none;
+  }
+  .arsenal-filters button,
+  .tech-filters button,
+  .filter-row button {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    font-size: 0.72rem !important;
+    padding: 6px 12px !important;
+  }
+
   /* ── Big 3 Social Widget ──────────────────────────────── */
   #big3-social-widget {
     min-height: 170px !important;
@@ -373,6 +411,17 @@
   /* ── GSAP scroll progress bar ────────────────────────────── */
   #gsap-scroll-bar {
     height: 3px !important;
+  }
+
+  /* ── Spotify widget: ensure it clears the bottom nav ─────── */
+  #spotify-widget,
+  .spotify-widget {
+    margin-bottom: 20px !important;
+  }
+
+  /* ── Footer: extra bottom padding to clear nav ──────────── */
+  .main-footer {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   /* ── Mobile Ink Reveal: Touch Ripple System ──────────────── */
