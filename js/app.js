@@ -52,12 +52,12 @@ if (window._isMobile) {
   var lastScrollY = -1;
   var lastLerpY = -1;
   (function loop(timestamp) {
-    // Enable smooth lerp on desktop for "behemoth level" premium smoothness
-    var factor = 0.045; 
+    // Smooth lerp on desktop — 0.12 gives responsive-yet-smooth feel
+    var factor = 0.12; 
     var targetY = window._scrollY;
     var rawLerp = window._lerpY + (targetY - window._lerpY) * factor;
     // Snap to target if very close to avoid endless sub-pixel calculating
-    window._lerpY = Math.abs(targetY - rawLerp) < 0.1 ? targetY : rawLerp;
+    window._lerpY = Math.abs(targetY - rawLerp) < 0.5 ? targetY : rawLerp;
 
     if (window._scrollY !== lastScrollY || window._lerpY !== lastLerpY) {
       // Run scroll tasks

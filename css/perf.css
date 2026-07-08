@@ -270,21 +270,11 @@ html {
   }
 }
 
-/* ── 15. Scroll-jank guard: only kill backdrop-filter during active scroll,
-   NOT pointer-events (that would break all click interactions) ───────────── */
+/* ── 15. Scroll-jank guard: suppress expensive effects during active scroll ───────────── */
 body.is-scrolling .ambient-glow,
 body.is-scrolling .hero-backdrop-texture {
   /* Only suppress expensive filters, keep everything else interactive */
   opacity: 0 !important;
-}
-
-/* Only wipe masks on non-hero elements during scroll to avoid erasing ink canvas */
-body.is-scrolling *:not(#hero-ink-mask):not(#hero-ink-mask *),
-body.is-scrolling *::before,
-body.is-scrolling *::after {
-  /* Only remove masks — no pointer-event kill */
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
 }
 
 .hero-backdrop {

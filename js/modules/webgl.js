@@ -2,10 +2,19 @@
    js/modules/webgl.js
    Three.js WebGL Liquid Glass Background & 3D Interactive Object
    Dynamically imports Three.js to keep initial bundle light.
+
+   PERFORMANCE FIXES:
+   - Only runs render loop when hero section is visible
+   - FPS capped at 30 (glass object doesn't need 60fps)
+   - Pauses completely when tab is not visible
+   - Skips entirely on mobile devices
    ══════════════════════════════════════════════════════════ */
 'use strict';
 
 (async function initWebGL() {
+    // Skip WebGL entirely on mobile — saves massive GPU/battery
+    if (window._isMobile) return;
+
     try {
         // Dynamically import Three.js as an ES Module
         const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js');
@@ -14,8 +23,8 @@
         const container = document.getElementById('hero-backdrop-inner');
         if (!container) return;
 
-        // Clear existing background styling to let WebGL shine
-        container.style.background = 'transparent';
+        // If container is an <img>, we need its parent
+        const mountTarget = container.tagName === 'IMG' ? container.parentElement : container;
 
         // ─── Setup Scene, Camera, Renderer ───
         const scene = new THREE.Scene();
@@ -24,9 +33,13 @@
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 5;
 
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+        const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: false,  // Disable AA for performance (subtle on dark backgrounds)
+            powerPreference: "high-performance"
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Cap at 1.5x for perf
         
         // Add canvas to DOM
         const canvas = renderer.domElement;
@@ -36,20 +49,17 @@
         canvas.style.width = '100%';
         canvas.style.height = '100%';
         canvas.style.zIndex = '1';
-        // Allow pointer events to pass through background, but if we want interactivity on 3D object we might need mouse tracking via raycaster.
-        // For performance, we track mouse document-wide instead.
         canvas.style.pointerEvents = 'none'; 
-        container.appendChild(canvas);
+        mountTarget.appendChild(canvas);
 
         // ─── Liquid Glass Background Shader ───
-        // A shader that creates a dark, slow-moving fluid effect.
         const uniforms = {
             u_time: { value: 0.0 },
             u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
             u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            u_color1: { value: new THREE.Color('#0a0a0c') }, // Deep dark base
-            u_color2: { value: new THREE.Color('#0f172a') }, // Subtle blue/slate
-            u_glow: { value: new THREE.Color('#22d3ee') }    // Cyan accent
+            u_color1: { value: new THREE.Color('#0a0a0c') },
+            u_color2: { value: new THREE.Color('#0f172a') },
+            u_glow: { value: new THREE.Color('#22d3ee') }
         };
 
         const vertexShader = `
@@ -69,16 +79,12 @@
             uniform vec3 u_glow;
             varying vec2 vUv;
 
-            // Simplex noise function
             vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
             vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
 
             float snoise(vec2 v) {
-                const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
-                                    0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
-                                    -0.577350269189626,  // -1.0 + 2.0 * C.x
-                                    0.024390243902439); // 1.0 / 41.0
+                const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
                 vec2 i  = floor(v + dot(v, C.yy) );
                 vec2 x0 = v -   i + dot(i, C.xx);
                 vec2 i1;
@@ -104,21 +110,15 @@
 
             void main() {
                 vec2 st = gl_FragCoord.xy / u_resolution.xy;
-                // Add mouse influence
                 vec2 mouseDist = st - u_mouse;
                 float influence = exp(-dot(mouseDist, mouseDist) * 3.0);
                 
-                // Animate noise over time and space
                 vec2 pos = st * 3.0;
                 float noise = snoise(pos + u_time * 0.15 + influence * 0.5);
                 float noise2 = snoise(pos - u_time * 0.1);
                 
                 float f = smoothstep(-1.0, 1.0, noise * noise2);
-                
-                // Mix colors based on noise
                 vec3 color = mix(u_color1, u_color2, f);
-                
-                // Add subtle glow near the mouse
                 color += u_glow * influence * 0.15;
 
                 gl_FragColor = vec4(color, 1.0);
@@ -132,240 +132,152 @@
             depthWrite: false
         });
 
-        // Large plane that covers the camera view
         const bgGeometry = new THREE.PlaneGeometry(20, 20);
         const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
-        // Push it far back
         bgMesh.position.z = -5;
         scene.add(bgMesh);
 
         // ─── 3D Liquid Glass Object (Torus Knot) ───
-        // We create an actual 3D object that refracts light
-        const objectGeometry = new THREE.TorusKnotGeometry(1.2, 0.4, 256, 64);
+        // Use lower-poly geometry for performance
+        const objectGeometry = new THREE.TorusKnotGeometry(1.2, 0.4, 128, 32);
         
-        // Premium physical glass material (Liquid Glass look)
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
-            transmission: 1.0,  // Glass-like transparency
+            transmission: 1.0,
             opacity: 1,
             metalness: 0.1,
             roughness: 0.05,
-            ior: 1.5,           // Index of refraction for glass
-            thickness: 2.0,     // Volume thickness for deeper refraction
+            ior: 1.5,
+            thickness: 2.0,
             specularIntensity: 2.0,
             clearcoat: 1.0,
             clearcoatRoughness: 0.05,
-            iridescence: 0.6,   // Liquid glass sheen
+            iridescence: 0.6,
             iridescenceIOR: 1.3,
             side: THREE.DoubleSide
         });
 
         const glassObject = new THREE.Mesh(objectGeometry, glassMaterial);
-        
-        // Position it closer and more centrally so it is clearly visible
         glassObject.position.set(0, 0, 1.5);
-        // Make sure it renders in front of the background plane
         glassObject.renderOrder = 1; 
         scene.add(glassObject);
 
-        // Add lighting for the glass to catch reflections
+        // Lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
 
-        const pointLight1 = new THREE.PointLight(0x22d3ee, 5, 20); // Cyan light
+        const pointLight1 = new THREE.PointLight(0x22d3ee, 5, 20);
         pointLight1.position.set(5, 5, 2);
         scene.add(pointLight1);
 
-        const pointLight2 = new THREE.PointLight(0xa855f7, 3, 20); // Purple light
+        const pointLight2 = new THREE.PointLight(0xa855f7, 3, 20);
         pointLight2.position.set(-5, -5, 2);
         scene.add(pointLight2);
 
-        // ─── Mouse Tracking for Interactivity ───
+        // ─── Mouse Tracking ───
         let targetX = 0;
         let targetY = 0;
-        let mouse = new THREE.Vector2();
-        const raycaster = new THREE.Raycaster();
-        let isHovering3D = false;
-        let hoverScale = 1.0;
 
         document.addEventListener('mousemove', (e) => {
-            // Normalize mouse coords 0 to 1 for shader
-            const x = e.clientX / window.innerWidth;
-            const y = 1.0 - (e.clientY / window.innerHeight);
-            
-            targetX = x;
-            targetY = y;
-
-            // Normalized device coordinates (-1 to +1) for raycaster
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            
-            // Check intersection
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(glassObject);
-            if (intersects.length > 0) {
-                isHovering3D = true;
-                document.body.style.cursor = 'pointer';
-            } else {
-                if (isHovering3D) {
-                    document.body.style.cursor = '';
-                }
-                isHovering3D = false;
-            }
-        });
-
-        // Handle clicks on the 3D object to change its geometry randomly!
-        document.addEventListener('click', () => {
-            if (isHovering3D) {
-                const geometries = [
-                    new THREE.IcosahedronGeometry(1.2, 0),
-                    new THREE.TorusGeometry(1, 0.4, 32, 100),
-                    new THREE.OctahedronGeometry(1.2, 0),
-                    new THREE.TorusKnotGeometry(1.2, 0.4, 128, 64)
-                ];
-                const randGeo = geometries[Math.floor(Math.random() * geometries.length)];
-                glassObject.geometry.dispose(); // clean memory
-                glassObject.geometry = randGeo;
-            }
-        });
+            targetX = e.clientX / window.innerWidth;
+            targetY = 1.0 - (e.clientY / window.innerHeight);
+        }, { passive: true });
 
         // Handle Window Resize
+        let resizeTimer;
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
 
-            // Adjust position of 3D object on smaller screens
-            if (window.innerWidth < 768) {
-                glassObject.position.set(0, -0.8, 1); // Move lower on mobile
-                glassObject.scale.set(0.7, 0.7, 0.7);
-            } else {
-                glassObject.position.set(1.5, 0, 1.5); // Right side on desktop
-                glassObject.scale.set(1, 1, 1);
-            }
-            
-            // Sync physics body position
-            if (glassBody) {
-                glassBody.position.copy(glassObject.position);
-            }
-        });
+                if (window.innerWidth < 768) {
+                    glassObject.position.set(0, -0.8, 1);
+                    glassObject.scale.set(0.7, 0.7, 0.7);
+                } else {
+                    glassObject.position.set(1.5, 0, 1.5);
+                    glassObject.scale.set(1, 1, 1);
+                }
+            }, 200);
+        }, { passive: true });
 
-        // Trigger initial resize to set proper scale
+        // Trigger initial layout
         window.dispatchEvent(new Event('resize'));
 
-        // ─── Cannon.js Physics ───
-        const CANNON = await import('cannon-es');
-        
-        const world = new CANNON.World({
-            gravity: new CANNON.Vec3(0, 0, 0), // No gravity initially so it floats
-        });
-
-        // Add a sphere body for the glass object
-        const glassShape = new CANNON.Sphere(1.2);
-        const glassBody = new CANNON.Body({
-            mass: 1, // kg
-            position: new CANNON.Vec3(glassObject.position.x, glassObject.position.y, glassObject.position.z),
-            shape: glassShape,
-            angularDamping: 0.5, // Slow down spin over time
-            linearDamping: 0.1
-        });
-        world.addBody(glassBody);
-
-        // Add an invisible constraint/spring to keep it tethered to its origin point
-        const originBody = new CANNON.Body({
-            mass: 0, // Static
-            position: new CANNON.Vec3(glassObject.position.x, glassObject.position.y, glassObject.position.z)
-        });
-        world.addBody(originBody);
-
-        const spring = new CANNON.Spring(glassBody, originBody, {
-            localAnchorA: new CANNON.Vec3(0, 0, 0),
-            localAnchorB: new CANNON.Vec3(0, 0, 0),
-            restLength: 0,
-            stiffness: 50,
-            damping: 5,
-        });
-
-        world.addEventListener('postStep', () => {
-            spring.applyForce();
-        });
-
-        // Apply impulse on hover
-        document.addEventListener('mousemove', (e) => {
-            if (isHovering3D && glassBody) {
-                // Apply a small rotational impulse when hovering
-                glassBody.applyTorque(new CANNON.Vec3(
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10
-                ));
-            }
-        });
-
-        // Apply huge impulse on click
-        document.addEventListener('click', () => {
-            if (isHovering3D && glassBody) {
-                glassBody.applyImpulse(new CANNON.Vec3(
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10,
-                    -5
-                ), new CANNON.Vec3(0, 0, 0));
-                
-                glassBody.applyTorque(new CANNON.Vec3(
-                    (Math.random() - 0.5) * 50,
-                    (Math.random() - 0.5) * 50,
-                    0
-                ));
-            }
-        });
-
-        // ─── Render Loop ───
+        // ─── Visibility-Aware Render Loop ───
+        // Only render when hero is visible AND tab is active
+        let isVisible = true;
+        let loopId = null;
+        const FPS_CAP = 30;
+        const FRAME_INTERVAL = 1000 / FPS_CAP;
+        let lastFrameTime = 0;
         const clock = new THREE.Clock();
-        let targetRotationSpeed = 0.01;
-        let currentRotationSpeed = 0.01;
 
-        function animate() {
-            requestAnimationFrame(animate);
+        // Pause when hero scrolls out of view
+        const heroEl = document.getElementById('hero');
+        if (heroEl && window.IntersectionObserver) {
+            new IntersectionObserver((entries) => {
+                const wasVisible = isVisible;
+                isVisible = entries[0].isIntersecting;
+                if (isVisible && !wasVisible && !loopId) {
+                    clock.start();
+                    loopId = requestAnimationFrame(animate);
+                }
+            }, { threshold: 0, rootMargin: '100px 0px 100px 0px' }).observe(heroEl);
+        }
+
+        // Pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (loopId) {
+                    cancelAnimationFrame(loopId);
+                    loopId = null;
+                }
+                clock.stop();
+            } else if (isVisible) {
+                clock.start();
+                loopId = requestAnimationFrame(animate);
+            }
+        });
+
+        function animate(timestamp) {
+            if (!isVisible || document.hidden) {
+                loopId = null;
+                return;
+            }
+
+            loopId = requestAnimationFrame(animate);
+
+            // FPS cap
+            if (timestamp - lastFrameTime < FRAME_INTERVAL) return;
+            lastFrameTime = timestamp;
 
             const elapsedTime = clock.getElapsedTime();
-            const deltaTime = clock.getDelta();
             
-            // Step physics world
-            world.step(1 / 60, deltaTime, 3);
+            // Simple rotation instead of full physics engine
+            glassObject.rotation.x += 0.003;
+            glassObject.rotation.y += 0.005;
             
-            // Sync Three.js mesh with Cannon.js body
-            glassObject.position.copy(glassBody.position);
-            glassObject.quaternion.copy(glassBody.quaternion);
-            
-            // Add subtle floating effect to origin instead of the object directly
-            originBody.position.y = Math.sin(elapsedTime * 1.5) * 0.3 + 0.5;
-            originBody.position.x = window.innerWidth < 768 ? 0 : 1.5 + (targetX - 0.5) * 2;
+            // Floating effect
+            glassObject.position.y = Math.sin(elapsedTime * 1.5) * 0.3 + 0.5;
+            if (window.innerWidth >= 768) {
+                glassObject.position.x = 1.5 + (targetX - 0.5) * 2;
+            }
 
-            // Update Background Shader Uniforms
+            // Update shader uniforms
             uniforms.u_time.value = elapsedTime;
-            
-            // Smoothly move mouse uniform toward target
             uniforms.u_mouse.value.x += (targetX - uniforms.u_mouse.value.x) * 0.05;
             uniforms.u_mouse.value.y += (targetY - uniforms.u_mouse.value.y) * 0.05;
-
-            // Handle 3D object hover scale states
-            if (isHovering3D) {
-                hoverScale += (1.2 - hoverScale) * 0.1;
-            } else {
-                hoverScale += (1.0 - hoverScale) * 0.1;
-            }
-            
-            // Apply scale (accounting for base responsive scaling)
-            const baseScale = window.innerWidth < 768 ? 0.6 : 1.0;
-            glassObject.scale.set(baseScale * hoverScale, baseScale * hoverScale, baseScale * hoverScale);
 
             renderer.render(scene, camera);
         }
 
-        animate();
+        // Start
+        loopId = requestAnimationFrame(animate);
 
-        // Listen for Theme Changes to update WebGL Colors
+        // Listen for Theme Changes
         window.addEventListener('themechanged', (e) => {
             const theme = e.detail.theme;
             if (theme === 'cyberpunk') {
@@ -381,7 +293,6 @@
                 pointLight1.color.setHex(0xff5e00);
                 pointLight2.color.setHex(0xff0055);
             } else {
-                // Professional (default)
                 uniforms.u_color1.value.set('#0a0a0c');
                 uniforms.u_color2.value.set('#0f172a');
                 uniforms.u_glow.value.set('#22d3ee');
@@ -390,7 +301,6 @@
             }
         });
         
-        // Initial theme trigger
         const curTheme = localStorage.getItem('asad_portfolio_theme') || 'professional';
         window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme: curTheme } }));
 

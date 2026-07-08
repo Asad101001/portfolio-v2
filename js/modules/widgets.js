@@ -1002,7 +1002,11 @@ function _starsHTML(starsStr) {
         return fetchESPNSchedule();
       }
     }).then(function(events) {
-      if (!events || !events.length) return;
+      if (!events || !events.length) {
+        // Offseason fallback — no matches found
+        _renderBarcaOffseason();
+        return;
+      }
       
       var now = new Date();
       var barcaMatches = events
@@ -1012,7 +1016,10 @@ function _starsHTML(starsStr) {
             ev.competitions[0].competitors.some(function(c){ return String(c.team.id) === BARCA_ID; });
         });
 
-      if (!barcaMatches.length) return;
+      if (!barcaMatches.length) {
+        _renderBarcaOffseason();
+        return;
+      }
 
       // Find if there is any live match
       var liveMatch = barcaMatches.find(function(ev) {
@@ -1057,7 +1064,44 @@ function _starsHTML(starsStr) {
           oppRedCards: opp ? ((res.redCards && res.redCards[String(opp.team.id)]) || 0) : 0
         });
       });
-    }).catch(function(e){ console.warn('[Barca] fetch error:', e); });
+    }).catch(function(e){
+      console.warn('[Barca] fetch error:', e);
+      _renderBarcaOffseason();
+    });
+  }
+
+  /** Render an offseason / no-match fallback card so the widget is never stuck on "Loading scores..." */
+  function _renderBarcaOffseason() {
+    if (!barcaItem) return;
+    var barcaLogo = 'https://a.espncdn.com/i/teamlogos/soccer/500/83.png';
+    // Determine approximate La Liga season start (mid-August)
+    var now = new Date();
+    var seasonYear = now.getMonth() >= 7 ? now.getFullYear() + 1 : now.getFullYear();
+    var seasonLabel = 'Season starts Aug ' + seasonYear;
+
+    barcaItem.innerHTML =
+      '<div class="barca-scorecard-wrap barca-offseason">' +
+        '<div class="barca-top-row">' +
+          '<span class="rotating-label currently-into-label">Watching Football</span>' +
+        '</div>' +
+        '<div class="barca-content-layout-hybrid">' +
+          '<div class="barca-identity-side">' +
+            '<div class="barca-logo-wrap">' +
+              '<img src="' + barcaLogo + '" class="barca-main-logo" alt="FC Barcelona">' +
+              '<span class="barca-mini-tag">SUPPORTING</span>' +
+            '</div>' +
+            '<div class="barca-name-stack">' +
+              '<span class="barca-name-pink">FC Barcelona</span>' +
+              '<span class="barca-slogan-cyan">MÉS QUE UN CLUB</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="barca-score-rows-side" style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;">' +
+            '<span style="font-size:1.5rem;">⚽</span>' +
+            '<span style="color:var(--text-secondary,#a1a1aa);font-size:0.78rem;text-align:center;">No upcoming matches</span>' +
+            '<span style="color:var(--cyan,#10b981);font-size:0.68rem;opacity:0.7;">' + seasonLabel + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
   }
 
   fetchBarca();
