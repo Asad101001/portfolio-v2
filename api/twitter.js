@@ -8,7 +8,9 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate');
 
     try {
-        const response = await fetch(`https://syndication.twitter.com/srv/timeline-profile/screen-name/${username}`);
+        const syndicationUrl = `https://syndication.twitter.com/srv/timeline-profile/screen-name/${username}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(syndicationUrl)}`;
+        const response = await fetch(proxyUrl);
         const html = await response.text();
 
         const match = html.match(/<script id="__NEXT_DATA__" type="application\/json">([^<]+)<\/script>/);
