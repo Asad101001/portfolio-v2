@@ -6,19 +6,7 @@ import { CONFIG, escHtml } from './widgets.js';
     if (!container) return;
 
     const USER = CONFIG.usernames.twitter || 'As4d_41';
-    const NITTER_INSTANCES = [
-        'nitter.net',
-        'nitter.cz',
-        'nitter.unixfox.eu',
-        'nitter.poast.org',
-        'nitter.moomoo.me'
-    ];
-    let currentInstanceIdx = 0;
 
-    function getProxyUrl(instance) {
-        const rssUrl = `https://${instance}/${USER}/rss`;
-        return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&v=${Date.now()}`;
-    }
 
     function timeAgo(dateStr) {
         const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
@@ -111,8 +99,7 @@ import { CONFIG, escHtml } from './widgets.js';
     }
 
     function fetchTweets() {
-        // Nitter RSS logic directly
-        const url = getProxyUrl(NITTER_INSTANCES[currentInstanceIdx]);
+        const url = `/api/twitter?user=${USER}`;
         fetch(url)
             .then(r => r.json())
             .then(data => {
@@ -120,24 +107,19 @@ import { CONFIG, escHtml } from './widgets.js';
                     localStorage.setItem('asad_twitter_cache_v2', JSON.stringify(data.items));
                     render(data.items);
                 } else {
-                    throw new Error('RSS fail');
+                    throw new Error('API fail');
                 }
             })
             .catch(() => {
-                if (currentInstanceIdx < NITTER_INSTANCES.length - 1) {
-                    currentInstanceIdx++;
-                    fetchTweets();
-                } else {
-                    const cached = localStorage.getItem('asad_twitter_cache_v2');
-                    if (cached) render(JSON.parse(cached));
-                    else {
-                        container.innerHTML = `
-                            <div class="x-error-box" style="padding:20px;text-align:center;">
-                                <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
-                                <a href="https://twitter.com/${USER}" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
-                            </div>
-                        `;
-                    }
+                const cached = localStorage.getItem('asad_twitter_cache_v2');
+                if (cached) render(JSON.parse(cached));
+                else {
+                    container.innerHTML = `
+                        <div class="x-error-box" style="padding:20px;text-align:center;">
+                            <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
+                            <a href="https://twitter.com/${USER}" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
+                        </div>
+                    `;
                 }
             });
     }
