@@ -633,7 +633,7 @@ function _starsHTML(starsStr) {
     }
 
     function fetchTV() {
-      fetch('/api/current-show')
+      fetch('/api/current-show?_t=' + Date.now())
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (!data || data.watching === null || data.watching === undefined || !data.title) {
@@ -737,13 +737,15 @@ function _starsHTML(starsStr) {
 
 
   function fetchESPN(league) {
-    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/' + league + '/scoreboard?dates=' + dateRange(28))
+    var ts = Date.now();
+    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/' + league + '/scoreboard?dates=' + dateRange(28) + '&_t=' + ts)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){ return d.events || []; });
   }
 
   function fetchESPNSchedule() {
-    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/' + BARCA_ID + '/schedule')
+    var ts = Date.now();
+    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/' + BARCA_ID + '/schedule?_t=' + ts)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){ return d.events || []; });
   }
@@ -811,6 +813,7 @@ function _starsHTML(starsStr) {
     if (slug.indexOf('champion') !== -1 || slug.indexOf('ucl') !== -1)  return 'uefa.champions';
     if (slug.indexOf('europa') !== -1)                                   return 'uefa.europa';
     if (slug.indexOf('supercopa') !== -1)                                return 'esp.super_cup';
+    if (slug.indexOf('friendly') !== -1)                                 return 'club.friendly';
     return 'esp.1';
   }
 
@@ -982,7 +985,8 @@ function _starsHTML(starsStr) {
       fetchESPN('esp.1'),
       fetchESPN('uefa.champions'),
       fetchESPN('esp.copa_del_rey'),
-      fetchESPN('esp.super_cup')
+      fetchESPN('esp.super_cup'),
+      fetchESPN('club.friendly')
     ]).then(function(results) {
       var allEvents = mergeEvents(
         results
@@ -1116,7 +1120,7 @@ function _starsHTML(starsStr) {
   var USER    = CONFIG.usernames.lastfm;
   var API_KEY = 'eccfb681fcf620a63fcb300d526544ba';
   var LIMIT   = 4;
-  var URL     = 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=' + USER + '&api_key=' + API_KEY + '&format=json&limit=' + LIMIT;
+  var URL     = 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=' + USER + '&api_key=' + API_KEY + '&format=json&limit=' + LIMIT + '&_t=' + Date.now();
 
   function timeAgo(ts) {
     if (!ts) return '';
