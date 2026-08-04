@@ -5,21 +5,46 @@ export default async function handler(req, res) {
   const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID;
   const TMDB_API_KEY    = process.env.TMDB_API_KEY;
   const USERNAME        = process.env.TRAKT_USERNAME || 'as4d';
-
-  if (!TRAKT_CLIENT_ID) {
-    return res.status(200).json({ watching: null, error: 'TRAKT_CLIENT_ID not configured' });
-  }
+  const SIMKL           = process.env.SIMKL_CLIENT_ID;
+  const SIMKL_USER      = process.env.SIMKL_USER_ID;
 
   try {
     let data     = null;
     let watching = false;
     let progress = null;
 
-    // ── 0. Optional: Simkl Priority (if configured) ───────────────────────────
-    const SIMKL = process.env.SIMKL_CLIENT_ID;
-    const SIMKL_USER = process.env.SIMKL_USER_ID;
+    // ── 1. Primary Source: Trakt API ─────────────────────────────────────────
+    if (TRAKT_CLIENT_ID) {
+      try {
+        const traktHeaders = {
+          'Content-Type': 'application/json',
+          'trakt-api-version': '2',
+          'trakt-api-key': TRAKT_CLIENT_ID,
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        };
 
-    if (SIMKL && SIMKL_USER) {
+        // 1a. Check if currently watching (live scrobble)
+        const liveRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/watching`, { headers: traktHeaders });
+
+        if (liveRes.ok && liveRes.status !== 204) {
+          data = await liveRes.json();
+          watching = true;
+        } else {
+          // 1b. Fallback to latest item in Trakt history (episodes & movies)
+          const historyRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history?limit=1`, { headers: traktHeaders });
+          if (historyRes.ok) {
+            const historyData = await historyRes.json();
+            if (Array.isArray(historyData) && historyData.length > 0) {
+              data = historyData[0];
+              watching = false;
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    // ── 2. Fallback Source: Simkl (only if Trakt returned no data) ───────────
+    if (!data && SIMKL && SIMKL_USER) {
       try {
         const simklRes = await fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/tv/watching`, {
           headers: {
@@ -30,7 +55,7 @@ export default async function handler(req, res) {
         });
         if (simklRes.ok) {
           const simklData = await simklRes.json();
-          if (simklData && simklData.length > 0) {
+          if (Array.isArray(simklData) && simklData.length > 0) {
             const item = simklData[0];
             const show = item.show || {};
             
@@ -46,43 +71,6 @@ export default async function handler(req, res) {
           }
         }
       } catch (_) {}
-    }
-
-    // ── 1. Trakt Fallback / Primary ──────────────────────────────────────────
-    if (!data && TRAKT_CLIENT_ID) {
-      const response = await fetch(
-        `https://api.trakt.tv/users/${USERNAME}/watching`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'trakt-api-version': '2',
-            'trakt-api-key': TRAKT_CLIENT_ID,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          },
-        }
-      );
-
-      if (response.status === 204) {
-        // Fallback to user history (covers episodes & movies)
-        const historyRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history?limit=1`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'trakt-api-version': '2',
-            'trakt-api-key': TRAKT_CLIENT_ID,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        });
-        if (historyRes.ok) {
-          const historyData = await historyRes.json();
-          if (historyData && historyData.length > 0) {
-            data = historyData[0];
-            watching = false;
-          }
-        }
-      } else if (response.ok) {
-        data = await response.json();
-        watching = true;
-      }
     }
 
     if (!data) return res.status(200).json({ watching: null });

@@ -101,16 +101,15 @@ export default defineConfig({
         // Code-split by module — keeps initial bundle minimal
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Group vendor libs into their own chunk
             if (id.includes('lenis') || id.includes('swup')) return 'vendor-scroll';
             if (id.includes('gsap')) return 'vendor-gsap';
             return 'vendor';
           }
-          // Split our heavy modules into separate chunks
           if (id.includes('widgets')) return 'widgets';
           if (id.includes('twitter')) return 'twitter';
           if (id.includes('terminal')) return 'terminal';
           if (id.includes('webgl')) return 'webgl';
+          if (id.includes('canvas') || id.includes('animations.js')) return 'visuals';
         },
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
