@@ -8,6 +8,11 @@
     --card-padding: 20px;
   }
 
+  /* Disable loading-screen on mobile to allow instant hero FCP & LCP */
+  #loading-screen {
+    display: none !important;
+  }
+
   html, body {
     overflow-x: hidden;
     width: 100%;
