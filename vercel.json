@@ -6,7 +6,7 @@
   "cleanUrls": false,
   "headers": [
     {
-      "source": "/(images|css|js|certs)/(.*)",
+      "source": "/(assets|images|css|js|certs)/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
