@@ -1,20 +1,71 @@
+import fs from 'fs';
+import path from 'path';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=10, stale-while-revalidate=30');
 
-  const TRAKT_CLIENT_ID = process.env.TRAKT_CLIENT_ID;
-  const TMDB_API_KEY    = process.env.TMDB_API_KEY;
-  const USERNAME        = process.env.TRAKT_USERNAME || 'as4d';
-  const SIMKL           = process.env.SIMKL_CLIENT_ID;
-  const SIMKL_USER      = process.env.SIMKL_USER_ID;
+  const TRAKT_CLIENT_ID    = process.env.TRAKT_CLIENT_ID;
+  const TMDB_API_KEY       = process.env.TMDB_API_KEY;
+  const USERNAME           = process.env.TRAKT_USERNAME || 'as4d';
+  const SIMKL_CLIENT_ID    = process.env.SIMKL_CLIENT_ID || '7b56e66d068c647eae7a0642374185405201c1283ecca8df1114d27cc6e4fdd8';
+  const SIMKL_ACCESS_TOKEN = process.env.SIMKL_ACCESS_TOKEN;
+  const SIMKL_USER_ID      = process.env.SIMKL_USER_ID;
 
   try {
     let data     = null;
     let watching = false;
     let progress = null;
+    let source   = null;
 
-    // ── 1. Primary Source: Trakt API ─────────────────────────────────────────
-    if (TRAKT_CLIENT_ID) {
+    // ── 1. Primary Source: Simkl API ──────────────────────────────────────────
+    if (SIMKL_ACCESS_TOKEN || (SIMKL_CLIENT_ID && SIMKL_USER_ID)) {
+      try {
+        const simklHeaders = {
+          'Content-Type': 'application/json'
+        };
+        if (SIMKL_ACCESS_TOKEN) {
+          simklHeaders['Authorization'] = `Bearer ${SIMKL_ACCESS_TOKEN}`;
+        }
+        
+        const clientParam = SIMKL_CLIENT_ID ? `?client_id=${SIMKL_CLIENT_ID}` : '';
+        const userEndpoint = SIMKL_ACCESS_TOKEN 
+          ? `https://api.simkl.com/sync/all-items${clientParam}` 
+          : `https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching${clientParam}`;
+
+        let simklRes = await fetch(userEndpoint, { headers: simklHeaders });
+        if (simklRes.ok) {
+          const simklData = await simklRes.json();
+          const shows = Array.isArray(simklData) ? simklData : (simklData.shows || []);
+          if (shows.length > 0) {
+            // Sort by last_watched_at descending
+            shows.sort((a, b) => new Date(b.last_watched_at || 0) - new Date(a.last_watched_at || 0));
+            const item = shows[0];
+            const show = item.show || item;
+            const episodeMatch = item.last_watched ? String(item.last_watched).match(/S(\d+)E(\d+)/i) : null;
+            
+            data = {
+              show: { title: show.title, ids: { tmdb: show.ids ? show.ids.tmdb : null } },
+              episode: {
+                season: item.season || (episodeMatch ? parseInt(episodeMatch[1], 10) : null),
+                number: item.episode || (episodeMatch ? parseInt(episodeMatch[2], 10) : null)
+              },
+              watching: true,
+              progress: (item.watched_episodes_count && item.total_episodes_count) 
+                ? Math.round((item.watched_episodes_count / item.total_episodes_count) * 100) 
+                : null,
+              watched_at: item.last_watched_at || null
+            };
+            watching = true;
+            progress = data.progress;
+            source = 'simkl';
+          }
+        }
+      } catch (_) {}
+    }
+
+    // ── 2. Secondary Source: Trakt API ────────────────────────────────────────
+    if (!data && TRAKT_CLIENT_ID) {
       try {
         const traktHeaders = {
           'Content-Type': 'application/json',
@@ -23,51 +74,34 @@ export default async function handler(req, res) {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         };
 
-        // 1a. Check if currently watching (live scrobble)
         const liveRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/watching`, { headers: traktHeaders });
 
         if (liveRes.ok && liveRes.status !== 204) {
           data = await liveRes.json();
           watching = true;
+          source = 'trakt';
         } else {
-          // 1b. Fallback to latest item in Trakt history (episodes & movies)
           const historyRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history?limit=1`, { headers: traktHeaders });
           if (historyRes.ok) {
             const historyData = await historyRes.json();
             if (Array.isArray(historyData) && historyData.length > 0) {
               data = historyData[0];
               watching = false;
+              source = 'trakt';
             }
           }
         }
       } catch (_) {}
     }
 
-    // ── 2. Fallback Source: Simkl (only if Trakt returned no data) ───────────
-    if (!data && SIMKL && SIMKL_USER) {
+    // ── 3. Fallback Source: Trakt Export Local Backup ─────────────────────────
+    if (!data) {
       try {
-        const simklRes = await fetch(`https://api.simkl.com/users/${SIMKL_USER}/ratings/tv/watching`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'simkl-api-client': SIMKL,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        });
-        if (simklRes.ok) {
-          const simklData = await simklRes.json();
-          if (Array.isArray(simklData) && simklData.length > 0) {
-            const item = simklData[0];
-            const show = item.show || {};
-            
-            data = {
-              show: { title: show.title, ids: { tmdb: show.ids ? show.ids.tmdb : null } },
-              episode: { season: item.season, number: item.episode },
-              watching: true,
-              progress: item.watched_episodes && item.total_episodes ? Math.round((item.watched_episodes / item.total_episodes) * 100) : null,
-              watched_at: item.last_watched_at || null
-            };
-            watching = true;
-            progress = data.progress;
+        const fallbackPath = path.join(process.cwd(), 'utility', 'trakt-fallback-data.json');
+        if (fs.existsSync(fallbackPath)) {
+          const fallbackData = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+          if (fallbackData && fallbackData.currentShow) {
+            return res.status(200).json(fallbackData.currentShow);
           }
         }
       } catch (_) {}
@@ -87,7 +121,8 @@ export default async function handler(req, res) {
       type:    data.type              || (data.movie ? 'movie' : 'show'),
       poster:  null,
       progress: progress              || null,
-      date:    data.watched_at || data.started_at || null
+      date:    data.watched_at || data.started_at || null,
+      source:  source || 'unknown'
     };
 
     if (!formatted.title) return res.status(200).json({ watching: null });
@@ -123,6 +158,15 @@ export default async function handler(req, res) {
 
     res.status(200).json(formatted);
   } catch (error) {
-    res.status(200).json({ watching: null, error: 'Failed to fetch Trakt data', detail: error.message });
+    try {
+      const fallbackPath = path.join(process.cwd(), 'utility', 'trakt-fallback-data.json');
+      if (fs.existsSync(fallbackPath)) {
+        const fallbackData = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+        if (fallbackData && fallbackData.currentShow) {
+          return res.status(200).json(fallbackData.currentShow);
+        }
+      }
+    } catch (_) {}
+    res.status(200).json({ watching: null, error: 'Failed to fetch series data', detail: error.message });
   }
 }

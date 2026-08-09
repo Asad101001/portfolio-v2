@@ -9,13 +9,13 @@ export const CONFIG = {
   currently: {
     reading: '1984 George Orwell',
     tv: {
-      title: 'Severance',
-      season: 2,
-      episode: 3,
-      watching: true,
-      lastWatched: '2026-05-24T18:30:00.000Z'
+      title: 'House of the Dragon',
+      season: 3,
+      episode: 7,
+      watching: false,
+      lastWatched: '2026-08-04T05:06:00.000Z'
     },
-    series: ['Severance', 'Succession', 'Better Call Saul', 'The Pitt', 'A Knight of the Seven Kingdoms', 'Game of Thrones', 'Pluribus', 'The Boys', 'Invincible', 'Shrinking']
+    series: ['House of the Dragon', 'Off Campus', 'Adults', 'Widow\'s Bay', 'Euphoria', 'The Great', 'Shrinking', 'Batman: The Animated Series', 'Dark', 'Lost']
   },
   big3: {
     players: [
@@ -29,9 +29,10 @@ export const CONFIG = {
       { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man: Brand New Day' }
     ],
     seriesWatchlist: [
-      { title: 'The Wire' },
-      { title: 'The Sopranos' },
-      { title: 'Lost' }
+      { title: 'Lost' },
+      { title: 'Dark' },
+      { title: 'Cape Fear' },
+      { title: 'The Wire' }
     ]
   }
 };

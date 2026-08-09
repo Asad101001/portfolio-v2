@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=30');
@@ -88,25 +91,47 @@ export default async function handler(req, res) {
   }
 
   async function pullSimklData() {
-    if (!SIMKL_CLIENT_ID || !SIMKL_USER_ID) return { shows: [], movies: [] };
+    const SIMKL_ACCESS_TOKEN = process.env.SIMKL_ACCESS_TOKEN;
+    if (!SIMKL_CLIENT_ID && !SIMKL_ACCESS_TOKEN) return { shows: [], movies: [] };
 
     const headers = {
-      'simkl-api-client': SIMKL_CLIENT_ID,
+      'Content-Type': 'application/json',
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     };
-    const [simklWatching, simklPlan, simklMovies] = await Promise.all([
-      fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
-      fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/plantowatch`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
-      fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/movies/plantowatch`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
-    ]);
+    if (SIMKL_ACCESS_TOKEN) {
+      headers['Authorization'] = `Bearer ${SIMKL_ACCESS_TOKEN}`;
+    }
+
+    const param = SIMKL_CLIENT_ID ? `?client_id=${SIMKL_CLIENT_ID}` : '';
+    
+    let simklWatching = [];
+    let simklPlan = [];
+    let simklMovies = [];
+
+    if (SIMKL_ACCESS_TOKEN) {
+      const res = await fetch(`https://api.simkl.com/sync/all-items${param}`, { headers }).catch(() => ({ ok: false }));
+      if (res.ok) {
+        const data = await res.json();
+        const allShows = data.shows || [];
+        simklWatching = allShows.filter(s => s.status === 'watching');
+        simklPlan = allShows.filter(s => s.status === 'plantowatch');
+        simklMovies = (data.movies || []).filter(m => m.status === 'plantowatch');
+      }
+    } else if (SIMKL_USER_ID) {
+      [simklWatching, simklPlan, simklMovies] = await Promise.all([
+        fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching${param}`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
+        fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/plantowatch${param}`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
+        fetch(`https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/movies/plantowatch${param}`, { headers }).then((r) => (r.ok ? r.json() : [])).catch(() => [])
+      ]);
+    }
 
     const allSimklShows = [...simklWatching, ...simklPlan];
     const shows = await Promise.all(allSimklShows.map(async (item) => {
       const s = item?.show || {};
       let poster = await getTMDBPoster(s.ids?.tmdb, 'tv');
       if (!poster) poster = await getTVMazePoster(s.title);
-      const total = Number(item?.total_episodes) || 0;
-      const watched = Number(item?.watched_episodes) || 0;
+      const total = Number(item?.total_episodes_count || item?.total_episodes) || 0;
+      const watched = Number(item?.watched_episodes_count || item?.watched_episodes) || 0;
       return {
         title: s.title || 'Unknown',
         poster,
@@ -133,6 +158,20 @@ export default async function handler(req, res) {
     });
   }
 
+  function pullExportFallback() {
+    try {
+      const fallbackPath = path.join(process.cwd(), 'utility', 'trakt-fallback-data.json');
+      if (fs.existsSync(fallbackPath)) {
+        const fb = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+        return {
+          shows: fb.showsWatchlist || [],
+          movies: fb.moviesWatchlist || []
+        };
+      }
+    } catch (_) {}
+    return { shows: [], movies: [] };
+  }
+
   try {
     let providerOrder = ['simkl', 'trakt'];
     if (sourceQuery === 'trakt' || sourceQuery === 'simkl') {
@@ -153,6 +192,13 @@ export default async function handler(req, res) {
       }
     }
 
+    if (!shows.length && !movies.length) {
+      const fallback = pullExportFallback();
+      shows = fallback.shows;
+      movies = fallback.movies;
+      source = 'trakt-export';
+    }
+
     res.status(200).json({
       shows,
       movies,
@@ -160,16 +206,18 @@ export default async function handler(req, res) {
       lastSyncedAt: new Date().toISOString(),
       configured: {
         trakt: Boolean(TRAKT_CLIENT_ID),
-        simkl: Boolean(SIMKL_CLIENT_ID && SIMKL_USER_ID)
+        simkl: Boolean(SIMKL_CLIENT_ID && (SIMKL_USER_ID || SIMKL_ACCESS_TOKEN))
       }
     });
   } catch (error) {
+    const fallback = pullExportFallback();
     res.status(200).json({
-      shows: [],
-      movies: [],
-      source: 'error',
-      error: 'Failed to fetch dynamic watchlists',
+      shows: fallback.shows,
+      movies: fallback.movies,
+      source: 'trakt-export',
+      error: 'Failed to fetch dynamic watchlists, loaded backup',
       detail: error.message
     });
   }
 }
+

@@ -1,0 +1,146 @@
+{
+  "currentShow": {
+    "watching": false,
+    "title": "House of the Dragon",
+    "season": 3,
+    "episode": 7,
+    "episodeTitle": "The Dragon in Winter",
+    "tmdbId": 94997,
+    "type": "show",
+    "poster": "https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+    "progress": 100,
+    "date": "2026-08-04T05:06:00.000Z",
+    "source": "trakt-export"
+  },
+  "topWatchedShows": [
+    {
+      "title": "House of the Dragon",
+      "tmdbId": 94997,
+      "lastWatched": "2026-08-04T05:06:00.000Z",
+      "plays": 25,
+      "airedEpisodes": 25,
+      "poster": "https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg"
+    },
+    {
+      "title": "Off Campus",
+      "tmdbId": 273240,
+      "lastWatched": "2026-07-20T13:01:00.000Z",
+      "plays": 6,
+      "airedEpisodes": 8,
+      "poster": "https://image.tmdb.org/t/p/w500/tcPc5ZMBO4y2BtCJMe3o2nwZb2B.jpg"
+    },
+    {
+      "title": "Adults",
+      "tmdbId": 260458,
+      "lastWatched": "2026-07-05T07:42:00.000Z",
+      "plays": 8,
+      "airedEpisodes": 9,
+      "poster": "https://image.tmdb.org/t/p/w500/oJUoRlVXGl3MJb62Ugi1G08GPbx.jpg"
+    },
+    {
+      "title": "Widow's Bay",
+      "tmdbId": 270476,
+      "lastWatched": "2026-06-19T14:16:00.000Z",
+      "plays": 10,
+      "airedEpisodes": 10,
+      "poster": "https://image.tmdb.org/t/p/w500/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg"
+    },
+    {
+      "title": "Euphoria",
+      "tmdbId": 85552,
+      "lastWatched": "2026-06-02T19:14:00.000Z",
+      "plays": 24,
+      "airedEpisodes": 24,
+      "poster": "https://image.tmdb.org/t/p/w500/ypmtwojDd751Peszi62DVLytqqC.jpg"
+    },
+    {
+      "title": "The Great",
+      "tmdbId": 93812,
+      "lastWatched": "2026-05-25T11:44:00.000Z",
+      "plays": 20,
+      "airedEpisodes": 30,
+      "poster": "https://image.tmdb.org/t/p/w500/tpz9UQ3hUwYufNcKWVW00FCjWyc.jpg"
+    },
+    {
+      "title": "Shrinking",
+      "tmdbId": 136311,
+      "lastWatched": "2026-05-25T11:44:00.000Z",
+      "plays": 22,
+      "airedEpisodes": 33,
+      "poster": "https://image.tmdb.org/t/p/w500/zEFKMNPBKq6JG7uuDkzTQ9WwErn.jpg"
+    },
+    {
+      "title": "Batman: The Animated Series",
+      "tmdbId": 2098,
+      "lastWatched": "2026-05-25T11:43:00.000Z",
+      "plays": 70,
+      "airedEpisodes": 85,
+      "poster": "https://image.tmdb.org/t/p/w500/lBomQFW1vlm1yUYMNSbFZ45R4Ox.jpg"
+    },
+    {
+      "title": "The Sex Lives of College Girls",
+      "tmdbId": 134373,
+      "lastWatched": "2026-05-25T11:42:00.000Z",
+      "plays": 30,
+      "airedEpisodes": 30,
+      "poster": "https://image.tmdb.org/t/p/w500/wThMl6AhneaNw78XHC7fupBxNle.jpg"
+    },
+    {
+      "title": "Pam & Tommy",
+      "tmdbId": 114925,
+      "lastWatched": "2026-05-25T11:42:00.000Z",
+      "plays": 8,
+      "airedEpisodes": 8,
+      "poster": "https://image.tmdb.org/t/p/w500/u6Hfb3EsnvlPChr01jErXDTsdan.jpg"
+    }
+  ],
+  "showsWatchlist": [
+    {
+      "title": "Lost",
+      "tmdbId": 4607,
+      "poster": "https://image.tmdb.org/t/p/w500/og6S0aTZU6YUJAbqxeKjCa3kY1E.jpg"
+    },
+    {
+      "title": "Dark",
+      "tmdbId": 70523,
+      "poster": "https://image.tmdb.org/t/p/w500/apbrbWs8M9lyOpJYU5WXrpFbk1Z.jpg"
+    },
+    {
+      "title": "Cape Fear",
+      "tmdbId": 277439,
+      "poster": "https://image.tmdb.org/t/p/w500/3ZLy3cfQa9prahoRq1teMmr5pvW.jpg"
+    },
+    {
+      "title": "The Wire",
+      "tmdbId": 1438,
+      "poster": "https://image.tmdb.org/t/p/w500/4lbclFySvugI51fwsyxBTOm4DqK.jpg"
+    }
+  ],
+  "moviesWatchlist": [
+    {
+      "title": "Dune: Part Three",
+      "tmdbId": 1170608,
+      "poster": "https://image.tmdb.org/t/p/w500/d43fvHQsIMa4kpyhKXw0haEJIvI.jpg"
+    },
+    {
+      "title": "The Odyssey",
+      "tmdbId": 1368337,
+      "poster": "https://image.tmdb.org/t/p/w500/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg"
+    },
+    {
+      "title": "Spider-Man: Brand New Day",
+      "tmdbId": 969681,
+      "poster": "https://image.tmdb.org/t/p/w500/iPOn6DinuVyLY17YM9mKuPofV08.jpg"
+    },
+    {
+      "title": "Justice League: Warworld",
+      "tmdbId": 1003581,
+      "poster": "https://image.tmdb.org/t/p/w500/pHdSS5G3wDwJp6jWgMpbSjNiTbr.jpg"
+    },
+    {
+      "title": "Reign of the Supermen",
+      "tmdbId": 487672,
+      "poster": "https://image.tmdb.org/t/p/w500/e9TzqscNRUaG8HqEP3K1jUvi8pC.jpg"
+    }
+  ]
+}

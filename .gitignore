@@ -38,4 +38,5 @@ refactor/
 .vercel
 .env*
 temp_backup_images/
+trakt-export-as4d/
 
