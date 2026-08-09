@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const USERNAME           = process.env.TRAKT_USERNAME || 'as4d';
   const SIMKL_CLIENT_ID    = process.env.SIMKL_CLIENT_ID || '7b56e66d068c647eae7a0642374185405201c1283ecca8df1114d27cc6e4fdd8';
   const SIMKL_ACCESS_TOKEN = process.env.SIMKL_ACCESS_TOKEN;
-  const SIMKL_USER_ID      = process.env.SIMKL_USER_ID;
+  const SIMKL_USER_ID      = process.env.SIMKL_USER_ID || '8343435';
 
   try {
     let data     = null;
@@ -18,43 +18,29 @@ export default async function handler(req, res) {
     let progress = null;
     let source   = null;
 
-    // ── 1. Primary Source: Simkl API ──────────────────────────────────────────
-    if (SIMKL_ACCESS_TOKEN || (SIMKL_CLIENT_ID && SIMKL_USER_ID)) {
+    // ── 1. Check for Active Live Scrobble on Simkl ───────────────────────────
+    if (SIMKL_CLIENT_ID && SIMKL_USER_ID) {
       try {
-        const simklHeaders = {
-          'Content-Type': 'application/json'
-        };
+        const simklHeaders = { 'Content-Type': 'application/json' };
         if (SIMKL_ACCESS_TOKEN) {
           simklHeaders['Authorization'] = `Bearer ${SIMKL_ACCESS_TOKEN}`;
         }
         
-        const clientParam = SIMKL_CLIENT_ID ? `?client_id=${SIMKL_CLIENT_ID}` : '';
-        const userEndpoint = SIMKL_ACCESS_TOKEN 
-          ? `https://api.simkl.com/sync/all-items${clientParam}` 
-          : `https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching${clientParam}`;
-
-        let simklRes = await fetch(userEndpoint, { headers: simklHeaders });
-        if (simklRes.ok) {
-          const simklData = await simklRes.json();
-          const shows = Array.isArray(simklData) ? simklData : (simklData.shows || []);
-          if (shows.length > 0) {
-            // Sort by last_watched_at descending
-            shows.sort((a, b) => new Date(b.last_watched_at || 0) - new Date(a.last_watched_at || 0));
-            const item = shows[0];
-            const show = item.show || item;
-            const episodeMatch = item.last_watched ? String(item.last_watched).match(/S(\d+)E(\d+)/i) : null;
-            
+        const url = `https://api.simkl.com/users/${SIMKL_USER_ID}/ratings/tv/watching?client_id=${SIMKL_CLIENT_ID}`;
+        const liveRes = await fetch(url, { headers: simklHeaders });
+        if (liveRes.ok) {
+          const liveData = await liveRes.json();
+          if (Array.isArray(liveData) && liveData.length > 0) {
+            const item = liveData[0];
+            const show = item.show || {};
             data = {
               show: { title: show.title, ids: { tmdb: show.ids ? show.ids.tmdb : null } },
-              episode: {
-                season: item.season || (episodeMatch ? parseInt(episodeMatch[1], 10) : null),
-                number: item.episode || (episodeMatch ? parseInt(episodeMatch[2], 10) : null)
-              },
+              episode: { season: item.season, number: item.episode },
               watching: true,
-              progress: (item.watched_episodes_count && item.total_episodes_count) 
-                ? Math.round((item.watched_episodes_count / item.total_episodes_count) * 100) 
+              progress: (item.watched_episodes && item.total_episodes) 
+                ? Math.round((item.watched_episodes / item.total_episodes) * 100) 
                 : null,
-              watched_at: item.last_watched_at || null
+              watched_at: item.last_watched_at || new Date().toISOString()
             };
             watching = true;
             progress = data.progress;
@@ -64,37 +50,26 @@ export default async function handler(req, res) {
       } catch (_) {}
     }
 
-    // ── 2. Secondary Source: Trakt API ────────────────────────────────────────
+    // ── 2. Check for Active Live Scrobble on Trakt ───────────────────────────
     if (!data && TRAKT_CLIENT_ID) {
       try {
         const traktHeaders = {
           'Content-Type': 'application/json',
           'trakt-api-version': '2',
           'trakt-api-key': TRAKT_CLIENT_ID,
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          'User-Agent': 'Mozilla/5.0'
         };
 
         const liveRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/watching`, { headers: traktHeaders });
-
         if (liveRes.ok && liveRes.status !== 204) {
           data = await liveRes.json();
           watching = true;
           source = 'trakt';
-        } else {
-          const historyRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history?limit=1`, { headers: traktHeaders });
-          if (historyRes.ok) {
-            const historyData = await historyRes.json();
-            if (Array.isArray(historyData) && historyData.length > 0) {
-              data = historyData[0];
-              watching = false;
-              source = 'trakt';
-            }
-          }
         }
       } catch (_) {}
     }
 
-    // ── 3. Fallback Source: Trakt Export Local Backup ─────────────────────────
+    // ── 3. Exact Historical Fallback from Trakt Export Data ───────────────────
     if (!data) {
       try {
         const fallbackPath = path.join(process.cwd(), 'utility', 'trakt-fallback-data.json');
@@ -127,7 +102,7 @@ export default async function handler(req, res) {
 
     if (!formatted.title) return res.status(200).json({ watching: null });
 
-    // ── Poster & Progress enrichment logic ───────────────────────────────────
+    // Poster enrichment logic
     if (formatted.tmdbId && TMDB_API_KEY) {
       try {
         const typeEndpoint = formatted.type === 'movie' ? 'movie' : 'tv';
@@ -135,13 +110,6 @@ export default async function handler(req, res) {
         if (tmdbRes.ok) {
           const tmdbData = await tmdbRes.json();
           if (tmdbData.poster_path) formatted.poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
-          
-          if (!formatted.progress && tmdbData.seasons && formatted.season) {
-            const currentSeason = tmdbData.seasons.find(s => s.season_number === formatted.season);
-            if (currentSeason && currentSeason.episode_count) {
-              formatted.progress = Math.round((formatted.episode / currentSeason.episode_count) * 100);
-            }
-          }
         }
       } catch (_) {}
     }
