@@ -125,7 +125,7 @@ export default async function handler(req, res) {
       ]);
     }
 
-    const allSimklShows = [...simklWatching, ...simklPlan];
+    const allSimklShows = simklPlan;
     const shows = await Promise.all(allSimklShows.map(async (item) => {
       const s = item?.show || {};
       let poster = await getTMDBPoster(s.ids?.tmdb, 'tv');

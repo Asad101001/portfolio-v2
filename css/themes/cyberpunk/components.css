@@ -149,7 +149,7 @@ body.theme-cyberpunk .section-dot.active::before,
 body.theme-cyberpunk .r-dot.active::before {
     background: var(--cyan) !important;
     color: #000000 !important;
-    box-shadow: 4px 4px 0px rgba(255,255,255,0.2) !important;
+    box-shadow: 0 0 10px var(--cyan) !important;
 }
 
 body.theme-cyberpunk .section-dot.active,

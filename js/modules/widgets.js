@@ -25,8 +25,8 @@ export const CONFIG = {
     ],
     watchlist: [
       { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
-      { title: 'The Odyssey', searchQuery: 'The Odyssey (2026 film)' },
-      { title: 'Spider-Man: Brand New Day', searchQuery: 'Spider-Man: Brand New Day' }
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' }
     ],
     seriesWatchlist: [
       { title: 'Lost' },
@@ -785,17 +785,24 @@ function _starsHTML(starsStr) {
           var typeText = (play.type && play.type.text || play.type && play.type.name || '').toLowerCase();
           var typeType = (play.type && play.type.type || '').toLowerCase();
           var typeId   = play.type && String(play.type.id || '');
-          var teamId   = play.team && String(play.team.id || '');
+          var teamId   = play.team && String(play.team.id || play.team || '');
           if (!teamId) return;
 
-          if (typeText.indexOf('goal') !== -1 || typeType.indexOf('goal') !== -1) {
+          var isScoringPlay = play.scoringPlay === true;
+          var isGoal = isScoringPlay || typeText.indexOf('goal') !== -1 || typeType.indexOf('goal') !== -1 || typeText.indexOf('penalty - scored') !== -1 || typeType.indexOf('penalty---scored') !== -1;
+
+          if (isGoal) {
             var athlete = play.participants && play.participants[0] && play.participants[0].athlete;
             var rawName = athlete && (athlete.shortName || athlete.displayName);
+            if (!rawName && play.text) {
+              rawName = play.text.split('(')[0].trim();
+            }
             if (!rawName) return;
             var name = _shortName(rawName);
             var clock = play.clock && play.clock.displayValue || play.period && play.period.displayValue || '';
             var cleanClock = clock.replace(/'/g, '');
-            var entry = name + (cleanClock ? ' ' + cleanClock + "'" : '');
+            var isPenalty = (typeText.indexOf('penalty') !== -1 || typeType.indexOf('penalty') !== -1) && typeText.indexOf('goal') === -1;
+            var entry = name + (cleanClock ? ' ' + cleanClock + "'" : '') + (isPenalty ? ' (P)' : '');
             if (!scorerMap[teamId]) scorerMap[teamId] = [];
             if (scorerMap[teamId].indexOf(entry) === -1) scorerMap[teamId].push(entry);
           }
