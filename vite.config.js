@@ -12,6 +12,12 @@ function htmlIncludePlugin() {
   return {
     name: 'html-include',
     enforce: 'pre',
+    buildStart() {
+      const devDist = path.resolve(process.cwd(), 'dev-dist');
+      if (!fs.existsSync(devDist)) {
+        fs.mkdirSync(devDist, { recursive: true });
+      }
+    },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.html') && file.includes('components')) {
         server.ws.send({ type: 'full-reload', path: '*' });
@@ -43,7 +49,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true
+        enabled: true,
+        suppressWarnings: true
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,json}'],

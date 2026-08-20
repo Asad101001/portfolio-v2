@@ -11,13 +11,13 @@ export function initLenis() {
                    (typeof screen !== 'undefined' && screen.deviceXDPI > 110);
 
     const lenis = new Lenis({
-        // Shorter duration = snappier scroll response
-        duration: highHz ? 0.7 : 0.85,
-        // Faster-decelerating ease — responsive start, quick settle
+        // Snappy duration = instantaneous scroll response
+        duration: highHz ? 0.4 : 0.48,
+        // Responsive easing — quick start, crisp settle
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothTouch: false,   // Native iOS/Android momentum is already better
-        touchMultiplier: 1.8,
-        wheelMultiplier: 1.2, // Slightly boosted for responsive wheel
+        smoothTouch: false,   // Native iOS/Android momentum is best
+        touchMultiplier: 1.0,
+        wheelMultiplier: 1.0,
         infinite: false,
     });
 

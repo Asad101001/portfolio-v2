@@ -9,22 +9,22 @@
 
 /* ── CSS Custom Properties ──────────────────────────────── */
 :root {
-  --cyan:      #10B981;
-  --lime:      #ADFF2F;
-  --purple:    #a855f7;
-  --orange:    #f97316;
+  --cyan:      #2dd4bf;
+  --lime:      #a3e635;
+  --purple:    #c084fc;
+  --orange:    #fb923c;
   --bg:        #0D0D0D;
   --bg2:       #050505;
-  --surface:   rgba(13,13,13,0.75);
-  --border:    rgba(16,185,129,0.1);
-  --border-h:  rgba(16,185,129,0.35);
+  --surface:   rgba(18, 18, 24, 0.75);
+  --border:    rgba(255, 255, 255, 0.1);
+  --border-h:  rgba(45, 212, 191, 0.3);
   --text:      #e2e8f0;
-  --text-muted:#71717a;
-  --text-dim:  #3f3f46;
-  --radius:    4px;
-  --radius-lg: 4px;
-  --card-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  --btn-shadow:  0 4px 20px rgba(16,185,129,0.2);
+  --text-muted:#94a3b8;
+  --text-dim:  #475569;
+  --radius:    10px;
+  --radius-lg: 14px;
+  --card-shadow: 0 16px 40px -10px rgba(0,0,0,0.6);
+  --btn-shadow:  0 4px 20px rgba(45,212,191,0.18);
   --transition: 0.35s cubic-bezier(0.22,1,0.36,1);
   --star-color: rgba(255,255,255,0.7);
 }

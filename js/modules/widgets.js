@@ -11,9 +11,9 @@ export const CONFIG = {
     tv: {
       title: 'House of the Dragon',
       season: 3,
-      episode: 7,
+      episode: 8,
       watching: false,
-      lastWatched: '2026-08-04T05:06:00.000Z'
+      lastWatched: '2026-08-18T05:06:00.000Z'
     },
     series: ['House of the Dragon', 'Off Campus', 'Adults', 'Widow\'s Bay', 'Euphoria', 'The Great', 'Shrinking', 'Batman: The Animated Series', 'Dark', 'Lost']
   },
@@ -746,7 +746,7 @@ function _starsHTML(starsStr) {
 
   function fetchESPNSchedule() {
     var ts = Date.now();
-    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/' + BARCA_ID + '/schedule?_t=' + ts)
+    return fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/all/teams/' + BARCA_ID + '/schedule?_t=' + ts)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){ return d.events || []; });
   }
@@ -773,7 +773,7 @@ function _starsHTML(starsStr) {
   }
 
   function fetchScorers(eventId, leagueSlug) {
-    var url = 'https://site.api.espn.com/apis/site/v2/sports/soccer/' + leagueSlug + '/summary?event=' + eventId;
+    var url = 'https://site.api.espn.com/apis/site/v2/sports/soccer/' + (leagueSlug || 'all') + '/summary?event=' + eventId;
     return fetch(url)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(data){
@@ -783,10 +783,12 @@ function _starsHTML(starsStr) {
 
         plays.forEach(function(play){
           var typeText = (play.type && play.type.text || play.type && play.type.name || '').toLowerCase();
-          var teamId = play.team && String(play.team.id || '');
+          var typeType = (play.type && play.type.type || '').toLowerCase();
+          var typeId   = play.type && String(play.type.id || '');
+          var teamId   = play.team && String(play.team.id || '');
           if (!teamId) return;
 
-          if (typeText.indexOf('goal') !== -1) {
+          if (typeText.indexOf('goal') !== -1 || typeType.indexOf('goal') !== -1) {
             var athlete = play.participants && play.participants[0] && play.participants[0].athlete;
             var rawName = athlete && (athlete.shortName || athlete.displayName);
             if (!rawName) return;
@@ -798,7 +800,8 @@ function _starsHTML(starsStr) {
             if (scorerMap[teamId].indexOf(entry) === -1) scorerMap[teamId].push(entry);
           }
 
-          if (typeText.indexOf('red') !== -1) {
+          var isRedCard = typeType === 'red-card' || typeId === '95' || typeText === 'red card' || typeText === 'red-card';
+          if (isRedCard) {
             redCardMap[teamId] = (redCardMap[teamId] || 0) + 1;
           }
         });
@@ -983,6 +986,7 @@ function _starsHTML(starsStr) {
 
   function fetchBarca() {
     Promise.allSettled([
+      fetchESPNSchedule(),
       fetchESPN('esp.1'),
       fetchESPN('uefa.champions'),
       fetchESPN('esp.copa_del_rey'),
@@ -995,38 +999,20 @@ function _starsHTML(starsStr) {
           .map(function(r){ return r.value; })
       );
       
-      var scoreboardBarcaMatches = allEvents.filter(function(ev) {
+      return allEvents.filter(function(ev) {
         return ev.competitions && ev.competitions[0] &&
           ev.competitions[0].competitors &&
           ev.competitions[0].competitors.some(function(c){ return String(c.team.id) === BARCA_ID; });
       });
-
-      if (scoreboardBarcaMatches.length > 0) {
-        return scoreboardBarcaMatches;
-      } else {
-        return fetchESPNSchedule();
-      }
-    }).then(function(events) {
-      if (!events || !events.length) {
-        // Offseason fallback — no matches found
+    }).then(function(barcaMatches) {
+      if (!barcaMatches || !barcaMatches.length) {
         _renderBarcaOffseason();
         return;
       }
       
       var now = new Date();
-      var barcaMatches = events
-        .filter(function(ev){
-          return ev.competitions && ev.competitions[0] &&
-            ev.competitions[0].competitors &&
-            ev.competitions[0].competitors.some(function(c){ return String(c.team.id) === BARCA_ID; });
-        });
 
-      if (!barcaMatches.length) {
-        _renderBarcaOffseason();
-        return;
-      }
-
-      // Find if there is any live match
+      // 1. Find if there is any live match
       var liveMatch = barcaMatches.find(function(ev) {
         var statusObj = ev.status || (ev.competitions && ev.competitions[0] && ev.competitions[0].status);
         return statusObj && statusObj.type && statusObj.type.state === 'in';
@@ -1036,11 +1022,24 @@ function _starsHTML(starsStr) {
       if (liveMatch) {
         ev = liveMatch;
       } else {
-        // Sort by how close they are to now (absolute difference in time)
-        barcaMatches.sort(function(a, b) {
-          return Math.abs(new Date(a.date) - now) - Math.abs(new Date(b.date) - now);
+        // 2. Separate completed matches vs upcoming matches
+        var completed = barcaMatches.filter(function(e) {
+          var statusObj = e.status || (e.competitions && e.competitions[0] && e.competitions[0].status);
+          var st = statusObj && statusObj.type && statusObj.type.state;
+          return st === 'post' || new Date(e.date) <= now;
+        }).sort(function(a, b) {
+          return new Date(b.date) - new Date(a.date); // Most recent completed match first
         });
-        ev = barcaMatches[0];
+
+        if (completed.length > 0) {
+          ev = completed[0];
+        } else {
+          // Upcoming match sorted by soonest date
+          barcaMatches.sort(function(a, b) {
+            return new Date(a.date) - new Date(b.date);
+          });
+          ev = barcaMatches[0];
+        }
       }
 
       var comp = ev.competitions[0];

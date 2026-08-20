@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       } catch (_) {}
     }
 
-    // ── 2. Check for Active Live Scrobble on Trakt ───────────────────────────
+    // ── 2. Check for Active Live Scrobble or History on Trakt ────────────────
     if (!data && TRAKT_CLIENT_ID) {
       try {
         const traktHeaders = {
@@ -65,6 +65,22 @@ export default async function handler(req, res) {
           data = await liveRes.json();
           watching = true;
           source = 'trakt';
+        } else {
+          // Fetch last watched show from history if not currently live-watching
+          const histRes = await fetch(`https://api.trakt.tv/users/${USERNAME}/history/shows?limit=1`, { headers: traktHeaders });
+          if (histRes.ok) {
+            const histData = await histRes.json();
+            if (Array.isArray(histData) && histData.length > 0) {
+              const item = histData[0];
+              data = {
+                show: item.show,
+                episode: item.episode,
+                watched_at: item.watched_at
+              };
+              watching = false;
+              source = 'trakt-history';
+            }
+          }
         }
       } catch (_) {}
     }
