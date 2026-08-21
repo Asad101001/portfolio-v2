@@ -1,27 +1,28 @@
 /* ── KOMIK Components ── */
-/* Cards, buttons, nav, pills — ink-outlined + animated */
+/* Cards, buttons, nav, pills — ink-outlined, high contrast, animated */
 
-/* ── Cards: Pop-up spring bounce ── */
+/* ── Cards: Ink-outlined solid comic panels ── */
 body.theme-komik .glass-card,
 body.theme-komik .proj-card,
 body.theme-komik .stat-card,
-body.theme-komik .wip-card {
-    background: rgba(255, 248, 231, 0.92) !important;
-    border: 3px solid var(--komik-ink) !important;
-    box-shadow: 5px 5px 0px var(--komik-ink) !important;
+body.theme-komik .wip-card,
+body.theme-komik .fun-facts-section {
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    box-shadow: 5px 5px 0px #111111 !important;
     border-radius: 0px !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     position: relative;
+    color: #111111 !important;
     transition:
-        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
         box-shadow 0.2s ease !important;
-    /* Smooth GPU compositing */
     will-change: transform;
     transform: translateZ(0);
 }
 
-/* Yellow top accent band */
+/* Yellow top accent stripe on cards */
 body.theme-komik .glass-card::before,
 body.theme-komik .proj-card::before {
     content: '';
@@ -30,13 +31,13 @@ body.theme-komik .proj-card::before {
     left: 0;
     right: 0;
     height: 5px;
-    background: var(--komik-yellow);
-    border-bottom: 2px solid var(--komik-ink);
+    background: #FFE500;
+    border-bottom: 2px solid #111111;
     z-index: 1;
     pointer-events: none;
 }
 
-/* Bottom blue accent */
+/* Bottom blue accent on project cards */
 body.theme-komik .proj-card::after {
     content: '';
     position: absolute;
@@ -44,67 +45,45 @@ body.theme-komik .proj-card::after {
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--komik-blue);
-    border-top: 2px solid var(--komik-ink);
+    background: #0D47A1;
+    border-top: 2px solid #111111;
     pointer-events: none;
 }
 
-/* Spring-bounce hover: offset + bigger shadow */
+/* Spring-bounce hover */
 body.theme-komik .glass-card:hover,
 body.theme-komik .proj-card:hover {
-    transform: translate(-5px, -5px) !important;
-    box-shadow: 10px 10px 0px var(--komik-red) !important;
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 9px 9px 0px #D50000 !important;
 }
 
 body.theme-komik .stat-card:hover {
     transform: translate(-3px, -3px) !important;
-    box-shadow: 8px 8px 0px var(--komik-ink) !important;
+    box-shadow: 8px 8px 0px #111111 !important;
 }
 
-/* ── Subtle panel float animation on load ── */
-@keyframes komik-float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33%       { transform: translateY(-3px) rotate(0.3deg); }
-    66%       { transform: translateY(-1px) rotate(-0.2deg); }
-}
-
-/* Stagger float on glass-cards for dynamism */
-body.theme-komik .glass-card:nth-child(odd) {
-    animation: komik-float 6s ease-in-out infinite;
-}
-body.theme-komik .glass-card:nth-child(even) {
-    animation: komik-float 7s ease-in-out infinite 1s;
-}
-
-/* Pause float on hover (clean hover state) */
-body.theme-komik .glass-card:hover,
-body.theme-komik .proj-card:hover {
-    animation: none !important;
-}
-
-/* ── Navigation: Bold comic strip navbar ── */
+/* ── Navigation: Comic strip navbar ── */
 body.theme-komik nav,
 body.theme-komik .nav-inner {
-    background: var(--komik-yellow) !important;
+    background: #FFE500 !important;
     border: none !important;
-    border-bottom: 4px solid var(--komik-ink) !important;
+    border-bottom: 4px solid #111111 !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: 0 4px 0px var(--komik-ink) !important;
+    box-shadow: 0 4px 0px #111111 !important;
 }
 
 body.theme-komik .nav-link {
-    color: var(--komik-ink) !important;
+    color: #111111 !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 1.1rem !important;
+    font-size: 1.15rem !important;
     letter-spacing: 0.1em !important;
     position: relative;
     transition: color 0.15s ease, background 0.15s ease !important;
 }
 
-/* Ink stamp underline animation */
 body.theme-komik .nav-link::after {
     content: '';
     position: absolute;
@@ -112,7 +91,7 @@ body.theme-komik .nav-link::after {
     left: 0;
     right: 100%;
     height: 3px;
-    background: var(--komik-ink);
+    background: #111111;
     transition: right 0.2s ease;
 }
 
@@ -121,291 +100,206 @@ body.theme-komik .nav-link:hover::after {
 }
 
 body.theme-komik .nav-link:hover {
-    color: var(--komik-paper) !important;
-    background: var(--komik-ink) !important;
+    color: #FFFDF6 !important;
+    background: #111111 !important;
     transform: skew(-4deg) !important;
-    padding-left: 6px !important;
-    padding-right: 6px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
 }
 
-/* ── Theme trigger: RED with white bold text ── */
+/* ── Theme Trigger: Vibrant Red Comic Badge ── */
 body.theme-komik .theme-trigger {
     font-family: 'Bangers', cursive !important;
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     -webkit-background-clip: initial !important;
     background-clip: initial !important;
     -webkit-text-fill-color: #FFFFFF !important;
     color: #FFFFFF !important;
-    padding: 3px 12px !important;
+    padding: 4px 14px !important;
     font-weight: 400 !important;
-    font-size: 1.05rem !important;
+    font-size: 1.1rem !important;
     letter-spacing: 0.12em !important;
-    border: 2px solid var(--komik-ink) !important;
-    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
     border-radius: 0 !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
     cursor: pointer !important;
+    text-shadow: 1px 1px 0px #111111 !important;
 }
 
 body.theme-komik .theme-trigger:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px var(--komik-ink) !important;
+    box-shadow: 5px 5px 0px #111111 !important;
+    background: #111111 !important;
+    color: #FFE500 !important;
+    -webkit-text-fill-color: #FFE500 !important;
 }
 
 /* ── Buttons ── */
 body.theme-komik .btn,
 body.theme-komik button:not(.terminal-btn):not([class*="spotify"]):not([class*="t-"]),
-body.theme-komik [class*="btn"]:not([class*="mbn"]) {
-    background: var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
-    border: 3px solid var(--komik-ink) !important;
+body.theme-komik [class*="btn"]:not([class*="mbn"]):not([class*="af-btn"]) {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 3px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 3px 3px 0px var(--komik-ink) !important;
-    font-weight: 800 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
+    font-weight: 900 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.06em !important;
+    font-family: 'Space Grotesk', sans-serif !important;
     transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
 }
 
 body.theme-komik .btn:hover,
 body.theme-komik button:not(.terminal-btn):not([class*="spotify"]):not([class*="t-"]):hover,
-body.theme-komik [class*="btn"]:not([class*="mbn"]):hover {
+body.theme-komik [class*="btn"]:not([class*="mbn"]):not([class*="af-btn"]):hover {
     transform: translate(-3px, -3px) !important;
-    box-shadow: 6px 6px 0px var(--komik-ink) !important;
+    box-shadow: 6px 6px 0px #111111 !important;
+    background: #111111 !important;
+    color: #FFE500 !important;
 }
 
-/* ── Status pills ── */
+/* ── View Resume CTA ── */
+body.theme-komik .view-resume-btn,
+body.theme-komik .btn-view-resume {
+    background: #111111 !important;
+    color: #FFE500 !important;
+    border: 2px solid #111111 !important;
+    font-weight: 900 !important;
+    box-shadow: 3px 3px 0px #FFE500 !important;
+}
+
+/* ── Status Pills & Badges ── */
 body.theme-komik .status-pill {
-    background: var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
-    border: 2px solid var(--komik-ink) !important;
-    font-weight: 800 !important;
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 2px solid #111111 !important;
+    font-weight: 900 !important;
     border-radius: 0px !important;
     font-family: 'JetBrains Mono', monospace !important;
     text-transform: uppercase !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px #111111 !important;
 }
 
 body.theme-komik .status-offline {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
     font-weight: 900 !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px #111111 !important;
 }
 
-body.theme-komik .tag-pill {
-    background: var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
-    border: 2px solid var(--komik-ink) !important;
+body.theme-komik .tag-pill,
+body.theme-komik .proj-tags .tag-pill,
+body.theme-komik .tag {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
     font-weight: 800 !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px #111111 !important;
     transition: transform 0.15s ease !important;
 }
 
-body.theme-komik .tag-pill:hover {
+body.theme-komik .tag-pill:hover,
+body.theme-komik .tag:hover {
     transform: translate(-1px, -1px) !important;
-    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+    box-shadow: 3px 3px 0px #111111 !important;
 }
 
-/* ── Section dots ── */
-body.theme-komik .section-dot,
-body.theme-komik .r-dot {
-    width: 24px !important;
-    height: 24px !important;
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-body.theme-komik .section-dot::before,
-body.theme-komik .r-dot::before {
-    content: '' !important;
-    width: 10px !important;
-    height: 10px !important;
-    border: 3px solid var(--komik-ink) !important;
+/* ── Project Badges & Live indicators ── */
+body.theme-komik .proj-badge {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 2px solid #111111 !important;
+    font-weight: 900 !important;
+    box-shadow: 2px 2px 0px #111111 !important;
     border-radius: 0px !important;
-    background: var(--komik-paper) !important;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-body.theme-komik .section-dot.active::before,
-body.theme-komik .r-dot.active::before {
-    background: var(--komik-red) !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
-    transform: scale(1.2) rotate(45deg) !important;
-}
-
-/* ── Mobile bottom nav ── */
-body.theme-komik .mobile-bottom-nav {
-    background: var(--komik-yellow) !important;
-    border: 3px solid var(--komik-ink) !important;
-    border-radius: 0px !important;
-    box-shadow: 0 -4px 0px var(--komik-ink) !important;
-    backdrop-filter: none !important;
-}
-
-body.theme-komik .mbn-item {
-    color: var(--komik-ink) !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    font-family: 'Bangers', cursive !important;
-    font-size: 0.85rem !important;
-    letter-spacing: 0.08em !important;
-    border-radius: 0 !important;
-    transition: background 0.15s ease, color 0.15s ease !important;
-}
-
-body.theme-komik .mbn-item:hover,
-body.theme-komik .mbn-item.active {
-    color: var(--komik-paper) !important;
-    background: var(--komik-ink) !important;
-}
-
-body.theme-komik .mbn-item.active::before {
-    background: var(--komik-red) !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-}
-
-body.theme-komik .mbn-cta {
-    background: var(--komik-red) !important;
-    border: 2px solid var(--komik-ink) !important;
-    border-radius: 0 !important;
-    color: #FFFFFF !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
-}
-
-/* ── Tech stack cards ── */
-body.theme-komik .acard {
-    background: rgba(255, 248, 231, 0.92) !important;
-    border: 2px solid var(--komik-ink) !important;
-    border-radius: 0px !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
-    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
-}
-
-body.theme-komik .acard:hover {
-    background: var(--komik-yellow) !important;
-    transform: translate(-2px, -2px) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
-}
-
-/* ── Speech bubble Easter egg on hover of hero name ── */
-body.theme-komik .hero-name-wrap {
-    position: relative !important;
-    cursor: pointer !important;
-}
-
-body.theme-komik .hero-name-wrap:hover::after {
-    content: '✊ DUNE STAN SPOTTED';
-    position: absolute;
-    top: -52px;
-    left: 0;
-    background: var(--komik-yellow);
-    border: 3px solid var(--komik-ink);
-    box-shadow: 4px 4px 0px var(--komik-ink);
-    padding: 6px 14px;
-    font-family: 'Bangers', cursive;
-    font-size: 1.3rem;
-    letter-spacing: 0.1em;
-    color: var(--komik-ink);
-    white-space: nowrap;
-    z-index: 20;
-    pointer-events: none;
-    /* Speech bubble tail */
-    clip-path: none;
-    animation: komik-bubble-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes komik-bubble-pop {
-    0%   { opacity: 0; transform: scale(0.5) translateY(8px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* ── Project link buttons ── */
 body.theme-komik .proj-link-demo {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
-    font-weight: 800 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.05em !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 body.theme-komik .proj-link-demo:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    box-shadow: 5px 5px 0px #111111 !important;
+    background: #111111 !important;
+    color: #FFFFFF !important;
 }
 
 body.theme-komik .proj-link-code {
-    background: var(--komik-blue) !important;
+    background: #0D47A1 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
-    font-weight: 800 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.05em !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 body.theme-komik .proj-link-code:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    box-shadow: 5px 5px 0px #111111 !important;
+    background: #111111 !important;
+    color: #FFFFFF !important;
 }
 
-/* ── Comic onomatopoeia splash elements ── */
-/* Scattered ZAP/BAM/WOW words on sections (via CSS content) */
-
-/* On-hover on section titles: small comic zap */
-body.theme-komik .section-title:hover::after {
-    content: '⚡';
-    display: inline-block;
-    margin-left: 8px;
-    font-size: 0.8em;
-    animation: komik-zap-spin 0.5s ease both;
-    -webkit-text-fill-color: initial;
-}
-
-@keyframes komik-zap-spin {
-    0%   { opacity: 0; transform: scale(0) rotate(-45deg); }
-    70%  { transform: scale(1.3) rotate(10deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-
-/* ── Ink skew on card hover title ── */
-body.theme-komik .proj-title {
-    transition: transform 0.15s ease !important;
-}
-
-body.theme-komik .proj-card:hover .proj-title {
-    transform: skew(-2deg) !important;
-    color: var(--komik-red) !important;
-}
-
-/* ── Caution tape (experience toggle): now RED/WHITE in komik ── */
-body.theme-komik #experience-toggle::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23FF1744'/%3E%3Crect width='160' height='3' fill='%23fff' y='0'/%3E%3Crect width='160' height='3' fill='%23fff' y='29'/%3E%3Ctext x='80' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3ECAUTION%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 6px 12px rgba(255, 23, 68, 0.4) !important;
-    z-index: 3 !important;
-}
-
-body.theme-komik #experience-toggle::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23FF1744'/%3E%3Crect width='200' height='3' fill='%23fff' y='0'/%3E%3Crect width='200' height='3' fill='%23fff' y='29'/%3E%3Ctext x='100' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3EEXPERIENCE%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 4px 10px rgba(255, 23, 68, 0.35) !important;
-}
-
-/* Fix: ensure button text is readable above tape */
-body.theme-komik #experience-toggle {
-    background: var(--komik-ink) !important;
-    border: 3px solid var(--komik-red) !important;
+/* ── Arsenal Filter Buttons ── */
+body.theme-komik .af-btn {
+    background: #FFFDF6 !important;
+    color: #111111 !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
-    color: var(--komik-yellow) !important;
-    box-shadow: 4px 4px 0px var(--komik-red) !important;
+    font-weight: 800 !important;
+    box-shadow: 2px 2px 0px #111111 !important;
+    transition: all 0.15s ease !important;
+}
+
+body.theme-komik .af-btn:hover,
+body.theme-komik .af-btn.active {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border-color: #111111 !important;
+    box-shadow: 4px 4px 0px #111111 !important;
+    transform: translate(-2px, -2px) !important;
+}
+
+/* ── Arsenal Tech Stack Cards ── */
+body.theme-komik .acard {
+    background: #FFFDF6 !important;
+    border: 2px solid #111111 !important;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px #111111 !important;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
+}
+
+body.theme-komik .acard:hover {
+    background: #FFE500 !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #111111 !important;
+}
+
+/* ── Caution Tape (Experience Toggle): Red & White ── */
+body.theme-komik #experience-toggle {
+    background: #111111 !important;
+    border: 3px solid #D50000 !important;
+    border-radius: 0px !important;
+    color: #FFE500 !important;
+    box-shadow: 4px 4px 0px #D50000 !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 1.1rem !important;
+    font-size: 1.15rem !important;
     letter-spacing: 0.1em !important;
     position: relative;
     overflow: visible !important;
@@ -413,9 +307,60 @@ body.theme-komik #experience-toggle {
     isolation: isolate;
 }
 
+body.theme-komik #experience-toggle::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23D50000'/%3E%3Crect width='160' height='3' fill='%23fff' y='0'/%3E%3Crect width='160' height='3' fill='%23fff' y='29'/%3E%3Ctext x='80' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3ECAUTION%3C/text%3E%3C/svg%3E") !important;
+    box-shadow: 0 6px 12px rgba(213, 0, 0, 0.4) !important;
+    z-index: 3 !important;
+}
+
+body.theme-komik #experience-toggle::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23D50000'/%3E%3Crect width='200' height='3' fill='%23fff' y='0'/%3E%3Crect width='200' height='3' fill='%23fff' y='29'/%3E%3Ctext x='100' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3EEXPERIENCE%3C/text%3E%3C/svg%3E") !important;
+    box-shadow: 0 4px 10px rgba(213, 0, 0, 0.35) !important;
+}
+
 body.theme-komik #experience-toggle:hover {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     color: #FFFFFF !important;
     transform: translate(-2px, -2px) !important;
-    box-shadow: 6px 6px 0px var(--komik-ink) !important;
+    box-shadow: 6px 6px 0px #111111 !important;
+}
+
+/* ── Mobile Bottom Nav ── */
+body.theme-komik .mobile-bottom-nav {
+    background: #FFE500 !important;
+    border: 3px solid #111111 !important;
+    border-radius: 0px !important;
+    box-shadow: 0 -4px 0px #111111 !important;
+    backdrop-filter: none !important;
+}
+
+body.theme-komik .mbn-item {
+    color: #111111 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.08em !important;
+    border-radius: 0 !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+body.theme-komik .mbn-item:hover,
+body.theme-komik .mbn-item.active {
+    color: #FFE500 !important;
+    background: #111111 !important;
+}
+
+body.theme-komik .mbn-item.active::before {
+    background: #D50000 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+body.theme-komik .mbn-cta {
+    background: #D50000 !important;
+    border: 2px solid #111111 !important;
+    border-radius: 0 !important;
+    color: #FFFFFF !important;
+    box-shadow: 2px 2px 0px #111111 !important;
 }

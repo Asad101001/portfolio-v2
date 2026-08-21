@@ -1,181 +1,261 @@
 /* ── KOMIK Widgets ── */
-/* Widgets styled as comic panels with thick ink borders */
+/* Maximum readability, high-contrast text and solid borders */
 
-/* ── Spotify: "NOW PLAYING" panel ── */
-body.theme-komik .spotify-widget {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
-    border-left: 10px solid var(--komik-green) !important;
-    box-shadow: var(--card-shadow) !important;
-    border-radius: 0px !important;
-    color: var(--komik-ink) !important;
-}
-
-/* ── Last.fm: Music history panel ── */
-body.theme-komik .lastfm-widget {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
-    border-left: 10px solid #D51007 !important;
-    box-shadow: var(--card-shadow) !important;
-    border-radius: 0px !important;
-    color: var(--komik-ink) !important;
-}
-
-/* ── GitHub: Code activity panel ── */
-body.theme-komik .github-widget {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
-    border-bottom: 10px solid var(--komik-ink) !important;
-    box-shadow: var(--card-shadow) !important;
-    border-radius: 0px !important;
-    color: var(--komik-ink) !important;
-}
-
-/* ── Clock Widget ── */
-body.theme-komik .clock-widget {
-    background: var(--komik-yellow) !important;
-    border: 3px solid var(--komik-ink) !important;
-    border-right: 10px solid var(--komik-ink) !important;
-    box-shadow: var(--card-shadow) !important;
-    border-radius: 0px !important;
-    color: var(--komik-ink) !important;
-}
-
-body.theme-komik #clock-hour-text {
-    fill: var(--komik-ink) !important;
-    font-weight: 900 !important;
-}
-
-body.theme-komik .clock-prime-time {
-    color: var(--komik-ink) !important;
-    font-family: 'Bangers', cursive !important;
-    font-weight: 400 !important;
-    letter-spacing: 0.1em !important;
-}
-
-body.theme-komik .clock-sub {
-    color: var(--komik-ink) !important;
-    font-weight: 700 !important;
-}
-
-/* ── Letterboxd Widget ── */
+/* ── Spotify & Last.fm Panels ── */
+body.theme-komik .spotify-widget,
+body.theme-komik .lastfm-widget,
 body.theme-komik .letterboxd-widget {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
-    box-shadow: var(--card-shadow) !important;
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    box-shadow: 5px 5px 0px #111111 !important;
     border-radius: 0px !important;
-    color: var(--komik-ink) !important;
+    color: #111111 !important;
 }
 
-/* ── Spotify Controls ── */
+body.theme-komik .spotify-widget {
+    border-left: 10px solid #1B5E20 !important;
+}
+
+body.theme-komik .lastfm-widget {
+    border-left: 10px solid #D50000 !important;
+}
+
+/* Track Titles & Artists */
 body.theme-komik .spotify-title,
-body.theme-komik .lastfm-track-name {
-    color: var(--komik-ink) !important;
-    font-weight: 800 !important;
+body.theme-komik .lastfm-track-name,
+body.theme-komik .track-name {
+    color: #111111 !important;
+    font-weight: 900 !important;
+    font-size: 0.95rem !important;
 }
 
 body.theme-komik .spotify-artist,
-body.theme-komik .lastfm-track-artist {
-    color: var(--text-dim) !important;
-    font-weight: 600 !important;
+body.theme-komik .lastfm-track-artist,
+body.theme-komik .track-artist {
+    color: #333333 !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+}
+
+body.theme-komik .spotify-album,
+body.theme-komik .track-album,
+body.theme-komik .track-time {
+    color: #444444 !important;
+    font-weight: 700 !important;
 }
 
 body.theme-komik .spotify-play-btn {
-    background: var(--komik-green) !important;
+    background: #1B5E20 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px #111111 !important;
 }
 
 body.theme-komik .spotify-controls-icon {
-    color: var(--komik-ink) !important;
+    color: #111111 !important;
 }
 
 body.theme-komik .spotify-bar-wrap,
 body.theme-komik .spotify-bar-expanded {
     background: #E8DCC4 !important;
-    border: 1px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
 }
 
 body.theme-komik .spotify-bar-fill,
 body.theme-komik .spotify-bar-fill-expanded {
-    background: var(--komik-green) !important;
+    background: #1B5E20 !important;
 }
 
-/* ── XP Widget ── */
-body.theme-komik .xp-label {
-    color: var(--komik-ink) !important;
-    font-weight: 800 !important;
-    font-family: 'Bangers', cursive !important;
-    letter-spacing: 0.1em !important;
-}
-
-body.theme-komik .xp-level {
-    background: var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
-    border: 2px solid var(--komik-ink) !important;
+/* ── Clock Widget: Comic Yellow Banner ── */
+body.theme-komik .clock-widget {
+    background: #FFE500 !important;
+    border: 3px solid #111111 !important;
+    border-right: 10px solid #111111 !important;
+    box-shadow: 5px 5px 0px #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    color: #111111 !important;
 }
 
-body.theme-komik .xp-bar-wrap {
-    border: 3px solid var(--komik-ink) !important;
-    background: #E8DCC4 !important;
-    height: 14px !important;
+body.theme-komik #clock-hour-text {
+    fill: #111111 !important;
+    font-weight: 900 !important;
 }
 
-body.theme-komik .xp-bar-fill {
-    background: var(--komik-red) !important;
-    box-shadow: none !important;
-    border-right: 2px solid var(--komik-ink) !important;
+body.theme-komik .clock-prime-time {
+    color: #111111 !important;
+    font-family: 'Bangers', cursive !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.08em !important;
+    font-size: 2.2rem !important;
 }
 
-/* ── WIP bars ── */
-body.theme-komik .wip-bar-wrap {
-    border: 3px solid var(--komik-ink) !important;
-    background: #E8DCC4 !important;
-    height: 14px !important;
+body.theme-komik .clock-sub,
+body.theme-komik .clock-time-label,
+body.theme-komik .clock-tz {
+    color: #111111 !important;
+    font-weight: 800 !important;
 }
 
-body.theme-komik .wip-bar {
-    background: var(--komik-blue) !important;
-    box-shadow: none !important;
-    border-right: 2px solid var(--komik-ink) !important;
+/* ── GitHub Activity Widget ── */
+body.theme-komik .github-widget {
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    border-bottom: 10px solid #111111 !important;
+    box-shadow: 5px 5px 0px #111111 !important;
+    border-radius: 0px !important;
+    color: #111111 !important;
 }
 
-/* ── GitHub Commit Heatmap ── */
+body.theme-komik .github-stat-num {
+    color: #111111 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.8rem !important;
+}
+
+body.theme-komik .github-stat-label {
+    color: #333333 !important;
+    font-weight: 800 !important;
+}
+
 body.theme-komik .commit-day {
-    border: 1px solid rgba(0,0,0,0.2) !important;
+    border: 1px solid rgba(0,0,0,0.3) !important;
 }
 
 body.theme-komik .commit-day[data-count="0"] {
     background: #E8DCC4 !important;
 }
-
-body.theme-komik .commit-day[data-count="1"] { background: #c6f6d5 !important; border-color: #68d391 !important; }
-body.theme-komik .commit-day[data-count="2"] { background: #48bb78 !important; border-color: #38a169 !important; }
-body.theme-komik .commit-day[data-count="3"] { background: #22c55e !important; border-color: #16a34a !important; }
-body.theme-komik .commit-day[data-count="4"] { background: #15803d !important; border-color: #14532d !important; }
+body.theme-komik .commit-day[data-count="1"] { background: #81C784 !important; border-color: #388E3C !important; }
+body.theme-komik .commit-day[data-count="2"] { background: #4CAF50 !important; border-color: #2E7D32 !important; }
+body.theme-komik .commit-day[data-count="3"] { background: #2E7D32 !important; border-color: #1B5E20 !important; }
+body.theme-komik .commit-day[data-count="4"] { background: #1B5E20 !important; border-color: #0D3310 !important; }
 
 body.theme-komik .commit-day-tooltip {
-    background: var(--komik-ink) !important;
-    color: var(--komik-yellow) !important;
-    border: 2px solid var(--komik-yellow) !important;
+    background: #111111 !important;
+    color: #FFE500 !important;
+    border: 2px solid #FFE500 !important;
+    font-weight: 800 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
+}
+
+/* ── Currently Into / Rotating Widget ── */
+body.theme-komik .currently-into-item,
+body.theme-komik .rotating-item {
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    box-shadow: 4px 4px 0px #111111 !important;
+    color: #111111 !important;
+}
+
+body.theme-komik .currently-into-label,
+body.theme-komik .rotating-label {
+    color: #0D47A1 !important;
+    font-weight: 900 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.12em !important;
+}
+
+body.theme-komik .currently-into-value,
+body.theme-komik .rotating-value {
+    color: #111111 !important;
+    font-weight: 800 !important;
+    font-size: 1.05rem !important;
+    text-shadow: none !important;
+}
+
+body.theme-komik .movie-timeline-label {
+    color: #444444 !important;
     font-weight: 700 !important;
-    border-radius: 0px !important;
-    box-shadow: 3px 3px 0px var(--komik-yellow) !important;
 }
 
-/* ── Movie/Media widgets ── */
+/* ── Barca Scorecard Widget ── */
+body.theme-komik .barca-scorecard-wrap {
+    background: #FFFDF6 !important;
+    border: 2px solid #111111 !important;
+    color: #111111 !important;
+}
+
+body.theme-komik .barca-team-name,
+body.theme-komik .barca-opp-name {
+    color: #111111 !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .barca-score-num {
+    color: #111111 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.5rem !important;
+}
+
+body.theme-komik .barca-scorers,
+body.theme-komik .barca-match-date,
+body.theme-komik .barca-competition {
+    color: #333333 !important;
+    font-weight: 700 !important;
+}
+
+body.theme-komik .barca-status-badge {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 1px solid #111111 !important;
+    font-weight: 900 !important;
+}
+
+/* ── Movie Cards ── */
 body.theme-komik .movie-card {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    box-shadow: 4px 4px 0px #111111 !important;
+    color: #111111 !important;
 }
 
-body.theme-komik .movie-card:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 7px 7px 0px var(--komik-red) !important;
+body.theme-komik .movie-title {
+    color: #111111 !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .movie-year,
+body.theme-komik .movie-meta {
+    color: #444444 !important;
+    font-weight: 700 !important;
+}
+
+/* ── XP & WIP Bars ── */
+body.theme-komik .xp-label {
+    color: #111111 !important;
+    font-weight: 900 !important;
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 0.08em !important;
+    font-size: 1.1rem !important;
+}
+
+body.theme-komik .xp-level {
+    background: #FFE500 !important;
+    color: #111111 !important;
+    border: 2px solid #111111 !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px #111111 !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .xp-bar-wrap,
+body.theme-komik .wip-bar-wrap {
+    border: 2px solid #111111 !important;
+    background: #E8DCC4 !important;
+    height: 14px !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .xp-bar-fill {
+    background: #D50000 !important;
+    box-shadow: none !important;
+    border-right: 2px solid #111111 !important;
+}
+
+body.theme-komik .wip-bar {
+    background: #0D47A1 !important;
+    box-shadow: none !important;
+    border-right: 2px solid #111111 !important;
 }

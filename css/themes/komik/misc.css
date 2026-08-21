@@ -1,16 +1,16 @@
 /* ── KOMIK Misc ── */
-/* Footer, terminal, certs, scrollbar, star ratings, halftone decorations */
+/* Footer, terminal, certs, scrollbar, star ratings, loading screen */
 
 /* ── Stars ── */
 body.theme-komik .star-filled,
-body.theme-komik .star-half { color: var(--komik-red) !important; }
-body.theme-komik .star-empty { color: rgba(26,26,26,0.22) !important; }
+body.theme-komik .star-half { color: #D50000 !important; }
+body.theme-komik .star-empty { color: rgba(17, 17, 17, 0.25) !important; }
 
-/* ── Footer: "MEANWHILE..." ── */
+/* ── Footer: Dark Comic Panel with High Contrast Content ── */
 body.theme-komik .main-footer {
-    background: var(--komik-ink) !important;
-    border-top: 6px solid var(--komik-yellow) !important;
-    color: var(--komik-paper) !important;
+    background: #111111 !important;
+    border-top: 6px solid #FFE500 !important;
+    color: #F5EEDB !important;
     padding: 60px 20px !important;
     position: relative;
 }
@@ -18,248 +18,219 @@ body.theme-komik .main-footer {
 body.theme-komik .main-footer::before {
     content: 'MEANWHILE... SOMEWHERE IN KARACHI 🇵🇰';
     font-family: 'Bangers', cursive;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     letter-spacing: 0.15em;
-    color: var(--komik-yellow);
-    background: var(--komik-ink);
-    border: 3px solid var(--komik-yellow);
-    box-shadow: 4px 4px 0px var(--komik-yellow);
-    padding: 8px 20px;
+    color: #111111;
+    background: #FFE500;
+    border: 3px solid #111111;
+    box-shadow: 4px 4px 0px #FFE500;
+    padding: 8px 22px;
     margin-bottom: 32px;
     display: inline-block;
 }
 
-body.theme-komik .footer-micro-meta,
 body.theme-komik .main-footer p,
 body.theme-komik .main-footer span:not(.star-filled):not(.star-half):not(.star-empty) {
-    color: var(--komik-paper) !important;
+    color: #ECE2C9 !important;
 }
 
-/* ── Decorative blocks ── */
-body.theme-komik .block {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-yellow) !important;
-    box-shadow: 3px 3px 0px var(--komik-yellow) !important;
+body.theme-komik .footer-col-title {
+    color: #FFE500 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.6rem !important;
+    letter-spacing: 0.08em !important;
 }
-body.theme-komik .block.b1 { background: var(--komik-yellow) !important; }
-body.theme-komik .block.b2 { background: var(--komik-red) !important; }
-body.theme-komik .block.b3 { background: var(--komik-blue) !important; }
+
+body.theme-komik .footer-logo {
+    color: #FFE500 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 2.2rem !important;
+    letter-spacing: 0.05em !important;
+}
+
+body.theme-komik .footer-links a {
+    color: #ECE2C9 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+body.theme-komik .footer-links a:hover {
+    color: #FFE500 !important;
+    text-decoration: underline !important;
+}
+
+body.theme-komik .footer-micro-meta {
+    color: #AAAAAA !important;
+    font-weight: 700 !important;
+}
+
+/* ── Decorative blocks in footer ── */
+body.theme-komik .block {
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    box-shadow: 3px 3px 0px #FFE500 !important;
+}
+body.theme-komik .block.b1 { background: #FFE500 !important; }
+body.theme-komik .block.b2 { background: #D50000 !important; }
+body.theme-komik .block.b3 { background: #0D47A1 !important; }
 
 /* ── Scrollbar ── */
 body.theme-komik::-webkit-scrollbar { width: 12px !important; }
 body.theme-komik::-webkit-scrollbar-track {
-    background: var(--komik-paper) !important;
-    border-left: 3px solid var(--komik-ink) !important;
+    background: #F5EEDB !important;
+    border-left: 3px solid #111111 !important;
 }
 body.theme-komik::-webkit-scrollbar-thumb {
-    background: var(--komik-yellow) !important;
-    border: 2px solid var(--komik-ink) !important;
+    background: #FFE500 !important;
+    border: 2px solid #111111 !important;
 }
 body.theme-komik::-webkit-scrollbar-thumb:hover {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
 }
 
-/* ══ TERMINAL — do NOT override JS/event-dependent styles ══ */
-/* Only visual overrides that don't break interactivity */
+/* ══ TERMINAL: Dark CRT computer with punchy glowing text ══ */
 body.theme-komik .hero-side {
-    border: 4px solid var(--komik-ink) !important;
+    border: 4px solid #111111 !important;
     border-radius: 0px !important;
-    box-shadow: 8px 8px 0px var(--komik-yellow) !important;
+    box-shadow: 8px 8px 0px #FFE500 !important;
     overflow: hidden !important;
 }
 
 body.theme-komik .terminal-bar {
-    background: var(--komik-yellow) !important;
-    border-bottom: 3px solid var(--komik-ink) !important;
-    color: var(--komik-ink) !important;
+    background: #FFE500 !important;
+    border-bottom: 3px solid #111111 !important;
+    color: #111111 !important;
+    font-weight: 900 !important;
+    font-family: 'JetBrains Mono', monospace !important;
 }
 
 body.theme-komik .terminal-body {
-    background: #1A1A1A !important;
+    background: #111111 !important;
     border-radius: 0px !important;
-    color: var(--komik-yellow) !important;
-    /* Do NOT change border-left on terminal-body — keeps JS click targets intact */
+    color: #FFE500 !important;
 }
 
-/* Terminal text color overrides — safe (don't affect layout/JS) */
-body.theme-komik .t-prompt { color: var(--komik-yellow) !important; font-weight: 900 !important; }
-body.theme-komik .t-cmd    { color: #FFFFFF !important; }
-body.theme-komik .t-out    {
-    color: #A5D8A5 !important;
+/* Terminal text: Crisp and vivid */
+body.theme-komik .t-prompt {
+    color: #FFE500 !important;
+    font-weight: 900 !important;
+}
+body.theme-komik .t-cmd {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+}
+body.theme-komik .t-out {
+    color: #4ADE80 !important;
+    font-weight: 600 !important;
     word-break: break-word !important;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
 }
 body.theme-komik .terminal-body { overflow-x: hidden !important; }
-body.theme-komik .t-cursor { background: var(--komik-yellow) !important; }
+body.theme-komik .t-cursor { background: #FFE500 !important; }
 
 body.theme-komik .t-dot { opacity: 1 !important; }
-body.theme-komik .t-dot.t-red    { background: #FF1744 !important; }
-body.theme-komik .t-dot.t-yellow { background: #FFDE00 !important; }
-body.theme-komik .t-dot.t-green  { background: #00C851 !important; }
+body.theme-komik .t-dot.t-red    { background: #D50000 !important; }
+body.theme-komik .t-dot.t-yellow { background: #FFE500 !important; }
+body.theme-komik .t-dot.t-green  { background: #1B5E20 !important; }
 
 /* ── Certs Drawer ── */
 body.theme-komik #certs-panel {
-    background: var(--komik-paper) !important;
-    border-left: 12px solid var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
+    background: #F5EEDB !important;
+    border-left: 12px solid #FFE500 !important;
+    color: #111111 !important;
 }
 
 body.theme-komik #certs-backdrop {
-    background: rgba(26, 26, 26, 0.88) !important;
+    background: rgba(17, 17, 17, 0.88) !important;
     backdrop-filter: blur(4px) !important;
 }
 
 body.theme-komik #certs-close {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
     font-family: 'Bangers', cursive !important;
     letter-spacing: 0.1em !important;
-    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px #111111 !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 body.theme-komik #certs-close:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    box-shadow: 4px 4px 0px #111111 !important;
 }
 
 body.theme-komik .drawer-title {
     font-family: 'Bangers', cursive !important;
-    font-size: 2.5rem !important;
-    color: var(--komik-ink) !important;
+    font-size: 2.8rem !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
     font-weight: 400 !important;
-    letter-spacing: 0.12em !important;
-    border-bottom: 6px solid var(--komik-yellow) !important;
+    letter-spacing: 0.1em !important;
+    border-bottom: 6px solid #FFE500 !important;
     display: inline-block !important;
     margin-bottom: 30px !important;
 }
 
 body.theme-komik .cert-card {
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    background: #FFFDF6 !important;
+    border: 3px solid #111111 !important;
+    box-shadow: 4px 4px 0px #111111 !important;
     border-radius: 0px !important;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
 }
 
 body.theme-komik .cert-card:hover {
     transform: translate(-3px, -3px) !important;
-    box-shadow: 7px 7px 0px var(--komik-yellow) !important;
+    box-shadow: 7px 7px 0px #FFE500 !important;
 }
 
-body.theme-komik .cert-title   { color: var(--komik-ink) !important; font-weight: 900 !important; }
-body.theme-komik .cert-issuer  { color: var(--komik-blue) !important; font-weight: 800 !important; }
-body.theme-komik .cert-meta    { color: #555 !important; font-family: 'JetBrains Mono', monospace !important; }
-body.theme-komik .cert-skill   { background: var(--komik-yellow) !important; color: var(--komik-ink) !important; border: 1px solid var(--komik-ink) !important; border-radius: 0 !important; }
+body.theme-komik .cert-title   { color: #111111 !important; font-weight: 900 !important; }
+body.theme-komik .cert-issuer  { color: #0D47A1 !important; font-weight: 800 !important; }
+body.theme-komik .cert-meta    { color: #444444 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; }
+body.theme-komik .cert-skill   { background: #FFE500 !important; color: #111111 !important; border: 1px solid #111111 !important; border-radius: 0 !important; font-weight: 800 !important; }
 
 body.theme-komik .cert-badge.completed {
-    background: var(--komik-green) !important;
+    background: #1B5E20 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
+    font-weight: 900 !important;
 }
+
 body.theme-komik .cert-badge.inprogress {
-    background: var(--komik-red) !important;
+    background: #D50000 !important;
     color: #FFFFFF !important;
-    border: 2px solid var(--komik-ink) !important;
+    border: 2px solid #111111 !important;
     border-radius: 0px !important;
+    font-weight: 900 !important;
 }
 
 /* ── Timeline ── */
 body.theme-komik .tl-dot {
-    border: 4px solid var(--komik-ink) !important;
-    background: var(--komik-yellow) !important;
-    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+    border: 4px solid #111111 !important;
+    background: #FFE500 !important;
+    box-shadow: 3px 3px 0px #111111 !important;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 body.theme-komik .tl-dot:hover {
     transform: scale(1.3) rotate(45deg) !important;
 }
 body.theme-komik .timeline-item::before {
-    background: var(--komik-ink) !important;
+    background: #111111 !important;
     width: 3px !important;
 }
 
-/* ── Loading screen ── */
+/* ── Loading Screen ── */
 body.theme-komik #loading-screen {
-    background: var(--komik-yellow) !important;
+    background: #FFE500 !important;
 }
 
-/* ── Hero side glow ── */
-body.theme-komik .hero-side {
-    border: 4px solid var(--komik-ink) !important;
-    border-radius: 0px !important;
-    box-shadow: 8px 8px 0px var(--komik-yellow) !important;
-}
-
-/* ── Tags, cert thumbs ── */
-body.theme-komik .tag,
-body.theme-komik .cert-thumb,
-body.theme-komik .lastfm-track-art {
-    background: transparent !important;
-    border: 2px solid var(--komik-ink) !important;
-    border-radius: 0px !important;
-}
-
-/* ── Pakistan flag green status dot ── */
+/* ── Pakistan Flag Green Status Dot ── */
 body.theme-komik .status-dot {
     background: #01411C !important;
     box-shadow: 0 0 0 2px rgba(1, 65, 28, 0.3) !important;
-}
-
-/* ══ MOBILE SMOOTHNESS ══ */
-@media (max-width: 768px) {
-    /* Stop card float on mobile — saves battery + prevents jank */
-    body.theme-komik .glass-card,
-    body.theme-komik .glass-card:nth-child(odd),
-    body.theme-komik .glass-card:nth-child(even) {
-        animation: none !important;
-    }
-
-    /* Tighter transitions for lower-power mobile */
-    body.theme-komik .glass-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-        will-change: auto !important;
-    }
-
-    /* Reduce hero name font on small screens */
-    body.theme-komik .hero-name {
-        font-size: clamp(2.8rem, 12vw, 5rem) !important;
-        text-shadow: 2px 2px 0 var(--komik-yellow), 3px 3px 0 rgba(0,0,0,0.2) !important;
-    }
-
-    /* Hide ghost comic words on mobile (too cluttered) */
-    body.theme-komik #about::before,
-    body.theme-komik #projects::before,
-    body.theme-komik #social::before,
-    body.theme-komik #arsenal::before,
-    body.theme-komik .hero-section::before {
-        display: none !important;
-    }
-
-    /* Simpler mobile torn edge */
-    body.theme-komik .hero-section::after {
-        height: 28px !important;
-    }
-
-    /* Tape strips don't overlap on mobile */
-    body.theme-komik #experience-toggle::before,
-    body.theme-komik #experience-toggle::after {
-        height: 24px !important;
-    }
-
-    /* Terminal: ensure proper height on mobile */
-    body.theme-komik .hero-side {
-        box-shadow: 4px 4px 0px var(--komik-yellow) !important;
-    }
-
-    /* Mobile komik bottom nav — full width flat */
-    body.theme-komik .mobile-bottom-nav {
-        border-radius: 0 !important;
-        border-left: none !important;
-        border-right: none !important;
-    }
 }
