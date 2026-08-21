@@ -1,30 +1,30 @@
 /* ── KOMIK Theme Variables ── */
 /* Brutalist comic-panel / manga-strip / torn-zine aesthetic */
 body.theme-komik {
-    /* ── Base Palette: Aged Newsprint ── */
-    --bg:        #FFF8E7 !important;
-    --bg2:       #F5EDD6 !important;
-    --surface:   #FFFEF5 !important;
+    /* ── Base Palette: Aged Weathered Newsprint ── */
+    --bg:        #F2E8D0 !important;
+    --bg2:       #E8DCC4 !important;
+    --surface:   #FAF4E6 !important;
     --border:    #1A1A1A !important;
     --border-h:  #FFDE00 !important;
 
-    /* ── Text: High contrast ink on newsprint ── */
+    /* ── Text: Deep ink on newsprint ── */
     --text:      #1A1A1A !important;
     --text-muted:#2D2D2D !important;
     --text-dim:  #555555 !important;
 
-    /* ── Comic Primary Colors (repurposed CSS vars) ── */
+    /* ── Repurposed CSS accent vars → comic colors ── */
     --cyan:      #FFDE00 !important;   /* Batman yellow as primary */
     --lime:      #00C851 !important;
     --purple:    #FF1744 !important;   /* Comic red as secondary */
     --orange:    #FF6D00 !important;
 
-    /* ── Comic-specific custom props ── */
+    /* ── Named comic colors (always accessible) ── */
     --komik-yellow: #FFDE00;
     --komik-red:    #FF1744;
     --komik-blue:   #0D47A1;
     --komik-ink:    #1A1A1A;
-    --komik-paper:  #FFF8E7;
+    --komik-paper:  #F2E8D0;
     --komik-cyan:   #00BCD4;
     --komik-green:  #1B5E20;
 

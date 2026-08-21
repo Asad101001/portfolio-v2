@@ -1,24 +1,42 @@
 /* ── KOMIK Typography ── */
-/* Comic-style headings using Bangers font */
 
-/* Import Bangers for comic heading impact */
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap');
+/* Import Bangers + Permanent Marker for comic headings */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
-/* ── Hero Name: MASSIVE comic impact ── */
+/* ── Hero Name: MASSIVE comic impact with wobble ── */
 body.theme-komik .hero-name {
     font-family: 'Bangers', 'Impact', cursive !important;
     font-weight: 400 !important;
     font-size: clamp(3.5rem, 10vw, 7rem) !important;
     color: var(--komik-ink) !important;
     background: none !important;
-    -webkit-text-fill-color: initial !important;
+    -webkit-text-fill-color: var(--komik-ink) !important;
     filter: none !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
+    /* Offset text-shadow stack: feels hand-stamped */
     text-shadow:
-        3px 3px 0px var(--komik-yellow),
-        6px 6px 0px var(--komik-ink) !important;
+        2px 2px 0px var(--komik-yellow),
+        4px 4px 0px rgba(0,0,0,0.25) !important;
     line-height: 1 !important;
+    transition: text-shadow 0.2s ease !important;
+    cursor: pointer;
+}
+
+body.theme-komik .hero-name:hover {
+    text-shadow:
+        3px 3px 0px var(--komik-red),
+        6px 6px 0px rgba(0,0,0,0.3) !important;
+}
+
+/* Subtle entry animation */
+@keyframes komik-hero-stamp {
+    0%   { opacity: 0; transform: scale(1.15) rotate(-1deg); }
+    60%  { transform: scale(0.97) rotate(0.3deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+body.theme-komik .hero-name {
+    animation: komik-hero-stamp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /* ── Hero descriptor ── */
@@ -27,11 +45,13 @@ body.theme-komik .hero-desc {
     font-weight: 700 !important;
     background: var(--komik-yellow) !important;
     padding: 4px 10px !important;
-    display: inline-block !important;
+    display: inline !important;
     border: 2px solid var(--komik-ink) !important;
-    font-size: 0.9rem !important;
-    line-height: 1.5 !important;
-    max-width: 600px !important;
+    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.7 !important;
+    -webkit-box-decoration-break: clone !important;
+    box-decoration-break: clone !important;
 }
 
 /* ── Section Titles: Comic panel headers ── */
@@ -40,17 +60,24 @@ body.theme-komik .section-title {
     font-weight: 400 !important;
     font-size: clamp(2rem, 6vw, 3.5rem) !important;
     color: var(--komik-ink) !important;
-    letter-spacing: 0.08em !important;
+    letter-spacing: 0.1em !important;
     text-transform: uppercase !important;
     background: var(--komik-yellow) !important;
-    padding: 4px 16px !important;
+    padding: 4px 18px !important;
     border: 3px solid var(--komik-ink) !important;
-    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    box-shadow: 5px 5px 0px var(--komik-ink) !important;
     display: inline-block !important;
+    -webkit-text-fill-color: var(--komik-ink) !important;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
 }
 
 body.theme-komik .section-title::after {
     display: none !important;
+}
+
+body.theme-komik .section-title:hover {
+    transform: translate(-2px, -2px) rotate(-0.5deg) !important;
+    box-shadow: 8px 8px 0px var(--komik-ink) !important;
 }
 
 /* ── All headings ── */
@@ -60,8 +87,9 @@ body.theme-komik h3 {
     font-family: 'Bangers', cursive !important;
     font-weight: 400 !important;
     color: var(--komik-ink) !important;
-    letter-spacing: 0.06em !important;
+    letter-spacing: 0.07em !important;
     text-transform: uppercase !important;
+    -webkit-text-fill-color: var(--komik-ink) !important;
 }
 
 body.theme-komik h4,
@@ -77,7 +105,7 @@ body.theme-komik h6 {
 body.theme-komik p,
 body.theme-komik li,
 body.theme-komik label {
-    color: var(--komik-ink) !important;
+    color: #2D2D2D !important;
     font-weight: 500 !important;
     line-height: 1.6 !important;
 }
@@ -85,41 +113,149 @@ body.theme-komik label {
 body.theme-komik small,
 body.theme-komik .text-dim,
 body.theme-komik .footer-micro-meta {
-    color: var(--text-dim) !important;
+    color: #555555 !important;
 }
 
-/* ── Links: Bold underline comic style ── */
-body.theme-komik a {
+/* ── Links ── */
+body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]) {
     color: var(--komik-blue) !important;
     font-weight: 800 !important;
     text-decoration: underline !important;
     text-underline-offset: 3px !important;
     text-decoration-thickness: 2px !important;
+    transition: background 0.1s ease, color 0.1s ease !important;
 }
 
-body.theme-komik a:hover {
+body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]):hover {
     background: var(--komik-yellow) !important;
     color: var(--komik-ink) !important;
     text-decoration: none !important;
-    padding: 0 2px !important;
+    padding: 0 3px !important;
+    outline: 2px solid var(--komik-ink) !important;
 }
 
-/* ── Subtitle / mono text ── */
+/* ── Mono / label text ── */
 body.theme-komik .hero-role,
-body.theme-komik .hero-location,
-body.theme-komik [class*="mono"],
-body.theme-komik [class*="label"] {
+body.theme-komik .hero-location {
     font-family: 'JetBrains Mono', monospace !important;
     font-weight: 700 !important;
     color: var(--komik-ink) !important;
-    letter-spacing: 0.02em !important;
+    letter-spacing: 0.03em !important;
 }
 
 /* ── Project titles ── */
 body.theme-komik .proj-title {
     font-family: 'Bangers', cursive !important;
     font-weight: 400 !important;
-    font-size: 1.4rem !important;
-    letter-spacing: 0.07em !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.08em !important;
     color: var(--komik-ink) !important;
+    -webkit-text-fill-color: var(--komik-ink) !important;
+}
+
+/* ══ COMIC ONOMATOPOEIA SPLASHES ══ */
+/* Decorative BAM! ZAP! WHAM! etc. in the margins of sections */
+
+/* ZAP on about section corner */
+body.theme-komik #about {
+    position: relative;
+}
+body.theme-komik #about::before {
+    content: 'ZAP!';
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
+    letter-spacing: 0.08em;
+    color: var(--komik-red);
+    opacity: 0.12;
+    transform: rotate(12deg);
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+}
+
+/* BAM on projects section */
+body.theme-komik #projects {
+    position: relative;
+}
+body.theme-komik #projects::before {
+    content: 'BAM!';
+    position: absolute;
+    bottom: 60px;
+    left: 12px;
+    font-family: 'Bangers', cursive;
+    font-size: 4rem;
+    letter-spacing: 0.08em;
+    color: var(--komik-blue);
+    opacity: 0.10;
+    transform: rotate(-8deg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* WHAM on social section */
+body.theme-komik #social {
+    position: relative;
+}
+body.theme-komik #social::before {
+    content: 'WHAM!';
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) rotate(4deg);
+    font-family: 'Bangers', cursive;
+    font-size: 5rem;
+    letter-spacing: 0.1em;
+    color: var(--komik-yellow);
+    opacity: 0.10;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    text-shadow: 3px 3px 0 var(--komik-ink);
+}
+
+/* POW on hero (bottom) */
+body.theme-komik .hero-section {
+    position: relative;
+}
+body.theme-komik .hero-section::before {
+    content: 'POW!';
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    font-family: 'Bangers', cursive;
+    font-size: 6rem;
+    letter-spacing: 0.06em;
+    color: var(--komik-red);
+    opacity: 0.06;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+}
+
+/* WOW on arsenal */
+body.theme-komik #arsenal {
+    position: relative;
+}
+body.theme-komik #arsenal::before {
+    content: 'WOW!';
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    letter-spacing: 0.08em;
+    color: var(--komik-green);
+    opacity: 0.12;
+    transform: rotate(6deg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Span/accent overrides (avoid nuking status colors) ── */
+body.theme-komik span:not(.accent-text):not(.status-pill):not(.tag-label):not(.barca-name-pink):not(.barca-slogan-cyan):not(.star-filled):not(.star-half):not(.star-empty):not(.komik-splash) {
+    color: inherit !important;
 }

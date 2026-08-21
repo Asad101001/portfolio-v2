@@ -1,30 +1,27 @@
 /* ============================================================
    js/modules/theme.js
-   Dynamic Theme Engine — Navbar Integrated Version
+   Dynamic Theme Engine — KOMIK Default + Device-Split Controls
    ============================================================ */
 'use strict';
 
 (function() {
     const themes = ['professional', 'sunset', 'cyberpunk', 'komik'];
-    let currentThemeIndex = 0;
+    // komik is index 3 — default unless user has saved something else
+    let currentThemeIndex = 3;
 
-    // Default to professional, but load from saved if available
-    currentThemeIndex = 0;
     const savedTheme = localStorage.getItem('asad_portfolio_theme');
     if (savedTheme && themes.includes(savedTheme)) {
         currentThemeIndex = themes.indexOf(savedTheme);
     }
-    
-    // Apply initial theme immediately to body
-    if (currentThemeIndex !== -1) {
-        document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
-    }
+
+    // Apply initial theme immediately to body (before DOM is ready)
+    document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
 
     function rotateTheme() {
         currentThemeIndex = (currentThemeIndex + 1) % themes.length;
         const nextTheme = themes[currentThemeIndex];
-        
-        // Use View Transition if available for a smooth fade
+
+        // Use View Transition API for buttery smooth fade if available
         if (document.startViewTransition) {
             document.body.classList.add('theme-transitioning');
             const transition = document.startViewTransition(() => {
@@ -36,8 +33,7 @@
         } else {
             applyTheme(nextTheme);
         }
-        
-        // Save choice
+
         localStorage.setItem('asad_portfolio_theme', nextTheme);
     }
 
@@ -46,14 +42,13 @@
         sunset:       '/images/backgrounds/sunset_bg.webp',
         cyberpunk:    '/images/backgrounds/hero-bg.webp',
         professional: '/images/backgrounds/industrial_bg.webp',
-        komik:        '/images/backgrounds/industrial_bg.webp', // Komik desaturates via CSS filter
+        komik:        '/images/backgrounds/industrial_bg.webp',
     };
 
     function setHeroBg(theme) {
         const img = document.getElementById('hero-bg-img');
         if (!img) return;
         const src = HERO_BG_MAP[theme] || HERO_BG_MAP.sunset;
-        // Only swap if different (avoid reload on same theme)
         if (!img.src.endsWith(src.replace(/^\//, ''))) {
             img.style.transition = 'opacity 0.4s ease';
             img.style.opacity = '0';
@@ -64,48 +59,65 @@
     }
 
     function applyTheme(theme) {
-        // Remove all theme classes
         themes.forEach(t => {
-            if (t !== 'default') document.body.classList.remove(`theme-${t}`);
+            document.body.classList.remove(`theme-${t}`);
         });
-
-        // Add new one if not default
-        if (theme !== 'default') {
-            document.body.classList.add(`theme-${theme}`);
-        }
-
-        // Swap hero background image src (replaces old CSS variable approach)
+        document.body.classList.add(`theme-${theme}`);
         setHeroBg(theme);
-
-        // Dispatch event for other components to react
         window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme } }));
     }
 
+    const isMobile = () => window.innerWidth <= 768;
+
     function initToggle() {
-        const triggers = document.querySelectorAll('.theme-trigger, .mobile-theme-trigger');
-        
-        if (triggers.length === 0) {
-            console.warn('[Theme] No .theme-trigger elements found in DOM.');
-            return;
+        // ── Desktop: navbar brand / .theme-trigger clicks ──
+        const desktopTriggers = document.querySelectorAll('.theme-trigger');
+        desktopTriggers.forEach(el => {
+            el.style.cursor = 'pointer';
+            el.onclick = null;
+            el.addEventListener('click', (e) => {
+                // Only fire on desktop
+                if (!isMobile()) {
+                    e.preventDefault();
+                    rotateTheme();
+                }
+            });
+        });
+
+        // ── Mobile: tap on hero name triggers theme rotation ──
+        const heroName = document.querySelector('.hero-name, .hero-name-wrap, [class*="hero-name"]');
+        if (heroName) {
+            heroName.style.cursor = 'pointer';
+            heroName.setAttribute('title', 'Tap to switch theme');
+            heroName.addEventListener('click', (e) => {
+                if (isMobile()) {
+                    e.preventDefault();
+                    rotateTheme();
+                    // Flash ring feedback for touch
+                    heroName.classList.add('komik-theme-tap');
+                    setTimeout(() => heroName.classList.remove('komik-theme-tap'), 500);
+                }
+            });
         }
 
-        triggers.forEach(el => {
+        // .mobile-theme-trigger (if any) fires only on mobile
+        const mobileTriggers = document.querySelectorAll('.mobile-theme-trigger');
+        mobileTriggers.forEach(el => {
             el.style.cursor = 'pointer';
-            el.onclick = null; 
+            el.onclick = null;
             el.addEventListener('click', (e) => {
-                e.preventDefault();
-                rotateTheme();
+                if (isMobile()) {
+                    e.preventDefault();
+                    rotateTheme();
+                }
             });
         });
     }
 
-    // Re-run init when components are likely loaded
     window.addEventListener('DOMContentLoaded', () => {
         initToggle();
-        // Sync hero img src to saved theme on initial load
         setHeroBg(themes[currentThemeIndex]);
     });
-    
-    // Also listen for a custom event if using a component loader
+
     window.addEventListener('componentsLoaded', initToggle);
 })();

@@ -1,90 +1,167 @@
 /* ── KOMIK Base ── */
-/* Body, background halftone, torn sections, cursor */
+/* Body, background halftone newspaper texture, torn hero edge */
 
-body.theme-komik,
+/* ── BODY: Aged weathered newsprint ── */
+body.theme-komik {
+    background: #F2E8D0 !important;
+    background-image: none !important;
+    color: var(--komik-ink) !important;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='none' stroke='%231A1A1A' stroke-width='2'/%3E%3Cline x1='10' y1='0' x2='10' y2='7' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='10' y1='13' x2='10' y2='20' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='0' y1='10' x2='7' y2='10' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='13' y1='10' x2='20' y2='10' stroke='%231A1A1A' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, default !important;
+}
+
 body.theme-komik section,
 body.theme-komik main {
-    background: var(--komik-paper) !important;
+    background: transparent !important;
     background-image: none !important;
     color: var(--komik-ink) !important;
 }
 
-/* Halftone dot background pattern on body */
+/* ── LAYER 1: Deep newsprint grain (fixed, GPU-composited) ── */
 body.theme-komik::before {
     content: '';
     position: fixed;
     inset: 0;
+    /* Layered newsprint texture: halftone dots + diagonal grain lines */
     background-image:
-        radial-gradient(circle, rgba(0,0,0,0.08) 1.5px, transparent 1.5px);
-    background-size: 16px 16px;
+        /* Fine halftone dot grid */
+        radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px),
+        /* Coarser halftone dot layer (offset) */
+        radial-gradient(circle, rgba(0,0,0,0.06) 1.5px, transparent 1.5px),
+        /* Diagonal print grain lines */
+        repeating-linear-gradient(
+            47deg,
+            transparent,
+            transparent 4px,
+            rgba(0,0,0,0.02) 4px,
+            rgba(0,0,0,0.02) 5px
+        ),
+        /* Horizontal scan bands (newsprint press artifact) */
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,0.015),
+            rgba(0,0,0,0.015) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    background-size:
+        12px 12px,
+        24px 24px,
+        100% 100%,
+        100% 100%;
+    background-position:
+        0 0,
+        6px 6px,
+        0 0,
+        0 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.55;
+    opacity: 1;
+    /* GPU layer — avoids main thread repaints on scroll */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Comics cursor */
-body.theme-komik {
-    cursor: crosshair;
-}
-
-/* Remove CRT scanlines */
+/* ── LAYER 2: Ink bleed vignette (fixed) ── */
 body.theme-komik::after {
-    display: none !important;
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        /* Corner ink stains */
+        radial-gradient(ellipse at 0% 0%, rgba(80,50,10,0.12) 0%, transparent 40%),
+        radial-gradient(ellipse at 100% 0%, rgba(80,50,10,0.08) 0%, transparent 35%),
+        radial-gradient(ellipse at 0% 100%, rgba(80,50,10,0.10) 0%, transparent 35%),
+        radial-gradient(ellipse at 100% 100%, rgba(80,50,10,0.14) 0%, transparent 40%),
+        /* Center aged toning */
+        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(140,100,40,0.06) 100%);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Remove backdrop blurs & mists */
-body.theme-komik .hero-backdrop-overlay,
-body.theme-komik .hero-bg-img {
-    opacity: 0.08 !important;
-    filter: grayscale(100%) contrast(1.5) !important;
-}
-
-/* Glass cards become solid newsprint cards */
-body.theme-komik .glass-card,
-body.theme-komik .proj-card,
-body.theme-komik .nav-inner,
-body.theme-komik .stat-card,
-body.theme-komik .wip-card {
-    background: var(--komik-paper) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border: 3px solid var(--komik-ink) !important;
-}
-
-/* Alternating section color: comic blue-tint panels */
+/* Alternating section tones — aged press paper */
 body.theme-komik section:nth-of-type(even) {
-    background: #F0EBD8 !important;
+    background: rgba(220, 205, 175, 0.45) !important;
 }
 
-/* ── Torn paper section divider ── */
+/* ── Section position base ── */
 body.theme-komik section {
     position: relative;
 }
 
-/* ── Action bang splash overlay ── */
+/* ── Remove backdrop filters ONLY on glass/nav elements — NOT globally ── */
+/* (Global * override was killing terminal JS and animations) */
+body.theme-komik .glass-card,
+body.theme-komik .proj-card,
+body.theme-komik .nav-inner,
+body.theme-komik .stat-card,
+body.theme-komik .wip-card,
+body.theme-komik .hero-backdrop-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+}
+
+/* ── Hero bg: desaturated + torn bottom edge ── */
+body.theme-komik .hero-bg-img {
+    opacity: 0.06 !important;
+    filter: grayscale(100%) contrast(1.8) sepia(0.3) !important;
+}
+
+/* ── Torn zigzag bottom of hero (red/white comic tape) ── */
 body.theme-komik .hero-section::after {
     content: '';
     position: absolute;
     bottom: -2px;
     left: 0;
     right: 0;
-    height: 40px;
-    background: var(--komik-yellow);
-    clip-path: polygon(0 100%, 0 0, 2% 60%, 5% 0, 8% 70%, 11% 0, 14% 65%, 17% 0, 20% 55%, 23% 0, 26% 70%, 29% 0, 32% 60%, 35% 0, 38% 65%, 41% 0, 44% 70%, 47% 0, 50% 60%, 53% 0, 56% 70%, 59% 0, 62% 65%, 65% 0, 68% 60%, 71% 0, 74% 70%, 77% 0, 80% 65%, 83% 0, 86% 60%, 89% 0, 92% 70%, 95% 0, 98% 65%, 100% 0, 100% 100%);
+    height: 44px;
+    /* Red/white danger stripe pattern */
+    background: repeating-linear-gradient(
+        -55deg,
+        #FF1744 0px,
+        #FF1744 16px,
+        #ffffff 16px,
+        #ffffff 32px
+    );
+    border-top: 3px solid var(--komik-ink);
+    border-bottom: 3px solid var(--komik-ink);
+    clip-path: polygon(
+        0 100%, 0 0,
+        1% 55%, 2% 0, 3% 60%, 4% 0, 5% 55%, 6% 0, 7% 62%, 8% 0,
+        9% 55%, 10% 0, 11% 58%, 12% 0, 13% 64%, 14% 0, 15% 55%, 16% 0,
+        17% 60%, 18% 0, 19% 55%, 20% 0, 21% 62%, 22% 0, 23% 57%, 24% 0,
+        25% 55%, 26% 0, 27% 60%, 28% 0, 29% 64%, 30% 0, 31% 55%, 32% 0,
+        33% 58%, 34% 0, 35% 62%, 36% 0, 37% 55%, 38% 0, 39% 60%, 40% 0,
+        41% 55%, 42% 0, 43% 64%, 44% 0, 45% 57%, 46% 0, 47% 60%, 48% 0,
+        49% 55%, 50% 0, 51% 60%, 52% 0, 53% 64%, 54% 0, 55% 57%, 56% 0,
+        57% 55%, 58% 0, 59% 62%, 60% 0, 61% 55%, 62% 0, 63% 60%, 64% 0,
+        65% 55%, 66% 0, 67% 64%, 68% 0, 69% 55%, 70% 0, 71% 58%, 72% 0,
+        73% 62%, 74% 0, 75% 55%, 76% 0, 77% 60%, 78% 0, 79% 55%, 80% 0,
+        81% 62%, 82% 0, 83% 55%, 84% 0, 85% 60%, 86% 0, 87% 64%, 88% 0,
+        89% 55%, 90% 0, 91% 58%, 92% 0, 93% 62%, 94% 0, 95% 55%, 96% 0,
+        97% 60%, 98% 0, 99% 55%, 100% 0,
+        100% 100%
+    );
     z-index: 2;
     pointer-events: none;
-}
-
-/* ── Remove all automatic backdrop filters globally ── */
-body.theme-komik *,
-body.theme-komik *::before,
-body.theme-komik *::after {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    transform: rotate(-0.3deg);
 }
 
 /* ── Selection: Yellow highlighter ── */
 body.theme-komik ::selection {
     background: var(--komik-yellow) !important;
     color: var(--komik-ink) !important;
+}
+
+/* ── Mobile tap feedback ring on hero name ── */
+.komik-theme-tap {
+    animation: komik-ring-pulse 0.4s ease-out;
+}
+@keyframes komik-ring-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0.8); }
+    70%  { box-shadow: 0 0 0 16px rgba(255, 222, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0); }
 }
