@@ -128,9 +128,9 @@
             box-shadow: 
                 inset 0 1px 1px rgba(255,255,255,0.2),
                 0 24px 60px rgba(0,0,0,0.85);
-            animation: cinematicReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(20px) scale(0.97);
+            opacity: 1;
+            transform: none;
+            display: block;
         }
 
         .mac-controls {
@@ -332,6 +332,9 @@
                 </div>
                 <!-- Media injected dynamically -->
             </div>
+            <div style="text-align: center; padding: 10px 0 4px;">
+                <a id="direct-media-link" href="#" target="_blank" rel="noopener noreferrer" style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-decoration: underline;">Open Raw Media File ↗</a>
+            </div>
         </div>
         <div class="error-message" id="error-message">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -354,6 +357,7 @@
             const titleDisplay = document.getElementById('demo-title-display');
             const loader = document.getElementById('media-loader');
             const glassWrapper = document.getElementById('media-wrapper');
+            const directLink = document.getElementById('direct-media-link');
 
             if (projectParam) {
                 titleDisplay.textContent = projectParam;
@@ -371,14 +375,18 @@
                 mediaPath = '/images/projects/' + mediaPath;
             }
 
+            if (directLink) {
+                directLink.href = mediaPath;
+            }
+
             const isVideo = mediaPath.match(/\.(mp4|webm|mov)$/i);
 
-            // Safety timeout to hide loader if media takes too long
-            const loadTimeout = setTimeout(() => {
-                if (loader && loader.style.display !== 'none') {
-                    loader.style.display = 'none';
-                }
-            }, 8000);
+            const hideLoader = () => {
+                if (loader) loader.style.display = 'none';
+            };
+
+            // Hide loader after 2s safety fallback
+            setTimeout(hideLoader, 2500);
 
             if (isVideo) {
                 const video = document.createElement('video');
@@ -389,7 +397,6 @@
                 video.autoplay = true;
                 video.preload = 'auto';
                 
-                // Essential mobile inline playback attributes
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
                 video.setAttribute('muted', '');
@@ -398,31 +405,27 @@
                 video.setAttribute('controls', '');
                 video.src = mediaPath;
 
-                const hideLoader = () => {
-                    clearTimeout(loadTimeout);
-                    if (loader) loader.style.display = 'none';
-                };
-
                 video.addEventListener('loadeddata', hideLoader);
+                video.addEventListener('loadedmetadata', hideLoader);
                 video.addEventListener('canplay', hideLoader);
+                video.addEventListener('play', hideLoader);
+                
                 video.addEventListener('error', () => {
-                    clearTimeout(loadTimeout);
-                    if (loader) loader.style.display = 'none';
+                    hideLoader();
                     glassWrapper.style.display = 'none';
-                    errorText.textContent = 'Unable to play video demo on this device.';
+                    errorText.textContent = 'Unable to play video directly in browser.';
                     errorMsg.style.display = 'flex';
                 });
 
                 wrapper.appendChild(video);
 
-                // Handle mobile browser autoplay restriction
+                // Try playing and handle autoplay restriction
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         hideLoader();
                     }).catch(() => {
                         hideLoader();
-                        // Render tap-to-play overlay if browser blocks autoplay
                         const overlay = document.createElement('div');
                         overlay.className = 'tap-play-overlay';
                         overlay.innerHTML = `
@@ -446,14 +449,9 @@
                 img.decoding = 'async';
                 img.src = mediaPath;
 
-                img.onload = () => {
-                    clearTimeout(loadTimeout);
-                    if (loader) loader.style.display = 'none';
-                };
-
+                img.onload = hideLoader;
                 img.onerror = () => {
-                    clearTimeout(loadTimeout);
-                    if (loader) loader.style.display = 'none';
+                    hideLoader();
                     glassWrapper.style.display = 'none';
                     errorText.textContent = 'Unable to load demo image preview.';
                     errorMsg.style.display = 'flex';

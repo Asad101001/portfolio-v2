@@ -98,32 +98,54 @@ import { CONFIG, escHtml } from './widgets.js';
         });
     }
 
+    function renderOfficialWidget() {
+        container.innerHTML = `
+            <div style="padding:10px;text-align:center;">
+                <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" data-tweet-limit="4" href="https://twitter.com/${USER}">Tweets by @${USER}</a>
+            </div>
+        `;
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(container);
+        } else {
+            const s = document.createElement('script');
+            s.src = 'https://platform.twitter.com/widgets.js';
+            s.charset = 'utf-8';
+            s.async = true;
+            document.head.appendChild(s);
+        }
+    }
+
     function fetchTweets() {
-        const url = `/api/twitter?user=${USER}`;
-        fetch(url)
+        // Clear out old 29d stale cache
+        try {
+            const cached = localStorage.getItem('asad_twitter_cache_v2');
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                // If cache is empty or older than 1 hour, purge
+                if (!Array.isArray(parsed) || parsed.length === 0) {
+                    localStorage.removeItem('asad_twitter_cache_v2');
+                }
+            }
+        } catch (_) {
+            localStorage.removeItem('asad_twitter_cache_v2');
+        }
+
+        const url = `/api/twitter?user=${USER}&_t=${Date.now()}`;
+        fetch(url, { cache: 'no-store' })
             .then(r => r.json())
             .then(data => {
-                if (data.status === 'ok') {
+                if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
                     localStorage.setItem('asad_twitter_cache_v2', JSON.stringify(data.items));
                     render(data.items);
                 } else {
-                    throw new Error('API fail');
+                    renderOfficialWidget();
                 }
             })
             .catch(() => {
-                const cached = localStorage.getItem('asad_twitter_cache_v2');
-                if (cached) render(JSON.parse(cached));
-                else {
-                    container.innerHTML = `
-                        <div class="x-error-box" style="padding:20px;text-align:center;">
-                            <p style="color:var(--text-dim);font-size:0.8rem;margin-bottom:10px;">X feed briefly unavailable.</p>
-                            <a href="https://twitter.com/${USER}" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;font-size:0.85rem;font-weight:700;">View Profile ↗</a>
-                        </div>
-                    `;
-                }
+                renderOfficialWidget();
             });
     }
 
     fetchTweets();
-    setInterval(fetchTweets, 60000 * 30);
+    setInterval(fetchTweets, 60000 * 5);
 })();
