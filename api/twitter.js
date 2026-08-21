@@ -9,9 +9,32 @@ export default async function handler(req, res) {
 
     try {
         const syndicationUrl = `https://syndication.twitter.com/srv/timeline-profile/screen-name/${username}`;
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(syndicationUrl)}`;
-        const response = await fetch(proxyUrl);
-        const html = await response.text();
+        let html = '';
+
+        // Try direct fetch first with realistic browser headers
+        try {
+            const directRes = await fetch(syndicationUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9'
+                }
+            });
+            if (directRes.ok) {
+                html = await directRes.text();
+            }
+        } catch (e) {
+            console.warn('Direct Twitter syndication fetch failed, trying proxy:', e.message);
+        }
+
+        // Fallback to proxy if direct fetch failed
+        if (!html) {
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(syndicationUrl)}`;
+            const response = await fetch(proxyUrl);
+            if (response.ok) {
+                html = await response.text();
+            }
+        }
 
         const match = html.match(/<script id="__NEXT_DATA__" type="application\/json">([^<]+)<\/script>/);
         if (match && match[1]) {
@@ -43,11 +66,11 @@ export default async function handler(req, res) {
                             const m = media[0];
                             if (m.type === 'video' || m.type === 'animated_gif') {
                                 const variants = m.video_info?.variants || [];
-                                const mp4 = variants.find(v => v.content_type === 'video/mp4');
-                                if (mp4) {
-                                    mediaHtml = `<video><source src="${mp4.url}"></video>`;
+                                const mp4 = variants.find(v => v.content_type === 'video/mp4') || variants[0];
+                                if (mp4 && mp4.url) {
+                                    mediaHtml = `<video src="${mp4.url}"></video>`;
                                 }
-                            } else if (m.type === 'photo') {
+                            } else if (m.type === 'photo' && m.media_url_https) {
                                 mediaHtml = `<img src="${m.media_url_https}">`;
                             }
                         }

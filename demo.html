@@ -12,8 +12,8 @@
         :root {
             --cyan: #00ff41;
             --bg-base: #050505;
-            --glass-bg: rgba(10, 10, 10, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(15, 20, 30, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
         
         * {
@@ -26,24 +26,29 @@
             background-color: var(--bg-base); 
             color: #fff; 
             font-family: 'Space Grotesk', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
+            min-height: 100dvh;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 255, 65, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(0, 195, 255, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 65, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 195, 255, 0.05) 0%, transparent 50%);
         }
 
         /* Nav Header */
         .demo-nav {
-            padding: 20px 32px;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.9), rgba(5,5,5,0));
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 10;
-            position: fixed;
+            position: sticky;
             top: 0;
             width: 100%;
         }
@@ -51,17 +56,17 @@
         .demo-back-btn {
             display: inline-flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 8px; 
             font-weight: 600; 
             font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.85rem; 
+            font-size: 0.82rem; 
             color: var(--cyan); 
             text-decoration: none; 
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 10px 20px;
-            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 255, 65, 0.35);
             border-radius: 8px;
-            background: rgba(0, 255, 65, 0.05);
+            background: rgba(0, 255, 65, 0.08);
             backdrop-filter: blur(10px);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -78,23 +83,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
         .demo-subtitle {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: #666;
+            font-size: 0.68rem;
+            color: #a1a1aa;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .demo-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #fff;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
@@ -105,32 +111,34 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            padding: 80px 40px 40px;
+            padding: 32px 20px;
+            width: 100%;
         }
 
         .media-glass-wrapper {
             position: relative;
-            max-width: 90vw;
-            max-height: 80vh;
+            width: 100%;
+            max-width: 1000px;
             border-radius: 16px;
-            padding: 12px;
+            padding: 10px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             box-shadow: 
-                0 30px 60px rgba(0,0,0,0.8), 
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            animation: cinematicReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                inset 0 1px 1px rgba(255,255,255,0.2),
+                0 24px 60px rgba(0,0,0,0.85);
+            animation: cinematicReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translateY(20px) scale(0.97);
         }
 
         .mac-controls {
             display: flex;
             gap: 8px;
             position: absolute;
-            top: 20px;
-            left: 24px;
+            top: 18px;
+            left: 20px;
             z-index: 2;
         }
 
@@ -149,25 +157,75 @@
         }
 
         .media-content-container {
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
             background: #000;
             position: relative;
             width: 100%;
-            height: 100%;
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
-            /* Padding top creates space for mac controls */
+            min-height: 280px;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
             padding-top: 40px;
-            background: #0d0d0d;
+            background: #09090b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .media-content {
             display: block;
             width: 100%;
-            max-height: calc(80vh - 64px);
+            height: auto;
+            max-height: calc(85vh - 100px);
             object-fit: contain;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
+        }
+
+        /* Tap to Play Overlay */
+        .tap-play-overlay {
+            position: absolute;
+            inset: 40px 0 0 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            z-index: 8;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .tap-play-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--cyan);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .tap-play-btn svg {
+            margin-left: 4px;
+        }
+
+        .tap-play-overlay:hover .tap-play-btn {
+            transform: scale(1.1);
+        }
+
+        .tap-play-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 1px;
         }
 
         /* Loading State */
@@ -184,12 +242,12 @@
         }
         
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 255, 65, 0.1);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(0, 255, 65, 0.15);
             border-top-color: var(--cyan);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -202,7 +260,7 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         /* Error */
         .error-message {
@@ -210,12 +268,14 @@
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            color: #ff5555;
+            color: #f87171;
             font-family: 'JetBrains Mono', monospace;
-            background: rgba(255, 85, 85, 0.1);
+            background: rgba(239, 68, 68, 0.1);
             padding: 32px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 85, 85, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            text-align: center;
+            margin: 20px;
         }
         
         /* Grid Lines Background */
@@ -225,9 +285,21 @@
             background-image: 
                 linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-size: 40px 40px;
             z-index: -2;
             pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+            .demo-nav { padding: 12px 16px; }
+            .demo-back-btn { padding: 6px 12px; font-size: 0.75rem; }
+            .demo-title { font-size: 0.95rem; }
+            .demo-subtitle { font-size: 0.6rem; }
+            .demo-container { padding: 16px 12px; }
+            .media-glass-wrapper { padding: 6px; border-radius: 12px; }
+            .mac-controls { top: 14px; left: 14px; }
+            .media-content-container { padding-top: 36px; min-height: 220px; }
+            .media-content { max-height: calc(75vh - 60px); }
         }
     </style>
 </head>
@@ -243,7 +315,7 @@
             <div class="demo-subtitle">Live Presentation</div>
             <div class="demo-title" id="demo-title-display">Project Showcase</div>
         </div>
-        <div style="width: 105px;"></div> <!-- Spacer for flex alignment -->
+        <div style="width: 70px;"></div> <!-- Spacer for flex alignment -->
     </nav>
 
     <div class="demo-container">
@@ -256,16 +328,17 @@
             <div class="media-content-container">
                 <div class="loader" id="media-loader">
                     <div class="spinner"></div>
-                    <div class="loader-text">INITIALIZING...</div>
+                    <div class="loader-text">LOADING MEDIA...</div>
                 </div>
-                <!-- Media will be injected here -->
+                <!-- Media injected dynamically -->
             </div>
         </div>
         <div class="error-message" id="error-message">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
             </svg>
-            <span>Media parameter missing or invalid.</span>
+            <span id="error-text">Media parameter missing or invalid.</span>
+            <a href="/#projects" style="color: var(--cyan); text-decoration: underline; margin-top: 8px; font-size: 0.85rem;">Return to Projects</a>
         </div>
     </div>
 
@@ -277,6 +350,7 @@
             
             const wrapper = document.querySelector('.media-content-container');
             const errorMsg = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
             const titleDisplay = document.getElementById('demo-title-display');
             const loader = document.getElementById('media-loader');
             const glassWrapper = document.getElementById('media-wrapper');
@@ -291,34 +365,100 @@
                 return;
             }
 
-            // Construct full path
-            const mediaPath = `/images/projects/${mediaParam}`;
-            const isVideo = mediaPath.match(/\.(mp4|webm)$/i);
+            // Robust path construction
+            let mediaPath = mediaParam;
+            if (!mediaPath.startsWith('/') && !mediaPath.startsWith('http')) {
+                mediaPath = '/images/projects/' + mediaPath;
+            }
+
+            const isVideo = mediaPath.match(/\.(mp4|webm|mov)$/i);
+
+            // Safety timeout to hide loader if media takes too long
+            const loadTimeout = setTimeout(() => {
+                if (loader && loader.style.display !== 'none') {
+                    loader.style.display = 'none';
+                }
+            }, 8000);
 
             if (isVideo) {
                 const video = document.createElement('video');
-                video.src = mediaPath;
                 video.className = 'media-content';
                 video.controls = true;
-                video.autoplay = true;
                 video.loop = true;
-                video.muted = true; // Auto-play usually requires muted
+                video.muted = true;
+                video.autoplay = true;
+                video.preload = 'auto';
                 
-                video.addEventListener('loadeddata', () => {
-                    loader.style.display = 'none';
+                // Essential mobile inline playback attributes
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('muted', '');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('loop', '');
+                video.setAttribute('controls', '');
+                video.src = mediaPath;
+
+                const hideLoader = () => {
+                    clearTimeout(loadTimeout);
+                    if (loader) loader.style.display = 'none';
+                };
+
+                video.addEventListener('loadeddata', hideLoader);
+                video.addEventListener('canplay', hideLoader);
+                video.addEventListener('error', () => {
+                    clearTimeout(loadTimeout);
+                    if (loader) loader.style.display = 'none';
+                    glassWrapper.style.display = 'none';
+                    errorText.textContent = 'Unable to play video demo on this device.';
+                    errorMsg.style.display = 'flex';
                 });
-                
+
                 wrapper.appendChild(video);
+
+                // Handle mobile browser autoplay restriction
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        hideLoader();
+                    }).catch(() => {
+                        hideLoader();
+                        // Render tap-to-play overlay if browser blocks autoplay
+                        const overlay = document.createElement('div');
+                        overlay.className = 'tap-play-overlay';
+                        overlay.innerHTML = `
+                            <div class="tap-play-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                            <span class="tap-play-text">TAP TO PLAY DEMO</span>
+                        `;
+                        overlay.onclick = () => {
+                            video.play();
+                            overlay.remove();
+                        };
+                        wrapper.appendChild(overlay);
+                    });
+                }
             } else {
                 const img = document.createElement('img');
-                img.src = mediaPath;
                 img.className = 'media-content';
-                img.alt = 'Project Demo';
-                
+                img.alt = projectParam ? `${projectParam} Demo` : 'Project Demo';
+                img.loading = 'eager';
+                img.decoding = 'async';
+                img.src = mediaPath;
+
                 img.onload = () => {
-                    loader.style.display = 'none';
+                    clearTimeout(loadTimeout);
+                    if (loader) loader.style.display = 'none';
                 };
-                
+
+                img.onerror = () => {
+                    clearTimeout(loadTimeout);
+                    if (loader) loader.style.display = 'none';
+                    glassWrapper.style.display = 'none';
+                    errorText.textContent = 'Unable to load demo image preview.';
+                    errorMsg.style.display = 'flex';
+                };
+
                 wrapper.appendChild(img);
             }
         });

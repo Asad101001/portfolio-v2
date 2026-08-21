@@ -1,42 +1,43 @@
 /* ── Glass Card ───────────────────────────────────────────── */
 .glass-card {
-  /* Dynamic gradient faking a top light / frosted interior for a realistic liquid glass feel */
-  background: linear-gradient(180deg, rgba(30, 30, 35, 0.4) 0%, rgba(10, 10, 12, 0.5) 100%);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  /* Dynamic multi-stop gradient creating a glossy translucent frosted glass finish */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(20, 24, 35, 0.55) 45%, rgba(10, 14, 22, 0.75) 100%);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
   
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   
-  /* Edge stack: bright top sheen, 1px soft inner highlight, soft inner glow, dark hairline outer, float shadow */
+  /* Specular stack: top specular sheen, subtle inner glow, depth shadow */
   box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.12), 
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05), 
-    inset 0 24px 48px rgba(255, 255, 255, 0.02), 
-    0 0 0 1px rgba(0, 0, 0, 0.8), 
-    0 16px 40px rgba(0, 0, 0, 0.6), 
-    0 2px 6px rgba(0, 0, 0, 0.4);
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06), 
+    inset 0 24px 48px rgba(255, 255, 255, 0.03), 
+    0 12px 36px 0 rgba(0, 0, 0, 0.5), 
+    0 2px 8px 0 rgba(0, 0, 0, 0.3);
 
-  border-radius: var(--radius);
-  transition: transform var(--transition), box-shadow var(--transition);
+  border-radius: var(--radius, 12px);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease;
   position: relative; overflow: hidden; contain: layout style;
 }
+
 .glass-card::before {
   content: ''; position: absolute; inset: 0;
-  background: var(--spotlight-gradient, radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), rgba(255,255,255,0.06), transparent 40%));
+  background: var(--spotlight-gradient, radial-gradient(450px circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.09), transparent 45%));
   opacity: 0; transition: opacity 0.5s ease;
   pointer-events: none; z-index: 0;
 }
+
 .glass-card:hover::before { opacity: 1; }
 .glass-card .proj-body, .glass-card .proj-head, .glass-card .proj-img-wrap, .glass-card > * { position: relative; z-index: 1; }
 .glass-card::after { display: none; }
+
 .glass-card:hover {
-  transform: translateY(-3px);
-  /* Elevated hover stack with more cyan/emerald tint to keep the branding */
+  transform: translateY(-4px);
+  border-color: rgba(45, 212, 191, 0.35);
   box-shadow: 
-    inset 0 1px 1px rgba(16, 185, 129, 0.3), 
-    inset 0 0 0 1px rgba(16, 185, 129, 0.15), 
-    inset 0 24px 48px rgba(16, 185, 129, 0.05), 
-    0 0 0 1px rgba(0, 0, 0, 0.8), 
-    0 20px 50px -10px rgba(16, 185, 129, 0.25), 
-    0 4px 12px rgba(0, 0, 0, 0.6);
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 
+    inset 0 0 0 1px rgba(45, 212, 191, 0.2), 
+    inset 0 24px 48px rgba(45, 212, 191, 0.06), 
+    0 20px 50px -10px rgba(45, 212, 191, 0.22), 
+    0 8px 24px rgba(0, 0, 0, 0.6);
 }

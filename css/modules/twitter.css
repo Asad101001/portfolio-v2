@@ -106,8 +106,8 @@
 }
 
 .x-handle, .x-dot, .x-time {
-    font-size: 0.72rem;
-    color: var(--text-dim);
+    font-size: 0.75rem;
+    color: #a1a1aa;
     white-space: nowrap;
 }
 
@@ -115,9 +115,9 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: var(--text-dim);
+    color: #a1a1aa;
     margin-top: 2px;
 }
 
@@ -128,10 +128,10 @@
 }
 
 .x-post-text { 
-    font-size: 0.78rem; 
-    line-height: 1.4; 
-    color: #e7e9ea; 
-    margin: 2px 0 0; 
+    font-size: 0.85rem; 
+    line-height: 1.5; 
+    color: #f8fafc; 
+    margin: 4px 0 0; 
 }
 
 .x-card-media { 

@@ -46,13 +46,13 @@ import { CONFIG, escHtml } from './widgets.js';
             const desc = item.description || item.content || '';
             const videoMatch = desc.match(/<video[^>]*>[\s\S]*?<source[^>]+src="([^">]+)"/i) || desc.match(/<video[^>]+src="([^">]+)"/i);
             
-            const originBase = new URL(item.link).origin;
+            const originBase = new URL(twitterLink).origin;
             if (videoMatch && videoMatch[1]) {
                 let vSrc = videoMatch[1];
                 if (vSrc.startsWith('/')) vSrc = originBase + vSrc;
                 mediaHtml = `
                     <div class="x-card-media">
-                        <video src="${vSrc}" controls autoplay loop muted playsinline></video>
+                        <video src="${vSrc}" controls autoplay loop muted playsinline webkit-playsinline preload="metadata" onerror="this.parentElement.style.display='none'"></video>
                     </div>
                 `;
             } else {
@@ -62,7 +62,7 @@ import { CONFIG, escHtml } from './widgets.js';
                     if (imgSrc.startsWith('/')) imgSrc = originBase + imgSrc;
                     mediaHtml = `
                         <div class="x-card-media">
-                            <img src="${imgSrc}" alt="Post media" loading="lazy">
+                            <img src="${imgSrc}" alt="Post media" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
                         </div>
                     `;
                 }

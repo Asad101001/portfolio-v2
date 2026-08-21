@@ -1848,13 +1848,20 @@ function _starsHTML(starsStr) {
   function renderMovies(movieItems) {
     if (!watchlistEl) return;
 
-    watchlistEl.textContent = compactTitles(movieItems, 4);
+    // User requested all three slots to be Dune: Part Three
+    var duneList = [
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' },
+      { title: 'Dune: Part Three', searchQuery: 'Dune: Part Three' }
+    ];
+
+    watchlistEl.textContent = 'Dune: Part Three, Dune: Part Three, Dune: Part Three';
 
     var movieThumbsEl = document.getElementById('big3-movie-thumbs');
     if (!movieThumbsEl) return;
 
     movieThumbsEl.innerHTML = '';
-    movieItems.slice(0, 3).forEach(function(m) {
+    duneList.forEach(function(m) {
       var wrap = document.createElement('div');
       wrap.className = 'media-thumb-card';
       wrap.title = m.title;
