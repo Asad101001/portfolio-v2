@@ -1,43 +1,41 @@
 /* ── KOMIK Theme Variables ── */
-/* Brutalist comic-panel / manga-strip / aged newsprint aesthetic */
+/* Authentic vintage newsprint & comic book color system */
 body.theme-komik {
-    /* ── Base Palette: Aged Weathered Newsprint ── */
-    --bg:        #F5EEDB !important;   /* Solid vintage warm newsprint */
-    --bg2:       #ECE2C9 !important;   /* Darker newsprint paper */
-    --surface:   #FFFDF6 !important;   /* Clean card surface */
-    --border:    #111111 !important;   /* Deep solid ink black */
-    --border-h:  #D50000 !important;   /* Comic red hover outline */
+    /* ── 1. Base Paper Palette (Authentic Warm Newsprint) ── */
+    --bg:        #F4EFE6 !important;   /* Natural warm vintage newsprint paper */
+    --bg2:       #EBE3D3 !important;   /* Slightly darker newsprint section */
+    --surface:   #FCFAF5 !important;   /* Clean paper card panel */
+    --border:    #23272F !important;   /* Natural charcoal print ink line */
+    --border-h:  #D32F2F !important;   /* Comic action red hover */
 
-    /* ── Text: Ultra-crisp, deep contrast ink ── */
-    --text:      #111111 !important;   /* Pitch black ink text */
-    --text-muted:#222222 !important;   /* Deep ink text */
-    --text-dim:  #444444 !important;   /* Dark readable charcoal */
+    /* ── 2. Natural Ink Typography (High contrast, never harsh) ── */
+    --text:      #23272F !important;   /* Charcoal comic ink */
+    --text-muted:#3E4551 !important;   /* Deep slate ink */
+    --text-dim:  #5C6473 !important;   /* Medium slate ink */
 
-    /* ── Repurposed CSS accent vars → HIGH CONTRAST COMIC ACCENTS ── */
-    /* IMPORTANT: --cyan is used for text in many components, so it MUST be dark & readable (Cobalt Blue), NOT pale yellow! */
-    --cyan:      #0D47A1 !important;   /* Punchy Comic Cobalt Blue (high contrast against light bg) */
-    --lime:      #1B5E20 !important;   /* Deep Comic Forest Green */
-    --purple:    #C61118 !important;   /* Bold Comic Crimson Red */
-    --orange:    #D84315 !important;   /* Deep Comic Rust Orange */
+    /* ── 3. Classic 4-Color Comic Printing Accents ── */
+    --cyan:      #1565C0 !important;   /* Classic Comic Blue (high contrast against paper) */
+    --lime:      #2E7D32 !important;   /* Classic Comic Forest Green */
+    --purple:    #D32F2F !important;   /* Classic Comic Action Red */
+    --orange:    #E65100 !important;   /* Classic Comic Rust Orange */
 
-    /* ── Dedicated Comic Named Colors ── */
-    --komik-yellow: #FFE500;           /* Vibrant Batman yellow (for backgrounds/badges with black text) */
-    --komik-red:    #D50000;           /* Comic action red */
-    --komik-blue:   #0D47A1;           /* Comic cobalt blue */
-    --komik-ink:    #111111;           /* Pitch black ink */
-    --komik-paper:  #F5EEDB;           /* Weathered newsprint paper */
-    --komik-surface:#FFFDF6;           /* Crisp newsprint card surface */
-    --komik-cyan:   #00838F;           /* Deep readable teal/cyan */
-    --komik-green:  #1B5E20;           /* Deep comic green */
+    /* ── 4. Dedicated Comic Design Tokens ── */
+    --komik-yellow: #FFC700;           /* Warm golden comic yellow */
+    --komik-red:    #D32F2F;           /* Action red */
+    --komik-blue:   #1565C0;           /* Cobalt comic blue */
+    --komik-ink:    #23272F;           /* Charcoal print ink */
+    --komik-paper:  #F4EFE6;           /* Newsprint paper */
+    --komik-card:   #FCFAF5;           /* Card panel paper */
+    --komik-green:  #2E7D32;           /* Comic green */
 
-    /* ── Brutalist Geometry ── */
+    /* ── 5. Comic Geometry & Shadows (Balanced, not overwhelming) ── */
     --radius:    0px !important;
     --radius-lg: 0px !important;
-    --card-shadow: 5px 5px 0px #111111 !important;
-    --btn-shadow:  3px 3px 0px #111111 !important;
+    --card-shadow: 4px 4px 0px #23272F !important;
+    --btn-shadow:  3px 3px 0px #23272F !important;
 
-    /* ── Texture params ── */
+    /* ── 6. Overrides ── */
     --scanline-op: 0 !important;
-    --grid-clr: rgba(0, 0, 0, 0.04) !important;
+    --grid-clr: rgba(35, 39, 47, 0.04) !important;
     --spotlight-gradient: none !important;
 }

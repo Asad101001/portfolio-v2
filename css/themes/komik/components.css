@@ -1,28 +1,28 @@
 /* ── KOMIK Components ── */
-/* Cards, buttons, nav, pills — ink-outlined, high contrast, animated */
+/* Clean comic panels, crisp 2px ink outlines, balanced shadows, zero clash */
 
-/* ── Cards: Ink-outlined solid comic panels ── */
+/* ── Cards: Clean Comic Book Panels ── */
 body.theme-komik .glass-card,
 body.theme-komik .proj-card,
 body.theme-komik .stat-card,
 body.theme-komik .wip-card,
 body.theme-komik .fun-facts-section {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
     border-radius: 0px !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     position: relative;
-    color: #111111 !important;
+    color: #23272F !important;
     transition:
-        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
         box-shadow 0.2s ease !important;
     will-change: transform;
     transform: translateZ(0);
 }
 
-/* Yellow top accent stripe on cards */
+/* Subtle yellow top accent stripe on cards */
 body.theme-komik .glass-card::before,
 body.theme-komik .proj-card::before {
     content: '';
@@ -30,9 +30,9 @@ body.theme-komik .proj-card::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: #FFE500;
-    border-bottom: 2px solid #111111;
+    height: 4px;
+    background: #FFC700;
+    border-bottom: 1.5px solid #23272F;
     z-index: 1;
     pointer-events: none;
 }
@@ -44,42 +44,42 @@ body.theme-komik .proj-card::after {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: #0D47A1;
-    border-top: 2px solid #111111;
+    height: 3px;
+    background: #1565C0;
+    border-top: 1.5px solid #23272F;
     pointer-events: none;
 }
 
-/* Spring-bounce hover */
+/* Balanced comic hover: offset + red pop shadow */
 body.theme-komik .glass-card:hover,
 body.theme-komik .proj-card:hover {
-    transform: translate(-4px, -4px) !important;
-    box-shadow: 9px 9px 0px #D50000 !important;
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 7px 7px 0px #D32F2F !important;
 }
 
 body.theme-komik .stat-card:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 8px 8px 0px #111111 !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 6px 6px 0px #23272F !important;
 }
 
-/* ── Navigation: Comic strip navbar ── */
+/* ── Navigation: Warm Comic Masthead ── */
 body.theme-komik nav,
 body.theme-komik .nav-inner {
-    background: #FFE500 !important;
+    background: #FFC700 !important;
     border: none !important;
-    border-bottom: 4px solid #111111 !important;
+    border-bottom: 3px solid #23272F !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: 0 4px 0px #111111 !important;
+    box-shadow: 0 3px 0px #23272F !important;
 }
 
 body.theme-komik .nav-link {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
     font-family: 'Bangers', cursive !important;
     font-size: 1.15rem !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: 0.08em !important;
     position: relative;
     transition: color 0.15s ease, background 0.15s ease !important;
 }
@@ -90,8 +90,8 @@ body.theme-komik .nav-link::after {
     bottom: -2px;
     left: 0;
     right: 100%;
-    height: 3px;
-    background: #111111;
+    height: 2.5px;
+    background: #23272F;
     transition: right 0.2s ease;
 }
 
@@ -100,132 +100,160 @@ body.theme-komik .nav-link:hover::after {
 }
 
 body.theme-komik .nav-link:hover {
-    color: #FFFDF6 !important;
-    background: #111111 !important;
+    color: #FCFAF5 !important;
+    background: #23272F !important;
     transform: skew(-4deg) !important;
     padding-left: 8px !important;
     padding-right: 8px !important;
 }
 
-/* ── Theme Trigger: Vibrant Red Comic Badge ── */
+/* ── Theme Trigger: Action Red Comic Badge ── */
 body.theme-komik .theme-trigger {
     font-family: 'Bangers', cursive !important;
-    background: #D50000 !important;
+    background: #D32F2F !important;
     -webkit-background-clip: initial !important;
     background-clip: initial !important;
     -webkit-text-fill-color: #FFFFFF !important;
     color: #FFFFFF !important;
-    padding: 4px 14px !important;
+    padding: 3px 12px !important;
     font-weight: 400 !important;
-    font-size: 1.1rem !important;
-    letter-spacing: 0.12em !important;
-    border: 2px solid #111111 !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.1em !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     border-radius: 0 !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
     cursor: pointer !important;
-    text-shadow: 1px 1px 0px #111111 !important;
 }
 
 body.theme-komik .theme-trigger:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px #111111 !important;
-    background: #111111 !important;
-    color: #FFE500 !important;
-    -webkit-text-fill-color: #FFE500 !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    background: #23272F !important;
+    color: #FFC700 !important;
+    -webkit-text-fill-color: #FFC700 !important;
 }
 
-/* ── Buttons ── */
-body.theme-komik .btn,
-body.theme-komik button:not(.terminal-btn):not([class*="spotify"]):not([class*="t-"]),
-body.theme-komik [class*="btn"]:not([class*="mbn"]):not([class*="af-btn"]) {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 3px solid #111111 !important;
+/* ── Interactive Buttons (Hero & Global) ── */
+body.theme-komik .btn-primary {
+    background: #D32F2F !important;
+    color: #FFFFFF !important;
+    border: 2px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 3px 3px 0px #111111 !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.06em !important;
-    font-family: 'Space Grotesk', sans-serif !important;
-    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    font-weight: 800 !important;
 }
 
-body.theme-komik .btn:hover,
-body.theme-komik button:not(.terminal-btn):not([class*="spotify"]):not([class*="t-"]):hover,
-body.theme-komik [class*="btn"]:not([class*="mbn"]):not([class*="af-btn"]):hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 6px 6px 0px #111111 !important;
-    background: #111111 !important;
-    color: #FFE500 !important;
+body.theme-komik .btn-primary:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #23272F !important;
+    background: #23272F !important;
+    color: #FFFFFF !important;
+}
+
+body.theme-komik .btn-linkedin {
+    background: #1565C0 !important;
+    color: #FFFFFF !important;
+    border: 2px solid #23272F !important;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .btn-linkedin:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #23272F !important;
+    background: #23272F !important;
+    color: #FFFFFF !important;
+}
+
+body.theme-komik .btn-secondary {
+    background: #FCFAF5 !important;
+    color: #23272F !important;
+    border: 2px solid #23272F !important;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .btn-secondary:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #23272F !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
 }
 
 /* ── View Resume CTA ── */
 body.theme-komik .view-resume-btn,
 body.theme-komik .btn-view-resume {
-    background: #111111 !important;
-    color: #FFE500 !important;
-    border: 2px solid #111111 !important;
+    background: #23272F !important;
+    color: #FFC700 !important;
+    border: 2px solid #23272F !important;
     font-weight: 900 !important;
-    box-shadow: 3px 3px 0px #FFE500 !important;
+    box-shadow: 3px 3px 0px #FFC700 !important;
+    border-radius: 0px !important;
 }
 
 /* ── Status Pills & Badges ── */
 body.theme-komik .status-pill {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
-    font-weight: 900 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
+    font-weight: 800 !important;
     border-radius: 0px !important;
     font-family: 'JetBrains Mono', monospace !important;
     text-transform: uppercase !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }
 
 body.theme-komik .status-offline {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-weight: 900 !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }
 
 body.theme-komik .tag-pill,
 body.theme-komik .proj-tags .tag-pill,
-body.theme-komik .tag {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+body.theme-komik .tag,
+body.theme-komik .skill-chip {
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-weight: 800 !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     transition: transform 0.15s ease !important;
 }
 
 body.theme-komik .tag-pill:hover,
-body.theme-komik .tag:hover {
+body.theme-komik .tag:hover,
+body.theme-komik .skill-chip:hover {
     transform: translate(-1px, -1px) !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
 }
 
-/* ── Project Badges & Live indicators ── */
+/* ── Project Badges ── */
 body.theme-komik .proj-badge {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     font-weight: 900 !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     border-radius: 0px !important;
 }
 
-/* ── Project link buttons ── */
+/* ── Project Link Buttons (Demo / Code) ── */
 body.theme-komik .proj-link-demo {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     font-weight: 900 !important;
     letter-spacing: 0.05em !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
@@ -233,17 +261,17 @@ body.theme-komik .proj-link-demo {
 
 body.theme-komik .proj-link-demo:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px #111111 !important;
-    background: #111111 !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    background: #23272F !important;
     color: #FFFFFF !important;
 }
 
 body.theme-komik .proj-link-code {
-    background: #0D47A1 !important;
+    background: #1565C0 !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     font-weight: 900 !important;
     letter-spacing: 0.05em !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
@@ -251,53 +279,98 @@ body.theme-komik .proj-link-code {
 
 body.theme-komik .proj-link-code:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px #111111 !important;
-    background: #111111 !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    background: #23272F !important;
     color: #FFFFFF !important;
 }
 
 /* ── Arsenal Filter Buttons ── */
 body.theme-komik .af-btn {
-    background: #FFFDF6 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FCFAF5 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-weight: 800 !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     transition: all 0.15s ease !important;
 }
 
 body.theme-komik .af-btn:hover,
 body.theme-komik .af-btn.active {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border-color: #111111 !important;
-    box-shadow: 4px 4px 0px #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border-color: #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
     transform: translate(-2px, -2px) !important;
 }
 
 /* ── Arsenal Tech Stack Cards ── */
 body.theme-komik .acard {
-    background: #FFFDF6 !important;
-    border: 2px solid #111111 !important;
+    background: #FCFAF5 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    box-shadow: 2.5px 2.5px 0px #23272F !important;
     transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
 }
 
 body.theme-komik .acard:hover {
-    background: #FFE500 !important;
+    background: #FFC700 !important;
     transform: translate(-2px, -2px) !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    box-shadow: 4px 4px 0px #23272F !important;
 }
 
-/* ── Caution Tape (Experience Toggle): Red & White ── */
-body.theme-komik #experience-toggle {
-    background: #111111 !important;
-    border: 3px solid #D50000 !important;
+/* ── Social Platform Cards (Connect Section) ── */
+body.theme-komik .social-platform-card {
+    background: #FCFAF5 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
-    color: #FFE500 !important;
-    box-shadow: 4px 4px 0px #D50000 !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    color: #23272F !important;
+}
+
+body.theme-komik .social-platform-card .spc-label {
+    color: #23272F !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .social-platform-card .spc-handle {
+    color: #5C6473 !important;
+    font-weight: 700 !important;
+}
+
+body.theme-komik .social-platform-card:hover {
+    background: #FFC700 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 5px 5px 0px #23272F !important;
+}
+
+body.theme-komik .social-platform-card:hover .spc-label {
+    color: #23272F !important;
+}
+
+body.theme-komik .social-ping-btn {
+    background: #FCFAF5 !important;
+    color: #1565C0 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .social-ping-btn:hover {
+    background: #FFC700 !important;
+    color: #23272F !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 5px 5px 0px #23272F !important;
+}
+
+/* ── Caution Tape (Experience Toggle): Red & White Classic Crime/Action Tape ── */
+body.theme-komik #experience-toggle {
+    background: #23272F !important;
+    border: 2px solid #D32F2F !important;
+    border-radius: 0px !important;
+    color: #FFC700 !important;
+    box-shadow: 4px 4px 0px #D32F2F !important;
     font-family: 'Bangers', cursive !important;
     font-size: 1.15rem !important;
     letter-spacing: 0.1em !important;
@@ -308,34 +381,34 @@ body.theme-komik #experience-toggle {
 }
 
 body.theme-komik #experience-toggle::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23D50000'/%3E%3Crect width='160' height='3' fill='%23fff' y='0'/%3E%3Crect width='160' height='3' fill='%23fff' y='29'/%3E%3Ctext x='80' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3ECAUTION%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 6px 12px rgba(213, 0, 0, 0.4) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23D32F2F'/%3E%3Crect width='160' height='3' fill='%23fff' y='0'/%3E%3Crect width='160' height='3' fill='%23fff' y='29'/%3E%3Ctext x='80' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3ECAUTION%3C/text%3E%3C/svg%3E") !important;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.35) !important;
     z-index: 3 !important;
 }
 
 body.theme-komik #experience-toggle::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23D50000'/%3E%3Crect width='200' height='3' fill='%23fff' y='0'/%3E%3Crect width='200' height='3' fill='%23fff' y='29'/%3E%3Ctext x='100' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3EEXPERIENCE%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 4px 10px rgba(213, 0, 0, 0.35) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23D32F2F'/%3E%3Crect width='200' height='3' fill='%23fff' y='0'/%3E%3Crect width='200' height='3' fill='%23fff' y='29'/%3E%3Ctext x='100' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3EEXPERIENCE%3C/text%3E%3C/svg%3E") !important;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3) !important;
 }
 
 body.theme-komik #experience-toggle:hover {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     color: #FFFFFF !important;
     transform: translate(-2px, -2px) !important;
-    box-shadow: 6px 6px 0px #111111 !important;
+    box-shadow: 5px 5px 0px #23272F !important;
 }
 
 /* ── Mobile Bottom Nav ── */
 body.theme-komik .mobile-bottom-nav {
-    background: #FFE500 !important;
-    border: 3px solid #111111 !important;
+    background: #FFC700 !important;
+    border: 2px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 0 -4px 0px #111111 !important;
+    box-shadow: 0 -3px 0px #23272F !important;
     backdrop-filter: none !important;
 }
 
 body.theme-komik .mbn-item {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
     font-family: 'Bangers', cursive !important;
@@ -347,20 +420,20 @@ body.theme-komik .mbn-item {
 
 body.theme-komik .mbn-item:hover,
 body.theme-komik .mbn-item.active {
-    color: #FFE500 !important;
-    background: #111111 !important;
+    color: #FFC700 !important;
+    background: #23272F !important;
 }
 
 body.theme-komik .mbn-item.active::before {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
 
 body.theme-komik .mbn-cta {
-    background: #D50000 !important;
-    border: 2px solid #111111 !important;
+    background: #D32F2F !important;
+    border: 2px solid #23272F !important;
     border-radius: 0 !important;
     color: #FFFFFF !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }

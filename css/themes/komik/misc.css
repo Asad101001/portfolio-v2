@@ -1,16 +1,16 @@
 /* ── KOMIK Misc ── */
-/* Footer, terminal, certs, scrollbar, star ratings, loading screen */
+/* Footer, terminal, certs drawer, scrollbar, star ratings, loading screen */
 
-/* ── Stars ── */
+/* ── Star Ratings ── */
 body.theme-komik .star-filled,
-body.theme-komik .star-half { color: #D50000 !important; }
-body.theme-komik .star-empty { color: rgba(17, 17, 17, 0.25) !important; }
+body.theme-komik .star-half { color: #D32F2F !important; }
+body.theme-komik .star-empty { color: rgba(35, 39, 47, 0.25) !important; }
 
-/* ── Footer: Dark Comic Panel with High Contrast Content ── */
+/* ── Footer: Clean Dark Comic Panel with High Contrast Content ── */
 body.theme-komik .main-footer {
-    background: #111111 !important;
-    border-top: 6px solid #FFE500 !important;
-    color: #F5EEDB !important;
+    background: #23272F !important;
+    border-top: 4px solid #FFC700 !important;
+    color: #F4EFE6 !important;
     padding: 60px 20px !important;
     position: relative;
 }
@@ -18,102 +18,102 @@ body.theme-komik .main-footer {
 body.theme-komik .main-footer::before {
     content: 'MEANWHILE... SOMEWHERE IN KARACHI 🇵🇰';
     font-family: 'Bangers', cursive;
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
-    color: #111111;
-    background: #FFE500;
-    border: 3px solid #111111;
-    box-shadow: 4px 4px 0px #FFE500;
-    padding: 8px 22px;
-    margin-bottom: 32px;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: #23272F;
+    background: #FFC700;
+    border: 2px solid #23272F;
+    box-shadow: 3px 3px 0px #FFC700;
+    padding: 6px 18px;
+    margin-bottom: 28px;
     display: inline-block;
 }
 
 body.theme-komik .main-footer p,
 body.theme-komik .main-footer span:not(.star-filled):not(.star-half):not(.star-empty) {
-    color: #ECE2C9 !important;
+    color: #EBE3D3 !important;
 }
 
 body.theme-komik .footer-col-title {
-    color: #FFE500 !important;
+    color: #FFC700 !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 1.6rem !important;
+    font-size: 1.5rem !important;
     letter-spacing: 0.08em !important;
 }
 
 body.theme-komik .footer-logo {
-    color: #FFE500 !important;
+    color: #FFC700 !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 2.2rem !important;
+    font-size: 2rem !important;
     letter-spacing: 0.05em !important;
 }
 
 body.theme-komik .footer-links a {
-    color: #ECE2C9 !important;
+    color: #EBE3D3 !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     transition: color 0.15s ease !important;
 }
 
 body.theme-komik .footer-links a:hover {
-    color: #FFE500 !important;
+    color: #FFC700 !important;
     text-decoration: underline !important;
 }
 
 body.theme-komik .footer-micro-meta {
-    color: #AAAAAA !important;
+    color: #9E9E9E !important;
     font-weight: 700 !important;
 }
 
 /* ── Decorative blocks in footer ── */
 body.theme-komik .block {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 3px 3px 0px #FFE500 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 2px 2px 0px #FFC700 !important;
 }
-body.theme-komik .block.b1 { background: #FFE500 !important; }
-body.theme-komik .block.b2 { background: #D50000 !important; }
-body.theme-komik .block.b3 { background: #0D47A1 !important; }
+body.theme-komik .block.b1 { background: #FFC700 !important; }
+body.theme-komik .block.b2 { background: #D32F2F !important; }
+body.theme-komik .block.b3 { background: #1565C0 !important; }
 
 /* ── Scrollbar ── */
-body.theme-komik::-webkit-scrollbar { width: 12px !important; }
+body.theme-komik::-webkit-scrollbar { width: 10px !important; }
 body.theme-komik::-webkit-scrollbar-track {
-    background: #F5EEDB !important;
-    border-left: 3px solid #111111 !important;
+    background: #F4EFE6 !important;
+    border-left: 2px solid #23272F !important;
 }
 body.theme-komik::-webkit-scrollbar-thumb {
-    background: #FFE500 !important;
-    border: 2px solid #111111 !important;
+    background: #FFC700 !important;
+    border: 1.5px solid #23272F !important;
 }
 body.theme-komik::-webkit-scrollbar-thumb:hover {
-    background: #D50000 !important;
+    background: #D32F2F !important;
 }
 
-/* ══ TERMINAL: Dark CRT computer with punchy glowing text ══ */
+/* ══ TERMINAL: Classic Dark CRT Monitor ══ */
 body.theme-komik .hero-side {
-    border: 4px solid #111111 !important;
+    border: 2.5px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 8px 8px 0px #FFE500 !important;
+    box-shadow: 5px 5px 0px #FFC700 !important;
     overflow: hidden !important;
 }
 
 body.theme-komik .terminal-bar {
-    background: #FFE500 !important;
-    border-bottom: 3px solid #111111 !important;
-    color: #111111 !important;
+    background: #FFC700 !important;
+    border-bottom: 2px solid #23272F !important;
+    color: #23272F !important;
     font-weight: 900 !important;
     font-family: 'JetBrains Mono', monospace !important;
 }
 
 body.theme-komik .terminal-body {
-    background: #111111 !important;
+    background: #23272F !important;
     border-radius: 0px !important;
-    color: #FFE500 !important;
+    color: #FFC700 !important;
 }
 
 /* Terminal text: Crisp and vivid */
 body.theme-komik .t-prompt {
-    color: #FFE500 !important;
+    color: #FFC700 !important;
     font-weight: 900 !important;
 }
 body.theme-komik .t-cmd {
@@ -128,105 +128,105 @@ body.theme-komik .t-out {
     overflow-wrap: anywhere !important;
 }
 body.theme-komik .terminal-body { overflow-x: hidden !important; }
-body.theme-komik .t-cursor { background: #FFE500 !important; }
+body.theme-komik .t-cursor { background: #FFC700 !important; }
 
 body.theme-komik .t-dot { opacity: 1 !important; }
-body.theme-komik .t-dot.t-red    { background: #D50000 !important; }
-body.theme-komik .t-dot.t-yellow { background: #FFE500 !important; }
-body.theme-komik .t-dot.t-green  { background: #1B5E20 !important; }
+body.theme-komik .t-dot.t-red    { background: #D32F2F !important; }
+body.theme-komik .t-dot.t-yellow { background: #FFC700 !important; }
+body.theme-komik .t-dot.t-green  { background: #2E7D32 !important; }
 
 /* ── Certs Drawer ── */
 body.theme-komik #certs-panel {
-    background: #F5EEDB !important;
-    border-left: 12px solid #FFE500 !important;
-    color: #111111 !important;
+    background: #F4EFE6 !important;
+    border-left: 8px solid #FFC700 !important;
+    color: #23272F !important;
 }
 
 body.theme-komik #certs-backdrop {
-    background: rgba(17, 17, 17, 0.88) !important;
+    background: rgba(35, 39, 47, 0.8) !important;
     backdrop-filter: blur(4px) !important;
 }
 
 body.theme-komik #certs-close {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-family: 'Bangers', cursive !important;
     letter-spacing: 0.1em !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 body.theme-komik #certs-close:hover {
     transform: translate(-2px, -2px) !important;
-    box-shadow: 4px 4px 0px #111111 !important;
+    box-shadow: 3px 3px 0px #23272F !important;
 }
 
 body.theme-komik .drawer-title {
     font-family: 'Bangers', cursive !important;
     font-size: 2.8rem !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
     font-weight: 400 !important;
     letter-spacing: 0.1em !important;
-    border-bottom: 6px solid #FFE500 !important;
+    border-bottom: 4px solid #FFC700 !important;
     display: inline-block !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 28px !important;
 }
 
 body.theme-komik .cert-card {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 4px 4px 0px #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
     border-radius: 0px !important;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
 }
 
 body.theme-komik .cert-card:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 7px 7px 0px #FFE500 !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px #FFC700 !important;
 }
 
-body.theme-komik .cert-title   { color: #111111 !important; font-weight: 900 !important; }
-body.theme-komik .cert-issuer  { color: #0D47A1 !important; font-weight: 800 !important; }
-body.theme-komik .cert-meta    { color: #444444 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; }
-body.theme-komik .cert-skill   { background: #FFE500 !important; color: #111111 !important; border: 1px solid #111111 !important; border-radius: 0 !important; font-weight: 800 !important; }
+body.theme-komik .cert-title   { color: #23272F !important; font-weight: 900 !important; }
+body.theme-komik .cert-issuer  { color: #1565C0 !important; font-weight: 800 !important; }
+body.theme-komik .cert-meta    { color: #5C6473 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; }
+body.theme-komik .cert-skill   { background: #FFC700 !important; color: #23272F !important; border: 1px solid #23272F !important; border-radius: 0 !important; font-weight: 800 !important; }
 
 body.theme-komik .cert-badge.completed {
-    background: #1B5E20 !important;
+    background: #2E7D32 !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .cert-badge.inprogress {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     font-weight: 900 !important;
 }
 
 /* ── Timeline ── */
 body.theme-komik .tl-dot {
-    border: 4px solid #111111 !important;
-    background: #FFE500 !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    border: 3px solid #23272F !important;
+    background: #FFC700 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 body.theme-komik .tl-dot:hover {
-    transform: scale(1.3) rotate(45deg) !important;
+    transform: scale(1.25) rotate(45deg) !important;
 }
 body.theme-komik .timeline-item::before {
-    background: #111111 !important;
-    width: 3px !important;
+    background: #23272F !important;
+    width: 2.5px !important;
 }
 
 /* ── Loading Screen ── */
 body.theme-komik #loading-screen {
-    background: #FFE500 !important;
+    background: #FFC700 !important;
 }
 
 /* ── Pakistan Flag Green Status Dot ── */

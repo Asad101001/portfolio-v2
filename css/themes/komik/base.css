@@ -1,12 +1,20 @@
 /* ── KOMIK Base ── */
-/* Body, background halftone newspaper texture, torn hero edge */
+/* Authentic Newspaper background texture, torn paper dividers, and base styles */
 
-/* ── BODY: Aged weathered newsprint ── */
+/* ── BODY: Authentic Vintage Newsprint Base ── */
 body.theme-komik {
-    background: #F2E8D0 !important;
-    background-image: none !important;
+    background-color: #F4EFE6 !important;
+    background-image: 
+        /* Fine Halftone Ben-Day Print Screen */
+        radial-gradient(circle, rgba(35, 39, 47, 0.07) 1px, transparent 1px),
+        /* Coarser offset dot layer */
+        radial-gradient(circle, rgba(35, 39, 47, 0.04) 1.5px, transparent 1.5px),
+        /* Paper fiber noise & grain */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E") !important;
+    background-size: 10px 10px, 20px 20px, 200px 200px !important;
+    background-position: 0 0, 5px 5px, 0 0 !important;
+    background-attachment: fixed !important;
     color: var(--komik-ink) !important;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='none' stroke='%231A1A1A' stroke-width='2'/%3E%3Cline x1='10' y1='0' x2='10' y2='7' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='10' y1='13' x2='10' y2='20' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='0' y1='10' x2='7' y2='10' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cline x1='13' y1='10' x2='20' y2='10' stroke='%231A1A1A' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, default !important;
 }
 
 body.theme-komik section,
@@ -16,82 +24,70 @@ body.theme-komik main {
     color: var(--komik-ink) !important;
 }
 
-/* ── LAYER 1: Deep newsprint grain (fixed, GPU-composited) ── */
+/* ── LAYER 1: Subtle vintage paper edge vignette (Fixed layer) ── */
 body.theme-komik::before {
     content: '';
     position: fixed;
     inset: 0;
-    /* Layered newsprint texture: halftone dots + diagonal grain lines */
-    background-image:
-        /* Fine halftone dot grid */
-        radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px),
-        /* Coarser halftone dot layer (offset) */
-        radial-gradient(circle, rgba(0,0,0,0.06) 1.5px, transparent 1.5px),
-        /* Diagonal print grain lines */
-        repeating-linear-gradient(
-            47deg,
-            transparent,
-            transparent 4px,
-            rgba(0,0,0,0.02) 4px,
-            rgba(0,0,0,0.02) 5px
-        ),
-        /* Horizontal scan bands (newsprint press artifact) */
-        repeating-linear-gradient(
-            0deg,
-            rgba(0,0,0,0.015),
-            rgba(0,0,0,0.015) 1px,
-            transparent 1px,
-            transparent 3px
-        );
-    background-size:
-        12px 12px,
-        24px 24px,
-        100% 100%,
-        100% 100%;
-    background-position:
-        0 0,
-        6px 6px,
-        0 0,
-        0 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 1;
-    /* GPU layer — avoids main thread repaints on scroll */
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-/* ── LAYER 2: Ink bleed vignette (fixed) ── */
-body.theme-komik::after {
-    content: '';
-    position: fixed;
-    inset: 0;
     background:
-        /* Corner ink stains */
-        radial-gradient(ellipse at 0% 0%, rgba(80,50,10,0.12) 0%, transparent 40%),
-        radial-gradient(ellipse at 100% 0%, rgba(80,50,10,0.08) 0%, transparent 35%),
-        radial-gradient(ellipse at 0% 100%, rgba(80,50,10,0.10) 0%, transparent 35%),
-        radial-gradient(ellipse at 100% 100%, rgba(80,50,10,0.14) 0%, transparent 40%),
-        /* Center aged toning */
-        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(140,100,40,0.06) 100%);
+        /* Gentle sepia paper aging around screen edges */
+        radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(130, 95, 45, 0.05) 100%),
+        radial-gradient(ellipse at 0% 0%, rgba(100, 70, 30, 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 100% 100%, rgba(100, 70, 30, 0.06) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
     will-change: transform;
     transform: translateZ(0);
 }
 
-/* Alternating section tones — aged press paper */
+/* ── Alternating section tone: warm newsprint tint ── */
 body.theme-komik section:nth-of-type(even) {
-    background: rgba(220, 205, 175, 0.45) !important;
+    background: rgba(235, 227, 211, 0.5) !important;
 }
 
-/* ── Section position base ── */
-body.theme-komik section {
-    position: relative;
+/* ── Section dividers: subtle comic strip dividing line ── */
+body.theme-komik .section-divider {
+    height: 3px !important;
+    background: #23272F !important;
+    opacity: 0.25 !important;
+    margin: 40px auto !important;
+    width: calc(100% - 40px) !important;
+    max-width: 1200px !important;
+    border: none !important;
 }
 
-/* ── Remove backdrop filters ONLY on glass/nav elements — NOT globally ── */
-/* (Global * override was killing terminal JS and animations) */
+/* ── Hero section torn paper edge ── */
+body.theme-komik .hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 18px;
+    background: #F4EFE6;
+    border-bottom: 2px solid #23272F;
+    clip-path: polygon(
+        0% 100%, 0% 0%,
+        2% 80%, 4% 15%, 6% 90%, 8% 20%,
+        10% 85%, 12% 10%, 14% 95%, 16% 15%,
+        18% 80%, 20% 25%, 22% 90%, 24% 10%,
+        26% 85%, 28% 20%, 30% 95%, 32% 15%,
+        34% 80%, 36% 10%, 38% 90%, 40% 25%,
+        42% 85%, 44% 15%, 46% 95%, 48% 20%,
+        50% 80%, 52% 10%, 54% 90%, 56% 25%,
+        58% 85%, 60% 15%, 62% 95%, 64% 10%,
+        66% 80%, 68% 25%, 70% 90%, 72% 20%,
+        74% 85%, 76% 15%, 78% 95%, 80% 10%,
+        82% 80%, 84% 25%, 86% 90%, 88% 15%,
+        90% 85%, 92% 20%, 94% 95%, 96% 10%,
+        98% 85%, 100% 0%,
+        100% 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ── Remove backdrop filters on cards for clean crisp paper feel ── */
 body.theme-komik .glass-card,
 body.theme-komik .proj-card,
 body.theme-komik .nav-inner,
@@ -100,60 +96,20 @@ body.theme-komik .wip-card,
 body.theme-komik .hero-backdrop-overlay {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: var(--komik-paper) !important;
-    border: 3px solid var(--komik-ink) !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
 }
 
-/* ── Hero bg: desaturated + torn bottom edge ── */
+/* ── Hero background image: soft vintage halftone effect ── */
 body.theme-komik .hero-bg-img {
-    opacity: 0.06 !important;
-    filter: grayscale(100%) contrast(1.8) sepia(0.3) !important;
+    opacity: 0.05 !important;
+    filter: grayscale(100%) contrast(1.5) sepia(0.2) !important;
 }
 
-/* ── Torn zigzag bottom of hero (red/white comic tape) ── */
-body.theme-komik .hero-section::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 44px;
-    /* Red/white danger stripe pattern */
-    background: repeating-linear-gradient(
-        -55deg,
-        #FF1744 0px,
-        #FF1744 16px,
-        #ffffff 16px,
-        #ffffff 32px
-    );
-    border-top: 3px solid var(--komik-ink);
-    border-bottom: 3px solid var(--komik-ink);
-    clip-path: polygon(
-        0 100%, 0 0,
-        1% 55%, 2% 0, 3% 60%, 4% 0, 5% 55%, 6% 0, 7% 62%, 8% 0,
-        9% 55%, 10% 0, 11% 58%, 12% 0, 13% 64%, 14% 0, 15% 55%, 16% 0,
-        17% 60%, 18% 0, 19% 55%, 20% 0, 21% 62%, 22% 0, 23% 57%, 24% 0,
-        25% 55%, 26% 0, 27% 60%, 28% 0, 29% 64%, 30% 0, 31% 55%, 32% 0,
-        33% 58%, 34% 0, 35% 62%, 36% 0, 37% 55%, 38% 0, 39% 60%, 40% 0,
-        41% 55%, 42% 0, 43% 64%, 44% 0, 45% 57%, 46% 0, 47% 60%, 48% 0,
-        49% 55%, 50% 0, 51% 60%, 52% 0, 53% 64%, 54% 0, 55% 57%, 56% 0,
-        57% 55%, 58% 0, 59% 62%, 60% 0, 61% 55%, 62% 0, 63% 60%, 64% 0,
-        65% 55%, 66% 0, 67% 64%, 68% 0, 69% 55%, 70% 0, 71% 58%, 72% 0,
-        73% 62%, 74% 0, 75% 55%, 76% 0, 77% 60%, 78% 0, 79% 55%, 80% 0,
-        81% 62%, 82% 0, 83% 55%, 84% 0, 85% 60%, 86% 0, 87% 64%, 88% 0,
-        89% 55%, 90% 0, 91% 58%, 92% 0, 93% 62%, 94% 0, 95% 55%, 96% 0,
-        97% 60%, 98% 0, 99% 55%, 100% 0,
-        100% 100%
-    );
-    z-index: 2;
-    pointer-events: none;
-    transform: rotate(-0.3deg);
-}
-
-/* ── Selection: Yellow highlighter ── */
+/* ── Selection: Yellow comic highlighter ── */
 body.theme-komik ::selection {
-    background: var(--komik-yellow) !important;
-    color: var(--komik-ink) !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
 }
 
 /* ── Mobile tap feedback ring on hero name ── */
@@ -161,7 +117,7 @@ body.theme-komik ::selection {
     animation: komik-ring-pulse 0.4s ease-out;
 }
 @keyframes komik-ring-pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0.8); }
-    70%  { box-shadow: 0 0 0 16px rgba(255, 222, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0); }
+    0%   { box-shadow: 0 0 0 0 rgba(255, 199, 0, 0.8); }
+    70%  { box-shadow: 0 0 0 14px rgba(255, 199, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 199, 0, 0); }
 }

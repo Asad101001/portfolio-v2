@@ -1,28 +1,28 @@
 /* ── KOMIK Typography ── */
-/* Maximum readability, high-contrast ink text, comic font impact */
+/* Crystal-clear print typography, natural charcoal ink, classic comic font hierarchy */
 
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
 /* ── Global Text & Font Resets for KOMIK ── */
 body.theme-komik {
-    color: #111111 !important;
+    color: #23272F !important;
     font-family: 'Space Grotesk', sans-serif !important;
 }
 
-/* ── Hero Name: Massive comic headline ── */
+/* ── Hero Name: Iconic Comic Headline ── */
 body.theme-komik .hero-name {
     font-family: 'Bangers', 'Impact', cursive !important;
     font-weight: 400 !important;
     font-size: clamp(3.2rem, 9vw, 6.5rem) !important;
-    color: #111111 !important;
+    color: #23272F !important;
     background: none !important;
-    -webkit-text-fill-color: #111111 !important;
+    -webkit-text-fill-color: #23272F !important;
     filter: none !important;
     letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
     text-shadow:
-        3px 3px 0px #FFE500,
-        6px 6px 0px #111111 !important;
+        2px 2px 0px #FFC700,
+        4px 4px 0px rgba(35, 39, 47, 0.4) !important;
     line-height: 1.05 !important;
     cursor: pointer;
     transition: text-shadow 0.2s ease !important;
@@ -30,15 +30,15 @@ body.theme-komik .hero-name {
 
 body.theme-komik .hero-name:hover {
     text-shadow:
-        3px 3px 0px #D50000,
-        6px 6px 0px #111111 !important;
+        3px 3px 0px #D32F2F,
+        5px 5px 0px #23272F !important;
 }
 
 /* ── Hero Subtitle & Roles ── */
 body.theme-komik .hero-sub {
     font-size: 1.25rem !important;
     font-weight: 800 !important;
-    color: #0D47A1 !important;
+    color: #1565C0 !important;
     letter-spacing: 0.02em !important;
 }
 
@@ -46,33 +46,33 @@ body.theme-komik .hero-role,
 body.theme-komik .hero-location {
     font-family: 'JetBrains Mono', monospace !important;
     font-weight: 800 !important;
-    color: #111111 !important;
+    color: #23272F !important;
     letter-spacing: 0.02em !important;
 }
 
-/* ── Typewriter & Caret: Bold Comic Red ── */
+/* ── Typewriter & Caret: Bold Action Red ── */
 body.theme-komik .typewriter-wrap {
     font-family: 'JetBrains Mono', monospace !important;
     font-weight: 800 !important;
     font-size: 1.05rem !important;
-    color: #C61118 !important;
+    color: #D32F2F !important;
     min-height: 1.5em !important;
 }
 
 body.theme-komik .caret {
-    color: #C61118 !important;
+    color: #D32F2F !important;
     font-weight: 900 !important;
 }
 
 /* ── Hero Descriptor Pill / Banner ── */
 body.theme-komik .hero-desc {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 700 !important;
-    background: #FFE500 !important;
-    padding: 6px 12px !important;
+    background: #FFC700 !important;
+    padding: 6px 14px !important;
     display: inline-block !important;
-    border: 2px solid #111111 !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
     font-size: 0.95rem !important;
     line-height: 1.6 !important;
     margin-top: 12px !important;
@@ -84,14 +84,14 @@ body.theme-komik .section-title {
     font-family: 'Bangers', cursive !important;
     font-weight: 400 !important;
     font-size: clamp(2.2rem, 6vw, 3.8rem) !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    background: #FFE500 !important;
-    padding: 6px 20px !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FFC700 !important;
+    padding: 6px 22px !important;
+    border: 2.5px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
     display: inline-block !important;
     line-height: 1.1 !important;
 }
@@ -102,26 +102,31 @@ body.theme-komik .section-title::after {
 
 /* ── Section Subtitles & Labels ── */
 body.theme-komik .section-subtitle,
-body.theme-komik .section-desc,
-body.theme-komik .label-xs {
-    color: #111111 !important;
-    font-weight: 800 !important;
+body.theme-komik .section-sub,
+body.theme-komik .section-desc {
+    color: #3E4551 !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
 }
 
 body.theme-komik .label-xs {
-    color: #0D47A1 !important;
-    font-size: 0.75rem !important;
+    color: #1565C0 !important;
+    font-size: 0.78rem !important;
+    font-weight: 900 !important;
     letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
 }
 
-/* ── Headings ── */
+/* ── Headings: Bangers font, solid ink ── */
 body.theme-komik h1,
 body.theme-komik h2,
-body.theme-komik h3 {
+body.theme-komik h3,
+body.theme-komik .demo-card h3,
+body.theme-komik .drawer-title {
     font-family: 'Bangers', cursive !important;
     font-weight: 400 !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
     letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
 }
@@ -131,78 +136,77 @@ body.theme-komik h5,
 body.theme-komik h6 {
     font-family: 'Space Grotesk', sans-serif !important;
     font-weight: 800 !important;
-    color: #111111 !important;
+    color: #23272F !important;
     text-transform: uppercase !important;
 }
 
 /* ── Paragraphs, Lists & Body Text ── */
-body.theme-komik p,
-body.theme-komik li,
-body.theme-komik span:not(.star-filled):not(.star-half):not(.star-empty):not(.status-dot):not(.pulse-dot) {
-    color: #111111;
-}
-
 body.theme-komik p {
-    color: #1A1A1A !important;
+    color: #23272F !important;
     font-weight: 500 !important;
     line-height: 1.7 !important;
 }
 
+body.theme-komik li {
+    color: #23272F !important;
+    font-weight: 500 !important;
+}
+
 body.theme-komik .text-muted {
-    color: #222222 !important;
+    color: #3E4551 !important;
     font-weight: 500 !important;
 }
 
 body.theme-komik .text-dim {
-    color: #444444 !important;
+    color: #5C6473 !important;
     font-weight: 600 !important;
 }
 
-/* ── Card Labels: Yellow highlight badge ── */
+/* ── Card Labels: Golden Comic Highlight Badge ── */
 body.theme-komik .card-label {
-    color: #111111 !important;
-    background: #FFE500 !important;
-    border: 2px solid #111111 !important;
+    color: #23272F !important;
+    background: #FFC700 !important;
+    border: 2px solid #23272F !important;
     padding: 3px 10px !important;
     display: inline-block !important;
     font-weight: 900 !important;
     font-size: 0.78rem !important;
     letter-spacing: 0.08em !important;
-    box-shadow: 2px 2px 0 #111111 !important;
+    box-shadow: 2px 2px 0 #23272F !important;
     margin-bottom: 16px !important;
 }
 
-/* ── Links ── */
-body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]):not([class*="proj-link"]) {
-    color: #0D47A1 !important;
+/* ── Links: High contrast Cobalt Blue with Yellow hover ── */
+body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]):not([class*="proj-link"]):not([class*="spc"]):not([class*="social"]) {
+    color: #1565C0 !important;
     font-weight: 800 !important;
     text-decoration: underline !important;
     text-underline-offset: 3px !important;
     text-decoration-thickness: 2px !important;
 }
 
-body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]):not([class*="proj-link"]):hover {
-    background: #FFE500 !important;
-    color: #111111 !important;
+body.theme-komik a:not([class*="btn"]):not([class*="nav"]):not([class*="mbn"]):not([class*="proj-link"]):not([class*="spc"]):not([class*="social"]):hover {
+    background: #FFC700 !important;
+    color: #23272F !important;
     text-decoration: none !important;
     padding: 1px 4px !important;
-    outline: 2px solid #111111 !important;
+    outline: 1.5px solid #23272F !important;
 }
 
 /* ── Stats in About Section ── */
 body.theme-komik .stat-big {
     font-family: 'Bangers', cursive !important;
     font-size: 3rem !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
     line-height: 1 !important;
     letter-spacing: 0.05em !important;
 }
 
 body.theme-komik .stat-lbl {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
-    font-size: 0.78rem !important;
+    font-size: 0.8rem !important;
     letter-spacing: 0.08em !important;
 }
 
@@ -212,176 +216,182 @@ body.theme-komik .proj-title {
     font-weight: 400 !important;
     font-size: 1.55rem !important;
     letter-spacing: 0.06em !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
 }
 
 body.theme-komik .proj-desc {
-    color: #222222 !important;
-    font-weight: 600 !important;
+    color: #3E4551 !important;
+    font-weight: 500 !important;
     font-size: 0.88rem !important;
     line-height: 1.65 !important;
 }
 
 body.theme-komik .proj-live,
 body.theme-komik .proj-live a {
-    color: #0D47A1 !important;
+    color: #1565C0 !important;
     font-weight: 800 !important;
 }
 
 /* ── Focus list & Availability ── */
 body.theme-komik .focus-item {
-    background: #FFFDF6 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FCFAF5 !important;
+    color: #23272F !important;
+    border: 2px solid #23272F !important;
     font-weight: 700 !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }
 
 body.theme-komik .avail-text,
 body.theme-komik .avail-loc,
 body.theme-komik .avail-loc span,
 body.theme-komik .avail-loc i {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 700 !important;
 }
 
 body.theme-komik .avail-email-link {
-    color: #0D47A1 !important;
+    color: #1565C0 !important;
     font-weight: 800 !important;
     text-decoration: underline !important;
 }
 
 /* ── Fun Facts ── */
 body.theme-komik .fun-facts-section {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
 }
 
 body.theme-komik .fun-facts-section .card-label {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 2px solid #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .fun-fact-item {
-    background: #F5EEDB !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #F4EFE6 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     font-weight: 600 !important;
-    box-shadow: 2px 2px 0 #111111 !important;
+    box-shadow: 2px 2px 0 #23272F !important;
 }
 
 /* ── Working on / WIP section ── */
 body.theme-komik .working-on-header {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
     font-size: 0.8rem !important;
 }
 
 body.theme-komik .wip-title {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
     font-size: 0.9rem !important;
 }
 
 body.theme-komik .wip-desc {
-    color: #333333 !important;
+    color: #3E4551 !important;
     font-weight: 600 !important;
 }
 
 /* ── Education Timeline ── */
-body.theme-komik .tl-title {
+body.theme-komik .tl-title,
+body.theme-komik .tl-degree {
     font-family: 'Bangers', cursive !important;
-    font-size: 1.4rem !important;
+    font-size: 1.45rem !important;
     letter-spacing: 0.05em !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
+    color: #23272F !important;
+    -webkit-text-fill-color: #23272F !important;
 }
 
 body.theme-komik .tl-school {
-    color: #0D47A1 !important;
+    color: #1565C0 !important;
     font-weight: 800 !important;
     font-size: 0.95rem !important;
 }
 
 body.theme-komik .tl-date {
-    color: #444444 !important;
+    color: #5C6473 !important;
     font-weight: 800 !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 0.8rem !important;
 }
 
 body.theme-komik .tl-desc {
-    color: #222222 !important;
+    color: #3E4551 !important;
     font-weight: 500 !important;
     line-height: 1.6 !important;
 }
 
 body.theme-komik .tl-badge {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     font-weight: 800 !important;
-    box-shadow: 2px 2px 0 #111111 !important;
+    box-shadow: 2px 2px 0 #23272F !important;
 }
 
 /* ── Twitter / X Feed Cards ── */
 body.theme-komik .x-post-card,
 body.theme-komik .x-post-wrap {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 4px 4px 0 #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0 #23272F !important;
 }
 
 body.theme-komik .x-name {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .x-handle,
 body.theme-komik .x-date {
-    color: #444444 !important;
+    color: #5C6473 !important;
     font-weight: 700 !important;
 }
 
 body.theme-komik .x-text {
-    color: #111111 !important;
-    font-weight: 600 !important;
+    color: #23272F !important;
+    font-weight: 500 !important;
     line-height: 1.6 !important;
 }
 
 body.theme-komik .x-action {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
 }
 
 body.theme-komik .x-action:hover {
-    color: #D50000 !important;
+    color: #D32F2F !important;
 }
 
 /* ── Arsenal / Tech Stack text ── */
-body.theme-komik .tech-name {
-    color: #111111 !important;
+body.theme-komik .tech-name,
+body.theme-komik .domain-title,
+body.theme-komik .aws-arch-title,
+body.theme-komik .aws-svc-title,
+body.theme-komik .cert-name {
+    color: #23272F !important;
     font-weight: 900 !important;
     font-size: 0.95rem !important;
 }
 
-body.theme-komik .tech-category {
-    color: #0D47A1 !important;
+body.theme-komik .tech-category,
+body.theme-komik .domain-badge {
+    color: #1565C0 !important;
     font-weight: 800 !important;
     font-size: 0.72rem !important;
     letter-spacing: 0.05em !important;
 }
 
 body.theme-komik .tech-desc {
-    color: #333333 !important;
+    color: #3E4551 !important;
     font-weight: 500 !important;
 }
 
 body.theme-komik .tech-level {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
 }

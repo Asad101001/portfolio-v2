@@ -1,89 +1,106 @@
 /* ── KOMIK Widgets ── */
-/* Maximum readability, high-contrast text and solid borders */
+/* Maximum readability, balanced 2px ink borders, classic comic paneling */
 
-/* ── Spotify & Last.fm Panels ── */
+/* ── Spotify, Last.fm, Letterboxd Panels ── */
 body.theme-komik .spotify-widget,
 body.theme-komik .lastfm-widget,
 body.theme-komik .letterboxd-widget {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
     border-radius: 0px !important;
-    color: #111111 !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .spotify-widget {
-    border-left: 10px solid #1B5E20 !important;
+    border-left: 8px solid #2E7D32 !important;
 }
 
 body.theme-komik .lastfm-widget {
-    border-left: 10px solid #D50000 !important;
+    border-left: 8px solid #D32F2F !important;
+}
+
+/* Headers */
+body.theme-komik .spotify-widget-header,
+body.theme-komik .lastfm-widget-header {
+    color: #23272F !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.08em !important;
+    border-bottom: 1.5px solid rgba(35, 39, 47, 0.1) !important;
+}
+
+body.theme-komik .lastfm-user {
+    color: #5C6473 !important;
+    font-weight: 700 !important;
 }
 
 /* Track Titles & Artists */
 body.theme-komik .spotify-title,
 body.theme-komik .lastfm-track-name,
-body.theme-komik .track-name {
-    color: #111111 !important;
+body.theme-komik .track-name,
+body.theme-komik .spotify-title-expanded {
+    color: #23272F !important;
     font-weight: 900 !important;
     font-size: 0.95rem !important;
 }
 
 body.theme-komik .spotify-artist,
 body.theme-komik .lastfm-track-artist,
-body.theme-komik .track-artist {
-    color: #333333 !important;
+body.theme-komik .track-artist,
+body.theme-komik .spotify-artist-expanded {
+    color: #3E4551 !important;
     font-weight: 700 !important;
     font-size: 0.85rem !important;
 }
 
 body.theme-komik .spotify-album,
 body.theme-komik .track-album,
-body.theme-komik .track-time {
-    color: #444444 !important;
+body.theme-komik .track-time,
+body.theme-komik .spotify-times-expanded {
+    color: #5C6473 !important;
     font-weight: 700 !important;
 }
 
 body.theme-komik .spotify-play-btn {
-    background: #1B5E20 !important;
+    background: #2E7D32 !important;
     color: #FFFFFF !important;
-    border: 2px solid #111111 !important;
+    border: 2px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }
 
 body.theme-komik .spotify-controls-icon {
-    color: #111111 !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .spotify-bar-wrap,
 body.theme-komik .spotify-bar-expanded {
-    background: #E8DCC4 !important;
-    border: 2px solid #111111 !important;
+    background: #EBE3D3 !important;
+    border: 1.5px solid #23272F !important;
 }
 
 body.theme-komik .spotify-bar-fill,
 body.theme-komik .spotify-bar-fill-expanded {
-    background: #1B5E20 !important;
+    background: #2E7D32 !important;
 }
 
 /* ── Clock Widget: Comic Yellow Banner ── */
 body.theme-komik .clock-widget {
-    background: #FFE500 !important;
-    border: 3px solid #111111 !important;
-    border-right: 10px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FFC700 !important;
+    border: 2px solid #23272F !important;
+    border-right: 8px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
     border-radius: 0px !important;
-    color: #111111 !important;
+    color: #23272F !important;
 }
 
 body.theme-komik #clock-hour-text {
-    fill: #111111 !important;
+    fill: #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .clock-prime-time {
-    color: #111111 !important;
+    color: #23272F !important;
     font-family: 'Bangers', cursive !important;
     font-weight: 400 !important;
     letter-spacing: 0.08em !important;
@@ -93,97 +110,101 @@ body.theme-komik .clock-prime-time {
 body.theme-komik .clock-sub,
 body.theme-komik .clock-time-label,
 body.theme-komik .clock-tz {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 800 !important;
 }
 
 /* ── GitHub Activity Widget ── */
 body.theme-komik .github-widget {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    border-bottom: 10px solid #111111 !important;
-    box-shadow: 5px 5px 0px #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    border-bottom: 8px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
     border-radius: 0px !important;
-    color: #111111 !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .github-stat-num {
-    color: #111111 !important;
+    color: #23272F !important;
     font-family: 'Bangers', cursive !important;
     font-size: 1.8rem !important;
 }
 
 body.theme-komik .github-stat-label {
-    color: #333333 !important;
+    color: #3E4551 !important;
     font-weight: 800 !important;
 }
 
 body.theme-komik .commit-day {
-    border: 1px solid rgba(0,0,0,0.3) !important;
+    border: 1px solid rgba(35, 39, 47, 0.25) !important;
 }
 
 body.theme-komik .commit-day[data-count="0"] {
-    background: #E8DCC4 !important;
+    background: #EBE3D3 !important;
 }
-body.theme-komik .commit-day[data-count="1"] { background: #81C784 !important; border-color: #388E3C !important; }
-body.theme-komik .commit-day[data-count="2"] { background: #4CAF50 !important; border-color: #2E7D32 !important; }
+body.theme-komik .commit-day[data-count="1"] { background: #A5D6A7 !important; border-color: #388E3C !important; }
+body.theme-komik .commit-day[data-count="2"] { background: #66BB6A !important; border-color: #2E7D32 !important; }
 body.theme-komik .commit-day[data-count="3"] { background: #2E7D32 !important; border-color: #1B5E20 !important; }
 body.theme-komik .commit-day[data-count="4"] { background: #1B5E20 !important; border-color: #0D3310 !important; }
 
 body.theme-komik .commit-day-tooltip {
-    background: #111111 !important;
-    color: #FFE500 !important;
-    border: 2px solid #FFE500 !important;
+    background: #23272F !important;
+    color: #FFC700 !important;
+    border: 1.5px solid #FFC700 !important;
     font-weight: 800 !important;
-    box-shadow: 3px 3px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
 }
 
-/* ── Currently Into / Rotating Widget ── */
+/* ── Currently Into / Activity Hub Rotating Widget ── */
 body.theme-komik .currently-into-item,
 body.theme-komik .rotating-item {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
-    box-shadow: 4px 4px 0px #111111 !important;
-    color: #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .currently-into-label,
 body.theme-komik .rotating-label {
-    color: #0D47A1 !important;
+    color: #1565C0 !important;
     font-weight: 900 !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 0.72rem !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.1em !important;
 }
 
 body.theme-komik .currently-into-value,
-body.theme-komik .rotating-value {
-    color: #111111 !important;
+body.theme-komik .rotating-value,
+body.theme-komik #barca-score-static,
+body.theme-komik #tv-tracking-title,
+body.theme-komik #reading-title,
+body.theme-komik #movie-title {
+    color: #23272F !important;
     font-weight: 800 !important;
     font-size: 1.05rem !important;
     text-shadow: none !important;
 }
 
 body.theme-komik .movie-timeline-label {
-    color: #444444 !important;
+    color: #5C6473 !important;
     font-weight: 700 !important;
 }
 
 /* ── Barca Scorecard Widget ── */
 body.theme-komik .barca-scorecard-wrap {
-    background: #FFFDF6 !important;
-    border: 2px solid #111111 !important;
-    color: #111111 !important;
+    background: #FCFAF5 !important;
+    border: 1.5px solid #23272F !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .barca-team-name,
 body.theme-komik .barca-opp-name {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .barca-score-num {
-    color: #111111 !important;
+    color: #23272F !important;
     font-family: 'Bangers', cursive !important;
     font-size: 1.5rem !important;
 }
@@ -191,40 +212,40 @@ body.theme-komik .barca-score-num {
 body.theme-komik .barca-scorers,
 body.theme-komik .barca-match-date,
 body.theme-komik .barca-competition {
-    color: #333333 !important;
+    color: #3E4551 !important;
     font-weight: 700 !important;
 }
 
 body.theme-komik .barca-status-badge {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 1px solid #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1px solid #23272F !important;
     font-weight: 900 !important;
 }
 
 /* ── Movie Cards ── */
 body.theme-komik .movie-card {
-    background: #FFFDF6 !important;
-    border: 3px solid #111111 !important;
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 4px 4px 0px #111111 !important;
-    color: #111111 !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    color: #23272F !important;
 }
 
 body.theme-komik .movie-title {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .movie-year,
 body.theme-komik .movie-meta {
-    color: #444444 !important;
+    color: #5C6473 !important;
     font-weight: 700 !important;
 }
 
-/* ── XP & WIP Bars ── */
+/* ── XP & WIP Progress Bars ── */
 body.theme-komik .xp-label {
-    color: #111111 !important;
+    color: #23272F !important;
     font-weight: 900 !important;
     font-family: 'Bangers', cursive !important;
     letter-spacing: 0.08em !important;
@@ -232,30 +253,30 @@ body.theme-komik .xp-label {
 }
 
 body.theme-komik .xp-level {
-    background: #FFE500 !important;
-    color: #111111 !important;
-    border: 2px solid #111111 !important;
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
-    box-shadow: 2px 2px 0px #111111 !important;
+    box-shadow: 2px 2px 0px #23272F !important;
     font-weight: 900 !important;
 }
 
 body.theme-komik .xp-bar-wrap,
 body.theme-komik .wip-bar-wrap {
-    border: 2px solid #111111 !important;
-    background: #E8DCC4 !important;
-    height: 14px !important;
+    border: 1.5px solid #23272F !important;
+    background: #EBE3D3 !important;
+    height: 12px !important;
     border-radius: 0px !important;
 }
 
 body.theme-komik .xp-bar-fill {
-    background: #D50000 !important;
+    background: #D32F2F !important;
     box-shadow: none !important;
-    border-right: 2px solid #111111 !important;
+    border-right: 1.5px solid #23272F !important;
 }
 
 body.theme-komik .wip-bar {
-    background: #0D47A1 !important;
+    background: #1565C0 !important;
     box-shadow: none !important;
-    border-right: 2px solid #111111 !important;
+    border-right: 1.5px solid #23272F !important;
 }
