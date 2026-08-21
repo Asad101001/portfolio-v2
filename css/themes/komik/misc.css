@@ -1,0 +1,275 @@
+/* ── KOMIK Misc ── */
+/* Footer, scrollbar, terminal, certs, halftone decorations, easter eggs */
+
+/* ── Footer: "MEANWHILE..." comic caption ── */
+body.theme-komik .main-footer {
+    background: var(--komik-ink) !important;
+    border-top: 6px solid var(--komik-yellow) !important;
+    color: var(--komik-paper) !important;
+    padding: 60px 20px !important;
+    position: relative;
+}
+
+body.theme-komik .main-footer::before {
+    content: 'MEANWHILE... SOMEWHERE IN KARACHI 🇵🇰';
+    display: block;
+    font-family: 'Bangers', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--komik-yellow);
+    background: var(--komik-ink);
+    border: 3px solid var(--komik-yellow);
+    box-shadow: 4px 4px 0px var(--komik-yellow);
+    padding: 8px 20px;
+    margin-bottom: 32px;
+    display: inline-block;
+}
+
+body.theme-komik .footer-micro-meta,
+body.theme-komik .main-footer p,
+body.theme-komik .main-footer span {
+    color: var(--komik-paper) !important;
+}
+
+/* ── Decorative Blocks (footer) ── */
+body.theme-komik .block {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-yellow) !important;
+    box-shadow: 3px 3px 0px var(--komik-yellow) !important;
+}
+
+body.theme-komik .block.b1 { background: var(--komik-yellow) !important; }
+body.theme-komik .block.b2 { background: var(--komik-red) !important; }
+body.theme-komik .block.b3 { background: var(--komik-blue) !important; }
+
+/* ── Scrollbar: Comic yellow/black ── */
+body.theme-komik::-webkit-scrollbar {
+    width: 12px !important;
+}
+
+body.theme-komik::-webkit-scrollbar-track {
+    background: var(--komik-paper) !important;
+    border-left: 3px solid var(--komik-ink) !important;
+}
+
+body.theme-komik::-webkit-scrollbar-thumb {
+    background: var(--komik-yellow) !important;
+    border: 2px solid var(--komik-ink) !important;
+}
+
+body.theme-komik::-webkit-scrollbar-thumb:hover {
+    background: var(--komik-red) !important;
+}
+
+/* ── Terminal: Comic "Computer Panel" style ── */
+body.theme-komik .hero-side,
+body.theme-komik .terminal-body {
+    background: #1A1A1A !important;
+    border: 4px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    color: var(--komik-yellow) !important;
+    box-shadow: 8px 8px 0px var(--komik-yellow) !important;
+}
+
+body.theme-komik .terminal-bar {
+    background: var(--komik-yellow) !important;
+    border-bottom: 3px solid var(--komik-ink) !important;
+}
+
+body.theme-komik .t-dot {
+    border: 1px solid var(--komik-ink) !important;
+    opacity: 1 !important;
+}
+
+body.theme-komik .t-dot.t-red { background: #FF1744 !important; }
+body.theme-komik .t-dot.t-yellow { background: #FFDE00 !important; }
+body.theme-komik .t-dot.t-green { background: #00C851 !important; }
+
+body.theme-komik .t-prompt {
+    color: var(--komik-yellow) !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .t-cmd { color: #FFFFFF !important; }
+body.theme-komik .t-out {
+    color: #A5D8A5 !important;
+    word-break: break-word !important;
+    white-space: pre-wrap !important;
+}
+
+body.theme-komik .t-cursor {
+    background: var(--komik-yellow) !important;
+}
+
+/* ── Certs Drawer: Comic book archive style ── */
+body.theme-komik #certs-panel {
+    background: var(--komik-paper) !important;
+    border-left: 12px solid var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+}
+
+body.theme-komik #certs-backdrop {
+    background: rgba(26, 26, 26, 0.85) !important;
+}
+
+body.theme-komik #certs-close {
+    background: var(--komik-red) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 0.1em !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .drawer-title {
+    font-family: 'Bangers', cursive !important;
+    font-size: 2.5rem !important;
+    color: var(--komik-ink) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.1em !important;
+    border-bottom: 6px solid var(--komik-yellow) !important;
+    display: inline-block !important;
+    margin-bottom: 30px !important;
+}
+
+body.theme-komik .cert-card {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .cert-card:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 7px 7px 0px var(--komik-yellow) !important;
+}
+
+body.theme-komik .cert-title {
+    color: var(--komik-ink) !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .cert-issuer {
+    color: var(--komik-blue) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .cert-skill {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    border-radius: 0px !important;
+    border: 1px solid var(--komik-ink) !important;
+}
+
+body.theme-komik .cert-badge.completed {
+    background: var(--komik-green) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    font-weight: 900 !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .cert-badge.inprogress {
+    background: var(--komik-red) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    font-weight: 900 !important;
+    border-radius: 0px !important;
+}
+
+/* ── Timeline dots ── */
+body.theme-komik .tl-dot {
+    border: 4px solid var(--komik-ink) !important;
+    background: var(--komik-yellow) !important;
+    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .timeline-item::before {
+    background: var(--komik-ink) !important;
+    width: 3px !important;
+}
+
+/* ── Star ratings ── */
+body.theme-komik .star-filled,
+body.theme-komik .star-half {
+    color: var(--komik-red) !important;
+}
+
+body.theme-komik .star-empty {
+    color: rgba(26, 26, 26, 0.25) !important;
+}
+
+/* ── Hero section comic panel frame ── */
+body.theme-komik .hero-section,
+body.theme-komik .hero-main {
+    background: var(--komik-paper) !important;
+}
+
+/* ── POW! action callout on hover of CTA button ── */
+body.theme-komik .btn-view-resume:hover::before,
+body.theme-komik .btn-cta:hover::before {
+    content: '💥 POW!';
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--komik-red);
+    pointer-events: none;
+    animation: komik-pow 0.5s ease forwards;
+}
+
+@keyframes komik-pow {
+    0%   { opacity: 0; transform: translateX(-50%) scale(0.5) rotate(-10deg); }
+    60%  { opacity: 1; transform: translateX(-50%) scale(1.2) rotate(5deg); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+}
+
+/* ── Komik panel borders on section headings ── */
+body.theme-komik [class*="widget"] > [class*="title"],
+body.theme-komik [class*="widget"] > h3,
+body.theme-komik [class*="widget"] > header {
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.3rem !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    color: var(--komik-ink) !important;
+    border-bottom: 3px solid var(--komik-ink) !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 12px !important;
+}
+
+/* ── Pakistan flag green accent on "OPEN TO COLLABS" ── */
+body.theme-komik .status-dot {
+    background: #01411C !important;
+    box-shadow: 0 0 0 2px rgba(1, 65, 28, 0.3) !important;
+}
+
+/* ── Hero badge easter egg: DUNE WAITING ROOM ── */
+body.theme-komik .hero-badge {
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 0.1em !important;
+    background: var(--komik-blue) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+/* ── ZINE stamp in bottom-right of page ── */
+body.theme-komik #loading-screen {
+    background: var(--komik-yellow) !important;
+}
+
+/* ── Tag pills in about/arsenal sections ── */
+body.theme-komik .tag,
+body.theme-komik .cert-thumb,
+body.theme-komik .lastfm-track-art {
+    background: transparent !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+}

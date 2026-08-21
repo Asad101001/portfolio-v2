@@ -1,0 +1,181 @@
+/* ── KOMIK Widgets ── */
+/* Widgets styled as comic panels with thick ink borders */
+
+/* ── Spotify: "NOW PLAYING" panel ── */
+body.theme-komik .spotify-widget {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-left: 10px solid var(--komik-green) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--komik-ink) !important;
+}
+
+/* ── Last.fm: Music history panel ── */
+body.theme-komik .lastfm-widget {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-left: 10px solid #D51007 !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--komik-ink) !important;
+}
+
+/* ── GitHub: Code activity panel ── */
+body.theme-komik .github-widget {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-bottom: 10px solid var(--komik-ink) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--komik-ink) !important;
+}
+
+/* ── Clock Widget ── */
+body.theme-komik .clock-widget {
+    background: var(--komik-yellow) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-right: 10px solid var(--komik-ink) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--komik-ink) !important;
+}
+
+body.theme-komik #clock-hour-text {
+    fill: var(--komik-ink) !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .clock-prime-time {
+    color: var(--komik-ink) !important;
+    font-family: 'Bangers', cursive !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.1em !important;
+}
+
+body.theme-komik .clock-sub {
+    color: var(--komik-ink) !important;
+    font-weight: 700 !important;
+}
+
+/* ── Letterboxd Widget ── */
+body.theme-komik .letterboxd-widget {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    color: var(--komik-ink) !important;
+}
+
+/* ── Spotify Controls ── */
+body.theme-komik .spotify-title,
+body.theme-komik .lastfm-track-name {
+    color: var(--komik-ink) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .spotify-artist,
+body.theme-komik .lastfm-track-artist {
+    color: var(--text-dim) !important;
+    font-weight: 600 !important;
+}
+
+body.theme-komik .spotify-play-btn {
+    background: var(--komik-green) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .spotify-controls-icon {
+    color: var(--komik-ink) !important;
+}
+
+body.theme-komik .spotify-bar-wrap,
+body.theme-komik .spotify-bar-expanded {
+    background: #E8DCC4 !important;
+    border: 1px solid var(--komik-ink) !important;
+}
+
+body.theme-komik .spotify-bar-fill,
+body.theme-komik .spotify-bar-fill-expanded {
+    background: var(--komik-green) !important;
+}
+
+/* ── XP Widget ── */
+body.theme-komik .xp-label {
+    color: var(--komik-ink) !important;
+    font-weight: 800 !important;
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 0.1em !important;
+}
+
+body.theme-komik .xp-level {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .xp-bar-wrap {
+    border: 3px solid var(--komik-ink) !important;
+    background: #E8DCC4 !important;
+    height: 14px !important;
+}
+
+body.theme-komik .xp-bar-fill {
+    background: var(--komik-red) !important;
+    box-shadow: none !important;
+    border-right: 2px solid var(--komik-ink) !important;
+}
+
+/* ── WIP bars ── */
+body.theme-komik .wip-bar-wrap {
+    border: 3px solid var(--komik-ink) !important;
+    background: #E8DCC4 !important;
+    height: 14px !important;
+}
+
+body.theme-komik .wip-bar {
+    background: var(--komik-blue) !important;
+    box-shadow: none !important;
+    border-right: 2px solid var(--komik-ink) !important;
+}
+
+/* ── GitHub Commit Heatmap ── */
+body.theme-komik .commit-day {
+    border: 1px solid rgba(0,0,0,0.2) !important;
+}
+
+body.theme-komik .commit-day[data-count="0"] {
+    background: #E8DCC4 !important;
+}
+
+body.theme-komik .commit-day[data-count="1"] { background: #c6f6d5 !important; border-color: #68d391 !important; }
+body.theme-komik .commit-day[data-count="2"] { background: #48bb78 !important; border-color: #38a169 !important; }
+body.theme-komik .commit-day[data-count="3"] { background: #22c55e !important; border-color: #16a34a !important; }
+body.theme-komik .commit-day[data-count="4"] { background: #15803d !important; border-color: #14532d !important; }
+
+body.theme-komik .commit-day-tooltip {
+    background: var(--komik-ink) !important;
+    color: var(--komik-yellow) !important;
+    border: 2px solid var(--komik-yellow) !important;
+    font-weight: 700 !important;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px var(--komik-yellow) !important;
+}
+
+/* ── Movie/Media widgets ── */
+body.theme-komik .movie-card {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .movie-card:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 7px 7px 0px var(--komik-red) !important;
+}

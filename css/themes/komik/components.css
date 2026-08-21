@@ -1,0 +1,268 @@
+/* ── KOMIK Components ── */
+/* Comic-style cards, buttons, nav, status pills */
+
+/* ── Cards: Ink-outlined newsprint panels ── */
+body.theme-komik .glass-card,
+body.theme-komik .proj-card,
+body.theme-komik .stat-card,
+body.theme-komik .wip-card {
+    background: var(--komik-paper) !important;
+    border: 3px solid var(--komik-ink) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 0px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    position: relative;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
+}
+
+/* Comic hatching texture on cards */
+body.theme-komik .glass-card::before,
+body.theme-komik .proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--komik-yellow);
+    z-index: 1;
+}
+
+body.theme-komik .glass-card:hover,
+body.theme-komik .proj-card:hover {
+    transform: translate(-4px, -4px) !important;
+    box-shadow: 9px 9px 0px var(--komik-red) !important;
+}
+
+/* ── Project card accent band ── */
+body.theme-komik .proj-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--komik-blue);
+    border-top: 2px solid var(--komik-ink);
+}
+
+/* ── Navigation: Comic strip navbar ── */
+body.theme-komik nav,
+body.theme-komik .nav-inner {
+    background: var(--komik-yellow) !important;
+    border: none !important;
+    border-bottom: 4px solid var(--komik-ink) !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 4px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .nav-link {
+    color: var(--komik-ink) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.1rem !important;
+    letter-spacing: 0.1em !important;
+}
+
+body.theme-komik .nav-link:hover {
+    color: var(--komik-paper) !important;
+    background: var(--komik-ink) !important;
+    transform: skew(-4deg) !important;
+}
+
+/* ── Theme trigger in nav ── */
+body.theme-komik .theme-trigger {
+    font-family: 'Bangers', cursive !important;
+    background: var(--komik-red) !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+    padding: 2px 10px !important;
+    font-weight: 400 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.1em !important;
+    border: 2px solid var(--komik-ink) !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+/* ── Buttons ── */
+body.theme-komik .btn,
+body.theme-komik button,
+body.theme-komik [class*="btn"] {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px var(--komik-ink) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+body.theme-komik .btn:hover,
+body.theme-komik button:hover,
+body.theme-komik [class*="btn"]:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 5px 5px 0px var(--komik-ink) !important;
+}
+
+/* ── Status Pills: Comic badges ── */
+body.theme-komik .status-pill {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    border: 2px solid var(--komik-ink) !important;
+    font-weight: 800 !important;
+    border-radius: 0px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-komik .status-offline {
+    background: var(--komik-red) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .tag-pill {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    font-weight: 800 !important;
+}
+
+/* ── Section dots: Comic panel indicators ── */
+body.theme-komik .section-dot,
+body.theme-komik .r-dot {
+    width: 24px !important;
+    height: 24px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body.theme-komik .section-dot::before,
+body.theme-komik .r-dot::before {
+    content: '' !important;
+    width: 10px !important;
+    height: 10px !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    background: var(--komik-paper) !important;
+}
+
+body.theme-komik .section-dot.active::before,
+body.theme-komik .r-dot.active::before {
+    background: var(--komik-yellow) !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+/* ── Mobile bottom nav ── */
+body.theme-komik .mobile-bottom-nav {
+    background: var(--komik-yellow) !important;
+    border: 3px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 0 -4px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .mbn-item {
+    color: var(--komik-ink) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.08em !important;
+    border-radius: 0 !important;
+}
+
+body.theme-komik .mbn-item:hover,
+body.theme-komik .mbn-item.active {
+    color: var(--komik-paper) !important;
+    background: var(--komik-ink) !important;
+}
+
+body.theme-komik .mbn-item.active::before {
+    background: var(--komik-red) !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+body.theme-komik .mbn-cta {
+    background: var(--komik-red) !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0 !important;
+    color: #FFFFFF !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+/* ── Acard tech stack pills ── */
+body.theme-komik .acard {
+    background: var(--komik-paper) !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+}
+
+body.theme-komik .acard:hover {
+    background: var(--komik-yellow) !important;
+    transform: translate(-1px, -1px) !important;
+}
+
+/* ── Speech bubble for komik easter egg ── */
+body.theme-komik .hero-name-wrap:hover::after {
+    content: '✊ DUNE STAN SPOTTED';
+    position: absolute;
+    top: -45px;
+    left: 0;
+    background: var(--komik-yellow);
+    border: 3px solid var(--komik-ink);
+    box-shadow: 3px 3px 0px var(--komik-ink);
+    padding: 6px 12px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--komik-ink);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+}
+
+body.theme-komik .hero-name-wrap {
+    position: relative !important;
+}
+
+/* ── Project link buttons ── */
+body.theme-komik .proj-link-demo {
+    background: var(--komik-red) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .proj-link-code {
+    background: var(--komik-blue) !important;
+    color: #FFFFFF !important;
+    border: 2px solid var(--komik-ink) !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px var(--komik-ink) !important;
+    font-weight: 800 !important;
+}
+
+/* ── Action panel labels on project cards ── */
+body.theme-komik .proj-live {
+    font-family: 'Bangers', cursive !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.08em !important;
+    color: var(--komik-red) !important;
+    font-weight: 400 !important;
+}

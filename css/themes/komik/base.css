@@ -1,0 +1,90 @@
+/* ── KOMIK Base ── */
+/* Body, background halftone, torn sections, cursor */
+
+body.theme-komik,
+body.theme-komik section,
+body.theme-komik main {
+    background: var(--komik-paper) !important;
+    background-image: none !important;
+    color: var(--komik-ink) !important;
+}
+
+/* Halftone dot background pattern on body */
+body.theme-komik::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(circle, rgba(0,0,0,0.08) 1.5px, transparent 1.5px);
+    background-size: 16px 16px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+}
+
+/* Comics cursor */
+body.theme-komik {
+    cursor: crosshair;
+}
+
+/* Remove CRT scanlines */
+body.theme-komik::after {
+    display: none !important;
+}
+
+/* Remove backdrop blurs & mists */
+body.theme-komik .hero-backdrop-overlay,
+body.theme-komik .hero-bg-img {
+    opacity: 0.08 !important;
+    filter: grayscale(100%) contrast(1.5) !important;
+}
+
+/* Glass cards become solid newsprint cards */
+body.theme-komik .glass-card,
+body.theme-komik .proj-card,
+body.theme-komik .nav-inner,
+body.theme-komik .stat-card,
+body.theme-komik .wip-card {
+    background: var(--komik-paper) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 3px solid var(--komik-ink) !important;
+}
+
+/* Alternating section color: comic blue-tint panels */
+body.theme-komik section:nth-of-type(even) {
+    background: #F0EBD8 !important;
+}
+
+/* ── Torn paper section divider ── */
+body.theme-komik section {
+    position: relative;
+}
+
+/* ── Action bang splash overlay ── */
+body.theme-komik .hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: var(--komik-yellow);
+    clip-path: polygon(0 100%, 0 0, 2% 60%, 5% 0, 8% 70%, 11% 0, 14% 65%, 17% 0, 20% 55%, 23% 0, 26% 70%, 29% 0, 32% 60%, 35% 0, 38% 65%, 41% 0, 44% 70%, 47% 0, 50% 60%, 53% 0, 56% 70%, 59% 0, 62% 65%, 65% 0, 68% 60%, 71% 0, 74% 70%, 77% 0, 80% 65%, 83% 0, 86% 60%, 89% 0, 92% 70%, 95% 0, 98% 65%, 100% 0, 100% 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ── Remove all automatic backdrop filters globally ── */
+body.theme-komik *,
+body.theme-komik *::before,
+body.theme-komik *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* ── Selection: Yellow highlighter ── */
+body.theme-komik ::selection {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+}

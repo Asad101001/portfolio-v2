@@ -1,43 +1,94 @@
 /* ── Glass Card ───────────────────────────────────────────── */
 .glass-card {
-  /* Dynamic multi-stop gradient creating a glossy translucent frosted glass finish */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(20, 24, 35, 0.55) 45%, rgba(10, 14, 22, 0.75) 100%);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  
-  /* Specular stack: top specular sheen, subtle inner glow, depth shadow */
-  box-shadow: 
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06), 
-    inset 0 24px 48px rgba(255, 255, 255, 0.03), 
-    0 12px 36px 0 rgba(0, 0, 0, 0.5), 
-    0 2px 8px 0 rgba(0, 0, 0, 0.3);
+  /* Rich layered frosted glass */
+  background: 
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.04) 30%,
+      rgba(20, 24, 35, 0.60) 60%,
+      rgba(10, 14, 22, 0.80) 100%
+    );
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.30); /* Specular top edge */
+
+  /* Deep specular shadow stack */
+  box-shadow:
+    /* Top specular sheen */
+    inset 0 1px 0px 0 rgba(255, 255, 255, 0.32),
+    /* Inner rim glow */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    /* Soft inner wash */
+    inset 0 30px 60px rgba(255, 255, 255, 0.04),
+    /* Bottom depth shadow */
+    0 16px 48px 0 rgba(0, 0, 0, 0.55),
+    0 4px 12px 0 rgba(0, 0, 0, 0.35);
 
   border-radius: var(--radius, 12px);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease;
-  position: relative; overflow: hidden; contain: layout style;
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  contain: layout style;
 }
 
+/* Animated specular spotlight on hover */
 .glass-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--spotlight-gradient, radial-gradient(450px circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.09), transparent 45%));
-  opacity: 0; transition: opacity 0.5s ease;
-  pointer-events: none; z-index: 0;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--spotlight-gradient,
+    radial-gradient(500px circle at var(--x, 50%) var(--y, 50%),
+      rgba(255,255,255,0.12), transparent 50%));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Animated top specular sweep */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; right: auto;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  opacity: 0;
+  transition: left 0.6s ease, opacity 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .glass-card:hover::before { opacity: 1; }
-.glass-card .proj-body, .glass-card .proj-head, .glass-card .proj-img-wrap, .glass-card > * { position: relative; z-index: 1; }
-.glass-card::after { display: none; }
-
-.glass-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(45, 212, 191, 0.35);
-  box-shadow: 
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 
-    inset 0 0 0 1px rgba(45, 212, 191, 0.2), 
-    inset 0 24px 48px rgba(45, 212, 191, 0.06), 
-    0 20px 50px -10px rgba(45, 212, 191, 0.22), 
-    0 8px 24px rgba(0, 0, 0, 0.6);
+.glass-card:hover::after {
+  left: 140%;
+  opacity: 1;
 }
+
+.glass-card .proj-body,
+.glass-card .proj-head,
+.glass-card .proj-img-wrap,
+.glass-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Spring-bounce hover — pop up and glow */
+.glass-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(45, 212, 191, 0.40);
+  border-top-color: rgba(255, 255, 255, 0.50);
+  box-shadow:
+    inset 0 1px 0px 0 rgba(255, 255, 255, 0.50),
+    inset 0 0 0 1px rgba(45, 212, 191, 0.18),
+    inset 0 30px 60px rgba(45, 212, 191, 0.05),
+    0 28px 64px -8px rgba(45, 212, 191, 0.28),
+    0 10px 30px rgba(0, 0, 0, 0.65);
+}
+

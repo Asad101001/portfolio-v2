@@ -1,0 +1,125 @@
+/* ── KOMIK Typography ── */
+/* Comic-style headings using Bangers font */
+
+/* Import Bangers for comic heading impact */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap');
+
+/* ── Hero Name: MASSIVE comic impact ── */
+body.theme-komik .hero-name {
+    font-family: 'Bangers', 'Impact', cursive !important;
+    font-weight: 400 !important;
+    font-size: clamp(3.5rem, 10vw, 7rem) !important;
+    color: var(--komik-ink) !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    filter: none !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    text-shadow:
+        3px 3px 0px var(--komik-yellow),
+        6px 6px 0px var(--komik-ink) !important;
+    line-height: 1 !important;
+}
+
+/* ── Hero descriptor ── */
+body.theme-komik .hero-desc {
+    color: var(--komik-ink) !important;
+    font-weight: 700 !important;
+    background: var(--komik-yellow) !important;
+    padding: 4px 10px !important;
+    display: inline-block !important;
+    border: 2px solid var(--komik-ink) !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    max-width: 600px !important;
+}
+
+/* ── Section Titles: Comic panel headers ── */
+body.theme-komik .section-title {
+    font-family: 'Bangers', cursive !important;
+    font-weight: 400 !important;
+    font-size: clamp(2rem, 6vw, 3.5rem) !important;
+    color: var(--komik-ink) !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    background: var(--komik-yellow) !important;
+    padding: 4px 16px !important;
+    border: 3px solid var(--komik-ink) !important;
+    box-shadow: 4px 4px 0px var(--komik-ink) !important;
+    display: inline-block !important;
+}
+
+body.theme-komik .section-title::after {
+    display: none !important;
+}
+
+/* ── All headings ── */
+body.theme-komik h1,
+body.theme-komik h2,
+body.theme-komik h3 {
+    font-family: 'Bangers', cursive !important;
+    font-weight: 400 !important;
+    color: var(--komik-ink) !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+}
+
+body.theme-komik h4,
+body.theme-komik h5,
+body.theme-komik h6 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 800 !important;
+    color: var(--komik-ink) !important;
+    text-transform: uppercase !important;
+}
+
+/* ── Body text ── */
+body.theme-komik p,
+body.theme-komik li,
+body.theme-komik label {
+    color: var(--komik-ink) !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+body.theme-komik small,
+body.theme-komik .text-dim,
+body.theme-komik .footer-micro-meta {
+    color: var(--text-dim) !important;
+}
+
+/* ── Links: Bold underline comic style ── */
+body.theme-komik a {
+    color: var(--komik-blue) !important;
+    font-weight: 800 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    text-decoration-thickness: 2px !important;
+}
+
+body.theme-komik a:hover {
+    background: var(--komik-yellow) !important;
+    color: var(--komik-ink) !important;
+    text-decoration: none !important;
+    padding: 0 2px !important;
+}
+
+/* ── Subtitle / mono text ── */
+body.theme-komik .hero-role,
+body.theme-komik .hero-location,
+body.theme-komik [class*="mono"],
+body.theme-komik [class*="label"] {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    color: var(--komik-ink) !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* ── Project titles ── */
+body.theme-komik .proj-title {
+    font-family: 'Bangers', cursive !important;
+    font-weight: 400 !important;
+    font-size: 1.4rem !important;
+    letter-spacing: 0.07em !important;
+    color: var(--komik-ink) !important;
+}

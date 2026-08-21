@@ -1,0 +1,41 @@
+/* ── KOMIK Theme Variables ── */
+/* Brutalist comic-panel / manga-strip / torn-zine aesthetic */
+body.theme-komik {
+    /* ── Base Palette: Aged Newsprint ── */
+    --bg:        #FFF8E7 !important;
+    --bg2:       #F5EDD6 !important;
+    --surface:   #FFFEF5 !important;
+    --border:    #1A1A1A !important;
+    --border-h:  #FFDE00 !important;
+
+    /* ── Text: High contrast ink on newsprint ── */
+    --text:      #1A1A1A !important;
+    --text-muted:#2D2D2D !important;
+    --text-dim:  #555555 !important;
+
+    /* ── Comic Primary Colors (repurposed CSS vars) ── */
+    --cyan:      #FFDE00 !important;   /* Batman yellow as primary */
+    --lime:      #00C851 !important;
+    --purple:    #FF1744 !important;   /* Comic red as secondary */
+    --orange:    #FF6D00 !important;
+
+    /* ── Comic-specific custom props ── */
+    --komik-yellow: #FFDE00;
+    --komik-red:    #FF1744;
+    --komik-blue:   #0D47A1;
+    --komik-ink:    #1A1A1A;
+    --komik-paper:  #FFF8E7;
+    --komik-cyan:   #00BCD4;
+    --komik-green:  #1B5E20;
+
+    /* ── Brutalist Angular Geometry ── */
+    --radius:    0px !important;
+    --radius-lg: 0px !important;
+    --card-shadow: 5px 5px 0px #1A1A1A !important;
+    --btn-shadow:  3px 3px 0px #1A1A1A !important;
+
+    /* ── Kill scanlines & spotlight ── */
+    --scanline-op: 0 !important;
+    --grid-clr: rgba(0, 0, 0, 0.03) !important;
+    --spotlight-gradient: none !important;
+}

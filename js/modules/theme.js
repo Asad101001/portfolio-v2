@@ -5,7 +5,7 @@
 'use strict';
 
 (function() {
-    const themes = ['professional', 'sunset', 'cyberpunk'];
+    const themes = ['professional', 'sunset', 'cyberpunk', 'komik'];
     let currentThemeIndex = 0;
 
     // Default to professional, but load from saved if available
@@ -46,6 +46,7 @@
         sunset:       '/images/backgrounds/sunset_bg.webp',
         cyberpunk:    '/images/backgrounds/hero-bg.webp',
         professional: '/images/backgrounds/industrial_bg.webp',
+        komik:        '/images/backgrounds/industrial_bg.webp', // Komik desaturates via CSS filter
     };
 
     function setHeroBg(theme) {

@@ -8,6 +8,41 @@
     --card-padding: 20px;
   }
 
+  /* ── MOBILE PERFORMANCE: Reduce backdrop-filter cost ── */
+  /* backdrop-filter is the #1 cause of 10.5s LCP on mobile */
+  .glass-card,
+  .nav-inner,
+  .stat-card,
+  .wip-card,
+  .proj-card,
+  .spotify-widget,
+  .lastfm-widget,
+  .github-widget,
+  .clock-widget {
+    backdrop-filter: blur(8px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+  }
+
+  /* ── MOBILE PERFORMANCE: content-visibility for below-fold sections ── */
+  /* Allows browser to skip rendering off-screen sections entirely */
+  #about,
+  #projects,
+  #social,
+  #arsenal,
+  #education {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 800px;
+  }
+
+  /* ── Reduce glass-card hover spring animation on mobile ── */
+  .glass-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px) !important;
+  }
+
   /* Disable loading-screen on mobile to allow instant hero FCP & LCP */
   #loading-screen {
     display: none !important;

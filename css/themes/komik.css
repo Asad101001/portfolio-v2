@@ -1,0 +1,9 @@
+/* ── KOMIK Theme (Brutalist Comic Panel Edition) ── */
+/* Aged newsprint · Ink outlines · Halftone dots · Comic-bang energy */
+
+@import url('komik/variables.css');
+@import url('komik/base.css');
+@import url('komik/components.css');
+@import url('komik/widgets.css');
+@import url('komik/typography.css');
+@import url('komik/misc.css');
