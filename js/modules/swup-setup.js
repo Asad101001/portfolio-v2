@@ -8,6 +8,12 @@ export function initSwup() {
     const swup = new Swup({
         containers: ['#main-content'], // Target the main wrapper
         animationSelector: '[class*="transition-"]',
+        linkSelector: 'a[href^="/"]:not([href*="demo.html"]):not([href*="projects/"]):not([target="_blank"]):not([data-no-swup])',
+        ignoreVisit: (url, { el }) => {
+            if (url && (url.includes('demo.html') || url.includes('projects/'))) return true;
+            if (el && (el.getAttribute('target') === '_blank' || el.hasAttribute('data-no-swup'))) return true;
+            return false;
+        }
     });
 
     // Handle re-initializing scripts after page transition

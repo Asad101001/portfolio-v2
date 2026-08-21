@@ -53,6 +53,8 @@ export default defineConfig({
         suppressWarnings: true
       },
       workbox: {
+        navigateFallback: null,
+        navigateFallbackDenylist: [/^\/demo\.html/, /^\/projects\//, /^\/api\//],
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2,json}'],
         runtimeCaching: [
           {
