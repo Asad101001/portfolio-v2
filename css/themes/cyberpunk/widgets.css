@@ -100,17 +100,22 @@ body.theme-cyberpunk .score-row-mini {
     overflow: hidden !important;
 }
 
+body.theme-cyberpunk .barca-identity-side {
+    padding-top: 10px !important;
+}
+
 body.theme-cyberpunk .score-team-abbr {
     color: #ffffff !important;
     font-weight: 700 !important;
-    font-size: 0.65rem !important;
+    font-size: 0.58rem !important;
+    max-width: 75px !important;
 }
 
 body.theme-cyberpunk .score-row-scorer {
     color: var(--cyan) !important;
     font-weight: 600 !important;
-    font-size: 0.45rem !important;
-    max-width: 95px !important;
+    font-size: 0.38rem !important;
+    max-width: 140px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;

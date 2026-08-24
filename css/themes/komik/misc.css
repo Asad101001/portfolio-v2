@@ -120,9 +120,13 @@ body.theme-komik .t-cmd {
     color: #FFFFFF !important;
     font-weight: 700 !important;
 }
-body.theme-komik .t-out {
+body.theme-komik .t-out,
+body.theme-komik .t-out p,
+body.theme-komik .t-out div,
+body.theme-komik .t-out span {
     color: #4ADE80 !important;
-    font-weight: 600 !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
     word-break: break-word !important;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;

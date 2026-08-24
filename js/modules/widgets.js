@@ -918,8 +918,8 @@ function _starsHTML(starsStr) {
     var score1 = barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     var score2 = !barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     
-    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 1);
-    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 1);
+    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 3);
+    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 3);
     var red1 = barcaIsHost ? barcaRedCards : oppRedCards;
     var red2 = !barcaIsHost ? barcaRedCards : oppRedCards;
     
@@ -934,7 +934,16 @@ function _starsHTML(starsStr) {
     const dS   = new Date(dObj.getFullYear(), dObj.getMonth(), dObj.getDate());
     const nS   = new Date(nObj.getFullYear(), nObj.getMonth(), nObj.getDate());
     const diff = Math.round((nS - dS) / (1000 * 60 * 60 * 24));
-    var headerLabel = (diff === 0) ? 'Matchday' : 'Watching Football';
+    
+    var leagueName = (data.event && data.event.league && data.event.league.name) || 'Soccer';
+    var headerLabel = 'MATCHDAY';
+    if (state === 'in') {
+      headerLabel = 'LIVE MATCH';
+    } else if (state === 'post') {
+      headerLabel = (diff === 0) ? 'MATCHDAY' : (leagueName ? leagueName.toUpperCase() + ' · FINAL' : 'MATCHDAY');
+    } else if (state === 'pre') {
+      headerLabel = leagueName ? leagueName.toUpperCase() + ' · FIXTURE' : 'NEXT MATCH';
+    }
 
     // Suppress "Today" if header is "Matchday", or if it is "Live Now"
     if (state === 'in' || timeframe === 'Today') timeframe = '';

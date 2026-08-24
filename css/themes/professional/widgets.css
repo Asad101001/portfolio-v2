@@ -141,12 +141,17 @@ body.theme-professional .score-row-mini {
     overflow: hidden !important;
 }
 
+body.theme-professional .barca-identity-side {
+    padding-top: 10px !important;
+}
+
 body.theme-professional .score-team-abbr,
 body.theme-professional .barca-team-name,
 body.theme-professional .barca-opp-name {
     color: #0f172a !important;
     font-weight: 800 !important;
-    font-size: 0.65rem !important;
+    font-size: 0.58rem !important;
+    max-width: 75px !important;
 }
 
 body.theme-professional .score-row-scorer,
@@ -155,8 +160,8 @@ body.theme-professional .barca-match-date,
 body.theme-professional .barca-competition {
     color: #334155 !important;
     font-weight: 700 !important;
-    font-size: 0.45rem !important;
-    max-width: 95px !important;
+    font-size: 0.38rem !important;
+    max-width: 140px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
