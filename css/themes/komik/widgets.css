@@ -394,3 +394,46 @@ body.theme-komik .x-post-text {
     color: #23272F !important;
     font-weight: 700 !important;
 }
+
+body.theme-komik .x-error-box {
+    background: #EBE3D3 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .x-error-icon {
+    color: #D32F2F !important;
+}
+
+body.theme-komik .x-error-title {
+    color: #23272F !important;
+    font-weight: 900 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.25rem !important;
+    letter-spacing: 0.05em !important;
+}
+
+body.theme-komik .x-error-desc {
+    color: #5C6473 !important;
+    font-weight: 700 !important;
+}
+
+body.theme-komik .x-error-btn {
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.05em !important;
+}
+
+body.theme-komik .x-error-btn:hover {
+    background: #D32F2F !important;
+    color: #FFFFFF !important;
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+}

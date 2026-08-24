@@ -185,3 +185,28 @@ body.theme-professional .barca-status-badge {
     border: 1px solid #000000 !important;
     font-weight: 800 !important;
 }
+
+/* ── Professional Twitter Error Box ── */
+body.theme-professional .x-error-box {
+    background: #f8fafc !important;
+    border: 1.5px solid #000000 !important;
+    box-shadow: 3px 3px 0px #000000 !important;
+    color: #0f172a !important;
+}
+
+body.theme-professional .x-error-title {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional .x-error-desc {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+body.theme-professional .x-error-btn {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border: 1.5px solid #000000 !important;
+    font-weight: 800 !important;
+}

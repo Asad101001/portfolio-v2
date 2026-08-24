@@ -219,6 +219,66 @@
   transform: translateY(-1px);
 }
 
+/* ── X / Twitter Error State Styling ── */
+.x-error-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 24px;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.x-error-icon {
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.x-error-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text, #ffffff);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.x-error-desc {
+  font-size: 0.78rem;
+  color: var(--text-dim, #94a3b8);
+  max-width: 280px;
+  line-height: 1.45;
+  font-weight: 500;
+  margin: 0;
+}
+
+.x-error-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--cyan, #00f2ff);
+  color: #000000;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.x-error-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 242, 255, 0.3);
+}
+
 #experience-toggle.open {
   background: rgba(255, 204, 0, 0.15);
   border-color: rgba(255, 204, 0, 0.6);

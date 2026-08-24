@@ -98,23 +98,27 @@ import { CONFIG, escHtml } from './widgets.js';
         });
     }
 
-    const FALLBACK_TWEETS = [
-        {
-            title: "Deep-diving into agentic workflows, AWS VPC architectures, and real-time streaming APIs. Exciting project updates coming soon! 🚀",
-            link: `https://twitter.com/${USER}`,
-            pubDate: new Date(Date.now() - 3600000 * 3).toISOString()
-        },
-        {
-            title: "Building high-performance modern web platforms & fluid UI systems. Engineering fast, responsive applications!",
-            link: `https://twitter.com/${USER}`,
-            pubDate: new Date(Date.now() - 86400000 * 2).toISOString()
-        },
-        {
-            title: "Exploring Python, RAG pipelines, and cloud computing infrastructure at UBIT '28.",
-            link: `https://twitter.com/${USER}`,
-            pubDate: new Date(Date.now() - 86400000 * 5).toISOString()
-        }
-    ];
+    function renderErrorState() {
+        container.innerHTML = `
+            <div class="x-error-box">
+                <div class="x-error-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <div class="x-error-title">X Feed Unavailable</div>
+                <p class="x-error-desc">Unable to retrieve real-time posts from @${USER} right now.</p>
+                <a href="https://x.com/${USER}" target="_blank" rel="noopener" class="x-error-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    View @${USER} on X
+                </a>
+            </div>
+        `;
+    }
 
     function fetchTweets() {
         try {
@@ -135,11 +139,11 @@ import { CONFIG, escHtml } from './widgets.js';
                     localStorage.setItem('asad_twitter_cache_v2', JSON.stringify(data.items));
                     render(data.items);
                 } else {
-                    render(FALLBACK_TWEETS);
+                    renderErrorState();
                 }
             })
             .catch(() => {
-                render(FALLBACK_TWEETS);
+                renderErrorState();
             });
     }
 
