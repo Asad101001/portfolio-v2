@@ -254,7 +254,7 @@
     }
 
     // Initialize
-    window.addEventListener('DOMContentLoaded', function() {
+    function bootAnimations() {
         initLoadReveal(); // Fire load reveal early
         setTimeout(function() {
             initMagnetic();
@@ -265,6 +265,12 @@
             initScrollAnimations();
             initScrambleHeaders();
         }, 150);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', bootAnimations);
+    } else {
+        bootAnimations();
+    }
 
 })();

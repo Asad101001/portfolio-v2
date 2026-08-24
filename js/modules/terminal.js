@@ -8,15 +8,13 @@
 
 import { escHtml } from './widgets.js';
 
-(function initTerminal() {
-    // Wait for DOM to be ready
-    window.addEventListener('DOMContentLoaded', () => {
-        const terminalBody = document.getElementById('terminal-body');
-        const terminalInput = document.getElementById('terminal-input');
-        const terminalHistory = document.getElementById('terminal-history');
-        const autosuggest = terminalBody ? terminalBody.querySelector('.t-autosuggest') : null;
+function bootTerminal() {
+    const terminalBody = document.getElementById('terminal-body');
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalHistory = document.getElementById('terminal-history');
+    const autosuggest = terminalBody ? terminalBody.querySelector('.t-autosuggest') : null;
 
-        if (!terminalBody || !terminalInput || !terminalHistory) return;
+    if (!terminalBody || !terminalInput || !terminalHistory) return;
 
         // Command history stack for ArrowUp/Down navigation
         let cmdHistory = [];
@@ -581,5 +579,10 @@ import { escHtml } from './widgets.js';
             appendHistory(`<p class="t-line t-out t-visible" style="color: var(--cyan);">Matrix rain stopped.</p>`);
             scrollToBottom();
         }
-    });
-})();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootTerminal);
+} else {
+    bootTerminal();
+}
