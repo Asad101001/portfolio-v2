@@ -190,11 +190,59 @@ body.theme-komik .movie-timeline-label {
     font-weight: 700 !important;
 }
 
-/* ── Barca Scorecard Widget ── */
-body.theme-komik .barca-scorecard-wrap {
-    background: #FCFAF5 !important;
+body.theme-komik .r-dot::before {
     border: 1.5px solid #23272F !important;
+    background: #FCFAF5 !important;
+    border-radius: 0px !important;
+    width: 8px !important;
+    height: 8px !important;
+}
+body.theme-komik .r-dot.active::before {
+    background: #23272F !important;
+    width: 24px !important;
+    box-shadow: 2px 2px 0px #FFC700 !important;
+}
+
+/* ── Barca Scorecard Widget (Komik Theme) ── */
+body.theme-komik #rotating-widget.football-active {
+    outline: none !important;
+}
+
+body.theme-komik .rotating-item.barca-slot {
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+}
+
+body.theme-komik .barca-scorecard-wrap {
+    background: transparent !important;
+    border: none !important;
     color: #23272F !important;
+}
+
+body.theme-komik .barca-name-pink {
+    color: #A50044 !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
+}
+
+body.theme-komik .barca-slogan-cyan {
+    color: #004D98 !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+}
+
+body.theme-komik .barca-mini-tag {
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1px solid #23272F !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .barca-header-title {
+    color: #5C6473 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.15em !important;
 }
 
 body.theme-komik .barca-team-name,
@@ -206,7 +254,7 @@ body.theme-komik .barca-opp-name {
 body.theme-komik .barca-score-num {
     color: #23272F !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 1.5rem !important;
+    font-size: 1.6rem !important;
 }
 
 body.theme-komik .barca-scorers,
@@ -219,7 +267,7 @@ body.theme-komik .barca-competition {
 body.theme-komik .barca-status-badge {
     background: #FFC700 !important;
     color: #23272F !important;
-    border: 1px solid #23272F !important;
+    border: 1.5px solid #23272F !important;
     font-weight: 900 !important;
 }
 

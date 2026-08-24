@@ -35,6 +35,10 @@ html {
   scroll-padding-top: 80px;
   font-size: 17px; /* Bumped base size from 16px to 17px for improved global readability */
 }
+html.lenis,
+html.lenis body {
+  scroll-behavior: auto !important;
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

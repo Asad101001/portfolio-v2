@@ -87,3 +87,69 @@ body.theme-professional .commit-day-tooltip {
 body.theme-professional .commit-legend-sq {
     border: 1px solid rgba(0,0,0,0.2) !important;
 }
+
+/* ── Barca Scorecard (Professional) ── */
+body.theme-professional #rotating-widget.football-active {
+    outline: none !important;
+}
+
+body.theme-professional .rotating-item.barca-slot {
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 3px 3px 0px #000000 !important;
+}
+
+body.theme-professional .barca-scorecard-wrap {
+    background: transparent !important;
+    border: none !important;
+    color: #0f172a !important;
+}
+
+body.theme-professional .barca-name-pink {
+    color: #A50044 !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
+}
+
+body.theme-professional .barca-slogan-cyan {
+    color: #004D98 !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+}
+
+body.theme-professional .barca-mini-tag {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional .barca-header-title {
+    color: #475569 !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional .barca-team-name,
+body.theme-professional .barca-opp-name {
+    color: #0f172a !important;
+    font-weight: 900 !important;
+}
+
+body.theme-professional .barca-score-num {
+    color: #0f172a !important;
+    font-weight: 900 !important;
+}
+
+body.theme-professional .barca-scorers,
+body.theme-professional .barca-match-date,
+body.theme-professional .barca-competition {
+    color: #475569 !important;
+    font-weight: 700 !important;
+}
+
+body.theme-professional .barca-status-badge {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 800 !important;
+}

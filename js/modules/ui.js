@@ -90,8 +90,19 @@
     btn.className = 'section-dot';
     btn.setAttribute('data-section', id);
     btn.setAttribute('title', labels[id]);
+    btn.setAttribute('aria-label', labels[id] + ' section');
     btn.innerHTML = icons[id];
-    btn.onclick = function () { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); };
+    btn.onclick = function (e) {
+      e.preventDefault();
+      if (typeof window.smoothScrollTo === 'function') {
+        window.smoothScrollTo('#' + id, -30);
+      } else if (window.lenis) {
+        window.lenis.scrollTo('#' + id, { offset: -30, duration: 1.05 });
+      } else {
+        var el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
     nav.appendChild(btn);
     dotEls.push(btn);
   });

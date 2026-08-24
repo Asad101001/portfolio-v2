@@ -20,6 +20,8 @@
     <meta name="twitter:description" content="Muhammad Asad Khan — CS student at UBIT '28. Python, AWS, Data Science, AI/ML." />
     <meta name="twitter:image" content="https://muhammadasad-portfolio.vercel.app/images/og-image.webp" />
     <meta name="twitter:image:alt" content="Preview of Muhammad Asad Khan's portfolio showing professional branding and tech stack" />
+    <meta name="theme-color" content="#FFC700" />
+    <link rel="canonical" href="https://muhammadasad-portfolio.vercel.app/" />
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
 
@@ -60,8 +62,8 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <!-- Fonts: async load with font-display:swap to eliminate render-blocking -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Bangers&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Bangers&display=swap" /></noscript>
     <!-- Devicons: non-critical async stylesheet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" /></noscript>
@@ -74,9 +76,9 @@
 <body>
     <script>
         (function() {
-            const themes = ['professional', 'sunset', 'cyberpunk'];
+            const themes = ['professional', 'sunset', 'cyberpunk', 'komik'];
             const savedTheme = localStorage.getItem('asad_portfolio_theme');
-            const initialTheme = (savedTheme && themes.includes(savedTheme)) ? savedTheme : 'professional';
+            const initialTheme = (savedTheme && themes.includes(savedTheme)) ? savedTheme : 'komik';
             document.body.classList.add(`theme-${initialTheme}`);
         })();
     </script>

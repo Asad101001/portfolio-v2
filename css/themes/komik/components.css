@@ -304,19 +304,89 @@ body.theme-komik .af-btn.active {
     transform: translate(-2px, -2px) !important;
 }
 
-/* ── Arsenal Tech Stack Cards ── */
+/* ── Arsenal Tech Stack Section ── */
+body.theme-komik .arsenal-domain {
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    border-radius: 0px !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    overflow: hidden !important;
+}
+
+body.theme-komik .arsenal-domain-header {
+    background: #EBE3D3 !important;
+    border-bottom: 2px solid #23272F !important;
+}
+
+body.theme-komik .adom-badge {
+    background: #FFC700 !important;
+    color: #23272F !important;
+    border: 1.5px solid #23272F !important;
+    border-radius: 0px !important;
+    font-weight: 900 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+body.theme-komik .adom-desc {
+    color: #3E4551 !important;
+    font-weight: 700 !important;
+}
+
 body.theme-komik .acard {
     background: #FCFAF5 !important;
     border: 1.5px solid #23272F !important;
     border-radius: 0px !important;
     box-shadow: 2.5px 2.5px 0px #23272F !important;
-    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease !important;
+    color: #23272F !important;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, background 0.15s ease !important;
 }
 
 body.theme-komik .acard:hover {
     background: #FFC700 !important;
     transform: translate(-2px, -2px) !important;
     box-shadow: 4px 4px 0px #23272F !important;
+}
+
+body.theme-komik .acard-name {
+    color: #23272F !important;
+    font-weight: 800 !important;
+}
+
+/* ── Section Dot Nav (Komik Theme) ── */
+body.theme-komik #section-dots {
+    background: #FFC700 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .section-dot {
+    color: #23272F !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .section-dot::before {
+    background: #23272F !important;
+    border-radius: 0px !important;
+    width: 6px !important;
+    height: 6px !important;
+}
+
+body.theme-komik .section-dot:hover,
+body.theme-komik .section-dot.active {
+    background: #D32F2F !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+    border: none !important;
+}
+
+body.theme-komik .section-dot::after {
+    background: #23272F !important;
+    color: #FFC700 !important;
+    border: 1.5px solid #23272F !important;
+    border-radius: 0px !important;
+    box-shadow: 2px 2px 0px #23272F !important;
+    font-family: 'JetBrains Mono', monospace !important;
 }
 
 /* ── Social Platform Cards (Connect Section) ── */

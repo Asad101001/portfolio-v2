@@ -4,21 +4,24 @@
    ============================================================ */
 
 (function initDesktop() {
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
   if (!window._isMobile) {
     document.body.classList.add('is-desktop-device');
-    
-    // Smooth scroll for anchors
+
+    // Smooth scroll for anchors routing through Lenis or fallback
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#' || targetId.length <= 1) return;
             const target = document.querySelector(targetId);
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                e.preventDefault();
+                if (typeof window.smoothScrollTo === 'function') {
+                    window.smoothScrollTo(target, -30);
+                } else if (window.lenis) {
+                    window.lenis.scrollTo(target, { offset: -30, duration: 1.05 });
+                } else {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
     });
@@ -32,7 +35,7 @@
       }
     });
 
-    // Premium Micro-animations for desktop only
+    // Premium Micro-animations for desktop
     let parallaxFrame;
     document.addEventListener('mousemove', function(e) {
       if (!window._isMobile) {
