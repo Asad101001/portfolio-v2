@@ -11,31 +11,32 @@ import './modules/lenis-setup.js'; // Smooth scroll initialized early for zero-d
 
 // Progressive module hydration after initial paint
 window.addEventListener('load', () => {
-  const idleLoad = (fn, timeout = 2000) => {
+  const isMobile = window.innerWidth <= 768;
+  const idleLoad = (fn, timeout = 2500) => {
     if ('requestIdleCallback' in window) {
       requestIdleCallback(fn, { timeout });
     } else {
-      setTimeout(fn, 100);
+      setTimeout(fn, isMobile ? 300 : 150);
     }
   };
 
-  // Phase 1: Visual, canvas & page transitions
+  // Phase 1: Core animations & page transitions
   idleLoad(() => {
     import('./modules/animations.js');
-    import('./modules/canvas.js');
     import('./modules/swup-setup.js');
-  }, 500);
+    if (!isMobile) import('./modules/canvas.js');
+  }, isMobile ? 1200 : 600);
 
-  // Phase 2: Heavy 3D WebGL & interactive terminal
+  // Phase 2: Interactive terminal & WebGL (desktop only)
   idleLoad(() => {
     import('./modules/terminal.js');
-    import('./modules/webgl.js');
-  }, 1200);
+    if (!isMobile) import('./modules/webgl.js');
+  }, isMobile ? 2200 : 1400);
 
   // Phase 3: Below-fold widgets & external integrations
   idleLoad(() => {
     import('./modules/gsap-animations.js');
     import('./modules/widgets.js');
     import('./modules/twitter.js');
-  }, 1800);
+  }, isMobile ? 3000 : 2000);
 });

@@ -245,23 +245,42 @@ body.theme-komik .barca-header-title {
     letter-spacing: 0.15em !important;
 }
 
+body.theme-komik .score-row-mini {
+    background: #EBE3D3 !important;
+    border: 1.5px solid #23272F !important;
+    opacity: 1 !important;
+    color: #23272F !important;
+    box-shadow: 2px 2px 0px #23272F !important;
+}
+
+body.theme-komik .score-team-abbr,
 body.theme-komik .barca-team-name,
 body.theme-komik .barca-opp-name {
     color: #23272F !important;
     font-weight: 900 !important;
 }
 
-body.theme-komik .barca-score-num {
-    color: #23272F !important;
-    font-family: 'Bangers', cursive !important;
-    font-size: 1.6rem !important;
-}
-
+body.theme-komik .score-row-scorer,
 body.theme-komik .barca-scorers,
 body.theme-komik .barca-match-date,
 body.theme-komik .barca-competition {
-    color: #3E4551 !important;
-    font-weight: 700 !important;
+    color: #004D98 !important;
+    font-weight: 800 !important;
+    font-size: 0.58rem !important;
+}
+
+body.theme-komik .score-num,
+body.theme-komik .barca-score-num {
+    color: #A50044 !important;
+    font-family: 'Bangers', cursive !important;
+    font-size: 1.5rem !important;
+    font-weight: 900 !important;
+    text-shadow: 1px 1px 0px #FFC700 !important;
+}
+
+body.theme-komik .score-row-card {
+    color: #D32F2F !important;
+    font-weight: 900 !important;
 }
 
 body.theme-komik .barca-status-badge {

@@ -87,3 +87,28 @@ body.theme-cyberpunk .commit-day-tooltip {
 body.theme-cyberpunk .commit-legend-sq {
     border: 1px solid rgba(255,255,255,0.2) !important;
 }
+
+/* ── Barca Scorecard (Cyberpunk) ── */
+body.theme-cyberpunk .score-row-mini {
+    background: rgba(0, 255, 249, 0.05) !important;
+    border: 1px solid var(--cyan) !important;
+    opacity: 1 !important;
+    color: #ffffff !important;
+}
+
+body.theme-cyberpunk .score-team-abbr {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+body.theme-cyberpunk .score-row-scorer {
+    color: var(--cyan) !important;
+    font-weight: 600 !important;
+    font-size: 0.58rem !important;
+    text-shadow: 0 0 6px rgba(0, 255, 249, 0.3) !important;
+}
+
+body.theme-cyberpunk .score-num {
+    color: var(--cyan) !important;
+    font-weight: 900 !important;
+}

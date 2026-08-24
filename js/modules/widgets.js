@@ -918,11 +918,15 @@ function _starsHTML(starsStr) {
     var score1 = barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     var score2 = !barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     
-    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 2);
-    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 2);
+    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 3);
+    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 3);
     var red1 = barcaIsHost ? barcaRedCards : oppRedCards;
     var red2 = !barcaIsHost ? barcaRedCards : oppRedCards;
     
+    try {
+      localStorage.setItem('barca_match_cache', JSON.stringify(data));
+    } catch (e) {}
+
     var timeframe = getMatchTimeframe(matchDate, state);
     
     const dObj = new Date(matchDate);
@@ -992,6 +996,11 @@ function _starsHTML(starsStr) {
   }
 
   function fetchBarca() {
+    try {
+      var cached = localStorage.getItem('barca_match_cache');
+      if (cached) setBarcaDisplay(JSON.parse(cached));
+    } catch (e) {}
+
     Promise.allSettled([
       fetchESPNSchedule(),
       fetchESPN('esp.1'),

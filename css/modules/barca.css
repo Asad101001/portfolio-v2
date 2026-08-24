@@ -251,10 +251,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.65rem;
-  opacity: 0.55;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 4px 8px;
+  font-size: 0.7rem;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px 10px;
   border-radius: 4px;
   justify-content: space-between;
   width: 100%;
@@ -263,23 +263,32 @@
 .score-team-info {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
+  min-width: 0;
+}
+
+.score-team-abbr {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 0.72rem;
+  white-space: nowrap;
 }
 
 .score-row-scorer {
-  font-size: 0.38rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.75);
   font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
   margin-right: 8px;
   white-space: nowrap;
   animation: fade-in 0.3s ease;
 }
 
 .score-row-card {
-  font-size: 0.44rem;
+  font-size: 0.62rem;
   color: #ff5d6c;
-  font-weight: 700;
+  font-weight: 800;
   margin-right: 6px;
   white-space: nowrap;
   text-shadow: 0 0 8px rgba(255, 93, 108, 0.45);
