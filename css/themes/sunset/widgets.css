@@ -94,20 +94,30 @@ body.theme-sunset .score-row-mini {
     border: 1px solid rgba(255, 0, 85, 0.3) !important;
     opacity: 1 !important;
     color: #ffffff !important;
+    padding: 3px 6px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 body.theme-sunset .score-team-abbr {
     color: #ffffff !important;
     font-weight: 700 !important;
+    font-size: 0.65rem !important;
 }
 
 body.theme-sunset .score-row-scorer {
     color: #ff758c !important;
     font-weight: 600 !important;
-    font-size: 0.58rem !important;
+    font-size: 0.45rem !important;
+    max-width: 95px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 body.theme-sunset .score-num {
     color: var(--cyan) !important;
     font-weight: 900 !important;
+    font-size: 1.05rem !important;
 }

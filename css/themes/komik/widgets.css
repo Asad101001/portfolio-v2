@@ -251,6 +251,10 @@ body.theme-komik .score-row-mini {
     opacity: 1 !important;
     color: #23272F !important;
     box-shadow: 2px 2px 0px #23272F !important;
+    padding: 3px 6px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 body.theme-komik .score-team-abbr,
@@ -258,6 +262,7 @@ body.theme-komik .barca-team-name,
 body.theme-komik .barca-opp-name {
     color: #23272F !important;
     font-weight: 900 !important;
+    font-size: 0.65rem !important;
 }
 
 body.theme-komik .score-row-scorer,
@@ -266,16 +271,19 @@ body.theme-komik .barca-match-date,
 body.theme-komik .barca-competition {
     color: #004D98 !important;
     font-weight: 800 !important;
-    font-size: 0.58rem !important;
+    font-size: 0.45rem !important;
+    max-width: 95px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 body.theme-komik .score-num,
 body.theme-komik .barca-score-num {
     color: #A50044 !important;
     font-family: 'Bangers', cursive !important;
-    font-size: 1.5rem !important;
+    font-size: 1.1rem !important;
     font-weight: 900 !important;
-    text-shadow: 1px 1px 0px #FFC700 !important;
 }
 
 body.theme-komik .score-row-card {
@@ -343,7 +351,41 @@ body.theme-komik .xp-bar-fill {
 }
 
 body.theme-komik .wip-bar {
-    background: #1565C0 !important;
+    background: #004D98 !important;
     box-shadow: none !important;
     border-right: 1.5px solid #23272F !important;
+}
+
+/* ── Komik Twitter Widget ── */
+body.theme-komik .twitter-widget {
+    background: #FCFAF5 !important;
+    border: 2px solid #23272F !important;
+    box-shadow: 4px 4px 0px #23272F !important;
+    color: #23272F !important;
+    border-radius: 0px !important;
+}
+
+body.theme-komik .x-post-container {
+    background: #EBE3D3 !important;
+    border: 1.5px solid #23272F !important;
+    box-shadow: 2px 2px 0px #23272F !important;
+    margin-bottom: 8px !important;
+    border-radius: 4px !important;
+}
+
+body.theme-komik .x-display-name {
+    color: #23272F !important;
+    font-weight: 900 !important;
+}
+
+body.theme-komik .x-handle,
+body.theme-komik .x-time,
+body.theme-komik .x-dot {
+    color: #5C6473 !important;
+    font-weight: 700 !important;
+}
+
+body.theme-komik .x-post-text {
+    color: #23272F !important;
+    font-weight: 700 !important;
 }

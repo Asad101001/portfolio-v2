@@ -918,8 +918,8 @@ function _starsHTML(starsStr) {
     var score1 = barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     var score2 = !barcaIsHost ? getScoreDisplay(barca) : getScoreDisplay(opp);
     
-    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 3);
-    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 3);
+    var s1 = compactEventList(barcaIsHost ? barcaScorers : oppScorers, 1);
+    var s2 = compactEventList(!barcaIsHost ? barcaScorers : oppScorers, 1);
     var red1 = barcaIsHost ? barcaRedCards : oppRedCards;
     var red2 = !barcaIsHost ? barcaRedCards : oppRedCards;
     

@@ -450,15 +450,9 @@ body.theme-komik #experience-toggle {
     isolation: isolate;
 }
 
-body.theme-komik #experience-toggle::before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23D32F2F'/%3E%3Crect width='160' height='3' fill='%23fff' y='0'/%3E%3Crect width='160' height='3' fill='%23fff' y='29'/%3E%3Ctext x='80' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3ECAUTION%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.35) !important;
-    z-index: 3 !important;
-}
-
+body.theme-komik #experience-toggle::before,
 body.theme-komik #experience-toggle::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23D32F2F'/%3E%3Crect width='200' height='3' fill='%23fff' y='0'/%3E%3Crect width='200' height='3' fill='%23fff' y='29'/%3E%3Ctext x='100' y='23' font-family='Impact, Arial Black, sans-serif' font-weight='900' font-size='16' fill='%23fff' text-anchor='middle' letter-spacing='3'%3EEXPERIENCE%3C/text%3E%3C/svg%3E") !important;
-    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3) !important;
+    display: none !important;
 }
 
 body.theme-komik #experience-toggle:hover {

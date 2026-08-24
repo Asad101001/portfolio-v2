@@ -162,21 +162,24 @@
   opacity: 0.9;
 }
 
-/* Hybrid Layout Split (Per Screenshot) */
+/* Hybrid Layout Split */
 .barca-content-layout-hybrid {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 6px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .barca-identity-side {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  min-width: 80px;
+  gap: 4px;
+  min-width: 75px;
   flex-shrink: 0;
 }
 
@@ -189,7 +192,7 @@
 
 .barca-name-pink {
   color: #ff0055;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -200,88 +203,78 @@
 
 .barca-slogan-cyan {
   color: #00f2ff;
-  font-size: 0.42rem;
+  font-size: 0.4rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   text-align: center;
 }
 
 .barca-score-rows-side {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.barca-score-section {
-  flex: 1;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.score-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
-  opacity: 0.55;
-}
-
-.score-row.is-host {
-  opacity: 1;
-  font-weight: 800;
-  color: #fff;
 }
 
 .score-num {
   font-family: 'JetBrains Mono', monospace;
   color: var(--cyan);
-  font-weight: 800;
-  font-size: 0.75rem;
+  font-weight: 900;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  margin-left: auto;
+  text-align: right;
 }
 
 .score-row-mini {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
+  gap: 4px;
+  font-size: 0.65rem;
   opacity: 1;
   background: rgba(255, 255, 255, 0.04);
-  padding: 5px 10px;
+  padding: 4px 6px;
   border-radius: 4px;
   justify-content: space-between;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .score-team-info {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex: 1;
+  gap: 4px;
+  flex-shrink: 0;
   min-width: 0;
 }
 
 .score-team-abbr {
-  font-weight: 700;
+  font-weight: 800;
   color: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 85px;
 }
 
 .score-row-scorer {
-  font-size: 0.58rem;
+  font-size: 0.44rem;
   color: rgba(255, 255, 255, 0.75);
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  margin-right: 8px;
+  margin: 0 4px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  flex-shrink: 1;
   animation: fade-in 0.3s ease;
 }
 

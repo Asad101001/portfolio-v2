@@ -206,54 +206,9 @@
   /* Removed overflow: hidden so tape can extend past the button */
 }
 
-/* Top Crime Scene Tape - Draped over front */
-#experience-toggle::before {
-  content: '';
-  position: absolute;
-  top: -16px;
-  left: -30%;
-  width: 160%;
-  height: 32px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32'%3E%3Crect width='160' height='32' fill='%23ffcc00'/%3E%3Crect width='160' height='3' fill='%23111' y='0'/%3E%3Crect width='160' height='3' fill='%23111' y='29'/%3E%3Ctext x='80' y='23' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='18' fill='%23111' text-anchor='middle' letter-spacing='2'%3ECAUTION%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-size: 160px 32px;
-  transform: rotate(-4deg);
-  z-index: 5;
-  pointer-events: none;
-  animation: tape-scroll-left 4s linear infinite;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-}
-
-/* Bottom Crime Scene Tape - Passing behind button */
+#experience-toggle::before,
 #experience-toggle::after {
-  content: '';
-  position: absolute;
-  bottom: -18px;
-  left: -35%;
-  width: 170%;
-  height: 32px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='32'%3E%3Crect width='200' height='32' fill='%23ffcc00'/%3E%3Crect width='200' height='3' fill='%23111' y='0'/%3E%3Crect width='200' height='3' fill='%23111' y='29'/%3E%3Ctext x='100' y='23' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='18' fill='%23111' text-anchor='middle' letter-spacing='2'%3EEXPERIENCE%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-size: 200px 32px;
-  transform: rotate(3deg);
-  z-index: -1;
-  pointer-events: none;
-  animation: tape-scroll-right 5s linear infinite;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-}
-
-/* GPU-composited: use transform:translateX instead of background-position to avoid CPU repaint */
-@keyframes tape-scroll-left {
-  from { transform: rotate(-4deg) translateX(0); }
-  to { transform: rotate(-4deg) translateX(-160px); }
-}
-@keyframes tape-scroll-right {
-  from { transform: rotate(3deg) translateX(0); }
-  to { transform: rotate(3deg) translateX(200px); }
+  display: none !important;
 }
 
 #experience-toggle:hover {
