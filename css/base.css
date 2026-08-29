@@ -3,6 +3,10 @@
    Reset, variables, fonts, loading screen, selection, links
    ============================================================ */
 /* Google Fonts are loaded asynchronously via HTML link tags in page heads to avoid render-blocking CSS chains */
+@font-face {
+  font-family: 'devicon';
+  font-display: swap;
+}
 
 /* ── Reset & Box Sizing ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
