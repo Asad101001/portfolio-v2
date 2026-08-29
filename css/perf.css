@@ -331,3 +331,49 @@ body.is-scrolling .hero-backdrop-texture {
   #education  { contain-intrinsic-size: 0 400px; }
   #contact    { contain-intrinsic-size: 0 300px; }
 }
+
+/* ── 18. TOUCH-ACTION: Eliminate 300ms tap delay on mobile ──────
+   Without this, touch events have a 300ms delay added by browsers
+   to detect double-tap zoom. Pan-y keeps vertical scroll native.
+   ──────────────────────────────────────────────────────────── */
+body {
+  touch-action: pan-y;
+}
+a, button, [role="button"], .glass-card, .project-card, .mbn-item {
+  touch-action: manipulation; /* Faster tap response */
+}
+
+/* ── 19. KILL 3D preserve-3d on mobile ──────────────────────────
+   transform-style: preserve-3d creates expensive stacking contexts
+   and prevents the browser from eliding off-screen rendering.
+   Mobile CPUs can't composite these cheaply.
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-micro-orb,
+  .intro-cube-wrap,
+  .hero-grid .glass-card,
+  .project-card {
+    transform-style: flat !important;
+    -webkit-transform-style: flat !important;
+    perspective: none !important;
+  }
+
+  /* Stop 3D orbit rings from running on mobile */
+  .hero-micro-ring,
+  .intro-ring,
+  .intro-ring-2 {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* Kill glitch-header animation on mobile (triggers layout recalc) */
+  .theme-sunset .section-title:hover {
+    animation: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Prevent overscroll bounce from interfering with scroll compositing */
+  html, body {
+    overscroll-behavior: none;
+  }
+}

@@ -232,18 +232,22 @@
         }
     }
 
+    /* ─── Scramble Headers ─────────────────────────────────────────── */
+    /* PERF: Disabled on mobile — innerHTML writes cause style recalculation
+       and can interfere with GSAP animations already in flight. */
     function initScrambleHeaders() {
-        const headers = document.querySelectorAll('.section-title, .card-label');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.hasAttribute('data-scrambled')) {
-                    const fx = new TextScramble(entry.target);
-                    fx.setText(entry.target.innerText);
-                    entry.target.setAttribute('data-scrambled', 'true');
-                }
-            });
-        }, { threshold: 0.5 });
-        headers.forEach(h => observer.observe(h));
+      if (window._isMobile) return; // too expensive on mobile
+      const headers = document.querySelectorAll('.section-title, .card-label');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.hasAttribute('data-scrambled')) {
+            const fx = new TextScramble(entry.target);
+            fx.setText(entry.target.innerText);
+            entry.target.setAttribute('data-scrambled', 'true');
+          }
+        });
+      }, { threshold: 0.5 });
+      headers.forEach(h => observer.observe(h));
     }
 
     /* ── Load Reveal ── */

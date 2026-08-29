@@ -13,14 +13,14 @@ export function initLenis() {
     const isTouchOnly = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 768;
 
     const lenis = new Lenis({
-        duration: 1.05,
+        duration: 0.8,          // PERF: 1.05 felt laggy — 0.8 is snappier while still smooth
         easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1.5,
-        smoothTouch: false, // Keep native touch momentum on phones
+        wheelMultiplier: 1.1,   // PERF: 0.95 was too sluggish, 1.1 matches native feel
+        touchMultiplier: 1.8,   // PERF: slightly higher so mobile touch feels instant
+        smoothTouch: false,     // Keep native touch momentum on phones
         infinite: false,
     });
 
@@ -32,7 +32,7 @@ export function initLenis() {
 
     if (typeof gsap !== 'undefined') {
         gsap.ticker.fps(144);
-        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.lagSmoothing(500, 33);
         gsap.ticker.add(tickerFn);
         if (typeof ScrollTrigger !== 'undefined') {
             lenis.on('scroll', ScrollTrigger.update);

@@ -8,8 +8,8 @@
     --card-padding: 20px;
   }
 
-  /* ── MOBILE PERFORMANCE: Reduce backdrop-filter cost ── */
-  /* backdrop-filter is the #1 cause of 10.5s LCP on mobile */
+  /* PERF: backdrop-filter disabled on mobile — perf.css kills these globally.
+     Use solid semi-transparent backgrounds instead (fast, looks the same). */
   .glass-card,
   .nav-inner,
   .stat-card,
@@ -19,8 +19,9 @@
   .lastfm-widget,
   .github-widget,
   .clock-widget {
-    backdrop-filter: blur(8px) saturate(150%) !important;
-    -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(8, 10, 18, 0.93) !important;
   }
 
   /* ── MOBILE PERFORMANCE: content-visibility for below-fold sections ── */

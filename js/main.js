@@ -16,27 +16,33 @@ window.addEventListener('load', () => {
     if ('requestIdleCallback' in window) {
       requestIdleCallback(fn, { timeout });
     } else {
-      setTimeout(fn, isMobile ? 300 : 150);
+      setTimeout(fn, timeout);
     }
   };
 
-  // Phase 1: Core animations & page transitions
+  // Phase 1: Core animations — critical for above-fold feel
   idleLoad(() => {
     import('./modules/animations.js');
     import('./modules/swup-setup.js');
-    if (!isMobile) import('./modules/canvas.js');
-  }, isMobile ? 1200 : 600);
+  }, isMobile ? 800 : 400);
 
-  // Phase 2: Interactive terminal & WebGL (desktop only)
+  // Phase 2: Canvas (desktop only) + GSAP scroll triggers
+  idleLoad(() => {
+    if (!isMobile) import('./modules/canvas.js');
+    import('./modules/gsap-animations.js'); // ScrollTrigger creates many observers — defer until idle
+  }, isMobile ? 1800 : 800);
+
+  // Phase 3: Interactive terminal & WebGL (desktop only, very heavy)
   idleLoad(() => {
     import('./modules/terminal.js');
     if (!isMobile) import('./modules/webgl.js');
-  }, isMobile ? 2200 : 1400);
+  }, isMobile ? 3500 : 1600);
 
-  // Phase 3: Below-fold widgets & external integrations
+  // Phase 4: Below-fold widgets & external integrations (heaviest — load last)
+  // widgets.js is 85KB — must not compete with scroll/paint on initial load
   idleLoad(() => {
-    import('./modules/gsap-animations.js');
-    import('./modules/widgets.js');
-    import('./modules/twitter.js');
-  }, isMobile ? 3000 : 2000);
+    import('./modules/widgets.js').then(() => {
+      import('./modules/twitter.js');
+    });
+  }, isMobile ? 5000 : 2500);
 });

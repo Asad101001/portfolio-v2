@@ -51,7 +51,9 @@ if (window._isMobile) {
 } else {
   var lastScrollY = -1;
   var lastLerpY = -1;
+  var rafPending = false;
   (function loop(timestamp) {
+    rafPending = false;
     // Smooth lerp on desktop — 0.12 gives responsive-yet-smooth feel
     var factor = 0.12; 
     var targetY = window._scrollY;
@@ -69,8 +71,38 @@ if (window._isMobile) {
       lastLerpY = window._lerpY;
     }
 
-    requestAnimationFrame(loop);
+    // Only continue rAF if scroll hasn't settled — avoids burning CPU/GPU when idle
+    if (Math.abs(targetY - window._lerpY) > 0.1) {
+      rafPending = true;
+      requestAnimationFrame(loop);
+    }
   })(0);
+
+  // Re-kick the rAF loop whenever scroll happens
+  window.addEventListener('scroll', function() {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(function loop(timestamp) {
+        rafPending = false;
+        var factor = 0.12;
+        var targetY = window._scrollY;
+        var rawLerp = window._lerpY + (targetY - window._lerpY) * factor;
+        window._lerpY = Math.abs(targetY - rawLerp) < 0.5 ? targetY : rawLerp;
+        if (window._scrollY !== lastScrollY || window._lerpY !== lastLerpY) {
+          var len = window._scrollTasks.length;
+          for (var i = 0; i < len; i++) {
+            try { window._scrollTasks[i](timestamp); } catch (err) {}
+          }
+          lastScrollY = window._scrollY;
+          lastLerpY = window._lerpY;
+        }
+        if (Math.abs(targetY - window._lerpY) > 0.1) {
+          rafPending = true;
+          requestAnimationFrame(loop);
+        }
+      });
+    }
+  }, { passive: true });
 }
 
 /* ── DOM Ready Initializations ────────────────────────────── */

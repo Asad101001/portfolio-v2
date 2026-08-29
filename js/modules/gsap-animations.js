@@ -22,7 +22,7 @@ gsap.defaults({
 
 // Unlock 120Hz/144Hz: GSAP's ticker auto-matches display refresh rate
 gsap.ticker.fps(144);
-gsap.ticker.lagSmoothing(0); // Prevents frame-skip compensation that causes jank
+gsap.ticker.lagSmoothing(500, 33); // PERF: gracefully recovers from frame drops instead of stuttering
 
 ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
 const isMobile = () => window._isMobile || window.innerWidth < 768;

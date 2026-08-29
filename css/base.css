@@ -51,12 +51,13 @@ body {
     radial-gradient(circle at 50% 0%,   var(--grid-clr) 0%, transparent 60%),
     radial-gradient(circle at 100% 100%, var(--border) 0%, transparent 40%),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-attachment: fixed;
+  /* PERF: background-attachment:fixed removed — forces a full-page repaint on every scroll frame */
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
   -webkit-overflow-scrolling: touch;
-  transition: background 0.6s ease, color 0.6s ease;
+  /* PERF: removed background transition — triggers full repaint, use color only */
+  transition: color 0.4s ease;
 }
 body.theme-transitioning,
 body.theme-transitioning * {
@@ -66,11 +67,12 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(40vmax circle at var(--x, 50.1%) var(--y, 50.1%), var(--grid-clr) 0%, transparent 80%);
+  background: radial-gradient(30vmax circle at var(--x, 50.1%) var(--y, 50.1%), var(--grid-clr) 0%, transparent 80%);
   transition: opacity 0.5s ease;
   pointer-events: none;
   z-index: -1;
   opacity: 1;
+  /* PERF: isolated paint layer, no will-change (auto is cheaper than 'background') */
 }
 
 /* ── Selection ──────────────────────────────────────────── */

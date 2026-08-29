@@ -29,8 +29,9 @@
 
 /* Project cards — Base 3D Tilt Offset */
 .project-card {
-  transform-style: preserve-3d;
-  transform: perspective(1000px) rotateX(1.8deg) rotateY(-1.2deg);
+  /* PERF: removed base perspective/rotate transform — it forces a GPU stacking context
+     on EVERY card at all times, which is expensive even while idle.
+     Tilt is applied only on hover via JS (animations.js initTilt). */
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
 }
 
@@ -208,14 +209,15 @@ section::before {
 .section-divider { width: 100%; height: 1px; margin: 0; background: linear-gradient(to right, transparent 0%, rgba(16,185,129,0.15) 30%, rgba(173,255,47,0.1) 70%, transparent 100%); position: relative; }
 .section-divider::after { content: ''; position: absolute; left: 50%; top: -2px; transform: translateX(-50%); width: 100px; height: 5px; border-radius: 99px; background: radial-gradient(ellipse, rgba(16,185,129,0.3), transparent 70%); filter: blur(3px); }
 
-/* ── Ambient Section Glows ────────────────────────────────── */
-.ambient-glow { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0; transition: opacity 1.2s ease; }
+/* — Ambient Section Glows — */
+/* PERF: filter:blur() is expensive. Use radial-gradient backgrounds with no filter. */
+.ambient-glow { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 1.2s ease; }
 .ambient-glow.visible { opacity: 1; }
-#about    .ambient-glow { width: 400px; height: 400px; top: -100px; right: -100px; background: radial-gradient(circle, rgba(16,185,129,0.04), transparent 70%); }
-#projects .ambient-glow { width: 500px; height: 500px; bottom: -100px; left: -150px; background: radial-gradient(circle, rgba(168,85,247,0.04), transparent 70%); }
-#tech     .ambient-glow { width: 600px; height: 300px; top: 0; left: 50%; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(16,185,129,0.05), transparent 70%); }
-#education .ambient-glow { width: 400px; height: 400px; bottom: 0; right: -100px; background: radial-gradient(circle, rgba(34,197,94,0.03), transparent 70%); }
-#contact  .ambient-glow { width: 500px; height: 500px; top: -100px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(168,85,247,0.04), transparent 70%); }
+#about    .ambient-glow { width: 400px; height: 400px; top: -100px; right: -100px; background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%); }
+#projects .ambient-glow { width: 500px; height: 500px; bottom: -100px; left: -150px; background: radial-gradient(circle, rgba(168,85,247,0.07) 0%, transparent 70%); }
+#tech     .ambient-glow { width: 600px; height: 300px; top: 0; left: 50%; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(16,185,129,0.08) 0%, transparent 70%); }
+#education .ambient-glow { width: 400px; height: 400px; bottom: 0; right: -100px; background: radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 70%); }
+#contact  .ambient-glow { width: 500px; height: 500px; top: -100px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(168,85,247,0.07) 0%, transparent 70%); }
 
 /* ── Star Ratings ─────────────────────────────────────────── */
 .star-rating {
