@@ -127,13 +127,16 @@ img { transition: opacity 0.3s ease; }
 
 /* -- Reveal Animation — managed by GSAP (js/modules/gsap-animations.js) ---
    CSS fallback for no-JS environments only. GSAP's disableCSSReveal()
-   injects a rule that resets these on boot so they don't conflict.
-*/
+/* ── Reveal Animation — managed by GSAP (js/modules/gsap-animations.js) ──
+   Visible by default to prevent blocking FCP/LCP. GSAP adds entrance animations. */
 .reveal {
-  opacity: 0;
-  transform: translateY(15px) scale(0.98);
+  opacity: 1;
+  transform: none;
 }
-/* JS adds .visible once GSAP has animated it — used as a state marker */
+#hero .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
 .reveal.visible { opacity: 1; transform: none; }
 
 /* Reveal on project subpages (no GSAP) */
