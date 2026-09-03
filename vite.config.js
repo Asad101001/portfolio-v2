@@ -39,6 +39,47 @@ function htmlIncludePlugin() {
   };
 }
 
+/**
+ * Vite plugin to handle local serverless /api/ routes in dev mode
+ */
+function apiMiddlewarePlugin() {
+  return {
+    name: 'api-middleware',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (req.url && req.url.startsWith('/api/twitter')) {
+          try {
+            const parsedUrl = new URL(req.url, 'http://localhost');
+            const user = parsedUrl.searchParams.get('user') || 'As4d_41';
+            const { default: handler } = await import('./api/twitter.js');
+            const mockReq = { query: { user } };
+            const mockRes = {
+              setHeader: (k, v) => res.setHeader(k, v),
+              status: (code) => {
+                res.statusCode = code;
+                return {
+                  json: (data) => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(data));
+                  }
+                };
+              }
+            };
+            await handler(mockReq, mockRes);
+            return;
+          } catch (err) {
+            console.error('Vite API middleware error:', err);
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: err.message }));
+            return;
+          }
+        }
+        next();
+      });
+    }
+  };
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -46,6 +87,7 @@ export default defineConfig({
   plugins: [
     react(),
     htmlIncludePlugin(),
+    apiMiddlewarePlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {

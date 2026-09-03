@@ -50,9 +50,10 @@
   }
 
   html, body {
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
-    position: relative;
+    min-height: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Professional theme is allowed to stay white on mobile */
@@ -63,11 +64,15 @@
     transform: none !important;
   }
 
+  body {
+    padding-bottom: calc(115px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
   section {
-    padding: 70px 16px 100px; /* Extra bottom padding to clear fixed bottom nav */
+    padding: 70px 16px max(120px, calc(env(safe-area-inset-bottom, 0px) + 100px)) !important;
     width: 100%;
     margin: 0;
-    overflow-x: hidden; /* Prevent horizontal leaks */
+    overflow-x: clip; /* Prevent horizontal leaks without breaking vertical touch scroll */
   }
 
   #section-dots {
@@ -104,10 +109,10 @@
   /* ── Hero Overhaul ─────────────────────────────────────── */
   #hero {
     /* Top nav is hidden on mobile, so less padding needed */
-    padding: 48px 0 120px !important;
-    padding-bottom: max(120px, calc(env(safe-area-inset-bottom) + 100px)) !important;
+    padding: 48px 0 max(140px, calc(env(safe-area-inset-bottom, 0px) + 120px)) !important;
     min-height: 100dvh;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
@@ -460,9 +465,13 @@
     margin-bottom: 20px !important;
   }
 
-  /* ── Footer: extra bottom padding to clear nav ──────────── */
+  /* ── Contact & Footer: extra bottom clearance for floating nav ─── */
+  #contact {
+    padding-bottom: max(140px, calc(env(safe-area-inset-bottom, 0px) + 120px)) !important;
+  }
+
   .main-footer {
-    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(125px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   /* ── Mobile Ink Reveal: Touch Ripple System ──────────────── */

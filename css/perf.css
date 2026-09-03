@@ -336,10 +336,10 @@ body.is-scrolling .hero-backdrop-texture {
    Without this, touch events have a 300ms delay added by browsers
    to detect double-tap zoom. Pan-y keeps vertical scroll native.
    ──────────────────────────────────────────────────────────── */
-body {
+html, body {
   touch-action: pan-y;
 }
-a, button, [role="button"], .glass-card, .project-card, .mbn-item {
+a, button, [role="button"], .mbn-item {
   touch-action: manipulation; /* Faster tap response */
 }
 
@@ -372,8 +372,8 @@ a, button, [role="button"], .glass-card, .project-card, .mbn-item {
     text-shadow: none !important;
   }
 
-  /* Prevent overscroll bounce from interfering with scroll compositing */
+  /* Allow natural vertical momentum scroll on mobile without gesture trapping */
   html, body {
-    overscroll-behavior: none;
+    overscroll-behavior-y: auto;
   }
 }

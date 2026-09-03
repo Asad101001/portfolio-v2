@@ -22,18 +22,6 @@
       }
     });
 
-    /* Pull to Refresh Logic (Native Feel) — higher threshold to avoid accidental triggers */
-    let touchStart = 0;
-    document.addEventListener('touchstart', (e) => {
-      if (window._scrollY === 0) touchStart = e.touches[0].clientY;
-    }, { passive: true });
-
-    document.addEventListener('touchmove', (e) => {
-      if (touchStart > 0 && e.touches[0].clientY - touchStart > 300 && window._scrollY === 0) {
-        window.location.reload();
-        touchStart = 0;
-      }
-    }, { passive: true });
   }
 
   // Education timeline items get proper mobile layout via CSS only

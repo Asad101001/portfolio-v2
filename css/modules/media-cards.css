@@ -52,11 +52,10 @@
 }
 
 .twitter-centering-wrap {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    margin: 15px 0;
-    min-height: 300px;
+    margin: 8px 0;
 }
 
 /* Force override Twitter's internal style if possible */
@@ -214,18 +213,17 @@
     text-overflow: ellipsis;
 }
 
-/* â”€â”€ Twitter Feed (X) Refinement â”€â”€ */
+/* ── Twitter Feed (X) Refinement ── */
 .twitter-centering-wrap {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
-  width: 100%;
-  padding: 4px;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .x-post-container {
   width: 100% !important;
-  max-width: 440px !important;
-  margin: 0 auto 12px auto !important;
+  box-sizing: border-box !important;
 }
 
 /* â”€â”€ Mobile Section Nav Fixes â”€â”€ */

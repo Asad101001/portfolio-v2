@@ -307,69 +307,68 @@ nav.nav-hidden {
 
   /* .nav-links and .nav-actions are hidden below */
 
-  /* ── The glass pill container ───────────────────────────── */
+  /* ── The Floating iOS Dynamic Liquid Glass Navigation Island ─ */
   .mobile-bottom-nav {
     display: flex;
     align-items: center;
     justify-content: space-around;
     position: fixed;
-    bottom: max(16px, env(safe-area-inset-bottom, 16px));
-    left: 14px;
-    right: 14px;
-    z-index: 300;
-    padding: 6px 4px;
-    /* Multi-layer glass stack */
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(calc(100% - 24px), 430px);
+    z-index: 500;
+    padding: 6px 8px;
+    border-radius: 9999px;
+    /* iOS Liquid Glass multi-layer stack */
     background:
       linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.10) 0%,
-        rgba(255, 255, 255, 0.03) 50%,
-        rgba(255, 255, 255, 0.06) 100%
-      );
-    backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-    -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-    border-radius: 26px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-top: 1px solid rgba(255, 255, 255, 0.22);
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.03) 40%,
+        rgba(255, 255, 255, 0.08) 100%
+      ),
+      rgba(10, 15, 28, 0.72);
+    backdrop-filter: blur(28px) saturate(210%) brightness(1.12);
+    -webkit-backdrop-filter: blur(28px) saturate(210%) brightness(1.12);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.38);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow:
-      /* Ambient outer glow */
-      0 8px 40px rgba(0, 0, 0, 0.55),
-      0 2px 8px rgba(0, 0, 0, 0.35),
-      /* Inner glass highlight */
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-      /* Subtle inner shadow for depth */
-      inset 0 0 24px rgba(255, 255, 255, 0.02);
-    gap: 0;
-    /* Overflow so active pill can bleed */
+      0 20px 40px -6px rgba(0, 0, 0, 0.65),
+      0 4px 16px -2px rgba(0, 0, 0, 0.4),
+      inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(0, 242, 255, 0.08);
+    gap: 4px;
     overflow: visible;
-    /* Specular highlight as pseudo before */
     isolation: isolate;
   }
 
-  /* Inner shine layer */
+  /* Inner liquid glass specular sheen */
   .mobile-bottom-nav::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 60%
+      180deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.03) 45%,
+      transparent 100%
     );
     pointer-events: none;
     z-index: 0;
   }
 
-  /* Grain texture overlay for premium feel */
+  /* Subtle noise texture */
   .mobile-bottom-nav::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.04;
+    opacity: 0.035;
     mix-blend-mode: soft-light;
     pointer-events: none;
     z-index: 0;
@@ -381,16 +380,15 @@ nav.nav-hidden {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 8px 6px;
-    border-radius: 20px;
-    color: rgba(255, 255, 255, 0.45);
+    gap: 3px;
+    padding: 7px 4px;
+    border-radius: 9999px;
+    color: rgba(255, 255, 255, 0.55);
     flex: 1;
     min-width: 0;
     text-decoration: none;
     position: relative;
     z-index: 1;
-    /* Spring transition */
     transition:
       color 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
       background 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -400,13 +398,18 @@ nav.nav-hidden {
     touch-action: manipulation;
   }
 
+  .mbn-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
   .mbn-item:active {
-    transform: scale(0.88);
+    transform: scale(0.9);
   }
 
   /* ── Icon ───────────────────────────────────────────────── */
   .mbn-item svg {
-    width: 22px; height: 22px;
+    width: 20px; height: 20px;
     stroke: currentColor;
     fill: none;
     stroke-width: 1.6;
@@ -431,45 +434,44 @@ nav.nav-hidden {
     font-family: 'Space Grotesk', sans-serif;
     transition: color 0.22s ease, opacity 0.22s ease;
     display: block;
-    line-height: 1;
+    line-height: 1.1;
   }
 
-  /* ── ACTIVE STATE: Liquid Glass Pill ────────────────────── */
+  /* ── ACTIVE STATE: Dynamic Liquid Glass Bubble ───────────── */
   .mbn-item.active {
-    color: var(--cyan, #10B981);
-    background: rgba(16, 185, 129, 0.15);
+    color: var(--cyan, #00f2ff);
+    background: rgba(255, 255, 255, 0.12);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-      0 0 20px rgba(16, 185, 129, 0.15),
-      0 4px 12px rgba(0, 0, 0, 0.2);
+      inset 0 1px 1px rgba(255, 255, 255, 0.25),
+      0 2px 10px rgba(0, 0, 0, 0.35);
   }
 
   .mbn-item.active svg {
-    transform: scale(1.12) translateY(-1px);
-    stroke: var(--cyan, #10B981);
-    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+    transform: scale(1.1) translateY(-1px);
+    stroke: var(--cyan, #00f2ff);
+    filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.7));
   }
 
   .mbn-item.active span {
-    color: var(--cyan, #10B981);
+    color: var(--cyan, #00f2ff);
+    font-weight: 700;
   }
 
-  /* Active indicator: animated pill bar above icon */
+  /* Glowing micro indicator */
   .mbn-item.active::before {
     content: '';
     position: absolute;
-    top: 5px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%) scaleX(1);
-    width: 24px;
+    width: 18px;
     height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--cyan, #10B981), rgba(16, 185, 129, 0.6));
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--cyan, #00f2ff), rgba(0, 242, 255, 0.6));
     box-shadow:
-      0 0 10px rgba(16, 185, 129, 0.9),
-      0 0 22px rgba(16, 185, 129, 0.5);
-    animation: mbn-indicator-in 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      0 0 10px rgba(0, 242, 255, 0.9),
+      0 0 20px rgba(0, 242, 255, 0.5);
+    animation: mbn-indicator-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     will-change: transform, opacity;
   }
   @keyframes mbn-indicator-in {
@@ -477,16 +479,16 @@ nav.nav-hidden {
     to   { opacity: 1; transform: translateX(-50%) scaleX(1); }
   }
 
-  /* ── Resume CTA item: Accent glass pill ─────────────────── */
+  /* ── Resume CTA item: Liquid Accent Capsule ─────────────── */
   .mbn-item.mbn-cta {
-    color: var(--cyan, #10B981);
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.22);
-    border-radius: 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(0, 242, 255, 0.32), rgba(0, 242, 255, 0.12));
+    border: 1px solid rgba(0, 242, 255, 0.45);
+    border-radius: 9999px;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 16px rgba(16, 185, 129, 0.12);
-    padding: 8px 10px;
+      inset 0 1px 1px rgba(255, 255, 255, 0.35),
+      0 0 16px rgba(0, 242, 255, 0.22);
+    padding: 7px 8px;
   }
 
   .mbn-item.mbn-cta::before {
@@ -494,17 +496,22 @@ nav.nav-hidden {
   }
 
   .mbn-item.mbn-cta:active {
-    background: rgba(16, 185, 129, 0.22);
+    background: rgba(0, 242, 255, 0.35);
     transform: scale(0.9);
   }
 
   .mbn-item.mbn-cta svg {
-    stroke: var(--cyan, #10B981);
+    stroke: var(--cyan, #00f2ff);
+  }
+
+  .mbn-item.mbn-cta span {
+    color: #ffffff;
+    font-weight: 700;
   }
 
   /* ── Safe area + content padding ───────────────────────── */
   body {
-    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
   }
 
   /* ── Desktop leftovers: hide ────────────────────────────── */
@@ -516,22 +523,21 @@ nav.nav-hidden {
 /* ── Extra-small (≤380px): compact ──────────────────────── */
 @media (max-width: 380px) {
   .mobile-bottom-nav {
-    left: 10px;
-    right: 10px;
-    padding: 5px 2px;
-    border-radius: 22px;
+    width: calc(100% - 16px);
+    padding: 5px 4px;
+    gap: 2px;
   }
   .mbn-item {
-    padding: 7px 4px;
-    gap: 3px;
+    padding: 6px 2px;
+    gap: 2px;
   }
   .mbn-item span {
     font-size: 0.5rem;
   }
   .mbn-item svg {
-    width: 20px; height: 20px;
+    width: 18px; height: 18px;
   }
   .mbn-item.mbn-cta {
-    padding: 7px 6px;
+    padding: 6px 6px;
   }
 }

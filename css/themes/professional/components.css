@@ -236,3 +236,68 @@ body.theme-professional .commit-legend-sq {
 body.theme-professional .commit-legend-sq[style*="0.04"] {
     background: #f1f5f9 !important;
 }
+
+/* ── Floating Mobile Bottom Nav (Professional Theme) ── */
+body.theme-professional .mobile-bottom-nav {
+    position: fixed !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: min(calc(100% - 24px), 430px) !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    border: 1.5px solid #000000 !important;
+    border-radius: 9999px !important;
+    box-shadow: 3px 4px 0px #000000, 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+    padding: 6px 8px !important;
+    z-index: 500 !important;
+}
+
+body.theme-professional .mobile-bottom-nav::before,
+body.theme-professional .mobile-bottom-nav::after {
+    display: none !important;
+}
+
+body.theme-professional .mbn-item {
+    color: #475569 !important;
+    font-weight: 700 !important;
+    border-radius: 9999px !important;
+}
+
+body.theme-professional .mbn-item:hover,
+body.theme-professional .mbn-item.active {
+    color: #ffffff !important;
+    background: #0f172a !important;
+    border-radius: 9999px !important;
+}
+
+body.theme-professional .mbn-item.active svg {
+    stroke: #ffffff !important;
+    filter: none !important;
+}
+
+body.theme-professional .mbn-item.active span {
+    color: #ffffff !important;
+}
+
+body.theme-professional .mbn-item.active::before {
+    display: none !important;
+}
+
+body.theme-professional .mbn-cta {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border: 1.5px solid #000000 !important;
+    border-radius: 9999px !important;
+    box-shadow: 2px 2px 0px #000000 !important;
+}
+
+body.theme-professional .mbn-cta svg {
+    stroke: #ffffff !important;
+}
+
+body.theme-professional .mbn-cta span {
+    color: #ffffff !important;
+}
+

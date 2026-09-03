@@ -206,3 +206,66 @@ body.theme-sunset .status-pill {
     border-width: 3px !important; /* Stronger separation */
 }
 
+/* ── Floating Mobile Bottom Nav (Sunset Theme) ── */
+body.theme-sunset .mobile-bottom-nav {
+    position: fixed !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: min(calc(100% - 24px), 430px) !important;
+    background: rgba(26, 12, 36, 0.82) !important;
+    backdrop-filter: blur(28px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+    border: 1px solid rgba(244, 63, 94, 0.35) !important;
+    border-top: 1px solid rgba(244, 63, 94, 0.6) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(244, 63, 94, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    padding: 6px 8px !important;
+    z-index: 500 !important;
+}
+
+body.theme-sunset .mbn-item {
+    color: #fda4af !important;
+    font-weight: 700 !important;
+    border-radius: 9999px !important;
+}
+
+body.theme-sunset .mbn-item:hover,
+body.theme-sunset .mbn-item.active {
+    color: #ffffff !important;
+    background: rgba(244, 63, 94, 0.25) !important;
+    border-radius: 9999px !important;
+}
+
+body.theme-sunset .mbn-item.active svg {
+    stroke: #fb7185 !important;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.8)) !important;
+}
+
+body.theme-sunset .mbn-item.active span {
+    color: #fb7185 !important;
+}
+
+body.theme-sunset .mbn-item.active::before {
+    background: #f43f5e !important;
+    box-shadow: 0 0 12px #f43f5e !important;
+    border-radius: 9999px !important;
+}
+
+body.theme-sunset .mbn-cta {
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.4), rgba(244, 63, 94, 0.15)) !important;
+    border: 1px solid #f43f5e !important;
+    border-radius: 9999px !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(244, 63, 94, 0.3) !important;
+}
+
+body.theme-sunset .mbn-cta svg {
+    stroke: #ffffff !important;
+}
+
+body.theme-sunset .mbn-cta span {
+    color: #ffffff !important;
+}
+
+

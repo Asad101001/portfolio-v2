@@ -186,7 +186,73 @@ body.theme-professional .barca-status-badge {
     font-weight: 800 !important;
 }
 
-/* ── Professional Twitter Error Box ── */
+/* ── Professional Twitter Feed & Error Box ── */
+body.theme-professional .twitter-widget {
+    background: #ffffff !important;
+    border: 1.5px solid #000000 !important;
+    box-shadow: 4px 4px 0px #000000 !important;
+    color: #0f172a !important;
+    border-radius: 0px !important;
+}
+
+body.theme-professional .x-post-container {
+    background: #f8fafc !important;
+    border: 1.5px solid #000000 !important;
+    box-shadow: 2px 2px 0px #000000 !important;
+    border-radius: 4px !important;
+    color: #0f172a !important;
+}
+
+body.theme-professional .x-post-container:hover {
+    background: #f1f5f9 !important;
+    box-shadow: 3px 3px 0px #000000 !important;
+    transform: translate(-1px, -1px) !important;
+}
+
+body.theme-professional .x-avatar {
+    border: 1.5px solid #000000 !important;
+}
+
+body.theme-professional .x-display-name {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}
+
+body.theme-professional .x-handle,
+body.theme-professional .x-time,
+body.theme-professional .x-dot {
+    color: #64748b !important;
+    font-weight: 600 !important;
+}
+
+body.theme-professional .x-source-logo {
+    color: #0f172a !important;
+}
+
+body.theme-professional .x-post-text {
+    color: #0f172a !important;
+    font-weight: 500 !important;
+}
+
+body.theme-professional .x-text-link,
+body.theme-professional .x-text-mention,
+body.theme-professional .x-text-tag {
+    color: #2563eb !important;
+    font-weight: 700 !important;
+}
+
+body.theme-professional .x-card-media {
+    border: 1.5px solid #000000 !important;
+    border-radius: 4px !important;
+    box-shadow: 2px 2px 0px #000000 !important;
+    background: #0f172a !important;
+}
+
+body.theme-professional .x-post-actions {
+    border-top: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
+}
+
 body.theme-professional .x-error-box {
     background: #f8fafc !important;
     border: 1.5px solid #000000 !important;

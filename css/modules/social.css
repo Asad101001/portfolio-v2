@@ -47,12 +47,28 @@
 .social-platform-card:hover .spc-icon {
   transform: scale(1.2);
 }
+.social-platform-card .spc-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 .social-platform-card .spc-label {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-dim);
   transition: color 0.3s;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.social-platform-card .spc-handle {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
 }
 .social-platform-card:hover .spc-label { color: #fff; }
 
@@ -154,6 +170,8 @@
 .lastfm-tracks .lastfm-track-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 .lastfm-tracks .lastfm-track-name {
   font-size: 0.82rem;

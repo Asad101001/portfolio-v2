@@ -378,6 +378,16 @@ body.theme-komik .x-post-container {
     border-radius: 4px !important;
 }
 
+body.theme-komik .x-post-container:hover {
+    background: #E5DCB9 !important;
+    transform: translate(-1px, -1px) !important;
+    box-shadow: 3px 3px 0px #23272F !important;
+}
+
+body.theme-komik .x-avatar {
+    border: 1.5px solid #23272F !important;
+}
+
 body.theme-komik .x-display-name {
     color: #23272F !important;
     font-weight: 900 !important;
@@ -390,9 +400,36 @@ body.theme-komik .x-dot {
     font-weight: 700 !important;
 }
 
+body.theme-komik .x-source-logo {
+    color: #23272F !important;
+}
+
 body.theme-komik .x-post-text {
     color: #23272F !important;
     font-weight: 700 !important;
+}
+
+body.theme-komik .x-text-link,
+body.theme-komik .x-text-mention,
+body.theme-komik .x-text-tag {
+    color: #D32F2F !important;
+    font-weight: 800 !important;
+}
+
+body.theme-komik .x-card-media {
+    border: 1.5px solid #23272F !important;
+    border-radius: 4px !important;
+    box-shadow: 2px 2px 0px #23272F !important;
+    background: #23272F !important;
+}
+
+body.theme-komik .x-post-actions {
+    border-top: 1.5px solid rgba(35, 39, 47, 0.15) !important;
+    color: #5C6473 !important;
+}
+
+body.theme-komik .x-action-like.liked {
+    color: #D32F2F !important;
 }
 
 body.theme-komik .x-error-box {

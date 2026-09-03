@@ -11,6 +11,10 @@ export function initLenis() {
 
     // Detect touch-only mobile devices to let native momentum handle touch without overhead
     const isTouchOnly = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 768;
+    if (isTouchOnly) {
+        initAnchorLinks();
+        return null;
+    }
 
     const lenis = new Lenis({
         duration: 0.8,          // PERF: 1.05 felt laggy — 0.8 is snappier while still smooth
@@ -55,7 +59,7 @@ export function smoothScrollTo(target, offset = -30) {
     const el = typeof target === 'string' ? document.querySelector(target) : target;
     if (!el) return;
 
-    if (window.lenis) {
+    if (window.lenis && typeof window.lenis.scrollTo === 'function') {
         window.lenis.scrollTo(el, {
             offset,
             duration: 1.1,
