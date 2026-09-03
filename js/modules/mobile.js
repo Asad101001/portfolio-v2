@@ -4,10 +4,16 @@
    ============================================================ */
 
 (function initMobile() {
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 1024;
   
   if (isTouch || window._isMobile) {
     document.body.classList.add('is-mobile-device');
+    
+    // Ensure body and html are 100% scrollable on mobile
+    document.body.classList.remove('antigravity-scroll-lock');
+    if (document.body.style.overflow === 'hidden' && !document.getElementById('certs-drawer')?.classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
     
     // Disable heavy cursor glow on mobile
     const glow = document.getElementById('cursor-glow');

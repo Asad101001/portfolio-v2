@@ -9,27 +9,40 @@ let lenisInstance = null;
 export function initLenis() {
     if (lenisInstance) return lenisInstance;
 
-    // Detect touch-only mobile devices to let native momentum handle touch without overhead
-    const isTouchOnly = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 768;
-    if (isTouchOnly) {
+    // Detect touch and mobile devices to give 100% native momentum scrolling with zero overhead
+    const isMobileOrTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0) || window.innerWidth <= 1024;
+    if (isMobileOrTouch) {
+        document.documentElement.classList.remove('lenis');
+        document.body.classList.remove('lenis');
         initAnchorLinks();
         return null;
     }
 
     const lenis = new Lenis({
-        duration: 0.8,          // PERF: 1.05 felt laggy — 0.8 is snappier while still smooth
+        duration: 0.8,
         easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 1.1,   // PERF: 0.95 was too sluggish, 1.1 matches native feel
-        touchMultiplier: 1.8,   // PERF: slightly higher so mobile touch feels instant
-        smoothTouch: false,     // Keep native touch momentum on phones
+        wheelMultiplier: 1.1,
+        touchMultiplier: 1.8,
+        smoothTouch: false,
         infinite: false,
     });
 
     lenisInstance = lenis;
     window.lenis = lenis;
+
+    // Resize listener: destroy Lenis if resized to mobile/tablet
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 1024 && lenisInstance) {
+            lenisInstance.destroy();
+            lenisInstance = null;
+            window.lenis = null;
+            document.documentElement.classList.remove('lenis');
+            document.body.classList.remove('lenis');
+        }
+    }, { passive: true });
 
     // ── GSAP Ticker or High-Performance rAF Integration ──────────────────────
     const tickerFn = (time) => lenis.raf(time * 1000);
