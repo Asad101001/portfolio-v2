@@ -11,14 +11,53 @@ import { CONFIG, escHtml } from './widgets.js';
     const USER = CONFIG.usernames.twitter || 'As4d_41';
     const DISPLAY_NAME = 'Muhammad Asad Khan';
 
+    try {
+        localStorage.removeItem('asad_twitter_cache_v3');
+        localStorage.removeItem('asad_twitter_cache_v2');
+        localStorage.removeItem('asad_twitter_cache');
+    } catch (_) {}
+
+    function renderLiveUserCard(user) {
+        if (!container) return;
+        const avatarUrl = user?.avatar_url || 'https://pbs.twimg.com/profile_images/1833138840820756480/CWF7-j8O_normal.jpg';
+        const name = escHtml(user?.name || 'Asad');
+        const handle = escHtml(user?.screen_name || USER);
+        const tweets = user?.tweets ?? 610;
+        const likes = user?.likes ? (user.likes >= 1000 ? (user.likes / 1000).toFixed(1) + 'k' : user.likes) : '44.4k';
+        const following = user?.following ?? 149;
+
+        container.innerHTML = `
+            <div class="x-live-card" style="width:100%; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:20px 24px; box-sizing:border-box;">
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                    <img src="${avatarUrl}" alt="${name}" style="width:48px; height:48px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); object-fit:cover;" onerror="this.src='/images/profile.jpg'" />
+                    <div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-weight:800; font-size:1rem; color:var(--text);">${name}</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div style="font-size:0.78rem; color:var(--text-dim);">@${handle}</div>
+                    </div>
+                    <a href="https://x.com/${handle}" target="_blank" rel="noopener noreferrer" style="margin-left:auto; display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:9999px; background:#fff; color:#000; font-weight:700; font-size:0.75rem; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                        Open on X ↗
+                    </a>
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--text-dim); flex-wrap:wrap;">
+                    <div><b style="color:var(--text);">${tweets}</b> Posts</div>
+                    <div><b style="color:var(--text);">${likes}</b> Likes</div>
+                    <div><b style="color:var(--text);">${following}</b> Following</div>
+                </div>
+            </div>
+        `;
+    }
+
     function renderEmptyState() {
         if (!container) return;
         container.innerHTML = `
-            <div class="x-empty-state-card" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); gap: 12px; margin: 0 auto; width: 100%; box-sizing: border-box;">
+            <div class="x-empty-state-card" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); gap: 12px; margin: 0 auto; width: 100%; box-sizing: border-box;">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.8;">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
-                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text);">Direct X feed sync unavailable</div>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text);">Direct X timeline sync unavailable</div>
                 <div style="font-size: 0.82rem; color: var(--text-dim); max-width: 380px; line-height: 1.5;">Check out recent engineering discussions, retweets, and thoughts directly on X.</div>
                 <a href="https://x.com/${USER}" target="_blank" rel="noopener noreferrer" style="margin-top: 4px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 9999px; background: #fff; color: #000; font-weight: 700; font-size: 0.8rem; text-decoration: none; transition: transform 0.2s, opacity 0.2s;">
                     View @${USER} on X ↗
@@ -340,17 +379,6 @@ import { CONFIG, escHtml } from './widgets.js';
     }
 
     function fetchTweets() {
-        // First check localStorage cache
-        try {
-            const cached = localStorage.getItem('asad_twitter_cache_v3');
-            if (cached) {
-                const parsed = JSON.parse(cached);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    render(parsed);
-                }
-            }
-        } catch (_) {}
-
         const url = `/api/twitter?user=${USER}&_t=${Date.now()}`;
         fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(4000) })
             .then(r => {
@@ -359,16 +387,15 @@ import { CONFIG, escHtml } from './widgets.js';
             })
             .then(data => {
                 if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
-                    localStorage.setItem('asad_twitter_cache_v3', JSON.stringify(data.items));
                     render(data.items);
-                } else if (!container.children.length) {
+                } else if (data.user) {
+                    renderLiveUserCard(data.user);
+                } else {
                     renderEmptyState();
                 }
             })
             .catch(() => {
-                if (!container.children.length) {
-                    renderEmptyState();
-                }
+                renderEmptyState();
             });
     }
 
