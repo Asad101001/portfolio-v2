@@ -257,8 +257,30 @@ body.theme-komik .score-row-mini {
     overflow: hidden !important;
 }
 
-body.theme-komik .barca-identity-side {
-    padding-top: 10px !important;
+body.theme-komik .barca-top-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 4px !important;
+}
+
+body.theme-komik .barca-top-row .rotating-label {
+    margin-bottom: 0 !important;
+    display: inline-block !important;
+}
+
+body.theme-komik .match-timeframe {
+    color: #5C6473 !important;
+    background: #EBE3D3 !important;
+    border: 1.5px solid #23272F !important;
+    font-weight: 800 !important;
+    font-size: 0.52rem !important;
+    padding: 1px 5px !important;
+    border-radius: 2px !important;
+    box-shadow: 1px 1px 0px #23272F !important;
+    margin-left: 0 !important;
+    text-transform: uppercase !important;
 }
 
 body.theme-komik .score-team-abbr,
@@ -267,7 +289,7 @@ body.theme-komik .barca-opp-name {
     color: #23272F !important;
     font-weight: 900 !important;
     font-size: 0.58rem !important;
-    max-width: 75px !important;
+    max-width: 140px !important;
 }
 
 body.theme-komik .score-row-scorer,
