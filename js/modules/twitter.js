@@ -11,54 +11,21 @@ import { CONFIG, escHtml } from './widgets.js';
     const USER = CONFIG.usernames.twitter || 'As4d_41';
     const DISPLAY_NAME = 'Muhammad Asad Khan';
 
-    // Verified real tweets from @As4d_41
-    const FALLBACK_TWEETS = [
-        {
-            id: 'tweet-2043369989940605195',
-            title: "#MyXAnniversary",
-            link: `https://x.com/${USER}/status/2043369989940605195`,
-            pubDate: "2026-04-12T14:36:11.000Z",
-            mediaType: 'image',
-            mediaUrl: "https://pbs.twimg.com/media/HFuCLVdacAAfOTL?format=webp&name=medium",
-            metrics: { replies: 0, retweets: 0, likes: 5, views: '14' }
-        },
-        {
-            id: 'tweet-1929499342634688718',
-            title: "D1 pessi glazer didn't deny the comparisons completely like his usual self\n\n🎙️ Pep Guardiola: \"Lamine Yamal & Messi comparison? I have no idea whether he should play more centrally or not. I think he can do it, but he’s also very good on the wing.\"",
-            link: `https://x.com/${USER}/status/1929499342634688718`,
-            pubDate: "2025-06-02T16:20:00.000Z",
-            mediaType: 'image',
-            mediaUrl: "https://pbs.twimg.com/media/Gsb1bTWXIAEc87e.jpg?name=orig",
-            metrics: { replies: 1, retweets: 3, likes: 21, views: '575' }
-        },
-        {
-            id: 'tweet-1876635762864914656',
-            title: "Could've just called him the n-word and moved on\n\nQuote @Derrick_elleon: \"This kid is moving like Neymar with the ego of Cristiano with the ability of mahrez\"",
-            link: `https://x.com/${USER}/status/1876635762864914656`,
-            pubDate: "2025-01-07T12:15:00.000Z",
-            mediaType: 'image',
-            mediaUrl: "https://pbs.twimg.com/media/GgsmR87WoAAsfyD?format=webp&name=medium",
-            metrics: { replies: 2, retweets: 4, likes: 15, views: '583' }
-        },
-        {
-            id: 'tweet-1859985617112981650',
-            title: "- Didn't attend Di Maria's farewell\n- Didn't attend Pique's retirement or Busquets farewell\n- Didn't attend Aguero's retirement\n- Not attending the 125th anniversary of the club that gave him HGH to allow him to be where he is\n\nMr.NICE GUY ?? 🐍🐀",
-            link: `https://x.com/${USER}/status/1859985617112981650`,
-            pubDate: "2024-11-22T15:00:00.000Z",
-            mediaType: 'image',
-            mediaUrl: "https://pbs.twimg.com/media/Gc__D7Ua4AARS_C.jpg?name=orig",
-            metrics: { replies: 3, retweets: 4, likes: 12, views: '840' }
-        },
-        {
-            id: 'tweet-1841514830223544545',
-            title: "No watermark just pure hate easily the greatest servant of football 🕊️\n\n\"take your time @mterstegen1 there's no hurry to return quickly ❤️ have a safe and slow recovery we are all with you 👊\"",
-            link: `https://x.com/${USER}/status/1841514830223544545`,
-            pubDate: "2024-10-02T18:30:00.000Z",
-            mediaType: null,
-            mediaUrl: null,
-            metrics: { replies: 2, retweets: 4, likes: 50, views: '1.4K' }
-        }
-    ];
+    function renderEmptyState() {
+        if (!container) return;
+        container.innerHTML = `
+            <div class="x-empty-state-card" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); gap: 12px; margin: 0 auto; width: 100%; box-sizing: border-box;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.8;">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--text);">Direct X feed sync unavailable</div>
+                <div style="font-size: 0.82rem; color: var(--text-dim); max-width: 380px; line-height: 1.5;">Check out recent engineering discussions, retweets, and thoughts directly on X.</div>
+                <a href="https://x.com/${USER}" target="_blank" rel="noopener noreferrer" style="margin-top: 4px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 9999px; background: #fff; color: #000; font-weight: 700; font-size: 0.8rem; text-decoration: none; transition: transform 0.2s, opacity 0.2s;">
+                    View @${USER} on X ↗
+                </a>
+            </div>
+        `;
+    }
 
     function timeAgo(dateStr) {
         if (!dateStr) return 'now';
@@ -384,11 +351,6 @@ import { CONFIG, escHtml } from './widgets.js';
             }
         } catch (_) {}
 
-        // If nothing rendered yet, render fallback immediately so UI is never blank
-        if (!container.children.length) {
-            render(FALLBACK_TWEETS);
-        }
-
         const url = `/api/twitter?user=${USER}&_t=${Date.now()}`;
         fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(4000) })
             .then(r => {
@@ -399,12 +361,13 @@ import { CONFIG, escHtml } from './widgets.js';
                 if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
                     localStorage.setItem('asad_twitter_cache_v3', JSON.stringify(data.items));
                     render(data.items);
+                } else if (!container.children.length) {
+                    renderEmptyState();
                 }
             })
             .catch(() => {
-                // If API fails or offline, ensure curated posts remain visible
                 if (!container.children.length) {
-                    render(FALLBACK_TWEETS);
+                    renderEmptyState();
                 }
             });
     }
